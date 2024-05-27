@@ -1,0 +1,65 @@
+/*!
+ * rasbeb2-bootstrap.scss
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ */
+
+// Customizing bootstrap - see https://getbootstrap.com/docs/5.0/customize/sass/
+
+// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+@import "../bootstrap/node_modules/bootstrap/scss/functions";
+
+// 2. Include any default variable overrides here
+
+// 3. Include remainder of required Bootstrap stylesheets
+@import "../bootstrap/node_modules/bootstrap/scss/variables";
+@import "../bootstrap/node_modules/bootstrap/scss/variables-dark";
+@import "../bootstrap/node_modules/bootstrap/scss/mixins";
+@import "../bootstrap/node_modules/bootstrap/scss/maps";
+@import "../bootstrap/node_modules/bootstrap/scss/utilities";
+
+// 4. Include any optional Bootstrap components as you like
+
+// TODO make a selection
+
+@import "../bootstrap/node_modules/bootstrap/scss/root";
+@import "../bootstrap/node_modules/bootstrap/scss/reboot";
+@import "../bootstrap/node_modules/bootstrap/scss/type";
+@import "../bootstrap/node_modules/bootstrap/scss/images";
+@import "../bootstrap/node_modules/bootstrap/scss/containers";
+@import "../bootstrap/node_modules/bootstrap/scss/grid";
+@import "../bootstrap/node_modules/bootstrap/scss/tables";
+@import "../bootstrap/node_modules/bootstrap/scss/forms";
+@import "../bootstrap/node_modules/bootstrap/scss/buttons";
+@import "../bootstrap/node_modules/bootstrap/scss/transitions";
+@import "../bootstrap/node_modules/bootstrap/scss/dropdown";
+@import "../bootstrap/node_modules/bootstrap/scss/button-group";
+@import "../bootstrap/node_modules/bootstrap/scss/nav";
+@import "../bootstrap/node_modules/bootstrap/scss/navbar";
+@import "../bootstrap/node_modules/bootstrap/scss/card";
+@import "../bootstrap/node_modules/bootstrap/scss/accordion";
+@import "../bootstrap/node_modules/bootstrap/scss/breadcrumb";
+@import "../bootstrap/node_modules/bootstrap/scss/pagination";
+@import "../bootstrap/node_modules/bootstrap/scss/badge";
+@import "../bootstrap/node_modules/bootstrap/scss/alert";
+@import "../bootstrap/node_modules/bootstrap/scss/progress";
+@import "../bootstrap/node_modules/bootstrap/scss/list-group";
+@import "../bootstrap/node_modules/bootstrap/scss/close";
+@import "../bootstrap/node_modules/bootstrap/scss/toasts";
+@import "../bootstrap/node_modules/bootstrap/scss/modal";
+@import "../bootstrap/node_modules/bootstrap/scss/tooltip";
+@import "../bootstrap/node_modules/bootstrap/scss/popover";
+@import "../bootstrap/node_modules/bootstrap/scss/carousel";
+@import "../bootstrap/node_modules/bootstrap/scss/spinners";
+@import "../bootstrap/node_modules/bootstrap/scss/offcanvas";
+@import "../bootstrap/node_modules/bootstrap/scss/placeholders";
+
+@import "../bootstrap/node_modules/bootstrap/scss/helpers";
+
+// Utilities
+@import "../bootstrap/node_modules/bootstrap/scss/utilities/api";
+
+// 5. Add additional custom code here

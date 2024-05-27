@@ -1,0 +1,19 @@
+@* _profile_menu.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import common.Deputy
+@import common.Session
+@(implicit deputy: Deputy)
+<li class="nav-item dropdown">
+    <button class="btn nav-link dropdown-toggle" type="button" id="profileMenu" data-bs-toggle="dropdown" aria-expanded="false">
+        @deputy.getRequest.session().get(Session.NAME) (@deputy.getRequest.session().get(Session.ID))
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="profileMenu">
+        <li><a class="dropdown-item" href="@controllers.auth.routes.AuthenticationController.logout()">@i18n("auth.logout.menu")</a></li>
+    </ul>
+</li>

@@ -1,0 +1,20 @@
+@* show_pupil.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.ContestForPupilTable
+
+@import common.Deputy
+@import views.html.be.ugent.caagt.play.ext.i18n
+@(contest: ContestForPupilTable)(implicit deputy: Deputy)
+
+@layout.pupil("showcontest") {
+    <h1>@contest.event.contestTitle</h1>
+    <h2>@contest.event.title<h2>
+    <a class="btn btn-outline-primary"
+       href=@controllers.contest.routes.PupilController.start(contest.event.id, contest.contestId, contest.ageGroupId)>@i18n("pupil.enter-contest")</a>
+}

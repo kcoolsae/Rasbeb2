@@ -1,0 +1,21 @@
+@* _event_actions.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.{ContestStatus, Event}
+@import _root_.be.ugent.rasbeb2.db.dto.EventExtendedStatus._
+@import controllers.event.routes
+@import deputies.event.EventDeputy
+@(event: Event)(implicit deputy: EventDeputy)
+
+<p>@i18n.html("event.event.text." + event.getExtendedStatus.name)</p>
+
+@if(deputy.isActiveYear) {
+    @_event_pills(event)
+} else {
+    @_event_pills_inactive(event)
+}

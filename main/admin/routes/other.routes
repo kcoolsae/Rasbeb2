@@ -1,0 +1,9 @@
+GET     /name/n  controllers.other.NameController.changeNameForm(request: Request)
+POST    /name/n  controllers.other.NameController.changeName(request: Request)
+
+GET     /lang    controllers.other.LanguageController.chooseLanguage(request: Request)
+POST    /lang    controllers.other.LanguageController.setLanguage(request: Request)
+
+POST    /year/n            controllers.other.YearController.newYear(request: Request)
+POST    /year/u/:yearId    controllers.other.YearController.updateDeleteYear(request: Request, yearId: Int)
+GET     /year/l            controllers.other.YearController.listYears(request: Request)

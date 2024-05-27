@@ -1,0 +1,29 @@
+@* table.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import play.i18n.Messages
+@import play.twirl.api.Html
+@import views.html.be.ugent.caagt.play.ext.i18n
+
+@(count: Int, striped: Boolean = false)(header: => Html)(rows: => Html)(implicit messages: Messages)
+@* TODO remove duplication of code? *@
+<table class="table @if(striped) { table-striped table-bordered } paged-table-main mt-2">
+    <thead>
+        <tr>
+            @header
+        </tr>
+    </thead>
+    <tbody>
+    @if(count == 0) {
+        @* Note: the colspan="42" does not work when table-layout = fixed! *@
+        <tr><td colspan="42" class="paged-table-empty-row text-center">@i18n("common.no-data")</td></tr>
+    } else {
+        @rows
+    }
+    </tbody>
+</table>

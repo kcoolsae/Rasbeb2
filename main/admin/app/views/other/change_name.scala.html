@@ -1,0 +1,19 @@
+@* change_name.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import views.html.b5._
+@import deputies.other.NameDeputy
+@(f: Form[NameDeputy.UserData])(implicit deputy: NameDeputy)
+
+@layout.centered("nmch") {
+    @h3("change-name.title")
+    @form(action = controllers.other.routes.NameController.changeName()) {
+        <div class="col-auto"> @text(f("name"), "_label" -> "change-name.new-name", "required" -> None)</div>
+        @submit_wide("change-name.caption")
+    }
+}

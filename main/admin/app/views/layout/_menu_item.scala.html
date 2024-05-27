@@ -1,0 +1,13 @@
+@* _menu_item.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@(pageId: String, code: String, key: String, route: Call, cssClass: String = "d-none")(implicit deputy: Deputy)
+@defining(pageId.startsWith(code)) { isActive =>
+    <li class="nav-item"><a href="@route" class="nav-link @cssClass @if(isActive) {active}"
+        @if(isActive) {aria-current="page"}>@i18n(key)</a></li>
+}

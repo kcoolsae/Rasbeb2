@@ -1,0 +1,25 @@
+@* registrationInfo.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import deputies.auth.RegistrationDeputy
+@import deputies.auth.RegistrationDeputy.RegistrationData
+@import views.html.b5._
+@(call: play.api.mvc.Call,f: Form[RegistrationData], token: String)(implicit deputy: RegistrationDeputy)
+
+@layout.plain("regtinfo") {
+    @h3("auth.registration.title")
+    @p("auth.registration.text")
+    @form(call) {
+        @text(field = f("email"), "_label" -> "auth.registration.email", "_help" -> "auth.registration.email-warning")
+        @password(field = f("password"), "_label" -> "auth.registration.password")
+        @password(field = f("repeated"), "_label" -> "auth.registration.password-again")
+
+        @text(field = f("name"), "_label" -> "auth.registration.full-name", "required" -> None)
+        @submit("auth.registration.caption")
+    }
+}

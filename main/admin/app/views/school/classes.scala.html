@@ -1,0 +1,76 @@
+@* classes.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.{ClassWithPupils, Gender}
+@import _root_.be.ugent.rasbeb2.db.util.PasswordGenerator
+@import common.Deputy
+@import deputies.teacher.ClassDeputy.ClassesData
+@import views.html.b5._
+@import views.html.be.ugent.caagt.play.ext.i18n
+@import views.html.ext.upload
+@(cf: Form[ClassesData], classesWithPupils: Iterable[ClassWithPupils])(implicit deputy: Deputy)
+
+@layout.teacher("pup", js = include.js("generatePassword.js")) {
+    @h4("school.classes-list-title")
+    @b5.form(controllers.teacher.routes.PupilController.uploadPupils(), "enctype" -> "multipart/form-data") {
+        <div class="row g-0 align-items-center">
+            <div class="col-auto me-3">
+                <a class="btn btn-outline-primary" href="@controllers.teacher.routes.PupilController.downloadPupils()">@i18n("spreadsheet.caption.download-pupils")</a>
+            </div>
+            <div class="col-auto">
+                @upload("students", "spreadsheet.pupils.link")
+            </div>
+        </div>
+    }
+    @foreach.tr(classesWithPupils) { classWithPupils =>
+        <hr>
+        <div class="row align-items-center">
+            <h4 class="mt-4 col-auto">@classWithPupils.group.name</h4>
+            <div class="col-auto ms-auto">
+            @collapse.button("addPupilForm-" + classWithPupils.group.id, "school.add-pupil")
+            </div>
+        </div>
+    @collapse.form(controllers.teacher.routes.PupilController.addPupil(classWithPupils.group.id), "addPupilForm-" + classWithPupils.group.id, "common.caption.add") {
+        <div class="col">@text(Forms.field("name", ""), "_label" -> "common.name", "required" -> None)</div>
+        <div class="col">@select(Forms.field("gender", "MALE"), classOf[Gender], "enum.gender", "_label" -> "common.gender")</div>
+        @defining(s"password-${classWithPupils.group.id}") { textFieldId =>
+            <div class="col">@text(Forms.field("password", PasswordGenerator.generate()),"_label" -> "common.password", "id" -> textFieldId, "required" -> None)</div>
+            @ext.generatePasswordButton(textFieldId)
+        }
+    }
+        <table class="table">
+            @thead("common.name", "common.gender", "common.password","common.actions")
+            <tbody>
+            @foreach(classWithPupils.pupils) { pupil =>
+                <tr>
+                    <td>@pupil.name</td>
+                    <td>@i18n("enum.gender." + pupil.gender.name)</td>
+                    <td>@pupil.password</td>
+                    <td>
+                        <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#editPupilForm-@pupil.id" aria-expanded="false" aria-controls="editPupilForm-@pupil.id">
+                            <span class="fa-solid fa-edit"></span>
+                        </button>
+                    </td>
+                </tr>
+                <tr class="collapse" id="editPupilForm-@pupil.id">
+                    <td>
+                    @collapse.form(controllers.teacher.routes.PupilController.editPupil(pupil.id), "editPupilForm-" + pupil.id, "common.edit") {
+                        <div class="col">@text(Forms.field("name",pupil.name), "_label" -> "common.name", "required" -> None)</div>
+                        <div class="col">@select(Forms.field("gender", pupil.gender.toString), classOf[Gender], "enum.gender", "_label" -> "common.gender")</div>
+                        @defining(s"password-${pupil.id}") { textFieldId =>
+                            <div class="col">@text(Forms.field("password",pupil.password), "_label" -> "common.password", "id" -> textFieldId, "required" -> None)</div>
+                            @ext.generatePasswordButton(textFieldId)
+                        }
+                    }
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+}

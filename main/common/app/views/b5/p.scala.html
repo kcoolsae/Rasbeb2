@@ -1,0 +1,15 @@
+@* p.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import views.html.be.ugent.caagt.play.ext.i18n
+@import play.i18n.Messages
+@import play.twirl.api.TwirlFeatureImports.defining
+@(key: String, cl: String ="")(implicit messages: Messages)
+@defining(if (cl.isEmpty) "" else s" class='$cl'") { cl =>
+    <p@cl>@i18n(key)</p>
+}

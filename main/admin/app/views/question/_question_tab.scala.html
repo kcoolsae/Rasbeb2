@@ -1,0 +1,53 @@
+@* _question_tab.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import deputies.question.QuestionDetailDeputy
+@import _root_.be.ugent.rasbeb2.db.dto.{Question, QuestionI18n}
+@import common.Deputy
+@import views.html.b5._
+@import views.html.ext.horizontal_form
+@import play.twirl.api.TwirlFeatureImports.defining
+@import views.html.be.ugent.caagt.play.ext.i18n
+@(question: Question, q: QuestionI18n, f: Form[QuestionDetailDeputy.EditTranslationData])(implicit deputy: Deputy)
+
+<div class="row mt-2">
+    <div class="col-auto ms-auto">
+        @form(controllers.question.routes.QuestionDetailController.removeTranslation(question.id, q.lang)) {
+            @submit("question.translation-remove",tp="outline-danger",cl="ms-auto")
+        }
+    </div>
+</div>
+<div class="row border-bottom">
+@horizontal_form(controllers.question.routes.QuestionDetailController.editTranslation(question.id, q.lang), "common.change") {
+    <div class="col-auto">@text(f("title"), "_label" -> "common.title")</div>
+    <div class="col-auto">@text(f("solution"), "_label" -> "common.solution")</div>
+}
+</div>
+<div class="row border-bottom mt-2">
+@horizontal_form(controllers.question.routes.QuestionUploadController.uploadPages(question.id, q.lang), "common.caption.upload", multipart=true) {
+    <div class="col-auto">@file_0("questionFile", "_label" -> "question.question-file")    </div>
+    <div class="col-auto">@file_0("feedbackFile", "_label" -> "question.feedback-file")    </div>
+}
+</div>
+
+@defining(deputy.getConfig.getString("rasbeb2.questions-url")) { url =>
+    @if(q.uploadedQuestion()) {
+        <iframe src="@url/@question.magicQ()/@q.lang/index.html" onLoad="postSize(this.id);" id="iframeQ@q.lang">
+        </iframe>
+    } else {
+        <div class="nocontent">@i18n("question.not-uploaded.question")</div>
+    }
+    <hr>
+    @if(q.uploadedFeedback()) {
+        <iframe src="@url/@question.magicF()/@q.lang/index.html" onLoad="postSize(this.id);" id="iframeF@q.lang">
+        </iframe>
+    } else {
+        <div class="nocontent">@i18n("question.not-uploaded.feedback")</div>
+    }
+  <hr>
+}

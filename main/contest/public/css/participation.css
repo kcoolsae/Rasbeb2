@@ -1,0 +1,91 @@
+/*
+ * participation.css
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ */
+
+/* Additional CSS used for the contest screens */
+
+/* CLOCK
+   ===== */
+#clock-text, #total-marks-text {
+    font-size: 36px;
+    font-weight: bold;
+    font-family: courier, monospace;
+}
+
+#clock {
+    color: white;
+    text-align: center;
+}
+
+#clock.green {
+    border: 1px solid #5bb75b;
+    background-color: #5bb75b;
+}
+
+#clock.red {
+    border: 1px solid #da4f49;
+    background-color: #da4f49;
+}
+
+#clock.orange {
+    border: 1px solid #faa732;
+    background-color: #faa732;
+}
+
+#clock.black {
+    border: 1px solid black;
+    background-color: black;
+}
+
+/* MARKS
+   ===== */
+
+.marks div {
+    font-size: 26px;
+    display: inline-block;
+    min-width: 50px;
+    min-height: 46px;
+    line-height: 46px;
+    margin: 2px;
+    border: 2px dashed grey;
+    text-align: center;
+}
+
+.marks div.incorrect {
+    color: red;
+    border-color: red;
+}
+
+.marks div.correct {
+    color: green;
+    border-color: #0c0;
+}
+.marks div.total {
+    border: 2px solid black;
+    color: black;
+}
+
+/* Rest of page */
+iframe, .nocontent {
+    width: 780px;
+    border: none;
+    display: block;
+}
+
+.nocontent {
+    height: 60px;
+    vertical-align: middle;
+    text-align: center;
+}
+footer {
+    width: 100%;
+    text-align: right;
+}
+footer > a {
+    color: black;
+}

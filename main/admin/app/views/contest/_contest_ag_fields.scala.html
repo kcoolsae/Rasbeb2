@@ -1,0 +1,31 @@
+@* _contest_ag_fields.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.AgeGroupWithDuration
+@import deputies.contest.ContestSettingsDeputy.DurationData
+@import views.html.b5._
+@(f: Form[DurationData], ageGroups: Iterable[AgeGroupWithDuration])(implicit deputy: Deputy)
+
+@implicitFieldBuilder = @{
+    fieldBuilder.plain
+}   @* removes labels etc from form fields *@
+
+<div class="col-8 col-lg-6">
+    <table class="table">
+        @thead("common.name", "common.description", "contest.duration")
+        <tbody>
+        @foreach.tr(ageGroups) { agwd =>
+            @defining(agwd.ageGroup) { ag =>
+                <td>@ag.name</td>
+                <td>@ag.description</td>
+                <td>@text(f(s"duration[${ag.id}]"), "size" -> 1)</td>
+            }
+        }
+        </tbody>
+    </table>
+</div>

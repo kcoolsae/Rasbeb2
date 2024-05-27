@@ -1,0 +1,22 @@
+@* teacher_open_event.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.{Event, ParticipationWithPupil}
+@import deputies.event.EventDeputy
+@import views.html.event._
+@(event: Event, participations: List[ParticipationWithPupil])(implicit deputy: EventDeputy)
+
+@layout.teacher("eopn", js=include.js("deadlinedate.js")) {
+    @_event_title(event)
+    @_event_actions(event)
+    @if(deputy.isActiveYear) {
+        @_participation_table(event, participations)
+    } else {
+        @_participation_table_inactive(participations)
+    }
+}

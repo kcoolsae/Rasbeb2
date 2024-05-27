@@ -1,0 +1,22 @@
+@* _collapse_form.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import common.Deputy
+@import views.html.be.ugent.caagt.play.ext.i18n
+@(call: play.api.mvc.Call, formId: String, buttonCaption: String = "common.save", collapsed: Boolean = true)(content: => Html)(implicit deputy: Deputy)
+
+@b5.form(action = call) {
+    <div class="card mb-3 mt-3 collapse @if(!collapsed) {show}" id="@formId">
+        <div class="card-body row pt-1 pb-0 align-items-baseline">
+            @content
+            <div class="col-auto ms-auto align-self-start pt-3">
+                <button type="submit" class="btn btn-primary mt-3">@i18n(buttonCaption)</button>
+            </div>
+        </div>
+    </div>
+}

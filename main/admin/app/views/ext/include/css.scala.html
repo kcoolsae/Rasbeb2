@@ -1,0 +1,26 @@
+@* css.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@(args: String*)
+@* Short hand for a css script file link *@
+
+@* NOTE Cannot be put in a shared library because of problems with routes.Assets cannot be shared *@
+@normalizedName(n: String) = @{
+    var name = n
+    if(!(name contains ".")) {
+        name += ".css"
+    }
+    if(name startsWith "/") {
+        name substring 1
+    } else {
+        "css/" + name
+    }
+}
+@for(name <- args) {
+    <link rel="stylesheet" href='@routes.Assets.versioned(normalizedName(name))'>
+}

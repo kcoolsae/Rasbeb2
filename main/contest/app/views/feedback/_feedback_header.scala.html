@@ -1,0 +1,21 @@
+@* _feedback_header.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.QuestionWithFeedback
+@(q: QuestionWithFeedback)(implicit deputy: Deputy)
+
+<div class="row align-items-start">
+    <div class="col-auto">
+        <h1>@q.title</h1>
+    </div>
+    <div class="col-auto ms-auto marks">
+        <div class="bg-primary text-center border border-primary">
+            <span class="text-white" id="total-marks-text">@q.marks/@q.marksIfCorrect</span>
+        </div>
+    </div>
+</div>

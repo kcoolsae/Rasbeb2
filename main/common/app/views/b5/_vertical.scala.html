@@ -1,0 +1,22 @@
+@* _vertical.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import views.html.b5.B5.FieldInformation
+@(information: FieldInformation)
+@id = @{information.args.get("_id").map(_.toString).getOrElse(information.id + "_field")}
+<div class="mb-3 @information.args.get("_class")" id="@id">
+        @* _name not supported *@
+        <label class="form-label" for="@information.id">@information.label</label>
+        @information.html
+        @information.errors.map { error =>
+            <div class="invalid-feedback">@error</div>
+        }
+        @information.infos.map { info =>
+            <div class="form-text">@info</div>
+        }
+</div>

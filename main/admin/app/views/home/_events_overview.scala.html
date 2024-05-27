@@ -1,0 +1,18 @@
+@* _events_overview.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.Event
+@import views.html.be.ugent.caagt.play.ext.i18n
+@import controllers.event.routes
+@import views.html.b5._
+@(events: List[Event])(implicit deputy: Deputy)
+@_left_right(h4("event.events.heading")){
+    <a href="@routes.EventController.listEventContests(0, deputy.getMessages.lang.code)"
+    class="btn btn-outline-primary mt-3">@i18n("event.add.link")</a>
+}
+@_event_table(events)

@@ -1,0 +1,32 @@
+@* list_registrations.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.caagt.dao.Page
+@import _root_.be.ugent.rasbeb2.db.dto.Registration
+@import Registration.Field._
+@import views.html.be.ugent.caagt.play.ext.{foreach, i18n}
+@import _root_.util.Table
+@import views.html.b5._
+@(registrations: Page[Registration], table: Table)(implicit deputy: Deputy)
+
+@layout.organiser("regl") {
+    @h1("auth.registration-list.title")
+    @paged(table, registrations.getFullSize) {
+        @submit("auth.registration-list.caption.delete-expired",tp="outline-primary")
+    }(_.columns(EMAIL -> "common.email",SCHOOL -> "school.school",EXPIRE -> "auth.registration-list.expiry-date")){
+    @foreach.tr(registrations.getList) { registration =>
+        <td>@registration.email</td>
+        <td>@registration.school</td>
+        <td>@registration.formattedDate</td>
+        <td>
+            <button type="submit" name="delete" value="@registration.email" class="btn btn-sm btn-danger"
+                    title='@i18n("auth.registration-list.caption.delete")'><span class="fa-solid fa-trash"></span></button>
+        </td>
+    }
+    }( _.searchfields(EMAIL -> "common.filter.email",SCHOOL -> "school.filter.school-name",EXPIRE -> "auth.registration-list.filter.expiry-date"))
+}

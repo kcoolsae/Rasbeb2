@@ -1,0 +1,7 @@
+.idea/
+.sass-cache
+.jekyll-cache
+.idea
+.jekyll-metadata
+docs
+../help/etc

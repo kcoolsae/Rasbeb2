@@ -1,0 +1,29 @@
+@* _participation_table_inactive.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.ParticipationWithPupil
+@import deputies.event.EventDeputy
+@import views.html.b5._
+@import views.html.be.ugent.caagt.play.ext.i18n
+@import views.html.event._
+@(participations: List[ParticipationWithPupil])(implicit deputy: EventDeputy)
+
+@table(participations.size) {
+    @th("event.participation.student-name", "event.participation.deadline")
+} {
+    @foreach.tr(participations) { participation: ParticipationWithPupil =>
+        <td>@participation.pupilName</td>
+        @if(participation.deadline == null) {
+            <td>@i18n("event.participation.not-yet-started")</td>
+        } else if (participation.closed) {
+            <td>(@_deadline_span(participation))</td>
+        } else {
+            <td>@_deadline_span(participation)</td>
+        }
+    }
+}

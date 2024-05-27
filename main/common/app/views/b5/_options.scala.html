@@ -1,0 +1,17 @@
+@* _options.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@(value: Option[String], options: (String, String)*)
+
+@option(currentValue: Option[String], value: String)(body: => Html) = {
+    <option value="@value" @if(currentValue contains value) { selected="selected"}>@body</option>
+}
+
+@options.map { v =>
+    @option(value, v._1) { @v._2 }
+}

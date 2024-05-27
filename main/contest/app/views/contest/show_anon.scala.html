@@ -1,0 +1,17 @@
+@* show_anon.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.ContestWithAgeGroup
+
+@(contest: ContestWithAgeGroup)(implicit deputy: Deputy)
+
+@layout.anon("showcontest") {
+    <h1>@contest.contestTitle</h1>
+    <p>@contest.ageGroupName @i18n("pupil.minutes-count-short", ""+contest.contestDuration)</p>
+    <a class="btn btn-outline-primary" href=@controllers.contest.routes.AnonController.start(contest.contestId, contest.ageGroupId)>@i18n("pupil.enter-contest")</a>
+}

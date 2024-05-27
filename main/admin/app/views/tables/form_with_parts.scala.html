@@ -1,0 +1,18 @@
+@* form_with_parts.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.caagt.play.util.Table
+@import play.twirl.api.Html
+@import play.i18n.Messages
+@(table: Table, count: Int)(p: => Html)(header: => Html)(body: => Html)(footer: => Html)(implicit messages: Messages)
+
+<form action="@table.action.url" method="@table.action.method">
+    <button name="default" style="display: none;"></button> @* Makes Enter do submit *@
+    @pre(table)(p)
+    @main(table,count)(header)(body)(footer)(messages)
+</form>

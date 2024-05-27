@@ -1,0 +1,31 @@
+@* teacher_list_contests.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.{AgeGroup, Contest}
+@import common.Deputy
+@import views.html.b5._
+@import views.html.be.ugent.caagt.play.ext.foreach
+@import views.html.contest._age_group_tabs
+@(ageGroupId: Int, ageGroups: List[AgeGroup], contests: Iterable[Contest])(implicit deputy: Deputy)
+
+@layout.teacher("contl") {
+    @h3("contest.contest-questions")
+    @_age_group_tabs(ageGroupId, ageGroups, controllers.contest.routes.TeacherContestController.listContests)
+
+    <table class="table">
+        @thead("common.title", "common.actions")
+        <tbody>
+        @foreach.tr(contests) { contest =>
+            <td>@contest.title</td>
+            <td>
+               <a class="btn btn-outline-primary" href="@controllers.contest.routes.TeacherContestController.getContestQuestion(contest.id, ageGroupId, 0)">...</a>
+            </td>
+        }
+        </tbody>
+    </table>
+}

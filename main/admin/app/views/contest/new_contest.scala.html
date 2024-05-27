@@ -1,0 +1,32 @@
+@* new_contest.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.ContestType
+
+@import views.html.be.ugent.caagt.play.ext.i18n
+@import deputies.contest.ContestSettingsDeputy.ContestData
+@import views.html.b5._
+@import common.Deputy
+@import views.html.contest._
+@(f: Form[ContestData])(implicit deputy: Deputy)
+
+@implicitFieldBuilder=@{fieldBuilder.plain}   @* removes labels etc from form fields *@
+
+@layout.organiser("cntnew") {
+    @h3("contest.new")
+    @form(action = controllers.contest.routes.ContestSettingsController.newContest()) {
+        <div class="card p-3">
+            <p class="mb-2">@i18n("contest.titles.translations"):</p>
+            @_contest_type_field(f)
+            @_contest_title_fields(f,deputy.getUILanguages)
+            @p("contest.extra-languages")
+            <p>@i18n("contest.extra-age-groups", deputy.getConfig.getString("rasbeb2.default-duration"))</p>
+            @submit("common.save",cl="col-2")
+        </div>
+    }
+}

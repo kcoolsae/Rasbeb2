@@ -1,0 +1,30 @@
+@* upload.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@*
+* A standard form button that allows a user to upload a file to the server. Needs to be used in conjunction with the utils.js script.
+*
+* @param name the name of the input field
+* @param _search_tip A tooltip to show over the search button.
+* @param _upload_tip A tooltip to show over the upload button.
+* @param _placeholder The placeholder text.
+* *@
+@(name: String = "file", _placeholder:String = "",_search_tip: String = "common.caption.select-file", _upload_tip: String = "common.caption.upload")(implicit deputy: Deputy)
+
+    <div class="input-group file-browser">
+        <input type="file" id="@name" name="@name" value="" class="file-browser-file" hidden
+            onchange="uploadFileInputOnChange(this)">
+        <span class="input-group-text">
+            <button class="btn btn-sm btn-outline-primary file-browser-search" type="button" title="@i18n(_search_tip)"
+                    onclick="uploadSearchButtonOnClick(this)"><i class="fa fa-folder-open"></i></button>
+        </span>
+        <input class="form-control file-browser-text" type="text" disabled size="22" placeholder="@i18n(_placeholder)">
+        <span class="input-group-text invisible file-browser-upload" >
+            <button class="btn btn-sm btn-outline-primary" type="submit" title="@i18n(_upload_tip)"><i class="fa fa-upload"></i></button>
+        </span>
+    </div>

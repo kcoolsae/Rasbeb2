@@ -1,0 +1,49 @@
+@* home_pupil.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.ContestForPupilTable
+@import _root_.be.ugent.rasbeb2.db.dto.EventExtendedStatus
+
+@import views.html.b5._
+@(contests: List[ContestForPupilTable])(implicit deputy: Deputy)
+
+@status(contest: ContestForPupilTable)={
+    @contest.event.getExtendedStatus match {
+        case EventExtendedStatus.PENDING_FREE | EventExtendedStatus.PENDING_BLOCKED => {
+            @i18n("pupil.home.pending")
+        }
+        case EventExtendedStatus.OPEN => {
+            @if(contest.isFinished) {
+                @i18n("pupil.home.no-results-yet")
+            } else if (contest.isBeingTaken) {
+                @i18n("pupil.home.running") (<a href="@controllers.contest.routes.PupilController.takeOver(contest.event.id)">@i18n("pupil.take-over.link")</a>)
+            } else {
+                <a href=@controllers.contest.routes.PupilController.show(contest.event.id)>@i18n("pupil.enter-contest")</a>
+            }
+        }
+        case EventExtendedStatus.CLOSED_FREE => {
+            <a href=@controllers.contest.routes.PupilController.showFeedback(contest.contestId)>@i18n("pupil.home.results-available")</a>
+        }
+        case EventExtendedStatus.CLOSED_BLOCKED => {
+            @i18n("pupil.home.closed")
+        }
+}
+    }
+
+@layout.pupil("homepupil") {
+    @table(contests.size){
+        @th("pupil.home.title", "pupil.home.description", "pupil.home.level", "pupil.home.status")
+    } {
+        @foreach.tr(contests) { contest =>
+            <td>@contest.event.contestTitle</td>
+            <td>@contest.event.title</td>
+            <td>@contest.ageGroupName</td>
+            <td>@status(contest)</td>
+        }
+    }
+}

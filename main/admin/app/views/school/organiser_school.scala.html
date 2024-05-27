@@ -1,0 +1,49 @@
+@* organiser_school.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.{School, User}
+@import common.Deputy
+@import deputies.organiser.SchoolDeputy
+@import views.html.b5._
+@import views.html.be.ugent.caagt.play.ext.i18n
+@import views.html.ext.collapse
+@(school: School, teachers: Iterable[User], sf: Form[SchoolDeputy.SchoolData],
+        collapsed: String)(implicit deputy: Deputy)
+
+    @layout.organiser("schorg") {
+        <h3>@school.nameWithTown()</h3>
+    @* no need to collapse
+        <p>Adres: @school.street @school.zip @school.town</p>
+        @collapse.button("collapsibleSchoolForm", "school.edit")
+    *@
+    @collapse.form(controllers.organiser.routes.SchoolController.editSchool(school.id), "collapsibleSchoolForm", "common.change", collapsed = false)(_school_form(sf))
+
+
+    <h3 class="mt-2">@i18n("school.teachers")</h3>
+
+        @b5.form(action = controllers.organiser.routes.TeacherController.disableTeacher(school.id)) {
+            <table class="table table-striped">
+                @thead("common.name", "common.email", "school.account.status")
+                <tbody>
+                @foreach.tr(teachers) { teacher =>
+                    <td>@teacher.name</td>
+                    <td>@teacher.email</td>
+                    <td>@(if(teacher.disabled) i18n("school.account.inactive") else i18n("school.account.active"))</td>
+                    <td>
+                        <button type="submit" name="disable" value="@teacher.id" class="btn btn-sm btn-danger"><span class="fa-solid fa-trash"></span></button>
+                    </td>
+                }
+                </tbody>
+            </table>
+        }
+        @collapse.button("collapsibleEmailForm", "school.register-teacher")
+        @collapse.form(controllers.auth.routes.RegistrationController.organiserRegisterTeacher(school.id), "collapsibleEmailForm", "auth.registration-request.caption", collapsed = collapsed != "teacher"){
+            <div class="col-auto">@b5.text(Forms.field("email", null), "_label" -> "auth.registration-request.email", "required" -> None)</div>
+        }
+
+    }

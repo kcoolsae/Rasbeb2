@@ -1,0 +1,32 @@
+@* _event_title.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.Event
+@import common.LanguageInfo
+@import controllers.event.routes
+@import deputies.event.EventDeputy
+@import deputies.event.EventDeputy.EditEventData
+@import views.html.b5._
+@(event: Event)(implicit deputy: EventDeputy)
+
+@if(deputy.isActiveYear) {
+    <div>
+        <h1>@event.title (@LanguageInfo.get(event.lang).name)
+            <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#settingsForm" aria-expanded="false" aria-controls="settingsForm">
+                <span class="fa-sm fa-solid fa-edit"></span>
+            </button></h1>
+    </div>
+    @collapse.form(routes.EventController.editEvent(event.id), "settingsForm", "event.event.update-title") {
+        <div class="col-5">@text(Forms.field("title", event.title), "_label" -> "event.event.title", "required" -> None)</div>
+    }
+} else {
+    <h1>@event.title (@LanguageInfo.get(event.lang).name)</h1>
+}
+<p>@event.contestTitle</p>
+
+

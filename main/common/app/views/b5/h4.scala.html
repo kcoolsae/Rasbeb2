@@ -1,0 +1,12 @@
+@* h4.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import views.html.be.ugent.caagt.play.ext.i18n
+@import play.i18n.Messages
+@(key: String)(implicit messages: Messages)
+<h4 class="mt-3">@i18n(key)</h4>

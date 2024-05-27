@@ -1,0 +1,23 @@
+@* teacher_pending_event.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.{ClassWithPermissions, Event}
+@import deputies.event.EventDeputy
+@import deputies.event.EventDeputy.EditEventData
+@(event: Event, classesWithPermissions: Iterable[ClassWithPermissions])(implicit deputy: EventDeputy)
+
+@layout.teacher("epnd") {
+    @_event_title(event)
+    @_event_actions(event)
+
+    @if(deputy.isActiveYear) {
+        @_permissions_list(event, classesWithPermissions, true)
+    } else {
+        @_permissions_list_inactive(event, classesWithPermissions)
+    }
+}

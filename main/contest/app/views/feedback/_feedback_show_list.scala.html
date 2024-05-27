@@ -1,0 +1,29 @@
+@* _feedback_show_list.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.QuestionWithFeedback
+@import views.html.b5._
+@(questions: Iterable[QuestionWithFeedback])(implicit deputy: Deputy)
+
+<div class="row">
+    <div class="col">
+        <table class="table">
+            @thead("pupil.overview.result", "pupil.overview.task")
+            <tbody>
+                @foreach(questions) { question: QuestionWithFeedback =>
+                    <tr>
+                        <th scope="row">@question.marks/@question.marksIfCorrect</th>
+                        <td>
+                            <a href=@controllers.contest.routes.FeedbackController.question(question.id)>@question.title</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

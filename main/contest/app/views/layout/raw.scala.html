@@ -1,0 +1,30 @@
+@* raw.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@(pageId: String, css: Html = Html(""), js: Html = Html(""))(content: => Html)(implicit deputy: Deputy)
+
+<!DOCTYPE html>
+<html lang="@deputy.getLocale().getLanguage()">
+    <head>
+        <title>Bebras [@pageId]</title>
+        @include.css(
+            "/lib/font-awesome/css/fontawesome.min.css",
+            "/lib/font-awesome/css/solid.css",
+            "/lib/webjar/css/rasbeb2-bootstrap.min.css",
+            "/lib/webjar/css/tables.css"
+        )
+        @css
+    </head>
+    <body>
+        @content
+        @include.js(
+            "/lib/webjar/js/bootstrap.bundle.min.js"
+        )
+        @js
+    </body>
+</html>

@@ -1,0 +1,30 @@
+@* post.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.caagt.play.util.Table
+@import play.i18n.Messages
+@(table: Table, count: Int)(implicit messages: Messages)
+
+@if(count != 0) {
+    <nav aria-label="Page navigation">
+        <div class="row paged-table-post">
+            <div class="col-8 paged-table-post-left">
+                <a class='btn btn-outline-primary btn-sm @if(!table.pager.hasPrevious) {disabled}'
+                href="@table.previous"><span class="fa fa-caret-left"></span>
+                    @i18n("common.previous")
+                </a>
+                <a class='btn btn-outline-primary btn-sm @if(!table.pager.hasNext(count)) {disabled}'
+                href="@table.next">@i18n("common.next") <span class="fa fa-caret-right"></span>
+                </a>
+            </div>
+            <div class="col-4 paged-table-post-right text-end">@table.pager.getStart-@table.pager.getEnd(count)
+                (@i18n("common.of") @count)
+            </div>
+        </div>
+    </nav>
+}

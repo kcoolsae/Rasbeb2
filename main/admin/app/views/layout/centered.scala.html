@@ -1,0 +1,22 @@
+@* centered.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@(pageId: String, css: Html = Html(""), js: Html = Html(""))(content: => Html)(implicit deputy: Deputy)
+
+@layout.raw(pageId,css,js) {
+    <div class="row justify-content-center align-items-center vh-100">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    @_show_status()
+                    @content
+                </div>
+            </div>
+        </div>
+    </div>
+}

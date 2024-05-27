@@ -1,0 +1,33 @@
+@* modal.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@*
+* This adds a modal to a page.
+*
+* @param id The id that will be used to activate the modal.
+* @param title The title of the modal.
+* @param size A string that defines the size, sm,lg,xl or empty
+*@
+@(id: String, title:String = "", size:String = "")(body: Html)(footer: Html)(implicit deputy: Deputy)
+<!-- Modal -->
+<div class="modal fade" id="@id" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog @if(!size.isBlank){ modal-@size}" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@i18n(title)</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            @body
+            </div>
+            <div class="modal-footer">
+            @footer
+            </div>
+        </div>
+    </div>
+</div>

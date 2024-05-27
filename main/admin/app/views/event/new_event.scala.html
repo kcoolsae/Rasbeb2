@@ -1,0 +1,53 @@
+@* new_event.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.{AgeGroup, Contest}
+@import common.LanguageInfo
+@import controllers.event.routes
+@import views.html.be.ugent.caagt.play.ext.i18n
+@import views.html.ext.collapse
+@(lang: LanguageInfo, languages: List[LanguageInfo],
+        ageGroupId: Int, ageGroups: List[AgeGroup],
+        contests:  Iterable[Contest])(implicit deputy: Deputy)
+@layout.teacher("evenew") {
+    <h3>@i18n("event.add.title") (@lang.name)</h3>
+
+    @if(languages.size > 1){
+        <div class="mb-2 text-end">
+        @i18n("event.add.other-language") :
+        @foreach(languages) { l =>
+            @if(l.code != lang.code) {
+                <span style="padding: 0 5px;"><a href="@routes.EventController.listEventContests(0, l.code)">@l.name </a></span>
+            }
+        }
+        </div>
+    }
+
+    @views.html.contest._age_group_tabs(ageGroupId, ageGroups, routes.EventController.listEventContests(_, lang.code))
+    <table class="table">
+        @thead("common.title", "common.actions")
+        <tbody>
+        @foreach(contests) { contest =>
+            <tr>
+                <td>@contest.title
+                <td>
+@*                    <a class="btn btn-outline-primary" href="@routes.EventController.getContestQuestion(contest.contestId, contest.ageGroupId, lang.code, 0)">@i18n("contest.view-questions")</a>*@
+                    @collapse.button("addEventForm-" + contest.id, "event.add.caption.create")
+                </td>
+            </tr>
+            <tr class="collapse" id="addEventForm-@contest.id">
+                <td>@collapse.form(routes.EventController.addEvent(contest.id, ageGroupId, lang.code),
+                    "addEventForm-" + contest.id, "event.add.caption.add") {
+                    <div class="col-auto">@b5.text(Forms.field("title", ""), "_label" -> "event.add.name", "required" -> None)</div>
+                }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

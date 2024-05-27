@@ -1,0 +1,14 @@
+@* _plain.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@* Provides a FieldBuilder that does not produce labels or error messages*@
+@import views.html.b5.B5.FieldInformation
+@(information: FieldInformation)
+    @id = @{information.args.get("_id").map(_.toString).getOrElse(information.id + "_field")}
+
+    <div class="@information.args.get("_class")" id="@id">@information.html</div>

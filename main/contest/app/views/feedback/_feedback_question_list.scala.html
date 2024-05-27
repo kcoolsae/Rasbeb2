@@ -1,0 +1,16 @@
+@* _feedback_question_list.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.QuestionWithFeedback
+@(questions: List[QuestionWithFeedback], activeQuestionId: Int)(implicit deputy: Deputy)
+
+<div class="list-group">
+    @foreach(questions) { question: QuestionWithFeedback =>
+        <a class="list-group-item list-group-item-action @(if(question.id == activeQuestionId) "active" else "")" href=@controllers.contest.routes.FeedbackController.question(question.id)>@question.title</a>
+    }
+</div>

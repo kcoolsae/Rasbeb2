@@ -1,0 +1,27 @@
+GET     /l             controllers.contest.ContestController.listContests(request: Request)
+GET     /g/:contestId  controllers.contest.ContestController.getContest(request: Request, contestId: Int)
+POST    /cs/:contestId controllers.contest.ContestController.updateContestStatus(request: Request, contestId: Int)
+GET     /p/l           controllers.contest.ContestController.list(request: Request, psf: PSF)
+POST    /p/r           controllers.contest.ContestController.resize(request: Request, psf: PSF)
+POST    /p/a           controllers.contest.ContestController.action(request: Request, psf: PSF)
+
+GET     /o/:contestId/:ageGroupId           controllers.contest.ContestOrderController.getQuestionSet(request: Request, contestId: Int, ageGroupId: Int)
+POST    /o/:contestId/:ageGroupId/:n1/:n2   controllers.contest.ContestOrderController.updateOrder(request: Request, contestId: Int, ageGroupId: Int, n1: Int, n2: Int)
+POST    /od/:contestId/:ageGroupId          controllers.contest.ContestOrderController.updateOrderByDifficulty(request: Request, contestId: Int, ageGroupId: Int)
+
+GET     /g/s/:contestId  controllers.contest.ContestQuestionsController.questionSelection(request: Request, contestId: Int)
+GET     /g/l/:contestId  controllers.contest.ContestQuestionsController.listQuestions(request: Request, psf: PSF, contestId: Int)
+POST    /g/r/:contestId  controllers.contest.ContestQuestionsController.resizeQuestions(request: Request, psf: PSF, contestId: Int)
+POST    /g/a/:contestId  controllers.contest.ContestQuestionsController.actionQuestions(request: Request, psf: PSF, contestId: Int)
+
+GET     /s/:contestId/:ageGroupId   controllers.contest.ContestMarksController.getQuestionSet(request: Request, contestId: Int, ageGroupId: Int)
+POST    /s/:contestId/:ageGroupId   controllers.contest.ContestMarksController.updateMarks(request: Request, contestId: Int, ageGroupId: Int)
+
+GET     /n                 controllers.contest.ContestSettingsController.newContestForm(request: Request)
+POST    /n                 controllers.contest.ContestSettingsController.newContest(request: Request)
+GET     /st/:contestId     controllers.contest.ContestSettingsController.settingsForm(request: Request, contestId: Int)
+POST    /st/t/:contestId   controllers.contest.ContestSettingsController.titleSettings(request: Request, contestId: Int)
+POST    /st/a/:contestId   controllers.contest.ContestSettingsController.ageGroupSettings(request: Request, contestId: Int)
+
+GET     /t/l/:ageGroupId  controllers.contest.TeacherContestController.listContests(request: Request, ageGroupId: Int)
+GET     /t/g/:contestId/:ageGroupId/:questionId   controllers.contest.TeacherContestController.getContestQuestion(request: Request, contestId: Int, ageGroupId: Int, questionId: Int)

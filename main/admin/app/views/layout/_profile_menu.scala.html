@@ -1,0 +1,21 @@
+@* _profile_menu.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import common.Deputy
+@()(implicit deputy: Deputy)
+<li class="nav-item dropdown">
+    <button class="btn nav-link dropdown-toggle" type="button" id="profileMenu" data-bs-toggle="dropdown" aria-expanded="false">
+        (@deputy.getRequest.session().get("name"))
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="profileMenu">
+        <li><a class="dropdown-item" href="@controllers.auth.routes.AuthenticationController.changePasswordForm()">@i18n("auth.change-password.menu")</a></li>
+        <li><a class="dropdown-item" href="@controllers.other.routes.LanguageController.chooseLanguage()">@i18n("change-language.menu")</a></li>
+        <li><a class="dropdown-item" href="@controllers.other.routes.NameController.changeNameForm()">@i18n("change-name.menu")</a></li>
+        <li><a class="dropdown-item" href="@controllers.auth.routes.AuthenticationController.logout()">@i18n("auth.logout.menu")</a></li>
+    </ul>
+</li>

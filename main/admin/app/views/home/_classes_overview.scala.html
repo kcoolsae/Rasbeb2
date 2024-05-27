@@ -1,0 +1,26 @@
+@* _classes_overview.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.{Year, ClassGroup}
+@import views.html.b5._
+@(classes: Iterable[ClassGroup])(implicit deputy: Deputy)
+
+@h4("school.classes.title")
+<div class="row align-items-baseline">
+    @foreach(classes) { cl =>
+        <div class="col-4 col-sm-3 col-lg-2">
+            @update_delete_field("className", cl.name, controllers.teacher.routes.ClassController.updateDeleteClass(cl.id))
+        </div>
+    }
+    <div class="col-6 col-sm-4 col-md-3">@collapse.button("collapsibleClassForm", "school.classes.caption")</div>
+</div>
+<div class="row">
+@collapse.form(controllers.teacher.routes.ClassController.newClasses(), "collapsibleClassForm", "school.classes.submit") {
+    <div class="col-auto">@b5.text(Forms.field("classNames",""), "_label" -> "school.classes.label", "required" -> None)</div>
+}
+</div>

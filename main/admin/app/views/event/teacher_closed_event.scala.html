@@ -1,0 +1,28 @@
+@* teacher_closed_event.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.{Event, ParticipationWithPupil}
+@import deputies.event.EventDeputy
+@import views.html.b5._
+@import views.html.be.ugent.caagt.play.ext.i18n
+@import views.html.event._
+@(event: Event, participations: List[ParticipationWithPupil])(implicit deputy: EventDeputy)
+
+@layout.teacher("ecl") {
+    @_event_title(event)
+    @_event_actions(event)
+
+    @table(participations.size) {
+        @th("event.participations.name", "event.participations.score")
+    } {
+        @foreach.tr(participations) { participation: ParticipationWithPupil =>
+            <td>@participation.pupilName</td>
+            <td>@if(participation.isValid)(s"${participation.marks}/${participation.maxMarks}")else(i18n("event.participations.score-invalid"))</td>
+        }
+    }
+}

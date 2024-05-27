@@ -1,0 +1,45 @@
+@* question_set_marks.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.{AgeGroup, Contest, QuestionInSet}
+@import controllers.contest.routes
+@import deputies.contest.ContestMarksDeputy
+@import deputies.contest.ContestMarksDeputy.QuestionSetData
+@import views.html.b5._
+@import views.html.be.ugent.caagt.play.ext.i18n
+@import views.html.contest.{_age_group_tabs, _submenu}
+@(f: Form[QuestionSetData], questionSet: List[QuestionInSet], contest: Contest,
+        ageGroups: List[AgeGroup], ageGroupId: Int)(implicit deputy: ContestMarksDeputy)
+
+@implicitFieldBuilder = @{
+    fieldBuilder.plain
+}   @* removes labels etc from form fields *@
+
+@layout.organiser("cntqs") {
+    @_submenu("marks", contest)
+
+    @_age_group_tabs(ageGroupId, ageGroups, routes.ContestMarksController.getQuestionSet(contest.id, _))
+
+    @form(routes.ContestMarksController.updateMarks(contest.id, ageGroupId)) {
+        <table class="table">
+            @thead("common.title", "question.external-id","contest.marks.correct", "contest.marks.incorrect")
+            <tbody>
+            @foreach.tr(questionSet) { questionInSet =>
+                <td>@questionInSet.title</td>
+                <td>@questionInSet.externalId</td>
+                <td class="col-1">@text(f(s"items[${questionInSet.id}].marksIfCorrect"))</td>
+                <td class="col-1">@text(f(s"items[${questionInSet.id}].marksIfIncorrect"))</td>
+            }
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-end">
+            @submit("common.save",cl="col-2")
+        </div>
+    }
+
+}

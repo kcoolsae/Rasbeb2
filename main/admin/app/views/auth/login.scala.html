@@ -1,0 +1,27 @@
+@* login.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import views.html.be.ugent.caagt.play.ext.i18n
+@import deputies.auth.AuthenticationDeputy
+@import common.Deputy
+@import views.html.b5._
+@import views.html.auth._linked_label
+@(f: Form[AuthenticationDeputy.LoginData])(implicit deputy: Deputy)
+
+@layout.centered("login") {
+    @h3("auth.login.title")
+    @form(action = controllers.auth.routes.AuthenticationController.login()) {
+        @text(f("login"), "_label" -> "auth.login.email")
+        @password(f("password"), "_label" -> "auth.login.password")
+        @submit_wide("auth.login.caption")
+        <div class="d-flex justify-content-between mt-2">
+            @_linked_label("auth.forgot-password.link", controllers.auth.routes.PasswordController.forgotPasswordForm())
+            @_linked_label("change-language.link", controllers.other.routes.LanguageController.chooseLanguage())
+        </div>
+    }
+}

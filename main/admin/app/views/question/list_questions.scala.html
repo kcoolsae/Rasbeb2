@@ -1,0 +1,37 @@
+@* list_questions.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import common.Deputy
+@import _root_.be.ugent.caagt.dao.Page
+@import _root_.be.ugent.rasbeb2.db.dto.QuestionHeader
+@import views.html.be.ugent.caagt.play.ext.i18n
+@import QuestionHeader.Field._
+@import controllers.question.routes
+@import util.Table
+
+@import deputies.question.QuestionUploadDeputy.LanguageData
+@import views.html.b5._
+@(f: Form[LanguageData], questions: Page[QuestionHeader], table: Table)(implicit deputy: Deputy)
+@implicitFieldBuilder=@{b5.fieldBuilder.plain}   @* removes labels etc from form fields *@
+
+@layout.organiser("quel") {
+    @h1("question.questions")
+    @paged(table, questions.getFullSize) {
+        <a href="@routes.QuestionController.newQuestionForm()" class="btn btn-outline-primary">@i18n("question.new")</a>
+        <a href="@routes.QuestionUploadController.uploadQuestionsForm()" class="btn btn-outline-secondary">@i18n("question.upload.questions")</a>
+    }(_.columns(ID -> "question.id", TITLE -> "common.title",TYPE -> "question.type")){
+    @foreach.tr(questions.getList) { question =>
+        <td>@question.externalId</td>
+        <td>@question.title</td>
+        <td>@question.answerType</td>
+        <td>
+            <a class="btn btn-sm btn-outline-primary" href='@controllers.question.routes.QuestionDetailController.getQuestion(question.id, "")'>...</a>
+        </td>
+    }
+    }( _.searchfields(ID -> "question.filter.id", TITLE -> "common.filter.title",TYPE -> null))
+}

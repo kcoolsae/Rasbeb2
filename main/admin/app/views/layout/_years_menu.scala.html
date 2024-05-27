@@ -1,0 +1,29 @@
+@* _years_menu.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.Year
+@import common.Deputy
+@(years: List[Year])(implicit deputy: Deputy)
+
+<li class="nav-item dropdown">
+    <button class="btn nav-link dropdown-toggle" type="button" id="profileMenu" data-bs-toggle="dropdown" aria-expanded="false">
+        @deputy.getFromSession("year-name")
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="profileMenu">
+    @defining(deputy.getFromSession(Session.YEAR).toInt) { yearId: Int =>
+        @foreach(years) { year: Year =>
+            <li>
+                @b5.form(controllers.teacher.routes.TeacherController.changeYear()) {
+                    <input type="hidden" name="year" value="@year.id">
+                    <button class="dropdown-item @if(year.id == yearId) {active}">@year.name</button>
+                }
+            </li>
+        }
+    }
+    </ul>
+</li>

@@ -1,0 +1,26 @@
+@* _data_errors.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.poi.DataOrError
+@import views.html.be.ugent.caagt.play.ext.i18n
+@import views.html.b5._
+@(dataList: List[_ <: DataOrError[_]])(implicit deputy: Deputy)
+
+<table class="table">
+    @thead("spreadsheet.errors.row", "spreadsheet.errors.message")
+        <tbody>
+        @foreach(dataList) { data =>
+            @if(data.hasError) {
+                @foreach.tr(data.errorCodes) { code =>
+                    <td>@data.rowNumber</td>
+                    <td>@i18n(code)</td>
+                }
+            }
+        }
+</tbody>
+</table>

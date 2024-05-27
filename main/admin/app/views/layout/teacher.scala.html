@@ -1,0 +1,39 @@
+@* teacher.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.Year
+@import common.Deputy
+@(pageId: String, years: List[Year] = List.of(), css: Html = Html(""), js: Html = Html(""))(content: => Html)(implicit deputy: Deputy)
+
+@layout.raw(pageId, css, js) {
+    <div class="container-lg">
+        <nav class="navbar border-bottom mb-4 mt-3">
+            <a class="navbar-brand" href="#">
+                <img src='@routes.Assets.versioned("bebras-belgium.png")' height="84px"
+                     style="margin-bottom: -36px; margin-top: -24px;" class="align-text-center" alt="Bebras logo">
+                <span>Bebraswedstrijd</span>
+            </a>
+            <ul class="nav nav-pills">
+                @_menu_item(pageId, "home", "menu.home", controllers.home.routes.TeacherHomeController.index(), cssClass="")
+                @_menu_item(pageId, "pup", "menu.pupils", controllers.teacher.routes.ClassController.getClasses(), cssClass="d-none d-md-block")
+                @_menu_item(pageId, "con", "menu.contests", controllers.contest.routes.TeacherContestController.listContests(0), cssClass="d-none d-md-block")
+                @_menu_item(pageId, "sch", "menu.school", controllers.teacher.routes.TeacherController.getSchool(), cssClass="d-none d-md-block")
+                @if(years.isEmpty){
+                    @_years_info()
+                } else {
+                    @_years_menu(years)
+                }
+                @_profile_menu()
+            </ul>
+        </nav>
+        <div>@_show_status()</div>
+        <main>
+        @content
+        </main>
+    </div>
+}

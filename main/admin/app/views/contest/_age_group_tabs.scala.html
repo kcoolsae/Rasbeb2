@@ -1,0 +1,22 @@
+@* _age_group_tabs.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.AgeGroup
+@(ageGroupId: Int, ageGroups: List[AgeGroup], callFor: Int => Call)
+
+<ul class="nav nav-tabs" role="tablist">
+    @for(ag <- ageGroups) {
+        <li class="nav-item" role="presentation">
+        @if(ag.id == ageGroupId) {
+            <button class="nav-link active" type="button" role="tab">@ag.name</button>
+        } else {
+            <a href="@callFor(ag.id)" class="nav-link">@ag.name</a>
+        }
+        </li>
+    }
+</ul>

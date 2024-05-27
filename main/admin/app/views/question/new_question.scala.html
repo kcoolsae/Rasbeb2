@@ -1,0 +1,47 @@
+@* new_question.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import controllers.question.routes
+@import deputies.question.QuestionDeputy
+@import views.html.b5._
+@import views.html.be.ugent.caagt.play.ext.i18n
+@import views.html.question._new_question_header
+@(f: Form[QuestionDeputy.QuestionData], nrItems: Int)(implicit deputy: Deputy)
+@* TODO: nrItems can be retrieved from f - needs extension to play utils? *@
+@implicitFieldBuilder = @{
+    fieldBuilder.plain
+}   @* removes labels etc from form fields *@
+
+@layout.organiser("quenew") {
+    @h3("question.new")
+    @form(action = routes.QuestionController.newQuestion()) {
+        @* Three fields from question *@
+        @_new_question_header(f)
+        @* Fields from question_i18n *@
+        <table>
+            <thead>
+                <tr>
+                    <td>@i18n("common.lang")</td>
+                    <td>@i18n("common.title")</td>
+                    <td>@i18n("common.solution")</td>
+                </tr>
+            </thead>
+            <tbody>
+            @for(i <- 0 until nrItems) {
+                <tr>
+                    <td>@text(f(s"items[${i}].lang"), "size" -> 1) </td>
+                    <td>@text(f(s"items[${i}].title"))</td>
+                    <td>@text(f(s"items[${i}].solution"))</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        @submit("common.save", cl = "mt-2")
+    }
+
+}

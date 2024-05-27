@@ -1,0 +1,21 @@
+@* feedback_show_pupil.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.{ParticipationWithMarks, QuestionWithFeedback}
+@(participation: ParticipationWithMarks, questions: Iterable[QuestionWithFeedback])(implicit deputy: Deputy)
+
+@layout.split("fbpupil",i18n("pupil.overview.title")) { @* top right *@
+} { @* left *@
+    <div id="total-marks-text" class="marks">
+        <div class="total w-100">@participation.marks/@participation.maxMarks</div>
+    </div>
+    <a class="btn btn-secondary w-100 mt-2 mb-2"
+        href="@controllers.contest.routes.FeedbackController.close()">@i18n("pupil.overview.terminate")</a>
+ }{ @* right *@
+    @_feedback_show_list(questions)
+}

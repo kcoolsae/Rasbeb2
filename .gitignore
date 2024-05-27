@@ -1,0 +1,7 @@
+.idea/
+.bsp/
+target/
+etc/
+# Files below are specific to a certain setup. Example files are provided in the repository
+application.conf
+bebras-logo.png

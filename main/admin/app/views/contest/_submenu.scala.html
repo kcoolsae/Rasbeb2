@@ -1,0 +1,29 @@
+@* _submenu.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.Contest
+@import common.Deputy
+@import controllers.contest.routes
+@import play.twirl.api.TwirlFeatureImports.defining
+@import views.html.be.ugent.caagt.play.ext.i18n
+@(key: String, contest: Contest)(implicit deputy: Deputy)
+
+@menu_item(thisKey: String, call: Call) = {
+        <a class='nav-link @if(key==thisKey)(" active")' href="@call">@i18n("contest.menu." + thisKey)</a>
+}
+
+<h3>@contest.title()</h3>
+@defining(contest.id) { id =>
+    <nav class="nav nav-underline ps-2 pe-2 mb-3 bg-light">
+        @menu_item("overview", routes.ContestController.getContest(id))
+        @menu_item("settings", routes.ContestSettingsController.settingsForm(id))
+        @menu_item("questions", routes.ContestQuestionsController.questionSelection(id))
+        @menu_item("marks", routes.ContestMarksController.getQuestionSet(id, 0))
+        @menu_item("order", routes.ContestOrderController.getQuestionSet(id, 0))
+    </nav>
+}

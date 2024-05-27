@@ -1,0 +1,21 @@
+@* _contest_type_field.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import deputies.contest.ContestSettingsDeputy.ContestData
+@import _root_.be.ugent.rasbeb2.db.dto.ContestType
+@import views.html.b5._
+@(f: Form[ContestData])(implicit deputy: Deputy)
+
+@implicitFieldBuilder = @{ b5.fieldBuilder.plain }   @* removes labels etc from form fields *@
+
+<div class="row mb-2">
+    <label class="col-2 col-lg-1">@i18n("contest.type")</label>
+    <div class="col-4 col-lg-2">
+        @select(f("type"), classOf[ContestType], "contest")
+    </div>
+</div>

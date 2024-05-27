@@ -1,0 +1,20 @@
+@* _classes_overview_inactive.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.ClassGroup
+@import views.html.b5._
+@(classes: Iterable[ClassGroup])(implicit deputy: Deputy)
+
+@h4("school.classes.title")
+<div class="row align-items-baseline">
+@foreach.orElse(classes) { cl =>
+    <div class="col-auto border-end"><span>@cl.name</span></div>
+}{
+    <p>@i18n("common.no-data")</p>
+}
+</div>

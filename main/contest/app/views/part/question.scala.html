@@ -1,0 +1,46 @@
+@* question.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.{Participation, QuestionInSet, QuestionWithAnswer}
+@import deputies.contest.ParticipationDeputy.AnswerData
+@import deputies.contest.ParticipationDeputy
+@(f: Form[AnswerData], participation: Participation,
+        question: QuestionWithAnswer, questions: List[QuestionInSet], pos: Int, nextId: Int)(implicit deputy: ParticipationDeputy)
+
+@js = {
+    <script>
+            let seconds = @participation.timeLeftInSeconds;
+            const orange_limit = @participation.durationInSeconds / 3;
+            const red_limit = orange_limit / 2;
+    </script>
+    @include.js("clock")
+}
+
+@layout.modal("modal-terminate", "pupil.terminate.title"){
+    @i18n.html("pupil.terminate.text")
+}{
+    <a class="btn btn-danger" href="@controllers.contest.routes.ParticipationController.close()">@i18n("pupil.terminate.submit")</a>
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@i18n("pupil.terminate.cancel")</button>
+}
+
+@defining(questions.get(pos)) { q: QuestionInSet =>
+    @layout.split("part", q.title, js){ @* top right *@
+        <div class="incorrect" title='@i18n("contest.incorrect-answer-mark")'>@q.marksIfIncorrect</div>
+        <div title='@i18n("contest.no-answer-mark")'>0</div>
+        <div class="correct" title='@i18n("contest.correct-answer-mark")'>@q.marksIfCorrect</div>
+    }{ @* left *@
+        <div id="clock"><span id="clock-text">00:00</span></div>
+        <button type="button" class="btn btn-danger w-100 mt-2 mb-2" data-bs-toggle="modal" data-bs-target="#modal-terminate">@i18n("pupil.terminate.link")</button>
+        @_question_list(questions, q.id)
+    }{ @* right *@
+        @defining(deputy.getConfig.getString("rasbeb2.questions-url")) { url =>
+            <iframe id="iframeQ" src = "@url/@question.magicQ/@participation.lang/index.html" onload='postSize(this.id);'></iframe>
+        }
+        @_answer_pane(f, question, nextId)
+    }
+}
