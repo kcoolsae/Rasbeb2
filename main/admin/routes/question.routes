@@ -1,0 +1,19 @@
+GET     /n             controllers.question.QuestionController.newQuestionForm(request: Request)
+POST    /n             controllers.question.QuestionController.newQuestion(request: Request)
+GET     /l             controllers.question.QuestionController.listQuestions(request: Request)
+
+
+GET     /p/l           controllers.question.QuestionController.list(request: Request, psf: PSF)
+POST    /p/r           controllers.question.QuestionController.resize(request: Request, psf: PSF)
+POST    /p/a           controllers.question.QuestionController.action(request: Request, psf: PSF)
+
+GET     /g/:questionId       controllers.question.QuestionDetailController.getQuestion(request: Request, questionId: Int, lang: String = "")
+GET     /g/:questionId/:lang controllers.question.QuestionDetailController.getQuestion(request: Request, questionId: Int, lang: String)
+POST    /e                   controllers.question.QuestionDetailController.editQuestion(request: Request, questionId: Int)
+POST    /t/e/:lang           controllers.question.QuestionDetailController.editTranslation(request: Request, questionId: Int, lang: String)
+POST    /t/r/:lang           controllers.question.QuestionDetailController.removeTranslation(request: Request, questionId: Int, lang: String)
+POST    /t/a                 controllers.question.QuestionDetailController.addTranslation(request: Request, questionId: Int)
+
+POST    /up/:questionId/:lang controllers.question.QuestionUploadController.uploadPages(request: Request, questionId: Int, lang: String)
+GET     /u                    controllers.question.QuestionUploadController.uploadQuestionsForm(request: Request)
+POST    /u                    controllers.question.QuestionUploadController.uploadQuestions(request: Request)

@@ -1,0 +1,12 @@
+GET     /l                controllers.teacher.TeacherController.getSchool(request: Request)
+POST    /y                controllers.teacher.TeacherController.changeYear(request: Request)
+
+GET     /cls/g            controllers.teacher.ClassController.getClasses(request: Request)
+POST    /cls/n            controllers.teacher.ClassController.newClasses(request: Request)
+POST    /cls/ud/:classId  controllers.teacher.ClassController.updateDeleteClass(request: Request, classId: Int)
+
+POST    /pup/u            controllers.teacher.PupilController.uploadPupils(request: Request)
+GET     /pup/d            controllers.teacher.PupilController.downloadPupils(request: Request)
+POST    /pup/a/:classId   controllers.teacher.PupilController.addPupil(request: Request, classId: Int)
+POST    /pup/e/:pupilId   controllers.teacher.PupilController.editPupil(request: Request, pupilId: Int)
+POST    /pup/r/:pupilId   controllers.teacher.PupilController.removePupil(request: Request, pupilId: Int)

@@ -1,0 +1,23 @@
+@* home_teacher.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.{ClassGroup, Event, Year}
+@import deputies.TeacherOnlyDeputy
+@(years: List[Year], classes: Iterable[ClassGroup], events: List[Event])(implicit deputy: TeacherOnlyDeputy)
+
+@layout.teacher("hometch", years = years) {
+    @if(deputy.isActiveYear) {
+        @_classes_overview(classes)
+        <hr>
+        @_events_overview(events)
+    } else {
+        @_classes_overview_inactive(classes)
+        <hr>
+        @_events_overview_inactive(events)
+    }
+}

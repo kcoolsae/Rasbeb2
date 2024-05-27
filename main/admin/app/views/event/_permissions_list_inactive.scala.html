@@ -1,0 +1,47 @@
+@* _permissions_list_inactive.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.{ClassWithPermissions, Event, Gender}
+@import controllers.event.routes
+@import views.html.b5._
+
+@import common.Deputy
+@(event: Event, classesWithPermissions: Iterable[ClassWithPermissions])(implicit deputy: Deputy)
+
+@* This page will probably almost never be seen? *@
+
+@h4("event.registrations.heading")
+<div class="row">
+    <div class="mb-2">
+        <a class="btn btn-outline-primary" href="@routes.EventController.downloadSelectedPupils(event.id)">@i18n("spreadsheet.caption.download-registrations")</a>
+    </div>
+</div>
+
+@foreach(classesWithPermissions) { cwp =>
+    <hr>
+    <h3>@cwp.group.name</h3>
+        @if(cwp.pupils.size == 0) {
+            <p>@i18n("common.no-data")</p>
+        } else {
+            @table(cwp.pupils.size) {
+                <th>@i18n("event.registrations.name")</th>
+                <th></th>
+            }{
+                @foreach.tr(cwp.pupils) { pupil =>
+                    <td>@pupil.name</td>
+                    <td>
+                    @if(pupil.permitted) {
+                        @i18n("event.registrations.registered")
+                    } else {
+                        @i18n("event.registrations.not-registered")
+                    }
+                    </td>
+            }
+        }
+    }
+}

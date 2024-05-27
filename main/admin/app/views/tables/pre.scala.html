@@ -1,0 +1,29 @@
+@* pre.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.caagt.play.util.Table
+@import play.twirl.api.Html
+@import play.i18n.Messages
+@(table: Table)(body: => Html)(implicit messages: Messages)
+    @* TODO: these methods can probably be used more generally *@
+
+    <div class="row gx-2 paged-table-pre">
+        <div class="col-auto">
+            <label for="rowsPerPage" class="form-text">@i18n("common.rows-per-page"):</label>
+        </div>
+        <div class="col-auto">
+                <select class="form-select form-select-sm" size="1" id="rowsPerPage"
+                        onchange='submitNewPageSize("@table.resize",this.value);'
+                        style="width: 5em;">
+                @b5._options(Some(table.pager.getPageSize.toString), "5" -> "5", "10" -> "10", "20" -> "20", "50" -> "50")
+                </select>
+        </div>
+        <div class="col-auto ms-auto paged-table-pre-right">
+        @body
+        </div>
+    </div>

@@ -1,0 +1,13 @@
+@* submit_wide.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@* Wide version of a primary submit button, for use in login forms etc. *@
+@import views.html.b5.submit
+@import play.i18n.Messages
+@(key : String)(implicit messages: Messages)
+<div class="d-grid">@submit(key)</div>

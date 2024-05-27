@@ -1,0 +1,33 @@
+@* list_years.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.Year
+@import views.html.be.ugent.caagt.play.ext.Forms
+@import views.html.b5._
+@import deputies.other.YearDeputy
+@import deputies.other.YearDeputy.YearData
+@(years: Iterable[Year], f: Form[YearData])(implicit deputy: YearDeputy)
+
+@layout.organiser("yrl") {
+    @h1("year.list-title")
+    <div class="row align-items-baseline">
+        @foreach(years) { year =>
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                @update_delete_field("yearName", year.name, controllers.other.routes.YearController.updateDeleteYear(year.id))
+            </div>
+        }
+        <div class="col-6 col-sm-4 col-md-3 col-lg-2">@collapse.button("collapsibleYearForm", "year.add")</div>
+    </div>
+    <div class="row">
+    @collapse.form(controllers.other.routes.YearController.newYear(), "collapsibleYearForm", "common.submit") {
+        <div class="col-auto">@b5.text(Forms.field("yearName", ""), "_label" -> "common.name", "required" -> None)</div>
+    }
+    </div>
+
+}
+

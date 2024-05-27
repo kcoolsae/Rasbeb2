@@ -1,0 +1,18 @@
+@* permissions_event.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.{ClassWithPermissions, Event}
+
+@import common.LanguageInfo
+@(event: Event, classesWithPermissions: Iterable[ClassWithPermissions])(implicit deputy: Deputy)
+
+@layout.teacher("event-permissions") {
+    <h1>@event.title (@LanguageInfo.get(event.lang).name)</h1>
+    <p>@event.contestTitle</p>
+    @_permissions_list(event, classesWithPermissions, false)
+}

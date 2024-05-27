@@ -1,0 +1,14 @@
+@* _events_overview_inactive.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.Event
+@import views.html.b5._
+@(events: List[Event])(implicit deputy: Deputy)
+
+@h4("event.events.heading")
+@_event_table(events)

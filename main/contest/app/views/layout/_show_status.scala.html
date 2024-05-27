@@ -1,0 +1,29 @@
+@* _show_status.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import play.twirl.api.TwirlFeatureImports.defining
+@import common.Deputy
+@(implicit deputy: Deputy)
+
+@defining(deputy.getStatusType) { statusType =>
+    @if(statusType == null) {
+        @for(t <- Seq("danger", "warning", "success", "info")) {
+            @for(str <- deputy.getRequest.flash.asScala.get(t)) {
+                <div class="alert alert-@t alert-dismissible fade show" role="alert">
+                    @str
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+        }
+    } else {
+        <div class="alert alert-@statusType alert-dismissible fade show" role="alert">
+            @deputy.getStatusMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+}

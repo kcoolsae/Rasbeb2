@@ -1,0 +1,57 @@
+@* question_set_order.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.{AgeGroup, Contest, QuestionInSet}
+@import common.Deputy
+@import controllers.contest.routes
+@import views.html.b5._
+@import views.html.be.ugent.caagt.play.ext.foreach
+@import views.html.contest.{_age_group_tabs, _submenu}
+@(questionSet: List[QuestionInSet], contest: Contest, ageGroups: List[AgeGroup], ageGroupId: Int)(implicit deputy: Deputy)
+
+@layout.organiser("cntqso") {
+    @_submenu("order", contest)
+
+    @_age_group_tabs(ageGroupId, ageGroups, routes.ContestOrderController.getQuestionSet(contest.id, _))
+
+    @form(routes.ContestOrderController.updateOrderByDifficulty(contest.id, ageGroupId)) {
+        <div class="row mt-2">
+            <div class="col-auto ms-auto">@submit("contest.order",tp="outline-primary")</div>
+        </div>
+    }
+    <table class="table">
+        @b5.thead("common.title", "question.external-id",
+            "contest.marks.correct", "contest.marks.incorrect", "contest.change-order")
+        <tbody>
+        @foreach.tr.withIndex(questionSet) { (question,i) =>
+            <td>@question.title</td>
+            <td>@question.externalId</td>
+            <td>@question.marksIfCorrect</td>
+            <td>@question.marksIfIncorrect</td>
+            <td>
+                <div class="d-flex justify-content-start">
+                    @if(i != 0) {
+                        @form(routes.ContestOrderController.updateOrder(contest.id, ageGroupId, questionSet.get(i).seqNum, questionSet.get(i-1).seqNum)) {
+                            <button type="submit" class="btn btn-outline-primary me-2"><span class="fa-solid fa-arrow-up"></span></button>
+                        }
+                    } else {
+                        <button type="button" class="btn btn-outline-primary me-2 disabled"><span class="fa-solid fa-arrow-up"></span></button>
+                    }
+                    @if(i != questionSet.size-1) {
+                        @form(routes.ContestOrderController.updateOrder(contest.id, ageGroupId, questionSet.get(i).seqNum, questionSet.get(i+1).seqNum)) {
+                            <button type="submit" class="btn btn-outline-primary me-2"><span class="fa-solid fa-arrow-down"></span></button>
+                        }
+                    } else {
+                        <button type="submit" class="btn btn-outline-primary me-2 disabled"><span class="fa-solid fa-arrow-down"></span></button>
+                    }
+                </div>
+            </td>
+        }
+        </tbody>
+    </table>
+}

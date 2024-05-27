@@ -1,0 +1,4 @@
+
+GET     /lang        controllers.other.LanguageController.chooseLanguage(request: Request)
+POST    /lang        controllers.other.LanguageController.setLanguage(request: Request)
+GET     /index/:lang controllers.other.LanguageController.indexWithLanguage(request: Request, lang: String)

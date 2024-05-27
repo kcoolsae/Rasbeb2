@@ -1,0 +1,55 @@
+@* _participation_table.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.{Event, ParticipationWithPupil}
+@import deputies.event.EventDeputy
+@import deputies.event.EventDeputy.{EditEventData, EditParticipationData}
+@import views.html.b5._
+@import views.html.be.ugent.caagt.play.ext.i18n
+@import views.html.event._
+@import views.html.ext.collapse
+@(event: Event, participations: List[ParticipationWithPupil])(implicit deputy: EventDeputy)
+
+@table(participations.size) {
+    @th("event.participations.name", "event.participations.deadline")
+}{
+    @foreach(participations) { participation: ParticipationWithPupil =>
+        <tr>
+            <td>@participation.pupilName</td>
+            @if(participation.deadline == null) {
+                <td>@i18n("event.participations.not-yet-started")</td>
+            } else if (participation.closed) {
+            <td>(@_deadline_span(participation))
+                @form(controllers.event.routes.EventController.openParticipation(event.id, participation.contestId, participation.pupilId), "class" -> "d-inline") {
+                    <button class="btn btn-link" type="submit" title='@i18n("event.participations.caption-reopen")'>
+                        <span class="fa-solid fa-lock-open"></span>
+                    </button>
+                }
+            </td>
+            } else {
+            <td>@_deadline_span(participation)
+                <button class="btn btn-link" type="button"
+                data-bs-toggle="collapse" data-bs-target="#editParticipation-@participation.pupilId"
+                title="@i18n("event.extra-minutes.link")"
+                aria-expanded="false" aria-controls="editParticipation-@participation.pupilId">
+                    <span class="fa-solid fa-edit"></span>
+                </button>
+            </td>
+            }
+        </tr>
+        @* TODO: don't collapse after reopen *@
+        <tr class="collapse" id="editParticipation-@participation.pupilId">
+            <td>
+            @collapse.form(controllers.event.routes.EventController.editParticipationDeadline(event.id, participation.contestId, participation.pupilId), "editParticipation-" + participation.pupilId, "event.extra-minutes.caption") {
+                <div class="col">@number(Forms.field("minutesToAdd", ""+EventDeputy.DEFAULT_MINUTES_TO_ADD), "_label" -> "event.extra-minutes.minutes", "min" -> "1")</div>
+            }
+            </td>
+        </tr>
+    }
+}
+@* TODO add refresh button *@

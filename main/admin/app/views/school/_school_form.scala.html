@@ -1,0 +1,15 @@
+@* _school_form.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import deputies.organiser.SchoolDeputy
+@(sf: Form[SchoolDeputy.SchoolData])(implicit deputy: Deputy)
+
+<div class="col-auto">@b5.text(sf("name"), "_label" -> "common.name")</div>
+<div class="col-auto">@b5.text(sf("street"), "_label" -> "school.street")</div>
+<div class="col-2 col-xl-1">@b5.text(sf("zip"), "_label" -> "school.zip")</div>
+<div class="col-auto">@b5.text(sf("town"), "_label" -> "school.town")</div>

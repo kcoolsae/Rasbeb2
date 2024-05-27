@@ -1,0 +1,26 @@
+@* _answer_pane_mc.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import deputies.contest.ParticipationDeputy.AnswerData
+@import views.html.be.ugent.caagt.play.ext.i18n
+
+@import deputies.contest.ParticipationDeputy
+@(f: Form[AnswerData], extra: Int)(implicit deputy: ParticipationDeputy)
+
+<div class="col-auto">@i18n("pupil.answer.title")</div>
+<div class="col-auto">
+    @for(i <- 0 until extra){
+        @defining(('A'+i).toChar.toString) { a =>
+            <button name="answer" value="@a"
+                    class='btn @{if(f("answer").value.get == a) "btn-primary" else "btn-outline-primary"}'>@a</button>
+        }
+      }
+</div>
+<div class="col-auto">
+    <button name="answer" value="" class='ms-2 btn @{if(f("answer").value.get.isBlank) "btn-primary" else "btn-outline-primary"}'>@i18n("pupil.answer.none-caption")</button>
+</div>

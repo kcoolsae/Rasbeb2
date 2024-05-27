@@ -1,0 +1,12 @@
+@* form.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@(action: play.api.mvc.Call, args: (String,Any)*)(body: => Html)
+<form action="@action.path" method="@action.method" @B5.toHtmlArgs(args)>
+    @body
+</form>

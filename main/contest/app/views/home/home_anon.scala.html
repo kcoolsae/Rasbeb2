@@ -1,0 +1,34 @@
+@* home_anon.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import views.html.be.ugent.caagt.play.ext.i18n
+@import _root_.be.ugent.rasbeb2.db.dto.AgeGroup
+@import _root_.be.ugent.rasbeb2.db.dto.ContestForAnonTable
+
+@(contests: List[ContestForAnonTable], ageGroups: Iterable[AgeGroup])(implicit deputy: Deputy)
+
+@layout.anon("homeanon") {
+    @table(contests.size){
+        <th>@i18n("pupil.home-anon.title")</th>
+        @foreach(ageGroups) { ageGroup =>
+          <th>@ageGroup.name</th>
+        }
+    } {
+        @foreach.tr(contests) { contest =>
+            <td>@contest.contestTitle</td>
+            @foreach(ageGroups, "td") { ageGroup =>
+                @if(contest.ageGroupIds.contains(ageGroup.id)) {
+                    <a href=@controllers.contest.routes.AnonController.show(contest.contestId, ageGroup.id)>@i18n("pupil.enter-contest")</a>
+                    <br/>@i18n("pupil.minutes-count-short", ""+contest.contestDuration)
+                } else {
+                    @i18n("pupil.home-anon.not-available")
+                }
+            }
+        }
+    }
+}

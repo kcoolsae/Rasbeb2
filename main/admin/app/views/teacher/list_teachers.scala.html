@@ -1,0 +1,42 @@
+@* list_teachers.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import common.Deputy
+@import _root_.be.ugent.caagt.dao.Page
+@import _root_.be.ugent.rasbeb2.db.dto.TeacherWithSchool
+@import views.html.be.ugent.caagt.play.ext.i18n
+@import TeacherWithSchool.Field._
+@import util.Table
+@import views.html.b5._
+@(teachers: Page[TeacherWithSchool], table: Table)(implicit deputy: Deputy)
+@layout.organiser("tchl") {
+    @h1("school.teachers")
+    @paged(table, teachers.getFullSize) {
+    }(_.columns(NAME -> "common.name",EMAIL -> "common.email",SCHOOL_NAME -> "school.school",TOWN -> "school.town", DISABLED -> "school.account.status")){
+    @foreach.tr(teachers.getList) { teacher =>
+        <td>@teacher.name</td>
+        <td>@teacher.email</td>
+        <td>
+            <a href=@controllers.organiser.routes.SchoolController.getSchool(teacher.schoolId)>
+            @teacher.schoolName
+            </a>
+        </td>
+        <td>@teacher.schoolTown</td>
+        <td>@(if (teacher.disabled) i18n("school.account.inactive") else i18n("school.account.active"))</td>
+        <td style="width: 5.6em;">
+            <button type="submit" name="disable" value="@teacher.id" class="btn btn-sm btn-outline-danger" title='@i18n("teacher.deactivate")'>
+                <span class="fa-solid fa-user-slash"></span>
+            </button>
+            <button type="submit" name="mimic" value="@teacher.id" class="btn btn-sm btn-outline-primary" title='@i18n("teacher.mimic")'>
+                <span class="fa-solid fa-right-to-bracket"></span>
+            </button>
+        </td>
+    }
+    }( _.searchfields(NAME -> "common.filter.name",EMAIL -> "common.filter.email",SCHOOL_NAME -> "school.filter.school-name",TOWN -> "school.filter.town",
+    null.asInstanceOf[TeacherWithSchool.Field] -> null))
+}

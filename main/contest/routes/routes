@@ -1,0 +1,16 @@
+# This file defines all application routes (Higher priority routes first)
+
+# Home pages
+
+GET     /        controllers.auth.HomeController.index(request: Request)
+GET     /anon    controllers.auth.HomeController.anonymous(request: Request)
+GET     /login   controllers.auth.AuthenticationController.loginForm(request: Request)
+POST    /login   controllers.auth.AuthenticationController.login(request: Request)
+GET     /logout  controllers.auth.AuthenticationController.logout(request: Request)
+
+## ->      /a   auth.Routes    # not allowed - all controllers.auth.* must be in the same file
+->      /o   other.Routes
+->      /c   pupil.Routes
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file   controllers.Assets.versioned(path="/public", file: Asset)

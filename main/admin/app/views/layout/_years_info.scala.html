@@ -1,0 +1,12 @@
+@* _years_info.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import common.Deputy
+@()(implicit deputy: Deputy)
+
+<li class="nav-item"><span class="nav-link disabled">@deputy.getFromSession("year-name")</span></li>

@@ -1,0 +1,37 @@
+@* main.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.caagt.play.util.Table
+@import play.i18n.Messages
+@import play.twirl.api.Html
+@import views.html.be.ugent.caagt.play.ext.i18n
+@(table: Table, count: Int)(header: => Html)(rows: => Html)(footer: => Html)(implicit messages: Messages)
+<table class="table table-striped table-bordered paged-table-main mt-2">
+    <thead>
+        <tr>
+            @header
+        <th></th> @* corresponds with the search button in the footer *@
+        </tr>
+    </thead>
+    <tbody>
+    @if(count == 0) {
+        @* Note: the colspan="42" does not work when table-layout = fixed! *@
+        <tr><td colspan="42" class="paged-table-empty-row text-center">@i18n("common.no-data")</td></tr>
+    } else {
+        @rows
+    }
+    </tbody>
+    @if(count != 0 || !table.filter.isEmpty) {
+        <tfoot>
+            <tr>
+                @footer
+                <th class="text-center"><button class="btn btn-outline-primary" type="submit" value="filter"><span class="fa fa-search"></span></button></th>
+            </tr>
+        </tfoot>
+    }
+</table>

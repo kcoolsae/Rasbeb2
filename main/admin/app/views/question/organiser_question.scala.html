@@ -1,0 +1,79 @@
+@* organiser_question.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.AnswerType
+@import _root_.be.ugent.rasbeb2.db.dto.{Question, QuestionI18n}
+@import _root_.be.ugent.caagt.play.util.Tab
+
+@import controllers.question.routes
+@import deputies.question.QuestionDetailDeputy.QuestionSettingsData
+
+@import views.html.be.ugent.caagt.play.ext.i18n
+@import views.html.b5._
+@import views.html.ext.horizontal_form
+@import views.html.ext.include
+@(tablist: List[Tab], f: Form[QuestionSettingsData], question: Question)(implicit deputy: Deputy)
+
+@* see also participation.css in contest app *@
+@css = {
+    <style>
+            iframe, .nocontent {
+                width: 780px;
+                border: none;
+                display: block;
+                margin: 5px auto;
+            }
+
+            .nocontent {
+                height: 60px;
+                vertical-align: middle;
+                text-align: center;
+            }
+    </style>
+    @include.js("iframeresize") @* ensures early loading of the script *@
+}
+
+@js = {
+    <script>
+        // ensure that the iframe is resized when the tab is shown
+        for (const button of document.querySelectorAll('button[data-bs-toggle="tab"]')) {
+            button.addEventListener('shown.bs.tab', function (event) {
+                postSize("iframeQ" + button.id);
+                postSize("iframeF" + button.id);
+            })
+        }
+    </script>
+}
+
+@layout.organiser("quev", css = css, js = js) {
+    <h3>@i18n("question.question"): @question.header.title</h3>
+
+    @horizontal_form(routes.QuestionDetailController.editQuestion(question.id)) {
+        <div class="col-auto">@text(f("externalId"), "_label" -> "question.external-id")</div>
+        <div class="col-2">@select(f("type"), classOf[AnswerType], "question", "_label" -> "question.type")</div>
+        <div class="col-auto">@text(f("typeExtra"), "_label" -> "question.type-extra")</div>
+    }
+
+    <hr>
+
+    @tabs.withExtra(tablist) {
+        <li class="nav-item ms-auto">
+        @form(routes.QuestionDetailController.addTranslation(question.id)) {
+            <div class="row g-1">
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-outline-primary" title='@i18n("question.translation-add")'><span class="fa fa-plus"></span></button>
+                </div>
+                <div class="col-auto">
+                    <input type="text" name="language" class="form-control" placeholder="Ex: en" required size="1">
+                </div>
+            </div>
+        }
+        </li>
+    }
+
+}

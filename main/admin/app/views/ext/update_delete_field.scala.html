@@ -1,0 +1,22 @@
+@* update_delete_field.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@(name: String, value: String, call: Call)
+<form action="@call.url" method="@call.method">
+    <span>@value</span>
+    <input type="text" name="@name" value="@value" required hidden>
+    @* update must come before delete! *@
+    <span class="float-end" hidden>
+        <button type="submit" name="action" value="update" class="btn btn-small btn-link p-0"><span class="fa fa-sm fa-check"></span></button>
+        <button type="button" class="btn btn-small btn-link p-0" onclick="updateDeleteFieldSwitch(this);"><span class="fa fa-sm fa-times"></span></button>
+    </span>
+    <span class="float-end">
+        <button type="button" class="text-right btn btn-small btn-link p-0" onclick="updateDeleteFieldSwitch(this);"><span class="fa fa-sm fa-edit"></span></button>
+        <button type="submit" name="action" value="delete" class="btn btn-small btn-link p-0"><span class="fa fa-sm fa-trash"></span></button>
+    </span>
+</form>

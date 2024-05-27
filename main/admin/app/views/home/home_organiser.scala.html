@@ -1,0 +1,51 @@
+@* home_organiser.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@()(implicit deputy: Deputy)
+
+@layout.organiser("homeorg") {
+
+    <div class="row gy-4">
+        @_card {
+            <h5 class="card-title">@i18n("menu.schools")</h5>
+            @i18n.html("description.schools")
+            <a href="@controllers.organiser.routes.SchoolController.listSchools()"
+               class="card-link">@i18n("menu.schools")</a>
+        }
+        @_card {
+            <h5 class="card-title">@i18n("menu.teachers")</h5>
+            @i18n.html("description.teachers")
+            <a href="@controllers.organiser.routes.TeacherController.listTeachers()"
+            class="card-link">@i18n("menu.teachers")</a>
+        }
+        @_card {
+            <h5 class="card-title">@i18n("menu.contests")</h5>
+            @i18n.html("description.contests")
+            <a href="@controllers.contest.routes.ContestController.listContests()"
+            class="card-link">@i18n("menu.contests")</a>
+        }
+        @_card {
+            <h5 class="card-title">@i18n("menu.questions")</h5>
+            @i18n.html("description.questions")
+            <a href="@controllers.question.routes.QuestionController.listQuestions()"
+            class="card-link">@i18n("menu.questions")</a>
+        }
+        @_card {
+            <h5 class="card-title">@i18n("menu.registrations")</h5>
+            @i18n.html("description.registrations")
+            <a href="@controllers.auth.routes.RegistrationController.listRegistrations()"
+            class="card-link">@i18n("menu.registrations")</a>
+        }
+        @_card {
+            <h5 class="card-title">@i18n("menu.years")</h5>
+            @i18n.html("description.years")
+            <a href="@controllers.other.routes.YearController.listYears()"
+            class="card-link">@i18n("menu.years")</a>
+        }
+    </div>
+}

@@ -1,0 +1,92 @@
+@charset "UTF-8";
+
+/* Google fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,500;1,300;1,500&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    color: black;
+    height: 100%;
+}
+
+strong {
+    font-weight: 500;
+}
+
+h1, h2, h3 {
+    color: #cc4444;
+    margin: 10px 0;
+    font-weight: 500;
+}
+
+h2, h3, h4 {
+    border-top: 1px solid grey;
+    padding-top: 8px;
+}
+
+a {
+    color: #cc4444;
+}
+
+a[href^="http://"]:before {
+    content: "\f08e";
+    font: normal normal normal 14px/1 FontAwesome;
+    padding-right: 0.1rem;
+}
+
+a[href^="https://"]:before {
+    content: "\f08e";
+    font: normal normal normal 14px/1 FontAwesome;
+    padding-right: 0.1rem;
+}
+
+@media screen and (min-width: 1025px) {
+
+    div.container {
+        margin: 10px auto;
+        width: 1024px;
+        background-color: white;
+        border: 1px solid grey;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        padding: 10px 30px 40px 30px;
+        min-height: 90vh;
+        position: relative;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+
+    div.container {
+
+        margin: 0 0;
+        min-height: 100vh;
+        padding: 10px 30px 40px 30px;
+        position: relative;
+        background-color: white;
+
+    }
+}
+
+div.container p {
+    font-size: 1rem;
+}
+
+#footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    color: grey;
+    height: 20px;
+    margin: 5px 30px;
+    padding: 5px 20px;
+    border-top: 1px solid grey;
+    border-radius: 0;
+}
+
+.new, .new a {
+    color: saddlebrown;
+}
+

@@ -1,0 +1,29 @@
+@* chooseLanguage.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import common.Deputy
+@import views.html.b5._
+@import common.LanguageInfo
+@(options: Iterable[LanguageInfo])(implicit deputy: Deputy)
+
+@layout.raw("lang") {
+    <main>
+        <div class="px-4 py-5 my-5 text-center">
+            @p("change-language.text")
+            @form(controllers.other.routes.LanguageController.setLanguage()) {
+                <input type="hidden" name="redirectTo" value="@deputy.getRequest.header("Referer").orElse("")">
+                <div>
+                @foreach(options) { option =>
+                    <button class='btn @if(option.code.equals(deputy.getMessages.lang.code))("btn-primary")else("btn-outline-primary")'
+                    type="submit" name="language" value="@option.code">@option.name</button>
+                }
+                </div>
+            }
+        </div>
+    </main>
+}

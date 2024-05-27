@@ -1,0 +1,37 @@
+@* classes_inactive.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.ClassWithPupils
+@import common.Deputy
+@import views.html.b5._
+@import views.html.be.ugent.caagt.play.ext.i18n
+@(classesWithPupils: Iterable[ClassWithPupils])(implicit deputy: Deputy)
+
+@layout.teacher("pup") {
+    @h4("school.classes-list-title")
+    <div class="row g-0">
+        <div class="col-auto me-3">
+            <a class="btn btn-outline-primary" href="@controllers.teacher.routes.PupilController.downloadPupils()">@i18n("spreadsheet.caption.download-pupils")</a>
+        </div>
+    </div>
+    @foreach.tr(classesWithPupils) { classWithPupils =>
+        <hr>
+        <div class="row align-items-center">
+            <h4 class="mt-4 col-auto">@classWithPupils.group.name</h4>
+        </div>
+        @table(classWithPupils.pupils.size) {
+            @th("common.name", "common.gender", "common.password")
+        } {
+            @foreach.tr(classWithPupils.pupils) { pupil =>
+                <td>@pupil.name</td>
+                <td>@i18n("enum.gender." + pupil.gender.name)</td>
+                <td>@pupil.password</td>
+            }
+        }
+    }
+}

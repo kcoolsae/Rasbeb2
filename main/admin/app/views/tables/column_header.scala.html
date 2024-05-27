@@ -1,0 +1,13 @@
+@* column_header.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.caagt.play.util.Table
+@import play.twirl.api.Html
+@(table: Table, field:String)(caption: => Html)
+<th class='@table.sorter.getColumnClass(field)'><a href='@table.sort(field)'>@caption</a></th>
+

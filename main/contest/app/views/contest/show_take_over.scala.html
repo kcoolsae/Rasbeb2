@@ -1,0 +1,21 @@
+@* show_take_over.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.ContestForPupilTable
+@import common.Deputy
+@import views.html.be.ugent.caagt.play.ext.i18n
+@(c: ContestForPupilTable)(implicit deputy: Deputy)
+
+@* TODO make this a popup *@
+@layout.pupil("takeover") {
+    <h1>@c.event.contestTitle</h1>
+    <h2>@c.event.title</h2>
+    <p>@i18n.html("pupil.take-over.text")</p>
+    <a class="btn btn-outline-primary"
+        href="@controllers.contest.routes.PupilController.firstParticipation(c.contestId)">@i18n("pupil.take-over.caption")</a>
+}

@@ -1,0 +1,20 @@
+@* notuploaded.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.poi.DataOrError
+@import _root_.be.ugent.rasbeb2.db.dto.PupilInClass
+@import views.html.be.ugent.caagt.play.ext.i18n
+@import views.html.b5._
+@(dataList: List[DataOrError[PupilInClass]])(implicit deputy: Deputy)
+
+    @layout.teacher("noupl") {
+        <h1>@i18n("spreadsheet.pupils.title")</h1>
+        @views.html.poi._data_errors(dataList)
+        <a class="btn btn-outline-primary" href="@controllers.teacher.routes.ClassController.getClasses()">@i18n("spreadsheet.pupils.back")</a>
+    }
+

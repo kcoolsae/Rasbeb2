@@ -1,0 +1,21 @@
+@* teacher_school.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.{School, User, Year}
+@import views.html.b5._
+@(school: School, year: Year, teachers: List[User])(implicit deputy: Deputy)
+
+@layout.teacher("scht") {
+    @h4("school.name")
+    <p>@school.name</p>
+    @h4("school.address")
+    <p>@school.street, @school.zip @school.town</p>
+    <p class="text-muted small">@i18n("school.address-warning")</p>
+    <hr>
+    @_school_all_teachers(teachers)
+}

@@ -1,0 +1,24 @@
+# Contest for pupils
+
+GET     /show/:eventId                             controllers.contest.PupilController.show(request: Request, eventId: Int)
+GET     /feedback/:eventId                         controllers.contest.PupilController.showFeedback(request: Request, eventId: Int)
+GET     /takeover/:eventId                         controllers.contest.PupilController.takeOver(request: Request, eventId: Int)
+GET     /start/:eventId/:contestId/:ageGroupId     controllers.contest.PupilController.start(request: Request, eventId: Int, contestId: Int, ageGroupId: Int)
+GET     /first/:contestId                          controllers.contest.PupilController.firstParticipation(request: Request, contestId: Int)
+
+# Contest for anonymous users
+
+GET     /anonshow/:contestId/:ageGroupId   controllers.contest.AnonController.show(request: Request, contestId: Int, ageGroupId: Int)
+GET     /anonstart/:contestId/:ageGroupId  controllers.contest.AnonController.start(request: Request, contestId: Int, ageGroupId: Int)
+
+# Participations
+
+GET     /q/q/:questionId         controllers.contest.ParticipationController.question(request: Request, questionId: Int)
+POST    /q/q/:questionId/:nextId controllers.contest.ParticipationController.answer(request: Request, questionId: Int, nextId: Int)
+GET     /q/finish                controllers.contest.ParticipationController.close(request: Request)
+
+# Feedback
+
+GET     /f/show                controllers.contest.FeedbackController.show(request: Request)
+GET     /f/q/:questionId       controllers.contest.FeedbackController.question(request: Request, questionId: Int)
+GET     /f/finish              controllers.contest.FeedbackController.close(request: Request)

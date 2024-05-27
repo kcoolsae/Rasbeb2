@@ -1,0 +1,26 @@
+@* js.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@(args: String*)
+@* Short hand for a js script file link *@
+
+@* NOTE Cannot be put in a shared library because of problems with routes.Assets cannot be shared *@
+@normalizedName(n: String) = @{
+    var name = n
+    if(!(name contains ".")) {
+        name += ".js"
+    }
+    if(name startsWith "/") {
+        name substring 1
+    } else {
+        "js/" + name
+    }
+}
+@for(name <- args) {
+    <script src='@routes.Assets.versioned(normalizedName(name))' type="text/javascript"></script>
+}

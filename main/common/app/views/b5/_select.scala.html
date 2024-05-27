@@ -1,0 +1,18 @@
+@* _select.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@(field: play.api.data.Field, options: Seq[(String, String)], args: (String, Any)*)(implicit handler: B5.FieldBuilder, messages: play.api.i18n.MessagesProvider)
+@* Multiple select not yet supported *@
+@b5.input(field, "form-select", args: _*) { t =>
+    <select id="@t.id" name="@t.name" class="@t.classArg" @B5.toHtmlArgs(t.args)>
+        @args.toMap.get("_default").map { defaultValue =>
+            <option value="">@messages.messages(defaultValue.toString)</option>
+        }
+        @b5._options(t.value, options.map(s => (s._1, messages.messages(s._2))): _*)
+    </select>
+}

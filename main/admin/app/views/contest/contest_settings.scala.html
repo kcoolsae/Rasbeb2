@@ -1,0 +1,41 @@
+@* contest_settings.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.{AgeGroupWithDuration, Contest}
+@import deputies.contest.ContestSettingsDeputy
+@import deputies.contest.ContestSettingsDeputy.{ContestData, DurationData}
+@import views.html.b5._
+@import views.html.be.ugent.caagt.play.ext.i18n
+@import views.html.contest._
+@(cf: Form[ContestData], df: Form[DurationData],
+        contest: Contest, languages: Iterable[String], ageGroups: Iterable[AgeGroupWithDuration])(implicit deputy: ContestSettingsDeputy)
+@layout.organiser("cnts") {
+    @_submenu("settings", contest)
+    @h4("contest.titles.short")
+    <div class="card p-3">
+    @form(controllers.contest.routes.ContestSettingsController.titleSettings(contest.id)) {
+        @_contest_title_fields(cf, languages)
+        @p("contest.title-blank-to-delete")
+        <div class="row g-2 align-items-center">
+            @submit("common.change",cl="col-2")
+            <label class="col-auto ms-auto" for="languages">@i18n("contest.add-language")</label>
+            <div class="col-auto">
+                <input type="text" id="languages" name="languages" class="form-control" placeholder="Ex: en" size="1">
+            </div>
+        </div>
+    }
+    </div>
+    @h4("contest.titles.age-groups")
+    <div class="card p-3">
+    @form(controllers.contest.routes.ContestSettingsController.ageGroupSettings(contest.id)) {
+        @_contest_ag_fields(df, ageGroups)
+        @p("contest.duration-blank-to-delete")
+        @submit("common.change",cl="col-2")
+    }
+    </div>
+}

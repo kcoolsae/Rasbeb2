@@ -1,0 +1,50 @@
+@* _event_pills.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.{ContestStatus, Event}
+@import _root_.be.ugent.rasbeb2.db.dto.EventExtendedStatus._
+@import controllers.event.routes
+@import deputies.event.EventDeputy
+
+@(event: Event)(implicit eventDeputy: EventDeputy)
+<ul class="nav nav-pills">
+    @event.getExtendedStatus match {
+       case PENDING_FREE => {
+           <li class="nav-item">
+           @b5.form(routes.EventController.openEvent(event.id)) {
+               <button class="btn btn-primary">@i18n("event.caption.open")</button>
+           }
+           </li>
+       }
+       case OPEN => {
+           <li class="nav-item">
+           @b5.form(routes.EventController.closeEvent(event.id)) {
+               <button class="btn btn-primary">@i18n("event.caption.close")</button>
+           }
+           </li>
+           <li class="nav-item">
+           <a class="btn btn-primary ms-1" href="@routes.EventController.viewPermissions(event.id)">@i18n("event.registrations.link")</a>
+           </li>
+       }
+       case CLOSED_FREE | CLOSED_BLOCKED => {
+           @if(event.contestStatus == ContestStatus.OPEN){
+               <li class="nav-item">
+               @b5.form(routes.EventController.openEvent(event.id)) {
+                   <button class="btn btn-outline-secondary">@i18n("event.caption.reopen")</button>
+               }
+               </li>
+           }
+           <li class="nav-item">
+               <a class="btn btn-primary ms-1" href="@routes.EventController.downloadScores(event.id)">@i18n("spreadsheet.caption.download-scores")</a>
+           </li>
+       }
+       case _ => {
+           @* no actions can be taken at this point *@
+       }
+    }
+</ul>

@@ -1,0 +1,40 @@
+@* list_schools.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.caagt.dao.Page
+@import _root_.be.ugent.rasbeb2.db.dto.School
+@import School.Field._
+@import views.html.be.ugent.caagt.play.ext.{foreach, i18n}
+@import deputies.organiser.SchoolDeputy
+@import util.Table
+@import views.html.b5._
+@(schools: Page[School], f: Form[SchoolDeputy.SchoolData], collapsed: String, table: Table)(implicit deputy: Deputy)
+
+@layout.organiser("schl") {
+        @h1("school.list-title")
+        @collapse.form(controllers.organiser.routes.SchoolController.newSchool(), "collapsibleSchoolForm", "common.caption.add", collapsed = collapsed != "new")(_school_form(f))
+        @paged(table, schools.getFullSize) {
+            @collapse.button("collapsibleSchoolForm", "school.add")
+        }(_.columns(NAME -> "common.name",STREET -> "school.street",ZIP -> "school.zip", TOWN -> "school.town")){
+        @foreach.tr(schools.getList) { school =>
+            <td>@school.nameWithTown</td>
+            <td>@school.street</td>
+            <td>@school.zip</td>
+            <td>@school.town</td>
+            <td style="width:6em;">
+                <a class="btn btn-sm btn-outline-primary" href="@controllers.organiser.routes.SchoolController.getSchool(school.id)">...</a>
+                <button type="submit" name="delete" value="@school.id" class="btn btn-sm btn-danger"><span class="fa-solid fa-trash"></span></button>
+            </td>
+        }
+        }( _.searchfields(NAME -> "common.filter.name",STREET -> "school.filter.street",ZIP -> "school.filter.zip", TOWN -> "school.filter.town"))
+}
+
+
+
+
+

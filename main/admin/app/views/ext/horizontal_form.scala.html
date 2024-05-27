@@ -1,0 +1,22 @@
+@* horizontal_form.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import common.Deputy
+@import views.html.be.ugent.caagt.play.ext.i18n
+@(call: play.api.mvc.Call, buttonCaption: String = "common.save", multipart: Boolean = false)(content: => Html)(implicit deputy: Deputy)
+
+@defining(if(multipart) Seq("enctype" -> "multipart/form-data") else Seq()) { args =>
+    @b5.form(action = call, args: _*) {
+        <div class="row">
+            @content
+            <div class="col-auto ms-auto align-self-start pt-3">
+                <button type="submit" class="btn btn-primary mt-3">@i18n(buttonCaption)</button>
+            </div>
+        </div>
+    }
+}

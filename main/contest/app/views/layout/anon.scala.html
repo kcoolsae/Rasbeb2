@@ -1,0 +1,28 @@
+@* anon.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@(pageId: String, css: Html = Html(""), js: Html = Html(""))(content: => Html)(implicit deputy: Deputy)
+
+@layout.raw(pageId, css, js) {
+    <div class="container-lg">
+        <nav class="navbar bg-primary-subtle border-bottom mb-4 mt-3">
+            <a class="navbar-brand" href="#">
+                <img src='@routes.Assets.versioned("img/bebras-logo.png")' height="84px"
+                style="margin-bottom: -36px; margin-top: -24px;" class="align-text-center" alt="Bebras logo">
+                <span>Bebraswedstrijd</span>
+            </a>
+            <ul class="nav nav-pills">
+                @_menu_item(pageId, "home_anon", "pupil.home-anon.menu", controllers.auth.routes.HomeController.anonymous(), cssClass="")
+                @_menu_item(pageId, "login", "auth.login.menu", controllers.auth.routes.AuthenticationController.login(), cssClass="")
+            </ul>
+        </nav>
+        <main>
+        @content
+        </main>
+    </div>
+}

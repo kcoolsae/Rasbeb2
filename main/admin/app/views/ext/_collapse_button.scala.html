@@ -1,0 +1,14 @@
+@* _collapse_button.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import common.Deputy
+@import views.html.be.ugent.caagt.play.ext.i18n
+@(formId: String, buttonCaption: String)(implicit deputy: Deputy)
+
+<button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#@formId"
+        aria-expanded="false" aria-controls="@formId">@i18n(buttonCaption)</button>

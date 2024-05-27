@@ -1,0 +1,30 @@
+@* feedback_question.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.{ParticipationWithMarks, QuestionWithFeedback}
+@(participation: ParticipationWithMarks, questions: List[QuestionWithFeedback], pos: Int)(implicit deputy: Deputy)
+
+@* TODO does not need the full list of questions as an argunent? *@
+
+@defining(questions.get(pos)) { q: QuestionWithFeedback =>
+    @layout.split("fbq", q.title) { @* top right *@
+        <div class="total">@q.marks</div>
+    } { @* left *@
+        <div id="total-marks-text" class="marks">
+            <div class="total w-100">@participation.marks/@participation.maxMarks</div>
+        </div>
+        <a class="btn btn-secondary w-100 mt-2 mb-2" href="@controllers.contest.routes.FeedbackController.show()">@i18n("pupil.overview.link")</a>
+        @_feedback_question_list(questions, q.id)
+    } { @* right *@
+        @defining(deputy.getConfig().getString("rasbeb2.questions-url")) { url =>
+            <iframe id="iframeQ" src = "@url/@q.magicQ/@participation.lang/index.html" onload='postSize(this.id);'></iframe>
+            @_feedback_answer_pane(q.answer)
+            <iframe id="iframeF" src = "@url/@q.magicF/@participation.lang/index.html" onload='postSize(this.id);'></iframe>
+        }
+    }
+}

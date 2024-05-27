@@ -1,0 +1,27 @@
+GET     /login   controllers.auth.AuthenticationController.loginForm(request: Request)
+POST    /login   controllers.auth.AuthenticationController.login(request: Request)
+
+GET     /logout  controllers.auth.AuthenticationController.logout(request: Request)
+
+GET     /prof/p  controllers.auth.AuthenticationController.changePasswordForm(request: Request)
+POST    /prof/p  controllers.auth.AuthenticationController.changePassword(request: Request)
+
+GET     /pw/forgot  controllers.auth.PasswordController.forgotPasswordForm(request: Request)
+POST    /pw/forgot  controllers.auth.PasswordController.forgotPassword(request: Request)
+GET     /pw/reset   controllers.auth.PasswordController.resetPasswordForm(request: Request, token: String)
+POST    /pw/reset   controllers.auth.PasswordController.resetPassword(request: Request, token: String)
+
+GET     /reg/f/i   controllers.auth.RegistrationController.showFirstOrganiser(request: Request)
+POST    /reg/f/i   controllers.auth.RegistrationController.addFirstOrganiser(request: Request)
+GET     /reg/f/n   controllers.auth.RegistrationController.firstOrganiserInfo(request: Request, token: String)
+POST    /reg/f/n   controllers.auth.RegistrationController.registerFirstOrganiser(request: Request, token: String)
+
+POST    /reg/t/o   controllers.auth.RegistrationController.organiserRegisterTeacher(request: Request, schoolId: Int)
+POST    /reg/t/t   controllers.auth.RegistrationController.registerTeacher(request: Request)
+GET     /reg/t/n   controllers.auth.RegistrationController.teacherInfo(request: Request, token: String, schoolId: Int)
+POST    /reg/t/n   controllers.auth.RegistrationController.registerTeacherInfo(request: Request, token: String, schoolId: Int)
+
+GET     /reg/l     controllers.auth.RegistrationController.listRegistrations(request: Request)
+GET     /reg/p/l   controllers.auth.RegistrationController.list(request: Request, psf: PSF)
+POST    /reg/p/r   controllers.auth.RegistrationController.resize(request: Request, psf: PSF)
+POST    /reg/p/a   controllers.auth.RegistrationController.action(request: Request, psf: PSF)

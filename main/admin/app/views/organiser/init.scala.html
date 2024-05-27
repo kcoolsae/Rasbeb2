@@ -1,0 +1,19 @@
+@* init.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import deputies.auth.EmailSendingDeputy.EmailData
+@import deputies.auth.RegistrationDeputy
+@import views.html.b5._
+@()(implicit deputy: RegistrationDeputy)
+
+@layout.plain("init") {
+        @p("organiser.init.text")
+        @form(controllers.auth.routes.RegistrationController.addFirstOrganiser()) {
+            @text(Forms.field("email", null), "_label" -> "organiser.init.email", "placeholder" -> "organiser@example.com", "required" -> None)
+        }
+}

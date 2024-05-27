@@ -1,0 +1,16 @@
+@* file_0.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+
+@(name: String, args: (String,Any)*)(implicit fieldBuilder: B5.FieldBuilder, messages: play.api.i18n.MessagesProvider)
+
+@b5.input(name, "form-control", args :_*){ t =>
+    <input type="file" id="@t.id" name="@t.name" class="@t.classArg" @B5.toHtmlArgs(t.args)>
+}
+
+

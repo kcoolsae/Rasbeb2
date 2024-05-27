@@ -1,0 +1,19 @@
+@* upload_questions.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import views.html.b5._
+@import deputies.question.QuestionUploadDeputy
+@(f: Form[QuestionUploadDeputy.LanguageData])(implicit deputy: QuestionUploadDeputy)
+@layout.organiser("queupl") {
+    @h3("question.upload.questions")
+    @form(controllers.question.routes.QuestionUploadController.uploadQuestions(), "enctype" -> "multipart/form-data") {
+        @text(f("langs"), "placeholder" -> "Ex: en, nl, fr", "size" -> 4, "_label" -> "question.upload.languages")
+        @file_0("questionsFile", "_label" -> "question.spreadsheet-file")
+        @submit("common.caption.upload")
+    }
+}

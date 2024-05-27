@@ -1,0 +1,24 @@
+@* split.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@(pageId: String, title: String, js: Html = Html(""))(top_right: => Html)(left: => Html)(right: => Html)(implicit deputy: Deputy)
+@layout.participation(pageId, js) {
+    <div class="d-flex justify-content-center mt-2">
+        <div class="flex-fill flex-grow-0 me-2">@left</div>
+        <div class="flex-grow-1 ms-2">
+            <div class="row align-items-start">
+                <div class="col-auto"><h1>@title</h1></div>
+                <div class="col-auto ms-auto marks">@top_right</div>
+            </div>
+            @right
+        </div>
+    </div>
+    <footer class="small">
+        <a href="@controllers.auth.routes.AuthenticationController.logout()">@i18n("auth.logout.end-session")</a>
+    </footer>
+}

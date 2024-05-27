@@ -1,0 +1,46 @@
+@* contest_questions_select.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.caagt.dao.Page
+@import _root_.be.ugent.rasbeb2.db.dto.{AgeGroup, QuestionWithAgeGroups, Contest}
+@import _root_.be.ugent.rasbeb2.db.dto.QuestionWithAgeGroups.Field._
+@import util.Table
+@(contest: Contest, questions: Page[QuestionWithAgeGroups], ageGroups: List[AgeGroup], table: Table)(implicit deputy: Deputy)
+
+@layout.organiser("cntque") {
+
+    @_submenu("questions", contest)
+
+    @paged(table, questions.getFullSize) {
+        <button class="btn btn-outline-primary" type="submit" name="action" value="register">@i18n("common.change")</button>
+    } { t =>
+        @t.columns(EXTERNAL_ID -> "question.id", TITLE -> "common.title")
+        @foreach(ageGroups) { ageGroup =>
+            <th class ="text-center">@ageGroup.id</th>
+        }
+    } {
+        @foreach.tr(questions.getList) { question =>
+            <td>@question.externalId</td>
+            <td>@question.title <input type="hidden" name="ids[]" value="@question.id"></td> @* hack: needed tot detect unchecked checkboxes *@
+        @foreach(ageGroups) { ageGroup =>
+            <td>
+                <input type="checkbox"
+                name='@(s"checked[${question.id}][${ageGroup.id}]")'
+                class="form-check-input"
+                    @if(question.ageGroups.contains(ageGroup.id))(" checked")>
+            </td>
+        }
+            <td></td>
+        }
+    } { t =>
+        @t.searchfields(EXTERNAL_ID -> "question.filter.id", TITLE -> "common.filter.title")
+        @foreach(ageGroups) { ageGroup =>
+            <th></th>
+        }
+    }
+}

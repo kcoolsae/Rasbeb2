@@ -1,0 +1,40 @@
+/*!
+ * tables.scss
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ */
+
+th.sortable {
+  a {
+    color: inherit;
+  }
+  a:after {
+    content: "\f0dc";
+    font-family: "Font Awesome 6 Free";
+    font-size: 14px;
+    float: right;
+  }
+}
+
+th.sorted {
+  a {
+    color: inherit;
+  }
+
+  a:after {
+    font-family: "Font Awesome 6 Free" ;
+    font-size: 14px;
+    float: right;
+  }
+
+  &.asc a:after {
+    content: "\f0de"
+  }
+
+  &.desc a:after {
+    content: "\f0dd"
+  }
+}

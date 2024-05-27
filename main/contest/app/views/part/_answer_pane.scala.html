@@ -1,0 +1,28 @@
+@* _answer_pane.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.{AnswerType, QuestionWithAnswer}
+@import deputies.contest.ParticipationDeputy.AnswerData
+@import deputies.contest.ParticipationDeputy
+@(f: Form[AnswerData], q: QuestionWithAnswer, nextId: Int)(implicit deputy: ParticipationDeputy)
+
+@b5.form(action = controllers.contest.routes.ParticipationController.answer(q.id, nextId)) {
+<div id="answer_pane" class="row g-1 bg-primary-subtle p-2 justify-content-center align-items-center">
+        @q.answerType match {
+            case AnswerType.INT => {
+                @_answer_pane_int(f)
+            }
+            case AnswerType.MC => {
+                @_answer_pane_mc(f, q.typeExtra.toInt)
+            }
+            case _ => {
+                @_answer_pane_text(f) @* all others currently treated as text *@
+            }
+        }
+</div>
+}

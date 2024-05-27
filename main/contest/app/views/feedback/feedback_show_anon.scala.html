@@ -1,0 +1,27 @@
+@* feedback_show_anon.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.{ParticipationWithMarks, QuestionWithFeedback}
+@(participation: ParticipationWithMarks, questions: Iterable[QuestionWithFeedback])(implicit deputy: Deputy)
+
+@layout.modal("modal-terminate", "pupil.terminate-feedback.title") {
+    @i18n.html("pupil.terminate-feedback.text")
+} {
+    <a class="btn btn-danger" href="@controllers.contest.routes.FeedbackController.close()">@i18n("pupil.terminate-feedback.submit")</a>
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@i18n("pupil.terminate-feedback.cancel")</button>
+}
+
+@layout.split("fbanon",i18n("pupil.overview.title")) {@* top right *@
+} { @* left *@
+    <div id="total-marks-text" class="marks">
+        <div class="total w-100">@participation.marks/@participation.maxMarks</div>
+    </div>
+    <button class="btn btn-danger mt-2 mb-2" type="button" data-bs-toggle="modal" data-bs-target="#modal-terminate">@i18n("pupil.terminate-feedback.link")</button>
+}{ @* right *@
+    @_feedback_show_list(questions)
+}
