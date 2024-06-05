@@ -59,7 +59,7 @@ public class JDBCRegistrationDao extends JDBCAbstractDao implements Registration
                 .key("user_email", email.toLowerCase().strip())
                 .value("school_id", schoolId)
                 .value("registration_token", token)
-                .value("registration_expires", Instant.now().plus(24, ChronoUnit.HOURS))
+                .value("registration_expires", Instant.now().plus(72, ChronoUnit.HOURS))
                 .execute();
         return token;
     }

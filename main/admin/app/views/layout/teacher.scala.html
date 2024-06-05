@@ -10,6 +10,16 @@
 @import common.Deputy
 @(pageId: String, years: List[Year] = List.of(), css: Html = Html(""), js: Html = Html(""))(content: => Html)(implicit deputy: Deputy)
 
+@_help_link(implicit deputy: Deputy) = {
+    @defining(deputy.getConfig.getString("rasbeb2.documentation-url")) { url =>
+        @defining(deputy.getLanguage) { lang =>
+            <li class="nav-item my-2"><a href="@url/@lang/index.html"
+                target="_new"
+                title="@i18n("menu.documentation")"><span class="fa fa-xl fa-circle-question"></span></a></li>
+        }
+    }
+}
+
 @layout.raw(pageId, css, js) {
     <div class="container-lg">
         <nav class="navbar border-bottom mb-4 mt-3">
@@ -29,6 +39,7 @@
                     @_years_menu(years)
                 }
                 @_profile_menu()
+                @_help_link(deputy)
             </ul>
         </nav>
         <div>@_show_status()</div>

@@ -182,10 +182,10 @@ public class RegistrationDeputy extends EmailSendingDeputy {
                 registrationDao.deleteRegistration(data.email);
                 // add link to school
                 userDao.createTeacher(userId, schoolId);
-                success("auth.teacher.success");
+                success("auth.registration.success");
                 return redirect(controllers.home.routes.HomeController.index());
             } else {
-                error("auth.teacher.failed");
+                error("auth.registration.failed");
                 return badRequest(registrationInfo.render(
                         routes.RegistrationController.registerTeacherInfo(token, schoolId),
                         form, token, this
