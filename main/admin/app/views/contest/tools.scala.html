@@ -6,15 +6,24 @@
  * in the top level project directory.
  *@
 @import _root_.be.ugent.rasbeb2.db.dto.Contest
+@import _root_.be.ugent.rasbeb2.db.dto.ContestType
 @import deputies.contest.ContestDeputy
 @import views.html.contest._
 @import views.html.b5._
+@import views.html.be.ugent.caagt.play.ext.i18n
 @(contest: Contest)(implicit deputy: ContestDeputy)
 
 @layout.organiser("cntts") {
     @_submenu("tools", contest)
 
-    @h4("contest.tools.copy")
-    <p><b>TODO</b></p>
+    @if(contest.contestType == ContestType.OFFICIAL) {
+        @h4("contest.copy-contest.title")
+        <p>@i18n.html("contest.copy-contest.description")</p>
+        <p>
+        @form(controllers.contest.routes.ContestController.copyContest(contest.id)) {
+            @submit("contest.copy-contest.caption", tp = "outline-danger")
+        }
+        </p>
+    }
 
 }

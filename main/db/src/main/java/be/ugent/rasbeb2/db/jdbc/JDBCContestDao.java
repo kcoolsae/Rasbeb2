@@ -410,4 +410,12 @@ public class JDBCContestDao extends JDBCAbstractDao implements ContestDao {
                 .execute();
     }
 
+    @Override
+    public int copyContest(int contestId) {
+        return select("copy_contest(?,?)")
+                .parameter(contestId)
+                .parameter(getUserId())
+                .noFrom()
+                .getInt();
+    }
 }

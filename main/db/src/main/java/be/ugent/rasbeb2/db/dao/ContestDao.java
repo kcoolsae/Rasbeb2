@@ -102,4 +102,10 @@ public interface ContestDao {
      */
     void updateOrder(int contestId, int ageGroupId, int seqNum1, int seqNum2);
 
+    /**
+     * Make a copy of the given contest.
+     * @return the id of the new contest
+     */
+    int copyContest(int contestId);
+
 }

@@ -66,6 +66,15 @@ public class ContestDeputy extends OrganiserOnlyDeputy {
         }
     }
 
+    /**
+     * Make a copy of a contest
+     */
+    public Result copyContest(int contestId) {
+        int newId = dac().getContestDao().copyContest(contestId);
+        success("contest.copy-contest.message");
+        return redirect(routes.ContestSettingsController.settingsForm(newId));
+    }
+
     public Result listContests() {
         return list(getInitialPSF(Contest.Field.STATUS));
     }

@@ -163,6 +163,6 @@ BEGIN
 
     UPDATE contests
     SET contest_status = 'CLOSED'::contest_status, who_updated = who_upd
-    WHERE contest_id = c_id AND contest_type = 'PUBLIC'::contest_status;
+    WHERE contest_id = c_id AND contest_type = 'PUBLIC'::contest_type;
 END; $$ LANGUAGE plpgsql;
 

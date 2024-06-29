@@ -2,6 +2,7 @@ GET     /l             controllers.contest.ContestController.listContests(reques
 GET     /g/:contestId  controllers.contest.ContestController.getContest(request: Request, contestId: Int)
 POST    /cs/:contestId controllers.contest.ContestController.updateContestStatus(request: Request, contestId: Int)
 GET     /t/:contestId  controllers.contest.ContestController.tools(request: Request, contestId: Int)
+POST    /cp/:contestId controllers.contest.ContestController.copyContest(request: Request, contestId: Int)
 GET     /p/l           controllers.contest.ContestController.list(request: Request, psf: PSF)
 POST    /p/r           controllers.contest.ContestController.resize(request: Request, psf: PSF)
 POST    /p/a           controllers.contest.ContestController.action(request: Request, psf: PSF)

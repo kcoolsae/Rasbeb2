@@ -32,6 +32,10 @@ public class ContestController extends OrganiserOnlyController<ContestDeputy> {
         return createDeputy(request).tools(contestId);
     }
 
+    public Result copyContest(Http.Request request, int contestId) {
+        return createDeputy(request).copyContest(contestId);
+    }
+
     public Result listContests (Http.Request request) {
         return createDeputy(request).listContests();
     }
