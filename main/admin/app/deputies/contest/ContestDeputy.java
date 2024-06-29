@@ -23,6 +23,7 @@ import play.mvc.Result;
 import util.Table;
 import views.html.contest.list_contests;
 import views.html.contest.organiser_contest;
+import views.html.contest.tools;
 
 public class ContestDeputy extends OrganiserOnlyDeputy {
 
@@ -49,6 +50,20 @@ public class ContestDeputy extends OrganiserOnlyDeputy {
         );
         success("contest.status-changed");
         return redirect(routes.ContestController.getContest(contestId));
+    }
+
+    /**
+     * Shows additional tools that can be used on a contest. Currently organiser only
+     */
+    public Result tools(int contestId) {
+        if (isOrganiser()) {
+            return ok(tools.render(
+                    dac().getContestDao().getContest(contestId, getLanguage()),
+                    this
+            ));
+        } else {
+            return badRequest();
+        }
     }
 
     public Result listContests() {
@@ -89,5 +104,6 @@ public class ContestDeputy extends OrganiserOnlyDeputy {
                 psf.refilter(getStringMapFromForm(Contest.Field.class))
         ));
     }
+
 
 }

@@ -1,0 +1,20 @@
+@* tools.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+@import _root_.be.ugent.rasbeb2.db.dto.Contest
+@import deputies.contest.ContestDeputy
+@import views.html.contest._
+@import views.html.b5._
+@(contest: Contest)(implicit deputy: ContestDeputy)
+
+@layout.organiser("cntts") {
+    @_submenu("tools", contest)
+
+    @h4("contest.tools.copy")
+    <p><b>TODO</b></p>
+
+}

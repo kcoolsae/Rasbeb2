@@ -25,5 +25,8 @@
         @menu_item("questions", routes.ContestQuestionsController.questionSelection(id))
         @menu_item("marks", routes.ContestMarksController.getQuestionSet(id, 0))
         @menu_item("order", routes.ContestOrderController.getQuestionSet(id, 0))
+        @if(deputy.isOrganiser) {
+            @menu_item("tools", routes.ContestController.tools(id))
+        }
     </nav>
 }

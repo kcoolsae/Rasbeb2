@@ -211,4 +211,7 @@ public class Deputy extends be.ugent.caagt.play.deputies.Deputy {
         return request.cookie(getMessagesApi().langCookieName()).isPresent();
     }
 
+    public boolean isOrganiser() {
+        return getFromSession(Session.ROLE).equals("ORGANISER");
+    }
 }
