@@ -10,21 +10,25 @@
 const elem = document.getElementById('clock');
 
 function updateClock() {
+    let text;
     if (seconds <= 0) {
         elem.setAttribute('class', 'black');
+        text='00:00';
     } else {
         elem.setAttribute('class', seconds <= red_limit ? 'red' : seconds <= orange_limit ? 'orange' : 'green');
+        // format time as mm:ss
+        const s = seconds % 60;
+        const m = (seconds - s) / 60;
+        text = (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
     }
-    const s = seconds % 60;
-    const m = (seconds - s) / 60;
-    document.getElementById('clock-text').innerText
-        = (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
+    document.getElementById('clock-text').innerText = text;
 }
 
 updateClock()
-//const countdown =
-setInterval(function () {
+const countdown = setInterval(function () {
     seconds--;
     updateClock()
-    if (seconds <= 0) clearInterval(countdown)
+    if (seconds <= 0) {
+        clearInterval(countdown);
+    }
 }, 1000);
