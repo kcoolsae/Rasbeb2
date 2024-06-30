@@ -92,7 +92,7 @@ public class PupilDeputy extends TeacherOnlyDeputy {
                 }
             }
             // no errors
-            dac().getClassesDao().addPupils(pupils, yearId);
+            dac().getClassesDao().addPupils(pupils);
             success("spreadsheet.pupils.success");
         } catch (Exception exception) {
             error("spreadsheet.pupils.error");

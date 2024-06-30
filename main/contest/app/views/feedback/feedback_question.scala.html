@@ -6,25 +6,22 @@
  * in the top level project directory.
  *@
 
-@import _root_.be.ugent.rasbeb2.db.dto.{ParticipationWithMarks, QuestionWithFeedback}
-@(participation: ParticipationWithMarks, questions: List[QuestionWithFeedback], pos: Int)(implicit deputy: Deputy)
+@import _root_.be.ugent.rasbeb2.db.dto.{ParticipationWithMarks, QuestionWithFeedback, QuestionHeader}
+@import views.html.be.ugent.caagt.play.ext.i18n
+@(participation: ParticipationWithMarks, question: QuestionWithFeedback, headers: List[QuestionHeader])(implicit deputy: Deputy)
 
-@* TODO does not need the full list of questions as an argunent? *@
-
-@defining(questions.get(pos)) { q: QuestionWithFeedback =>
-    @layout.split("fbq", q.title) { @* top right *@
-        <div class="total">@q.marks</div>
-    } { @* left *@
-        <div id="total-marks-text" class="marks">
-            <div class="total w-100">@participation.marks/@participation.maxMarks</div>
-        </div>
-        <a class="btn btn-secondary w-100 mt-2 mb-2" href="@controllers.contest.routes.FeedbackController.show()">@i18n("pupil.overview.link")</a>
-        @_feedback_question_list(questions, q.id)
-    } { @* right *@
-        @defining(deputy.getConfig().getString("rasbeb2.questions-url")) { url =>
-            <iframe id="iframeQ" src = "@url/@q.magicQ/@participation.lang/index.html" onload='postSize(this.id);'></iframe>
-            @_feedback_answer_pane(q.answer)
-            <iframe id="iframeF" src = "@url/@q.magicF/@participation.lang/index.html" onload='postSize(this.id);'></iframe>
-        }
+@layout.split("fbq", question.title) { @* top right *@
+    <div class="total">@question.marks</div>
+} { @* left *@
+    <div id="total-marks-text" class="marks">
+        <div class="total w-100">@participation.marks/@participation.maxMarks</div>
+    </div>
+    <a class="btn btn-secondary w-100 mt-2 mb-2" href="@controllers.contest.routes.FeedbackController.show()">@i18n("pupil.overview.link")</a>
+    @_feedback_question_list(headers, question.id)
+} { @* right *@
+    @defining(deputy.getConfig().getString("rasbeb2.questions-url")) { url =>
+        <iframe id="iframeQ" src = "@url/@question.magicQ/@participation.lang/index.html" onload='postSize(this.id);'></iframe>
+        @_feedback_answer_pane(question.answer)
+        <iframe id="iframeF" src = "@url/@question.magicF/@participation.lang/index.html" onload='postSize(this.id);'></iframe>
     }
 }

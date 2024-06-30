@@ -9,6 +9,7 @@
 
 package be.ugent.rasbeb2.db.jdbc;
 
+import be.ugent.caagt.dao.helper.SelectSQLStatement;
 import be.ugent.rasbeb2.db.dao.ParticipationDao;
 import be.ugent.rasbeb2.db.dto.*;
 
@@ -74,6 +75,15 @@ public class JDBCParticipationDao extends JDBCAbstractDao implements Participati
                 .getOneObject(JDBCParticipationDao::makeParticipation);
     }
 
+    public String getAnswer(int contestId, int pupilId, int questionId) {
+        return select("participation_answer")
+                .from("participation_details")
+                .where("contest_id", contestId)
+                .where("pupil_id", pupilId)
+                .where("question_id", questionId)
+                .getString();
+    }
+
     @Override
     public void updateAnswer(int contestId, int pupilId, int questionId, String answer) {
         insertOrUpdateInto("participation_details")
@@ -121,7 +131,7 @@ public class JDBCParticipationDao extends JDBCAbstractDao implements Participati
                 .getOneObject(JDBCParticipationDao::makeParticipationMarks);
     }
 
-    private static QuestionWithFeedback makeQuestionWithMarks(ResultSet rs) throws SQLException {
+    private static QuestionWithFeedback makeQuestionWithFeedback(ResultSet rs) throws SQLException {
         return new QuestionWithFeedback(
                 rs.getInt("question_id"),
                 rs.getString("question_title"),
@@ -133,16 +143,31 @@ public class JDBCParticipationDao extends JDBCAbstractDao implements Participati
         );
     }
 
-    @Override
-    public List<QuestionWithFeedback> getQuestionMarks(int contestId, int pupilId, int ageGroupId, String lang) {
+    private SelectSQLStatement selectQuestionWithFeedback(int contestId, int pupilId, int ageGroupId, String lang) {
         return select("q.question_id, question_title, question_magic_q, question_magic_f, participation_answer, participation_marks, question_marks_if_correct")
-                .from("questions_in_set q JOIN questions USING(question_id) " +
-                        "JOIN questions_i18n USING(question_id) " +
-                        String.format("LEFT JOIN participation_details p ON(p.contest_id = q.contest_id AND p.question_id = q.question_id AND pupil_id = %d)", pupilId))
+                .from("""
+                      questions_in_set q JOIN questions USING(question_id)
+                          JOIN questions_i18n USING(question_id)
+                          LEFT JOIN participation_details p
+                            ON(p.contest_id = q.contest_id AND p.question_id = q.question_id AND pupil_id = ?)
+                      """)
+                .parameter(pupilId)
                 .where("q.contest_id", contestId)
                 .where("age_group_id", ageGroupId)
-                .where("lang", lang)
+                .where("lang", lang);
+    }
+
+    @Override
+    public List<QuestionWithFeedback> listQuestionsWithFeedback(int contestId, int pupilId, int ageGroupId, String lang) {
+        return selectQuestionWithFeedback(contestId, pupilId, ageGroupId, lang)
                 .orderBy("question_seq_nr")
-                .getList(JDBCParticipationDao::makeQuestionWithMarks);
+                .getList(JDBCParticipationDao::makeQuestionWithFeedback);
+    }
+
+    @Override
+    public QuestionWithFeedback getQuestionWithFeedback(int contestId, int questionId, int pupilId, int ageGroupId, String lang) {
+        return selectQuestionWithFeedback(contestId, pupilId, ageGroupId, lang)
+                .where("q.question_id", questionId)
+                .getOneObject(JDBCParticipationDao::makeQuestionWithFeedback);
     }
 }

@@ -6,10 +6,10 @@
  * in the top level project directory.
  *@
 
-@import _root_.be.ugent.rasbeb2.db.dto.{AnswerType, QuestionWithAnswer}
+@import _root_.be.ugent.rasbeb2.db.dto.{AnswerType, QuestionInContest}
 @import deputies.contest.ParticipationDeputy.AnswerData
 @import deputies.contest.ParticipationDeputy
-@(f: Form[AnswerData], q: QuestionWithAnswer, nextId: Int)(implicit deputy: ParticipationDeputy)
+@(f: Form[AnswerData], q: QuestionInContest, nextId: Int)(implicit deputy: ParticipationDeputy)
 
 @b5.form(action = controllers.contest.routes.ParticipationController.answer(q.id, nextId)) {
 <div id="answer_pane" class="row g-1 bg-primary-subtle p-2 justify-content-center align-items-center">

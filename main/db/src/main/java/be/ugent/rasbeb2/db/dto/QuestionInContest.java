@@ -1,5 +1,5 @@
 /*
- * QuestionWithAnswer.java
+ * QuestionInContest.java
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
  *
@@ -9,5 +9,8 @@
 
 package be.ugent.rasbeb2.db.dto;
 
-public record QuestionWithAnswer(int id, AnswerType answerType, String typeExtra, String answer, String magicQ) {
+/**
+ * Question information needed when displaying a question in a contest
+ */
+public record QuestionInContest(int id, String title, AnswerType answerType, String magicQ, String typeExtra, int marksIfCorrect, int marksIfIncorrect){
 }

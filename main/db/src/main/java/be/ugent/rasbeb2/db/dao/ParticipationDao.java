@@ -29,6 +29,8 @@ public interface ParticipationDao {
 
     Participation get(int contestId, int pupilId);
 
+    String getAnswer (int contestId, int pupilId, int questionId);
+
     void updateAnswer(int contestId, int pupilId, int questionId, String answer);
 
     void close(int contestId, int pupilId);
@@ -37,6 +39,8 @@ public interface ParticipationDao {
 
     ParticipationWithMarks getMarks(int contestId, int pupilId);
 
-    List<QuestionWithFeedback> getQuestionMarks(int contestId, int pupilId, int ageGroupId, String lang);
+    List<QuestionWithFeedback> listQuestionsWithFeedback(int contestId, int pupilId, int ageGroupId, String lang);
+
+    QuestionWithFeedback getQuestionWithFeedback(int contestId, int questionId, int pupilId, int ageGroupId, String lang);
 
 }

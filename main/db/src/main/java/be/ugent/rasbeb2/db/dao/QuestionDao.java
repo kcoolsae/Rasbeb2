@@ -22,12 +22,13 @@ public interface QuestionDao {
     interface QuestionWithAgeGroupsFinder extends Finder<QuestionWithAgeGroups, QuestionWithAgeGroups.Field, QuestionDao.QuestionWithAgeGroupsFinder> {}
     QuestionDao.QuestionWithAgeGroupsFinder findQuestionsWithAgeGroups (int contestId, String lang);
 
-
     int createQuestion(AnswerType type, String typeExtra, String externalId);
 
     Question getQuestion(int questionId, String lang);
 
-    List<Question> getQuestionsForContest(int contestId, int ageGroupId, String lang);
+    QuestionInContest getQuestionInContest(int contestId, int questionId, int ageGroupId, String lang);
+
+    List<QuestionHeader> getQuestionsForContest(int contestId, int ageGroupId, String lang);
 
     void editTranslation(int questionId, String lang, String newTitle, String newSolution);
 

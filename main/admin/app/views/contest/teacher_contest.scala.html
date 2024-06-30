@@ -6,46 +6,43 @@
  * in the top level project directory.
  *@
 
-@import _root_.be.ugent.rasbeb2.db.dto.{ContestWithAgeGroup, Question}
+@import _root_.be.ugent.rasbeb2.db.dto.{ContestWithAgeGroup, QuestionHeader, Question}
 @import views.html.be.ugent.caagt.play.ext.i18n
-@(contest: ContestWithAgeGroup, lang: String, questions: List[Question], pos: Int, showFeedback: Boolean)(implicit deputy: Deputy)
+@(contest: ContestWithAgeGroup, lang: String, question: Question, headers: List[QuestionHeader], showFeedback: Boolean)(implicit deputy: Deputy)
 
-@* TODO does not need the full list of questions as an argument? *@
-
-@defining(questions.get(pos)) { q: Question =>
-    @layout.teacher("conq", css = include.js("iframeresize")) { @* css is a hack to ensure early loading of the script *@
-        <div class="d-flex mt-2">
-            <div class="flex-grow-0 me-2">
-                <h3>@contest.contestTitle</h3>
-                <p>@contest.ageGroupName - @contest.ageGroupDescription</p>
-                <div class="mb-2">
-                    <a class="btn btn-outline-secondary" href="@controllers.contest.routes.TeacherContestController.listContests(contest.ageGroupId)">@i18n("common.caption.back")</a>
-               </div>
-                <div class="list-group">
-                    @foreach(questions) { question: Question =>
-                        <a class="list-group-item list-group-item-action @(if(question.id == q.id) "active" else "")" href="@controllers.contest.routes.TeacherContestController.getContestQuestion(contest.contestId, contest.ageGroupId, question.id)">@question.header.title</a>
-                    }
-                </div>
-            </div>
-            <div class="flex-fill ms-2">
-                <div class="row align-items-start">
-                    <div class="col-auto">
-                        <h3>@q.header.title</h3>
-                    </div>
-                </div>
-                @defining(deputy.getConfig().getString("rasbeb2.questions-url")) { url =>
-                    <div class="row">
-                      <iframe id="iframeQ" src="@url/@q.magicQ/@lang/index.html" onload='postSize(this.id);'></iframe> @* filled in by JS-script *@
-                    </div>
-                    @if(showFeedback){
-                        <hr>
-                        <div class="row">
-                          <iframe id="iframeF" src="@url/@q.magicF/@lang/index.html" onload='postSize(this.id);'></iframe>
-                        </div>
-                    }
+@layout.teacher("conq", css = include.js("iframeresize")) { @* css is a hack to ensure early loading of the script *@
+    <div class="d-flex mt-2">
+        <div class="flex-grow-0 me-2">
+            <h3>@contest.contestTitle</h3>
+            <p>@contest.ageGroupName - @contest.ageGroupDescription</p>
+            <div class="mb-2">
+                <a class="btn btn-outline-secondary" href="@controllers.contest.routes.TeacherContestController.listContests(contest.ageGroupId)">@i18n("common.caption.back")</a>
+           </div>
+            <div class="list-group">
+                @foreach(headers) { header: QuestionHeader =>
+                    <a class="list-group-item list-group-item-action @(if(header.id == question.id) "active" else "")" href="@controllers.contest.routes.TeacherContestController.getContestQuestion(contest.contestId, contest.ageGroupId, header.id)">@header.title</a>
                 }
             </div>
         </div>
-    }
+        <div class="flex-fill ms-2">
+            <div class="row align-items-start">
+                <div class="col-auto">
+                    <h3>@question.header.title</h3>
+                </div>
+            </div>
+            @defining(deputy.getConfig().getString("rasbeb2.questions-url")) { url =>
+                <div class="row">
+                  <iframe id="iframeQ" src="@url/@question.magicQ/@lang/index.html" onload='postSize(this.id);'></iframe> @* filled in by JS-script *@
+                </div>
+                @if(showFeedback){
+                    <hr>
+                    <div class="row">
+                      <iframe id="iframeF" src="@url/@question.magicF/@lang/index.html" onload='postSize(this.id);'></iframe>
+                    </div>
+                }
+            }
+        </div>
+    </div>
 }
+
 

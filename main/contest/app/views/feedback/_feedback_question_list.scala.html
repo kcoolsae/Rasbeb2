@@ -6,11 +6,11 @@
  * in the top level project directory.
  *@
 
-@import _root_.be.ugent.rasbeb2.db.dto.QuestionWithFeedback
-@(questions: List[QuestionWithFeedback], activeQuestionId: Int)(implicit deputy: Deputy)
+@import _root_.be.ugent.rasbeb2.db.dto.QuestionHeader
+@(questions: List[QuestionHeader], activeQuestionId: Int)(implicit deputy: Deputy)
 
 <div class="list-group">
-    @foreach(questions) { question: QuestionWithFeedback =>
+    @foreach(questions) { question: QuestionHeader =>
         <a class="list-group-item list-group-item-action @(if(question.id == activeQuestionId) "active" else "")" href=@controllers.contest.routes.FeedbackController.question(question.id)>@question.title</a>
     }
 </div>

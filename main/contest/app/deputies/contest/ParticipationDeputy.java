@@ -9,11 +9,11 @@
 
 package deputies.contest;
 
-import be.ugent.rasbeb2.db.dao.ContestDao;
+import be.ugent.rasbeb2.db.dao.ParticipationDao;
+import be.ugent.rasbeb2.db.dao.QuestionDao;
 import be.ugent.rasbeb2.db.dto.Participation;
-import be.ugent.rasbeb2.db.dto.QuestionInSet;
-import be.ugent.rasbeb2.db.dto.QuestionWithAnswer;
-import com.google.common.collect.Iterables;
+import be.ugent.rasbeb2.db.dto.QuestionHeader;
+import be.ugent.rasbeb2.db.dto.QuestionInContest;
 import common.Session;
 import controllers.contest.routes;
 import lombok.Getter;
@@ -21,7 +21,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import play.data.Form;
 import play.mvc.Result;
-import views.html.part.question;
 
 import java.time.Instant;
 import java.util.List;
@@ -52,41 +51,47 @@ public class ParticipationDeputy extends deputies.ContestDeputy {
 
         int pupilId = getPupilId();
         int contestId = getContestId();
-        Participation part = dac().getParticipationDao().get(contestId, pupilId);
+        ParticipationDao participationDao = dac().getParticipationDao();
+        Participation part = participationDao.get(contestId, pupilId);
         if (deadlineHasPassed(part)) {
             warning("pupil.question.past-deadline");
             return redirect(routes.ParticipationController.close());
         } // TODO check whether event is already closed
 
-        ContestDao dao = dac().getContestDao();
-        List<QuestionInSet> questions = dao.getQuestionSet(contestId, part.ageGroupId(), part.lang());
+        QuestionDao questionDao = dac().getQuestionDao();
+        List<QuestionHeader> headers = questionDao.getQuestionsForContest(
+                contestId, part.ageGroupId(), part.lang()
+        );
 
         // position of question in set and of the next question
         int pos = 0;
-        if (questionId != 0) {
-            pos = Iterables.indexOf(questions, q -> q.id() == questionId);
-            if (pos == -1) {
-                // if not found (should not happen) revert to question 0
+        if (questionId == 0) {
+            questionId = headers.getFirst().id();
+        } else {
+            while (pos < headers.size() && headers.get(pos).id() != questionId) {
+                pos++;
+            }
+            if (pos == headers.size()) { // if not found (should not happen) revert to question 0
                 pos = 0;
             }
         }
         int nextPos = pos + 1;
-        if (nextPos == questions.size()) {
+        if (nextPos == headers.size()) {
             nextPos = 0;
         }
 
-        QuestionWithAnswer questionWithAnswer = dao.getQuestionWithAnswer(
-                questions.get(pos).id(), // cannot use questionId directly when position is 0
-                pupilId
+        QuestionInContest question = questionDao.getQuestionInContest(
+                contestId, questionId, part.ageGroupId(), part.lang()
         );
 
-        return ok(question.render(
-                formFromData(new AnswerData(questionWithAnswer.answer())),
+        return ok(views.html.part.question.render(
+                formFromData(new AnswerData(
+                        participationDao.getAnswer(contestId, pupilId, questionId)
+                )),
                 part,
-                questionWithAnswer,
-                questions,
-                pos,
-                questions.get(nextPos).id(), // id of next question after this one
+                question,
+                headers,
+                headers.get(nextPos).id(), // id of next question after this one
                 this
         ));
     }

@@ -11,8 +11,8 @@ package deputies.contest;
 
 import be.ugent.rasbeb2.db.dao.ParticipationDao;
 import be.ugent.rasbeb2.db.dto.ParticipationWithMarks;
+import be.ugent.rasbeb2.db.dto.QuestionHeader;
 import be.ugent.rasbeb2.db.dto.QuestionWithFeedback;
-import com.google.common.collect.Iterables;
 import common.Session;
 import deputies.ContestDeputy;
 import play.mvc.Result;
@@ -39,7 +39,7 @@ public class FeedbackDeputy extends ContestDeputy {
         if (inFeedback()) {
             ParticipationDao dao = dac().getParticipationDao();
             ParticipationWithMarks par = dao.getMarks(getContestId(), getPupilId());
-            List<QuestionWithFeedback> questions = dao.getQuestionMarks(par.contestId(), par.pupilId(), par.ageGroupId(), par.lang());
+            List<QuestionWithFeedback> questions = dao.listQuestionsWithFeedback(par.contestId(), par.pupilId(), par.ageGroupId(), par.lang());
             if (pupilLoggedIn()) {
                 return ok(feedback_show_pupil.render(par, questions, this));
             } else {
@@ -57,10 +57,16 @@ public class FeedbackDeputy extends ContestDeputy {
         if (inFeedback()) {
             ParticipationDao dao = dac().getParticipationDao();
             ParticipationWithMarks par = dao.getMarks(getContestId(), getPupilId());
-            List<QuestionWithFeedback> questions = dao.getQuestionMarks(par.contestId(), par.pupilId(), par.ageGroupId(), par.lang());
-            // position of question in set
-            int pos = Iterables.indexOf(questions, q -> q.id() == questionId);
-            return ok(feedback_question.render(par, questions, pos, this));
+            List<QuestionHeader> headers = dac().getQuestionDao().getQuestionsForContest(
+                    par.contestId(), par.ageGroupId(), par.lang()
+            );
+            if (questionId == 0) {
+                questionId = headers.getFirst().id();
+            }
+            QuestionWithFeedback question = dao.getQuestionWithFeedback(
+                    par.contestId(), questionId, par.pupilId(), par.ageGroupId(), par.lang()
+            );
+            return ok(feedback_question.render(par, question, headers, this));
         } else {
             return redirectToIndex();
         }

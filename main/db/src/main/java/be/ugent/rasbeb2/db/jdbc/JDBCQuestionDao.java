@@ -103,14 +103,38 @@ public class JDBCQuestionDao extends JDBCAbstractDao implements QuestionDao {
     }
 
     @Override
-    public List<Question> getQuestionsForContest(int contestId, int ageGroupId, String lang) {
-        return select("question_id, question_title, question_external_id, question_magic_q, question_type, question_type_xtra, question_magic_f")
+    public List<QuestionHeader> getQuestionsForContest(int contestId, int ageGroupId, String lang) {
+        return select("question_id, question_title, question_external_id, question_type")
                 .from("questions_in_set JOIN questions USING(question_id) JOIN questions_i18n USING(question_id)")
                 .where("contest_id", contestId)
                 .where("age_group_id", ageGroupId)
                 .where("lang", lang)
                 .orderBy("question_seq_nr")
-                .getList(JDBCQuestionDao::makeQuestion);
+                .getList(JDBCQuestionDao::makeQuestionHeader);
+    }
+
+
+    private static QuestionInContest makeQuestionInContest(ResultSet rs) throws SQLException {
+        return new QuestionInContest(
+                rs.getInt("question_id"),
+                rs.getString("question_title"),
+                AnswerType.valueOf(rs.getString("question_type")),
+                rs.getString("question_magic_q"),
+                rs.getString("question_type_xtra"),
+                rs.getInt("question_marks_if_correct"),
+                rs.getInt("question_marks_if_incorrect")
+        );
+    }
+
+    @Override
+    public QuestionInContest getQuestionInContest(int contestId, int questionId, int ageGroupId, String lang) {
+        return select("question_id, question_title, question_type, question_type_xtra, question_magic_q, question_marks_if_correct, question_marks_if_incorrect")
+                .from("questions_in_set JOIN questions USING(question_id) JOIN questions_i18n USING(question_id)")
+                .where("contest_id", contestId)
+                .where("question_id", questionId)
+                .where("age_group_id", ageGroupId)
+                .where("lang", lang)
+                .getOneObject(JDBCQuestionDao::makeQuestionInContest);
     }
 
     @Override

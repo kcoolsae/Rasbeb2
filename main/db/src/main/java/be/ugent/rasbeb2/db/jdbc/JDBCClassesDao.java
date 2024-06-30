@@ -276,7 +276,7 @@ public class JDBCClassesDao extends JDBCAbstractDao implements ClassesDao {
     }
 
     @Override
-    public void addPupils(List<DataOrError<PupilInClass>> pupils, int yearId) {
+    public void addPupils(List<DataOrError<PupilInClass>> pupils) {
         for (DataOrError<PupilInClass> pupil : pupils) {
             int pupilId = insertInto("pupils")
                     .value("pupil_name", pupil.getData().name())

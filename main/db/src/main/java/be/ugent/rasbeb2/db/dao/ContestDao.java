@@ -84,11 +84,7 @@ public interface ContestDao {
      */
     List<ContestForAnonTable> getOpenPublicContests(String lang);
 
-    QuestionWithAnswer getQuestionWithAnswer(int questionId, int pupilId);
-
     List<QuestionInSet> getQuestionSet(int contestId, int ageGroupId, String lang);
-
-    int getFirstQuestionIdInSet(int contestId, int ageGroupId);
 
     void updateMarks(int contestId, int ageGroupId, List<Integer> ids, List<Integer> marksIfCorrect, List<Integer> marksIfIncorrect);
 

@@ -17,7 +17,4 @@ public record ContestWithAgeGroup(int contestId, String contestTitle, int contes
         return contestCompare == 0 ? this.ageGroupId - contest.ageGroupId() : contestCompare;
     }
 
-    public String getUniqueId() {
-        return this.contestId + "-" + this.ageGroupId;
-    }
 }

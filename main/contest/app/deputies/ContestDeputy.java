@@ -9,12 +9,9 @@
 
 package deputies;
 
-import be.ugent.rasbeb2.db.dto.QuestionInSet;
 import common.Session;
 import play.mvc.Http;
 import play.mvc.Result;
-
-import java.util.List;
 
 public class ContestDeputy extends common.DataAccessDeputy {
 
@@ -41,24 +38,6 @@ public class ContestDeputy extends common.DataAccessDeputy {
 
     protected int getPupilId() {
         return Integer.parseInt(findInSession(Session.ID));
-    }
-
-    /**
-     * Return position of the question with the given id in the set of questions
-     */
-    protected int indexOfId(List<QuestionInSet> questions, int questionId) {
-        int pos = 0;
-        int questionSetSize = questions.size();
-        if (questionId != 0) {
-            while (pos < questionSetSize && questions.get(pos).id() != questionId) {
-                pos++;
-            }
-            if (pos == questionSetSize) {
-                // if not found (should not happen) revert to question 0
-                pos = 0;
-            }
-        }
-        return pos;
     }
 
 }

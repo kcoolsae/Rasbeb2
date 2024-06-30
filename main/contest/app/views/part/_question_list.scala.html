@@ -6,12 +6,12 @@
  * in the top level project directory.
  *@
 
-@import _root_.be.ugent.rasbeb2.db.dto.QuestionInSet
+@import _root_.be.ugent.rasbeb2.db.dto.QuestionHeader
 
-@(questions: List[QuestionInSet], activeQuestionId: Int) @*not needed: (implicit deputy: Deputy)*@
+@(questions: List[QuestionHeader], activeQuestionId: Int) @*not needed: (implicit deputy: Deputy)*@
 
 <div class="list-group">
-    @foreach(questions) { question: QuestionInSet =>
+    @foreach(questions) { question: QuestionHeader =>
         <a class='list-group-item list-group-item-action @(if(question.id == activeQuestionId) "active" else "")'
            href=@controllers.contest.routes.ParticipationController.question(question.id)>@question.title</a>
     }

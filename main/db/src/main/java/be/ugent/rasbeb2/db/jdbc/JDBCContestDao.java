@@ -86,7 +86,7 @@ public class JDBCContestDao extends JDBCAbstractDao implements ContestDao {
                           ON contests.contest_id = contests_i18n.contest_id AND lang = ?
                         """)
                 .parameter(lang)
-                .where ("age_group_id", ageGroupId);
+                .where("age_group_id", ageGroupId);
     }
 
     @Override
@@ -333,37 +333,6 @@ public class JDBCContestDao extends JDBCAbstractDao implements ContestDao {
                 .orderBy("question_seq_nr")
                 .getList(JDBCContestDao::makeQuestionInSet);
     }
-
-    @Override
-    public int getFirstQuestionIdInSet(int contestId, int ageGroupId) {
-        return select("question_id")
-                .from("questions_in_set")
-                .where("contest_id", contestId)
-                .where("age_group_id", ageGroupId)
-                .orderBy("question_seq_nr")
-                .onlyPage(0, 1)
-                .getInt();
-    }
-
-
-    private static QuestionWithAnswer makeQuestionWithAnswer(ResultSet rs) throws SQLException {
-        return new QuestionWithAnswer(
-                rs.getInt("question_id"),
-                AnswerType.valueOf(rs.getString("question_type")),
-                rs.getString("question_type_xtra"),
-                rs.getString("participation_answer"),
-                rs.getString("question_magic_q")
-        );
-    }
-
-    @Override
-    public QuestionWithAnswer getQuestionWithAnswer(int questionId, int pupilId) {
-        return select("q.question_id, question_type, question_type_xtra, question_magic_q, participation_answer")
-                .from(String.format("questions q LEFT JOIN participation_details p ON (q.question_id = p.question_id AND p.pupil_id = %d)", pupilId))
-                .where("q.question_id", questionId)
-                .getOneObject(JDBCContestDao::makeQuestionWithAnswer);
-    }
-
 
     @Override
     public void updateMarks(int contestId, int ageGroupId, List<Integer> ids, List<Integer> marksIfCorrect, List<Integer> marksIfIncorrect) {

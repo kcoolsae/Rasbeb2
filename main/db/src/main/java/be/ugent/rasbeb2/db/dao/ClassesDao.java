@@ -73,7 +73,7 @@ public interface ClassesDao {
 
     boolean pupilExistsInClass(String pupilName, int classId);
 
-    void addPupils(List<DataOrError<PupilInClass>> pupils, int yearId);
+    void addPupils(List<DataOrError<PupilInClass>> pupils);
 
     List<PupilInClass> getPupilsByClass(int yearId);
 
