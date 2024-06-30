@@ -46,9 +46,6 @@ public class TeacherContestDeputy extends TeacherOnlyDeputy {
     public Result getContestQuestion(int contestId, int ageGroupId, int questionId) {
         String lang = getLanguage();
         Contest c = dac().getContestDao().getContest(contestId, lang);
-        if (c.contestType() == ContestType.PUBLIC && c.status() != ContestStatus.CLOSED) {
-            return badRequest();
-        }
         ContestWithAgeGroup contest = dac().getContestDao().getContestWithAgeGroup(contestId, ageGroupId, lang);
         List<Question> questions = dac().getQuestionDao().getQuestionsForContest(contestId, ageGroupId, lang);
         // find position of question in set
@@ -57,7 +54,8 @@ public class TeacherContestDeputy extends TeacherOnlyDeputy {
         while (questionId != 0 && questions.get(pos).id() != questionId) {
             pos++;
         }
-        return ok(teacher_contest.render(contest, lang, questions, pos, this));
+        boolean showFeedback = c.contestType() != ContestType.OFFICIAL || c.status() == ContestStatus.CLOSED;
+        return ok(teacher_contest.render(contest, lang, questions, pos, showFeedback, this));
     }
 
 }
