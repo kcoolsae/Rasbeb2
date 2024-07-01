@@ -18,15 +18,15 @@
 @implicitFieldBuilder=@{fieldBuilder.plain}   @* removes labels etc from form fields *@
 
 @layout.organiser("cntnew") {
-    @h3("contest.new")
+    @h3("contest.contests.new")
     @form(action = controllers.contest.routes.ContestSettingsController.newContest()) {
         <div class="card p-3">
-            <p class="mb-2">@i18n("contest.titles.translations"):</p>
             @_contest_type_field(f)
+            <p class="mb-2">@i18n("contest.settings.translations"):</p>
             @_contest_title_fields(f,deputy.getUILanguages)
-            @p("contest.extra-languages")
-            <p>@i18n("contest.extra-age-groups", deputy.getConfig.getString("rasbeb2.default-duration"))</p>
-            @submit("common.save",cl="col-2")
+            @p("contest.settings.leave-title-blank")
+            <p>@i18n("contest.settings.age-groups-later", deputy.getConfig.getString("rasbeb2.default-duration"))</p>
+            @submit("common.caption.save",cl="col-2")
         </div>
     }
 }

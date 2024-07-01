@@ -14,11 +14,11 @@
 @(ageGroupId: Int, ageGroups: List[AgeGroup], contests: Iterable[Contest])(implicit deputy: Deputy)
 
 @layout.teacher("contl") {
-    @h3("contest.contest-questions")
+    @h3("contest.questions.title")
     @_age_group_tabs(ageGroupId, ageGroups, controllers.contest.routes.TeacherContestController.listContests)
 
     <table class="table">
-        @thead("common.title", "common.actions")
+        @thead("contest.title", "common.actions")
         <tbody>
         @foreach.tr(contests) { contest =>
             <td>@contest.title</td>

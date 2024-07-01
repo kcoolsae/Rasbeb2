@@ -27,7 +27,7 @@
 
     @form(routes.ContestMarksController.updateMarks(contest.id, ageGroupId)) {
         <table class="table">
-            @thead("common.title", "question.external-id","contest.marks.correct", "contest.marks.incorrect")
+            @thead("contest.marks.title", "contest.marks.id", "contest.marks.correct", "contest.marks.incorrect")
             <tbody>
             @foreach.tr(questionSet) { questionInSet =>
                 <td>@questionInSet.title</td>
@@ -38,7 +38,7 @@
             </tbody>
         </table>
         <div class="d-flex justify-content-end">
-            @submit("common.save",cl="col-2")
+            @submit("contest.marks.caption",cl="col-2")
         </div>
     }
 

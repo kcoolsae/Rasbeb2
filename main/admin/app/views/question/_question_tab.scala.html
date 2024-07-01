@@ -23,7 +23,7 @@
     </div>
 </div>
 <div class="row border-bottom">
-@horizontal_form(controllers.question.routes.QuestionDetailController.editTranslation(question.id, q.lang), "common.change") {
+@horizontal_form(controllers.question.routes.QuestionDetailController.editTranslation(question.id, q.lang), "common.caption.update") {
     <div class="col-auto">@text(f("title"), "_label" -> "common.title")</div>
     <div class="col-auto">@text(f("solution"), "_label" -> "common.solution")</div>
 }

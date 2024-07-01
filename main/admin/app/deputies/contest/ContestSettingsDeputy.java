@@ -54,7 +54,7 @@ public class ContestSettingsDeputy extends OrganiserOnlyDeputy {
         Form<ContestData> form = formFromRequest(ContestData.class);
         ContestData data = form.get();
         if (data.title.values().stream().allMatch(String::isBlank)) {
-            error("contest.error-empty");
+            error("contest.contests.error-empty");
             return badRequest(views.html.contest.new_contest.render(
                     form,
                     this
@@ -118,7 +118,7 @@ public class ContestSettingsDeputy extends OrganiserOnlyDeputy {
             // were additional languages specified?
             processLanguages(contestId);
         } catch (ForeignKeyViolation ex) {
-            error("contest.error-delete-lang");
+            error("contest.contests.error-delete-lang");
         }
         return redirect(routes.ContestSettingsController.settingsForm(contestId));
     }
@@ -138,7 +138,7 @@ public class ContestSettingsDeputy extends OrganiserOnlyDeputy {
                 }
             }
         } catch (ForeignKeyViolation ex) {
-            error("contest.error-delete-ag");
+            error("contest.contests.error-delete-ag");
         }
         return redirect(routes.ContestSettingsController.settingsForm(contestId));
     }

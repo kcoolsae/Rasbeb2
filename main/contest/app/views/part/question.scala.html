@@ -30,9 +30,9 @@
 }
 
 @layout.split("part", question.title, js){ @* top right *@
-    <div class="incorrect" title='@i18n("contest.incorrect-answer-mark")'>@question.marksIfIncorrect</div>
-    <div title='@i18n("contest.no-answer-mark")'>0</div>
-    <div class="correct" title='@i18n("contest.correct-answer-mark")'>@question.marksIfCorrect</div>
+    <div class="incorrect" title='@i18n("pupil.question.incorrect-answer-mark")'>@question.marksIfIncorrect</div>
+    <div title='@i18n("pupil.question.no-answer-mark")'>0</div>
+    <div class="correct" title='@i18n("pupil.question.correct-answer-mark")'>@question.marksIfCorrect</div>
 }{ @* left *@
     <div id="clock"><span id="clock-text">00:00</span></div>
     <button type="button" class="btn btn-danger w-100 mt-2 mb-2" data-bs-toggle="modal" data-bs-target="#modal-terminate">@i18n("pupil.terminate.link")</button>

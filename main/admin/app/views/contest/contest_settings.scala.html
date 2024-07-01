@@ -16,26 +16,26 @@
         contest: Contest, languages: Iterable[String], ageGroups: Iterable[AgeGroupWithDuration])(implicit deputy: ContestSettingsDeputy)
 @layout.organiser("cnts") {
     @_submenu("settings", contest)
-    @h4("contest.titles.short")
+    @h4("contest.settings.titles")
     <div class="card p-3">
     @form(controllers.contest.routes.ContestSettingsController.titleSettings(contest.id)) {
         @_contest_title_fields(cf, languages)
-        @p("contest.title-blank-to-delete")
+        @p("contest.settings.make-title-blank")
         <div class="row g-2 align-items-center">
-            @submit("common.change",cl="col-2")
-            <label class="col-auto ms-auto" for="languages">@i18n("contest.add-language")</label>
+            @submit("common.caption.update",cl="col-2")
+            <label class="col-auto ms-auto" for="languages">@i18n("contest.settings.add-language")</label>
             <div class="col-auto">
                 <input type="text" id="languages" name="languages" class="form-control" placeholder="Ex: de" size="3">
             </div>
         </div>
     }
     </div>
-    @h4("contest.titles.age-groups")
+    @h4("contest.settings.age-groups")
     <div class="card p-3">
     @form(controllers.contest.routes.ContestSettingsController.ageGroupSettings(contest.id)) {
         @_contest_ag_fields(df, ageGroups)
-        @p("contest.duration-blank-to-delete")
-        @submit("common.change",cl="col-2")
+        @p("contest.settings.duration-blank-to-delete")
+        @submit("common.caption.update",cl="col-2")
     }
     </div>
 }

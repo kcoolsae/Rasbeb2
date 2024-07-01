@@ -43,6 +43,7 @@ public class TeacherContestDeputy extends TeacherOnlyDeputy {
                 this
         ));
     }
+
     public Result getContestQuestion(int contestId, int ageGroupId, int questionId) {
         String lang = getLanguage();
         Contest c = dac().getContestDao().getContest(contestId, lang);

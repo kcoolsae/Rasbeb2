@@ -17,7 +17,7 @@
 
     @layout.organiser("schorg") {
         <h3>@school.nameWithTown()</h3>
-    @collapse.form(controllers.organiser.routes.SchoolController.editSchool(school.id), "collapsibleSchoolForm", "common.change", collapsed = false)(_school_form(sf))
+    @collapse.form(controllers.organiser.routes.SchoolController.editSchool(school.id), "collapsibleSchoolForm", "common.caption.update", collapsed = false)(_school_form(sf))
 
 
     <h3 class="mt-2">@i18n("school.teachers.title")</h3>

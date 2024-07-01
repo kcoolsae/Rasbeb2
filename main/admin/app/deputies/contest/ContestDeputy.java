@@ -48,7 +48,7 @@ public class ContestDeputy extends OrganiserOnlyDeputy {
         dac().getContestDao().changeStatus(
                 contestId, formFromRequest(StatusData.class).get().status
         );
-        success("contest.status-changed");
+        success("contest.settings.success-status");
         return redirect(routes.ContestController.getContest(contestId));
     }
 

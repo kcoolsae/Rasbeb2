@@ -69,7 +69,7 @@ public class ContestMarksDeputy extends OrganiserOnlyDeputy {
         ContestDao dao = dac().getContestDao();
         if (form.hasErrors()) {
             String lang = getLanguage();
-            error("contest.marks.fail");
+            error("contest.marks.error");
             return badRequest(question_set_marks.render(
                     form,
                     dao.getQuestionSet(contestId, ageGroupId, lang),
@@ -89,7 +89,7 @@ public class ContestMarksDeputy extends OrganiserOnlyDeputy {
                 marksIfIncorrect.add(entry.getValue().marksIfIncorrect);
             }
             dao.updateMarks(contestId, ageGroupId, ids, marksIfCorrect, marksIfIncorrect);
-            success("contest.marks.update");
+            success("contest.marks.success");
             return redirect(routes.ContestController.getContest(contestId));
         }
     }

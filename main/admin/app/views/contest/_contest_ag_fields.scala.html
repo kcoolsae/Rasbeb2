@@ -17,7 +17,7 @@
 
 <div class="col-8 col-lg-6">
     <table class="table">
-        @thead("common.name", "common.description", "contest.duration")
+        @thead("contest.settings.name", "contest.settings.description", "contest.settings.duration")
         <tbody>
         @foreach.tr(ageGroups) { agwd =>
             @defining(agwd.ageGroup) { ag =>

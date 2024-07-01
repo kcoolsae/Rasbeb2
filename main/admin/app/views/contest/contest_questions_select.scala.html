@@ -17,9 +17,9 @@
     @_submenu("questions", contest)
 
     @paged(table, questions.getFullSize) {
-        <button class="btn btn-outline-primary" type="submit" name="action" value="register">@i18n("common.change")</button>
+        <button class="btn btn-outline-primary" type="submit" name="action" value="register">@i18n("contest.selection.caption")</button>
     } { t =>
-        @t.columns(EXTERNAL_ID -> "question.id", TITLE -> "common.title")
+        @t.columns(EXTERNAL_ID -> "contest.selection.id", TITLE -> "contest.selection.title")
         @foreach(ageGroups) { ageGroup =>
             <th class ="text-center">@ageGroup.id</th>
         }
@@ -38,7 +38,7 @@
             <td></td>
         }
     } { t =>
-        @t.searchfields(EXTERNAL_ID -> "question.filter.id", TITLE -> "common.filter.title")
+        @t.searchfields(EXTERNAL_ID -> "contest.filter.question-id", TITLE -> "contest.filter.title")
         @foreach(ageGroups) { ageGroup =>
             <th></th>
         }

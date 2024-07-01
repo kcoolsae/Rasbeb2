@@ -9,6 +9,8 @@
 @import deputies.contest.ContestSettingsDeputy.ContestData
 @import _root_.be.ugent.rasbeb2.db.dto.ContestType
 @import views.html.b5._
+@import views.html.be.ugent.caagt.play.ext.i18n
+
 @(f: Form[ContestData])(implicit deputy: Deputy)
 
 @implicitFieldBuilder = @{ b5.fieldBuilder.plain }   @* removes labels etc from form fields *@
@@ -16,6 +18,6 @@
 <div class="row mb-2">
     <label class="col-2 col-lg-1">@i18n("contest.type")</label>
     <div class="col-4 col-lg-2">
-        @select(f("type"), classOf[ContestType], "contest")
+        @select(f("type"), classOf[ContestType], "enum.contest-type")
     </div>
 </div>

@@ -17,10 +17,10 @@
 @import views.html.b5._
 @(contests: Page[Contest], table: Table)(implicit deputy: Deputy)
 @layout.organiser("cntl") {
-    @h1("contest.contests")
+    @h1("contest.contests.title")
     @paged(table, contests.getFullSize) {
-        <a href="@routes.ContestSettingsController.newContestForm()" class="btn btn-outline-primary">@i18n("contest.new")</a>
-    }(_.columns(TITLE -> "common.title",TYPE -> "contest.type",STATUS -> "contest.status")){
+        <a href="@routes.ContestSettingsController.newContestForm()" class="btn btn-outline-primary">@i18n("contest.contests.new")</a>
+    }(_.columns(TITLE -> "contest.title",TYPE -> "contest.type",STATUS -> "contest.status")){
     @foreach.tr(contests.getList) { contest =>
         <td>@contest.title</td>
         <td>@i18n("enum.contest-type." + contest.contestType.name)</td>
@@ -29,5 +29,5 @@
             <a class="btn btn-sm btn-outline-primary" href="@routes.ContestController.getContest(contest.id)">...</a>
         </td>
     }
-    }( _.searchfields(TITLE -> "common.filter.title",TYPE -> null,STATUS -> null))
+    }( _.searchfields(TITLE -> "contest.filter.title",TYPE -> null,STATUS -> null))
 }

@@ -21,12 +21,12 @@
 
     @form(routes.ContestOrderController.updateOrderByDifficulty(contest.id, ageGroupId)) {
         <div class="row mt-2">
-            <div class="col-auto ms-auto">@submit("contest.order",tp="outline-primary")</div>
+            <div class="col-auto ms-auto">@submit("contest.order.caption",tp="outline-primary")</div>
         </div>
     }
     <table class="table">
-        @b5.thead("common.title", "question.external-id",
-            "contest.marks.correct", "contest.marks.incorrect", "contest.change-order")
+        @b5.thead("contest.order.title", "contest.order.id",
+            "contest.order.correct", "contest.order.incorrect", "contest.order.order")
         <tbody>
         @foreach.tr.withIndex(questionSet) { (question,i) =>
             <td>@question.title</td>
