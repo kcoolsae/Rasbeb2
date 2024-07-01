@@ -16,11 +16,11 @@
 @(schools: Page[School], f: Form[SchoolDeputy.SchoolData], collapsed: String, table: Table)(implicit deputy: Deputy)
 
 @layout.organiser("schl") {
-        @h1("school.list-title")
-        @collapse.form(controllers.organiser.routes.SchoolController.newSchool(), "collapsibleSchoolForm", "common.caption.add", collapsed = collapsed != "new")(_school_form(f))
+        @h1("school.schools.title")
+        @collapse.form(controllers.organiser.routes.SchoolController.newSchool(), "collapsibleSchoolForm", "common.caption.add", collapsed != "new")(_school_form(f))
         @paged(table, schools.getFullSize) {
-            @collapse.button("collapsibleSchoolForm", "school.add")
-        }(_.columns(NAME -> "common.name",STREET -> "school.street",ZIP -> "school.zip", TOWN -> "school.town")){
+            @collapse.button("collapsibleSchoolForm", "common.caption.add")
+        }(_.columns(NAME -> "school.name",STREET -> "school.street",ZIP -> "school.zip", TOWN -> "school.town")){
         @foreach.tr(schools.getList) { school =>
             <td>@school.nameWithTown</td>
             <td>@school.street</td>
@@ -31,7 +31,7 @@
                 <button type="submit" name="delete" value="@school.id" class="btn btn-sm btn-danger"><span class="fa-solid fa-trash"></span></button>
             </td>
         }
-        }( _.searchfields(NAME -> "common.filter.name",STREET -> "school.filter.street",ZIP -> "school.filter.zip", TOWN -> "school.filter.town"))
+        }( _.searchfields(NAME -> "school.filter.name",STREET -> "school.filter.street",ZIP -> "school.filter.zip", TOWN -> "school.filter.town"))
 }
 
 

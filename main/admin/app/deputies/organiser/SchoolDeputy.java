@@ -61,7 +61,7 @@ public class SchoolDeputy extends OrganiserOnlyDeputy {
             dac().getClassesDao().createSchool(
                     data.name, data.street, data.zip, data.town
             );
-            success("school.added");
+            success("school.schools.success-added");
             return redirect(routes.SchoolController.listSchools());
         }
     }
@@ -81,7 +81,7 @@ public class SchoolDeputy extends OrganiserOnlyDeputy {
             dao.editSchool(
                     schoolId, data.name, data.street, data.zip, data.town
             );
-            success("school.edited");
+            success("school.schools.success-updated");
             return redirect(routes.SchoolController.getSchool(schoolId));
         }
     }
@@ -89,9 +89,9 @@ public class SchoolDeputy extends OrganiserOnlyDeputy {
     public Result removeSchool(int schoolId) {
         try {
             dac().getClassesDao().removeSchool(schoolId);
-            success("school.valid-remove");
+            success("school.schools.success-deleted");
         } catch (DataAccessException ex) {
-            error("school.invalid-remove");
+            error("school.schools.error-deleted");
         }
         return redirect(routes.SchoolController.listSchools());
     }

@@ -9,7 +9,7 @@
 @import deputies.organiser.SchoolDeputy
 @(sf: Form[SchoolDeputy.SchoolData])(implicit deputy: Deputy)
 
-<div class="col-auto">@b5.text(sf("name"), "_label" -> "common.name")</div>
+<div class="col-auto">@b5.text(sf("name"), "_label" -> "school.name")</div>
 <div class="col-auto">@b5.text(sf("street"), "_label" -> "school.street")</div>
 <div class="col-2 col-xl-1">@b5.text(sf("zip"), "_label" -> "school.zip")</div>
 <div class="col-auto">@b5.text(sf("town"), "_label" -> "school.town")</div>

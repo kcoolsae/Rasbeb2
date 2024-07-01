@@ -39,11 +39,11 @@ public class PupilDeputy extends TeacherOnlyDeputy {
     public Result addPupil(int classId) {
         Form<PupilData> form = formFromRequest(PupilData.class);
         if (form.hasErrors()) {
-            error("school.new-pupil.failed"); // this should not happen
+            error("school.pupils.error-added"); // this should not happen
         } else {
             PupilData data = form.get();
             dac().getClassesDao().addPupil(classId, data.name, data.gender, data.password);
-            success("school.new-pupil.success");
+            success("school.pupils.success-added");
         }
         return redirect(routes.ClassController.getClasses());
     }
@@ -51,11 +51,11 @@ public class PupilDeputy extends TeacherOnlyDeputy {
     public Result editPupil(int pupilId) {
         Form<PupilData> form = formFromRequest(PupilData.class);
         if (form.hasErrors()) {
-            error("school.edit-pupil.failed"); // this should not happen
+            error("school.pupils.error-updated"); // this should not happen
         } else {
             PupilData data = form.get();
             dac().getClassesDao().editPupil(pupilId, data.name, data.gender, data.password);
-            success("school.edit-pupil.success");
+            success("school.pupils.success-updated");
         }
         return redirect(routes.ClassController.getClasses());
     }
@@ -63,9 +63,9 @@ public class PupilDeputy extends TeacherOnlyDeputy {
     public Result removePupil(int pupilId) { // not used anymore
         try {
             dac().getClassesDao().removePupil(pupilId);
-            success("school.delete-pupil.success");
+            success("school.pupils.success-deleted");
         } catch (DataAccessException ex) {
-            error("school.delete-pupil.failed");
+            error("school.pupils.error-deleted");
         }
         return redirect(routes.ClassController.getClasses());
     }
