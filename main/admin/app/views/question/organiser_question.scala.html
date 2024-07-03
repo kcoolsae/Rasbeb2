@@ -51,12 +51,12 @@
 }
 
 @layout.organiser("quev", css = css, js = js) {
-    <h3>@i18n("question.question"): @question.header.title</h3>
+    <h3>@i18n("common.question"): @question.header.title</h3>
 
     @horizontal_form(routes.QuestionDetailController.editQuestion(question.id)) {
-        <div class="col-auto">@text(f("externalId"), "_label" -> "question.external-id")</div>
-        <div class="col-2">@select(f("type"), classOf[AnswerType], "question", "_label" -> "question.type")</div>
-        <div class="col-auto">@text(f("typeExtra"), "_label" -> "question.type-extra")</div>
+        <div class="col-auto">@text(f("externalId"), "_label" -> "question.settings.id")</div>
+        <div class="col-2">@select(f("type"), classOf[AnswerType], "enum.answer-type", "_label" -> "question.settings.type")</div>
+        <div class="col-auto">@text(f("typeExtra"), "_label" -> "question.settings.type-extra")</div>
     }
 
     <hr>
@@ -66,10 +66,10 @@
         @form(routes.QuestionDetailController.addTranslation(question.id)) {
             <div class="row g-1">
                 <div class="col-auto">
-                    <button type="submit" class="btn btn-outline-primary" title='@i18n("question.translation-add")'><span class="fa fa-plus"></span></button>
+                    <button type="submit" class="btn btn-outline-primary" title='@i18n("question.translation.add")'><span class="fa fa-plus"></span></button>
                 </div>
                 <div class="col-auto">
-                    <input type="text" name="language" class="form-control" placeholder="Ex: en" required size="1">
+                    <input type="text" name="language" class="form-control" placeholder='@i18n("question.translation.language-place-holder")' required size="3">
                 </div>
             </div>
         }

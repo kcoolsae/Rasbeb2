@@ -46,9 +46,9 @@ public class QuestionUploadDeputy extends OrganiserOnlyDeputy {
             uploadOK &= uploadToServer(part.getRef().path(), questionId, lang, QuestionDao.FileType.FEEDBACK);
         }
         if (uploadOK) {
-            success("question.upload.success");
+            success("question.pages.success");
         } else {
-            error("question.upload.error");
+            error("question.pages.error");
         }
         return redirect(routes.QuestionDetailController.getQuestion(questionId, lang));
     }
@@ -107,7 +107,7 @@ public class QuestionUploadDeputy extends OrganiserOnlyDeputy {
                 i++;
             }
             if (i < languages.size()) {
-                form = form.withError("langs", "question.language-format-error");
+                form = form.withError("langs", "question.upload.error-lang-format");
             }
             // errors fall through
         }
@@ -122,7 +122,7 @@ public class QuestionUploadDeputy extends OrganiserOnlyDeputy {
                     QuestionWithTranslations data = item.getData();
                     if (dao.questionExists(data.externalId())) {
                         warnings = true;
-                        item.addError("question.already-exists");
+                        item.addError("question.upload.error-id");
                     } else {
                         int questionId = dao.createQuestion(data.answerType(), data.typeExtra(), data.externalId());
                         for (Translation translation : data.translations()) {
@@ -131,12 +131,12 @@ public class QuestionUploadDeputy extends OrganiserOnlyDeputy {
                     }
                 }
                 if (warnings) {
-                    error("question.upload-errors");
+                    error("question.upload.errors");
                     return badRequest(views.html.poi.questions_warnings.render(list, this));
                 }
-                success("question.uploaded");
+                success("question.upload.success");
             } catch (IOException ex) {
-                error("question.no-file");
+                error("question.upload.error-no-file");
             }
         }
         // errors fall through

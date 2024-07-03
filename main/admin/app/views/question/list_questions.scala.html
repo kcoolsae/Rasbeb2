@@ -20,11 +20,11 @@
 @implicitFieldBuilder=@{b5.fieldBuilder.plain}   @* removes labels etc from form fields *@
 
 @layout.organiser("quel") {
-    @h1("question.questions")
+    @h1("question.list.title")
     @paged(table, questions.getFullSize) {
         <a href="@routes.QuestionController.newQuestionForm()" class="btn btn-outline-primary">@i18n("question.new")</a>
-        <a href="@routes.QuestionUploadController.uploadQuestionsForm()" class="btn btn-outline-secondary">@i18n("question.upload.questions")</a>
-    }(_.columns(ID -> "question.id", TITLE -> "common.title",TYPE -> "question.type")){
+        <a href="@routes.QuestionUploadController.uploadQuestionsForm()" class="btn btn-outline-secondary">@i18n("question.upload.link")</a>
+    }(_.columns(ID -> "question.id", TITLE -> "question.title",TYPE -> "question.type")){
     @foreach.tr(questions.getList) { question =>
         <td>@question.externalId</td>
         <td>@question.title</td>
@@ -33,5 +33,5 @@
             <a class="btn btn-sm btn-outline-primary" href='@controllers.question.routes.QuestionDetailController.getQuestion(question.id, "")'>...</a>
         </td>
     }
-    }( _.searchfields(ID -> "question.filter.id", TITLE -> "common.filter.title",TYPE -> null))
+    }( _.searchfields(ID -> "question.filter.id", TITLE -> "question.filter.title",TYPE -> null))
 }

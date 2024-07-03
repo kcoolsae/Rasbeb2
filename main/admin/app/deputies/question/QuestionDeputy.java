@@ -121,7 +121,7 @@ public class QuestionDeputy extends OrganiserOnlyDeputy {
                 }
                 return redirect(routes.QuestionController.listQuestions());
             } catch (UniqueViolation ex) {
-                error("question.not-unique");
+                error("question.settings.error-id");
             }
         }
         // errors fall through

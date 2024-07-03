@@ -10,10 +10,10 @@
 @import deputies.question.QuestionUploadDeputy
 @(f: Form[QuestionUploadDeputy.LanguageData])(implicit deputy: QuestionUploadDeputy)
 @layout.organiser("queupl") {
-    @h3("question.upload.questions")
+    @h3("question.upload.title")
     @form(controllers.question.routes.QuestionUploadController.uploadQuestions(), "enctype" -> "multipart/form-data") {
-        @text(f("langs"), "placeholder" -> "Ex: en, nl, fr", "size" -> 4, "_label" -> "question.upload.languages")
-        @file_0("questionsFile", "_label" -> "question.spreadsheet-file")
+        @text(f("langs"), "placeholder" -> i18n("question.upload.languages-place-holder"), "size" -> 4, "_label" -> "question.upload.languages")
+        @file_0("questionsFile", "_label" -> "question.upload.file")
         @submit("common.caption.upload")
     }
 }

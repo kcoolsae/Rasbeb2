@@ -14,7 +14,7 @@
 
 @* in file separate from new_question.scala.html because it has a different field builder *@
 <div class="row">
-    <div class="col-auto">@text(f("externalId"), "_label" -> "question.external-id")</div>
-    <div class="col-auto">@select(f("type"), classOf[AnswerType], "question", "_label" -> "question.type")</div>
-    <div class="col-auto">@text(f("typeExtra"), "_label" -> "question.type-extra")</div>
+    <div class="col-auto">@text(f("externalId"), "_label" -> "question.settings.id")</div>
+    <div class="col-auto">@select(f("type"), classOf[AnswerType], "enum.answer-type", "_label" -> "question.settings.type")</div>
+    <div class="col-auto">@text(f("typeExtra"), "_label" -> "question.settings.type-extra")</div>
 </div>

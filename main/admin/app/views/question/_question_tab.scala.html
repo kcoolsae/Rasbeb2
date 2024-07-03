@@ -18,20 +18,20 @@
 <div class="row mt-2">
     <div class="col-auto ms-auto">
         @form(controllers.question.routes.QuestionDetailController.removeTranslation(question.id, q.lang)) {
-            @submit("question.translation-remove",tp="outline-danger",cl="ms-auto")
+            @submit("question.translation.remove",tp="outline-danger",cl="ms-auto")
         }
     </div>
 </div>
 <div class="row border-bottom">
-@horizontal_form(controllers.question.routes.QuestionDetailController.editTranslation(question.id, q.lang), "common.caption.update") {
-    <div class="col-auto">@text(f("title"), "_label" -> "common.title")</div>
-    <div class="col-auto">@text(f("solution"), "_label" -> "common.solution")</div>
+@horizontal_form(controllers.question.routes.QuestionDetailController.editTranslation(question.id, q.lang), "question.pages.update") {
+    <div class="col-auto">@text(f("title"), "_label" -> "question.translation.title")</div>
+    <div class="col-auto">@text(f("solution"), "_label" -> "question.translation.solution")</div>
 }
 </div>
 <div class="row border-bottom mt-2">
-@horizontal_form(controllers.question.routes.QuestionUploadController.uploadPages(question.id, q.lang), "common.caption.upload", multipart=true) {
-    <div class="col-auto">@file_0("questionFile", "_label" -> "question.question-file")    </div>
-    <div class="col-auto">@file_0("feedbackFile", "_label" -> "question.feedback-file")    </div>
+@horizontal_form(controllers.question.routes.QuestionUploadController.uploadPages(question.id, q.lang), "question.pages.upload", multipart=true) {
+    <div class="col-auto">@file_0("questionFile", "_label" -> "question.pages.question-file")    </div>
+    <div class="col-auto">@file_0("feedbackFile", "_label" -> "question.pages.feedback-file")    </div>
 }
 </div>
 
@@ -40,14 +40,14 @@
         <iframe src="@url/@question.magicQ()/@q.lang/index.html" onLoad="postSize(this.id);" id="iframeQ@q.lang">
         </iframe>
     } else {
-        <div class="nocontent">@i18n("question.not-uploaded.question")</div>
+        <div class="nocontent">@i18n("question.pages.question-not-uploaded")</div>
     }
     <hr>
     @if(q.uploadedFeedback()) {
         <iframe src="@url/@question.magicF()/@q.lang/index.html" onLoad="postSize(this.id);" id="iframeF@q.lang">
         </iframe>
     } else {
-        <div class="nocontent">@i18n("question.not-uploaded.feedback")</div>
+        <div class="nocontent">@i18n("question.pages.feedback-not-uploaded")</div>
     }
   <hr>
 }

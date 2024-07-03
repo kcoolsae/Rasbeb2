@@ -18,7 +18,7 @@
 }   @* removes labels etc from form fields *@
 
 @layout.organiser("quenew") {
-    @h3("question.new")
+    @h3("question.settings.new")
     @form(action = routes.QuestionController.newQuestion()) {
         @* Three fields from question *@
         @_new_question_header(f)
@@ -26,9 +26,9 @@
         <table>
             <thead>
                 <tr>
-                    <td>@i18n("common.lang")</td>
-                    <td>@i18n("common.title")</td>
-                    <td>@i18n("common.solution")</td>
+                    <td>@i18n("question.translation.language")</td>
+                    <td>@i18n("question.translation.title")</td>
+                    <td>@i18n("question.translation.solution")</td>
                 </tr>
             </thead>
             <tbody>
@@ -41,7 +41,7 @@
             }
             </tbody>
         </table>
-        @submit("common.save", cl = "mt-2")
+        @submit("question.translation.save", cl = "mt-2")
     }
 
 }

@@ -8,7 +8,7 @@
 
 @import common.Deputy
 @import views.html.be.ugent.caagt.play.ext.i18n
-@(call: play.api.mvc.Call, buttonCaption: String = "common.save", multipart: Boolean = false)(content: => Html)(implicit deputy: Deputy)
+@(call: play.api.mvc.Call, buttonCaption: String = "common.caption.save", multipart: Boolean = false)(content: => Html)(implicit deputy: Deputy)
 
 @defining(if(multipart) Seq("enctype" -> "multipart/form-data") else Seq()) { args =>
     @b5.form(action = call, args: _*) {

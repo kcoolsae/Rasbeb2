@@ -36,7 +36,6 @@
             <tr>
                 <td>@contest.title
                 <td>
-@*                    <a class="btn btn-outline-primary" href="@routes.EventController.getContestQuestion(contest.contestId, contest.ageGroupId, lang.code, 0)">@i18n("contest.view-questions")</a>*@
                     @collapse.button("addEventForm-" + contest.id, "event.add.caption.create")
                 </td>
             </tr>

@@ -95,7 +95,7 @@ public class QuestionDetailDeputy extends OrganiserOnlyDeputy {
         Form<QuestionSettingsData> form = formFromRequest(QuestionSettingsData.class);
         QuestionDao dao = dac().getQuestionDao();
         if (form.hasErrors()) {
-            error("question.edit.fail");
+            error("question.settings.error");
             Question question = dao.getQuestion(questionId, getLanguage());
             return badRequest(organiser_question.render(
                     getTabList(question, ""),
@@ -107,9 +107,9 @@ public class QuestionDetailDeputy extends OrganiserOnlyDeputy {
             QuestionSettingsData data = form.get();
             try {
                 dao.editQuestion(questionId, data.type, data.typeExtra, data.externalId);
-                success("question.edit.success");
+                success("question.settings.success");
             } catch (UniqueViolation ex) {
-                error("question.edit.external-id"); // a non unique external id has been chosen
+                error("question.settings.error-id"); // a non unique external id has been chosen
             }
             return redirect(routes.QuestionDetailController.getQuestion(questionId, ""));
         }
@@ -176,7 +176,7 @@ public class QuestionDetailDeputy extends OrganiserOnlyDeputy {
                 }
             }
         }
-        error("question.translation-add-error");
+        error("question.translation.error-add");
         Question question = dao.getQuestion(questionId, getLanguage());
         return badRequest(organiser_question.render(
                 getTabList(question, ""),
@@ -189,7 +189,7 @@ public class QuestionDetailDeputy extends OrganiserOnlyDeputy {
     public Result removeTranslation(int questionId, String lang) {
         QuestionDao dao = dac().getQuestionDao();
         if (dao.questionAlreadyUploaded(questionId, lang)) {
-            error("question.translation-remove-error");
+            error("question.translation.error-remove");
         } else {
             dao.removeTranslation(questionId, lang);
             lang = "";
