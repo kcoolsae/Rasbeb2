@@ -32,7 +32,7 @@ public class YearDeputy extends OrganiserOnlyDeputy {
             return badRequest(); // this should not happen
         } else {
             dao.createYear(form.get().yearName);
-            success("year.added");
+            success("year.success");
             return redirect(routes.YearController.listYears());
         }
     }
@@ -73,14 +73,14 @@ public class YearDeputy extends OrganiserOnlyDeputy {
         try {
             dac().getYearDao().removeYear(yearId);
         } catch (Exception ignored) {
-            error("year.error.linked");
+            error("year.error-linked");
         }
     }
 
     private void updateYear(int yearId, String yearName) {
         if (yearName == null || yearName.isBlank()) {
             // this should not happen
-            error("year.error.required");
+            error("year.error-required");
         } else {
             dac().getYearDao().updateYear(yearId, yearName);
         }

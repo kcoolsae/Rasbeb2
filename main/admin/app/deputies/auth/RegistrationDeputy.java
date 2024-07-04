@@ -55,14 +55,14 @@ public class RegistrationDeputy extends EmailSendingDeputy {
         } else {
             String token = dac().getRegistrationDao().addPasswordRequest(form.get().email);
             sendEmail(
-                    i18n("organiser.init.mail.subject"),
+                    i18n("init.mail.subject"),
                     form.get().email,
-                    i18n("organiser.init.mail.text",
+                    i18n("init.mail.text",
                             hostUri() +
                             routes.RegistrationController.firstOrganiserInfo(token)
                     )
             );
-            success("organiser.init.message");
+            success("init.message");
             return redirect(routes.RegistrationController.addFirstOrganiser());
         }
     }

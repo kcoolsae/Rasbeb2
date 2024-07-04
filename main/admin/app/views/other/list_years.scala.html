@@ -24,8 +24,8 @@
         <div class="col-6 col-sm-4 col-md-3 col-lg-2">@collapse.button("collapsibleYearForm", "year.add")</div>
     </div>
     <div class="row">
-    @collapse.form(controllers.other.routes.YearController.newYear(), "collapsibleYearForm", "common.submit") {
-        <div class="col-auto">@b5.text(Forms.field("yearName", ""), "_label" -> "common.name", "required" -> None)</div>
+    @collapse.form(controllers.other.routes.YearController.newYear(), "collapsibleYearForm", "common.caption.submit") {
+        <div class="col-auto">@b5.text(Forms.field("yearName", ""), "_label" -> "year.name", "required" -> None)</div>
     }
     </div>
 

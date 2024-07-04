@@ -16,14 +16,14 @@
             <div class="col-8 paged-table-post-left">
                 <a class='btn btn-outline-primary btn-sm @if(!table.pager.hasPrevious) {disabled}'
                 href="@table.previous"><span class="fa fa-caret-left"></span>
-                    @i18n("common.previous")
+                    @i18n("common.table.previous")
                 </a>
                 <a class='btn btn-outline-primary btn-sm @if(!table.pager.hasNext(count)) {disabled}'
-                href="@table.next">@i18n("common.next") <span class="fa fa-caret-right"></span>
+                href="@table.next">@i18n("common.table.next") <span class="fa fa-caret-right"></span>
                 </a>
             </div>
             <div class="col-4 paged-table-post-right text-end">@table.pager.getStart-@table.pager.getEnd(count)
-                (@i18n("common.of") @count)
+                (@i18n("common.table.of") @count)
             </div>
         </div>
     </nav>

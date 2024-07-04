@@ -12,8 +12,8 @@
 @()(implicit deputy: RegistrationDeputy)
 
 @layout.plain("init") {
-        @p("organiser.init.text")
+        @p("init.text")
         @form(controllers.auth.routes.RegistrationController.addFirstOrganiser()) {
-            @text(Forms.field("email", null), "_label" -> "organiser.init.email", "placeholder" -> "organiser@example.com", "required" -> None)
+            @text(Forms.field("email", null), "_label" -> "init.email", "placeholder" -> "organiser@example.com", "required" -> None)
         }
 }
