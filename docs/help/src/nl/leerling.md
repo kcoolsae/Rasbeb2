@@ -20,7 +20,7 @@ in plaats van aan de officiële wedstrijd.
 deelneemt.)
 
 Bij een evenement waaraan leerlingen eerder hebben deelgenomen, kunnen ze hun resultaten (score) zien, de correcte antwoorden
-en de uitleg bij de antwoorden. (Bij de officiële wedstrijd kan dat echter pas na de officiële Bebras-weken.)
+en de uitleg bij de antwoorden. (Bij de officiële wedstrijd kan dat echter pas na het einde van de officiële Bebras-weken.)
 Bij een evenement dat openstaat en waaraan ze nog niet hebben deelgenomen, is er een link
 waarmee ze hun deelname kunnen starten.
 

@@ -8,9 +8,9 @@ Overzicht
 De webapplicatie ondersteunt drie soorten **wedstrijden**
 * De _officiële_ Bebras-wedstrijd, in november. Je kan enkel aan deze wedstrijd deelnemen 
 tijdens de twee Bebras-weken.
-* *Beperkte* wedstrijden - een selectie van vroegere Bebras-wedstrijden die je naar believen in je klas
+* *Beperkte* wedstrijden (of *schoolwedstrijden*) - een selectie van vroegere Bebras-wedstrijden die je naar believen in je klas
   kan organiseren.
-* Een *publieke* wedstrijd waaraan je enkel anoniem kan deelnemen. Die dient als eerst kennismaking
+* Een *publieke* wedstrijd[^3] waaraan je enkel anoniem kan deelnemen. Die dient als eerst kennismaking
   met Bebras.
 
 Elke wedstrijd bestaat uit een aantal vragen/opgaven. Je krijgt slechts een
@@ -46,7 +46,7 @@ ook elk schooljaar opnieuw aangemaakt te worden.
 Ook leerlingen moeten elk jaar opnieuw bij de server worden geregistreerd, aan een
 klas worden toegewezen en tot bepaalde evenementen worden toegelaten.
 
-Leerkrachten hebben ook (lees-)toegang tot gegevens van vroegere schooljaren[^1].
+Leerkrachten hebben ook (lees-)toegang tot gegevens van vroegere schooljaren.
 
 ### Gebruikers / inloggen
 De webapplicatie maakt onderscheid tussen _leerlingen_ en _leerkrachten_[^2]. Beide gebruiken
@@ -66,11 +66,9 @@ Leerkrachten
 
 #### Voetnoten
 
-[^1]: Maar voorlopig is dat hier nog niet gedocumenteerd.
-
 [^2]: Een derde rol - administrator - is voorbehouden aan de Bebras-verantwoordelijken voor België.
 
-
+[^3]: Nog niet in het Engels.
 
 
 

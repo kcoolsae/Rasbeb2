@@ -9,15 +9,16 @@ Meer informatie bij
 
 ### Overzicht documentatie (voor leerkrachten)
 
-(Nog gedeeltelijk in opbouw)
-
 Algemeen
 * [Overzicht / concepten](overzicht.md)
 * [Taalondersteuning](talen.md)
 
+Lerarenkant
+* In het kort: [de Bebras-wedstrijd organiseren in je klas](kort.md)
+* Menu-overzicht (voor leerkrachten): [Wat staat waar?](watstaatwaar.md)
+* [Leerlingen registreren bij het systeem](registratie.md)
+* [Evenementen](evenementen.md)
+* (wordt nog aangevuld)
+
 Leerlingenkant
 * [Meedoen aan een Bebras-wedstrijd](leerling.md)
-
-Lerarenkant
-* [Leerlingen registreren](registratie.md)
-* (wordt nog aangevuld)

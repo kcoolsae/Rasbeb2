@@ -8,7 +8,7 @@ Hieronder schetsen we de belangrijkste veranderingen bij de update naar de nieuw
 
 Leerlingen en leerkrachten gebruiken niet langer dezelfde webapplicatie.
 
-* Leerlingen starten op [https://bebras.ugent.be/contest](https://bebras.ugent.be/contest)
+* Leerlingen starten op [https://bebras.ugent.be/](https://bebras.ugent.be/contest)
 * Leerkrachten op [https://bebras.ugent.be/admin](https://bebras.ugent.be/admin)
 
 De oude wachtwoorden voor leerkrachten zijn niet meer geldig. Het e-mailadres waarmee je je als leerkracht
@@ -70,7 +70,7 @@ bij elk evenement andere leerlingen te registreren
 * Je kan tijdens een wedstrijdevenement zien welke leerlingen ermee bezig zijn en wanneer hun deadline ligt om in te dienen
 * Je kan een leerling bijkomende minuten gunnen
 * Heeft een leerling de wedstrijd per ongeluk afgesloten, dan kan je hen terug toegang geven tot die wedstrijd 
-* Je kan trouwens een evenement dat je zelf al hebt afgesloten ook terug heropenen. (Tussendoor hebben de leerlingen misschien wel
+* Je kan trouwens een evenement dat je zelf al hebt afgesloten ook terug heropenen. (Tussendoor hebben de leerlingen dan misschien wel
 de correct antwoorden al kunnen raadplegen.)
 
 #### Voetnoten

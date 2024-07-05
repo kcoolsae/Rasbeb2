@@ -22,7 +22,7 @@ een menu-optie voorzien om de taal te veranderen (rechtsboven bij de naam van de
 Het is echter de *leerkracht* die de taal van de *wedstrijd* bepaalt wanneer die er een
 evenement voor aanmaakt. Het is wel mogelijk om twee evenementen aan te maken voor
 dezelfde wedstrijd in een verschillende taal en leerlingen te registreren bij de correcte taal - of zelfs bij beide talen,
-alhoewel we dit afraden.
+alhoewel we dit laatste eerder afraden.
 
 #### Opmerking
 
