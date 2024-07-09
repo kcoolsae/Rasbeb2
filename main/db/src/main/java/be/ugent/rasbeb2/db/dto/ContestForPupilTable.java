@@ -11,8 +11,7 @@ package be.ugent.rasbeb2.db.dto;
 
 import java.sql.Timestamp;
 
-public record ContestForPupilTable(Event event, int contestId, int ageGroupId, String ageGroupName,
-                                   boolean participationClosed, Timestamp participationDeadline) {
+public record ContestForPupilTable(Event event, boolean participationClosed, Timestamp participationDeadline) {
     public boolean isFinished() {
         return participationClosed;
     }

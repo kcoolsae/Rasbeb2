@@ -52,34 +52,27 @@ public class JDBCPupilDao extends JDBCAbstractDao implements PupilDao {
 
     private static ContestForPupilTable makeContestsForPupilTable(ResultSet rs) throws SQLException {
         return new ContestForPupilTable(
-                new Event(
-                        rs.getInt("event_id"),
-                        rs.getString("event_title"),
-                        rs.getString("contest_title"),
-                        EventStatus.valueOf(rs.getString("event_status")),
-                        ContestStatus.valueOf(rs.getString("contest_status")),
-                        ContestType.valueOf(rs.getString("contest_type")),
-                        rs.getString("lang")
-                ),
-                rs.getInt("contest_id"),
-                rs.getInt("age_group_id"),
-                rs.getString("age_group_name"),
+                JDBCEventDao.makeEvent(rs),
                 rs.getBoolean("participation_closed"),
                 rs.getTimestamp("participation_deadline")
         );
     }
 
     private SelectSQLStatement selectContest(int pupilId) {
-        // TODO probably too much information
-        return select("event_id, event_title, event_status, contest_id, contest_title, contest_status, contest_type, " +
-                "age_group_id, age_group_name, participation_closed, participation_deadline, age_groups.lang")
+        // TODO move to eventdao?
+        return select("""
+                    event_id, event_title, contest_title, events.lang, age_group_name,
+                    event_status, contest_id, contest_status, contest_type,
+                    participation_closed, participation_deadline
+                    """)
                 .from("""
-                        permissions
-                        JOIN events USING(event_id)
-                        JOIN age_groups USING(age_group_id, lang)
-                        JOIN contests USING(contest_id)
-                        JOIN contests_i18n USING(contest_id, lang)
-                        LEFT JOIN participations USING(event_id, pupil_id, contest_id, age_group_id)
+                        permissions 
+                          JOIN events USING(event_id)
+                          JOIN contests USING(contest_id) 
+                          LEFT JOIN contests_i18n USING(contest_id, lang)
+                          LEFT JOIN contests_ag USING(contest_id, age_group_id)
+                          JOIN age_groups USING(age_group_id, lang)
+                          LEFT JOIN participations USING(event_id, pupil_id, contest_id, age_group_id)
                         """)
                 .where("pupil_id", pupilId);
     }

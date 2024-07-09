@@ -27,7 +27,7 @@
             }
         }
         case EventExtendedStatus.CLOSED_FREE => {
-            <a href=@controllers.contest.routes.PupilController.showFeedback(contest.contestId)>@i18n("pupil.home.results-available")</a>
+            <a href=@controllers.contest.routes.PupilController.showFeedback(contest.event.contestId)>@i18n("pupil.home.results-available")</a>
         }
         case EventExtendedStatus.CLOSED_BLOCKED => {
             @i18n("pupil.home.closed")
@@ -40,9 +40,9 @@
         @th("pupil.home.title", "pupil.home.description", "pupil.home.level", "pupil.home.status")
     } {
         @foreach.tr(contests) { contest =>
-            <td>@contest.event.contestTitle</td>
-            <td>@contest.event.title</td>
-            <td>@contest.ageGroupName</td>
+            <td>@contest.event.header.contestTitle</td>
+            <td>@contest.event.header.title</td>
+            <td>@contest.event.header.ageGroupName</td>
             <td>@status(contest)</td>
         }
     }

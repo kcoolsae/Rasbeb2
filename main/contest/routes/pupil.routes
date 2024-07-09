@@ -1,10 +1,10 @@
 # Contest for pupils
 
-GET     /show/:eventId                             controllers.contest.PupilController.show(request: Request, eventId: Int)
-GET     /feedback/:eventId                         controllers.contest.PupilController.showFeedback(request: Request, eventId: Int)
-GET     /takeover/:eventId                         controllers.contest.PupilController.takeOver(request: Request, eventId: Int)
-GET     /start/:eventId/:contestId/:ageGroupId     controllers.contest.PupilController.start(request: Request, eventId: Int, contestId: Int, ageGroupId: Int)
-GET     /first/:contestId                          controllers.contest.PupilController.firstParticipation(request: Request, contestId: Int)
+GET     /show/:eventId        controllers.contest.PupilController.show(request: Request, eventId: Int)
+GET     /feedback/:eventId    controllers.contest.PupilController.showFeedback(request: Request, eventId: Int)
+GET     /takeover/:eventId    controllers.contest.PupilController.takeOver(request: Request, eventId: Int)
+GET     /start/:eventId       controllers.contest.PupilController.start(request: Request, eventId: Int)
+GET     /first/:contestId     controllers.contest.PupilController.firstParticipation(request: Request, contestId: Int)
 
 # Contest for anonymous users
 

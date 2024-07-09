@@ -6,15 +6,15 @@
  * in the top level project directory.
  *@
 
-@import _root_.be.ugent.rasbeb2.db.dto.ContestForPupilTable
+@import _root_.be.ugent.rasbeb2.db.dto.EventHeader
 
 @import common.Deputy
 @import views.html.be.ugent.caagt.play.ext.i18n
-@(contest: ContestForPupilTable)(implicit deputy: Deputy)
+@(event: EventHeader)(implicit deputy: Deputy)
 
 @layout.pupil("showcontest") {
-    <h1>@contest.event.contestTitle</h1>
-    <h2>@contest.event.title<h2>
+    <h1>@event.contestTitle</h1>
+    <h2>@event.title<h2>
     <a class="btn btn-outline-primary"
-       href=@controllers.contest.routes.PupilController.start(contest.event.id, contest.contestId, contest.ageGroupId)>@i18n("pupil.enter-contest")</a>
+       href=@controllers.contest.routes.PupilController.start(event.id)>@i18n("pupil.enter-contest")</a>
 }

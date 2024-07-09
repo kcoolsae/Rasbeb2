@@ -14,7 +14,7 @@
 @(event: Event, participations: List[ParticipationWithPupil])(implicit deputy: EventDeputy)
 
 @layout.teacher("ecl") {
-    @_event_title(event)
+    @_event_title(event.header)
     @_event_actions(event)
 
     @table(participations.size) {

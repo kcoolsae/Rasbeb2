@@ -6,13 +6,13 @@
  * in the top level project directory.
  *@
 
-@import _root_.be.ugent.rasbeb2.db.dto.{ClassWithPermissions, Event}
+@import _root_.be.ugent.rasbeb2.db.dto.{ClassWithPermissions, EventHeader}
 
 @import common.LanguageInfo
-@(event: Event, classesWithPermissions: Iterable[ClassWithPermissions])(implicit deputy: Deputy)
+@(event: EventHeader, classesWithPermissions: Iterable[ClassWithPermissions])(implicit deputy: Deputy)
 
 @layout.teacher("event-permissions") {
-    <h1>@event.title (@LanguageInfo.get(event.lang).name)</h1>
+    <h1>@event.title (@event.ageGroupName - @LanguageInfo.get(event.lang).name)</h1>
     <p>@event.contestTitle</p>
-    @_permissions_list(event, classesWithPermissions, false)
+    @_permissions_list(event.id, classesWithPermissions, false)
 }

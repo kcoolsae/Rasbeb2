@@ -45,36 +45,66 @@ public class JDBCEventDao extends JDBCAbstractDao implements EventDao {
                 .execute();
     }
 
-    private static Event makeEvent(ResultSet rs) throws SQLException {
+    static Event makeEvent(ResultSet rs) throws SQLException {
         return new Event(
-                rs.getInt("event_id"),
-                rs.getString("event_title"),
-                rs.getString("contest_title"),
+                makeEventHeader(rs),
+                rs.getInt("contest_id"),
                 EventStatus.valueOf(rs.getString("event_status")),
                 ContestStatus.valueOf(rs.getString("contest_status")),
-                ContestType.valueOf(rs.getString("contest_type")),
-                rs.getString("lang")
+                ContestType.valueOf(rs.getString("contest_type"))
         );
     }
 
-    public SelectSQLStatement selectEvents(int schoolId, int yearId) {
-        return select("event_id, event_title, event_status, contest_status, contest_title, contest_type, lang")
-                .from("events JOIN contests USING(contest_id) LEFT JOIN contests_i18n USING(contest_id, lang)")
-                .where("school_id", schoolId)
-                .where("year_id", yearId);
+    private static EventHeader makeEventHeader(ResultSet rs) throws SQLException {
+        return new EventHeader(
+                rs.getInt("event_id"),
+                rs.getString("event_title"),
+                rs.getString("contest_title"),
+                rs.getString("lang"),
+                rs.getString("age_group_name")
+        );
+    }
+
+    public SelectSQLStatement selectEvents() {
+        return select("""
+                    event_id, event_title, contest_title, lang, age_group_name,
+                    event_status, contest_id, contest_status, contest_type""")
+                .from("""
+                        events JOIN contests USING(contest_id)
+                          JOIN age_groups USING(age_group_id,lang)
+                          LEFT JOIN contests_i18n USING(contest_id, lang)""");
     }
 
     @Override
     public List<Event> listEvents(int schoolId, int yearId) {
-        return selectEvents(schoolId, yearId).getList(JDBCEventDao::makeEvent);
+        return selectEvents()
+                .where("school_id", schoolId)
+                .where("year_id", yearId)
+                .getList(JDBCEventDao::makeEvent);
     }
 
     @Override
     public Event getEvent(int eventId) {
-        return select("event_id, event_title, event_status, contest_status, contest_title, contest_type, lang")
-                .from("events JOIN contests USING(contest_id) LEFT JOIN contests_i18n USING(contest_id, lang)")
+        return selectEvents()
                 .where("event_id", eventId)
                 .getObject(JDBCEventDao::makeEvent);
+    }
+
+    @Override
+    public EventHeader getEventHeader(int eventId) {
+        return select("event_id, event_title, contest_title, lang, age_group_name")
+                .from("""
+                events JOIN contests_i18n USING(contest_id, lang)
+                       JOIN age_groups USING(age_group_id, lang)""")
+                .where("event_id", eventId)
+                .getObject(JDBCEventDao::makeEventHeader);
+    }
+
+    public String getEventTitle(int eventId) {
+        return select("event_title")
+                .from("events")
+                .where("event_id", eventId)
+                .getOneString();
     }
 
     @Override
@@ -227,8 +257,11 @@ public class JDBCEventDao extends JDBCAbstractDao implements EventDao {
 
     @Override
     public void closeEvent(int eventId) {
-        Event event = getEvent(eventId);
-        switch (event.contestType()) {
+        ContestType contestType = select ("contest_type")
+                .from("events JOIN contest USING(contest_id)")
+                .where("event_id", eventId)
+                .getEnum(ContestType.class);
+        switch (contestType) {
             case OFFICIAL -> update("events")
                     .set("event_status", EventStatus.CLOSED)
                     .where("event_id", eventId)
@@ -267,4 +300,14 @@ public class JDBCEventDao extends JDBCAbstractDao implements EventDao {
                 .getList(JDBCEventDao::makePupilWithScore);
     }
 
+
+    @Override
+    public boolean isOpen(int eventId) {
+        return ! select("1")
+                .from ("events JOIN contests USING contest_id")
+                .where ("event_id", eventId)
+                .where ("event_status = OPEN::event_status")
+                .where ("contest_status = OPEN::contest_status")
+                .isEmpty();
+    }
 }

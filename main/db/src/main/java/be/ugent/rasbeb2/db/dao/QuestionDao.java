@@ -44,7 +44,7 @@ public interface QuestionDao {
 
     void setQuestionAgeGroups(int contestId, int questionId, List<Integer> ageGroups);
 
-    boolean questionExists(String externalId); // TODO not needed?
+    boolean questionExists(String externalId);
 
     boolean questionAlreadyUploaded (int questionId, String lang);
 

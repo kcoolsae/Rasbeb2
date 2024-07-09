@@ -39,8 +39,8 @@ public class PupilController extends DataAccessController<PupilDeputy> {
         return createDeputy(request).takeOver(eventId);
     }
 
-    public Result start(Http.Request request, int eventId, int contestId, int ageGroupId) {
-        return createDeputy(request).start(eventId, contestId, ageGroupId);
+    public Result start(Http.Request request, int eventId) {
+        return createDeputy(request).start(eventId);
     }
 
     public Result firstParticipation(Http.Request request, int contestId) {

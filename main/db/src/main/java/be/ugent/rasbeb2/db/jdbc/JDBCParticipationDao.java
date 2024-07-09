@@ -26,30 +26,24 @@ public class JDBCParticipationDao extends JDBCAbstractDao implements Participati
     }
 
     @Override
-    public int create(int contestId, int ageGroupId, String lang, int pupilId) {
-        ContestWithAgeGroup contest = getContext().getContestDao().getContestWithAgeGroup(contestId, ageGroupId, lang);
-        return insertInto("participations")
-                .value("contest_id", contest.contestId())
-                .value("pupil_id", pupilId)
-                .value("age_group_id", contest.ageGroupId())
-                .value("lang", lang)
-                .value("participation_deadline", Instant.now().plus(contest.contestDuration(), ChronoUnit.MINUTES))
-                .value("who_created", getUserId())
-                .create();
+    public void create(int contestId, int ageGroupId, String lang, int pupilId) {
+        call ("create_anonymous_participation(?,?,?,?,?)")
+                .parameter(contestId)
+                .parameter(ageGroupId)
+                .parameter(lang)
+                .parameter(pupilId)
+                .parameter(getUserId())
+                .execute();
     }
 
     @Override
-    public int create(int eventId, int contestId, int ageGroupId, String lang, int pupilId) {
-        ContestWithAgeGroup contest = getContext().getContestDao().getContestWithAgeGroup(contestId, ageGroupId, lang);
-        return insertInto("participations")
-                .value("event_id", eventId)
-                .value("contest_id", contest.contestId())
-                .value("pupil_id", pupilId)
-                .value("age_group_id", contest.ageGroupId())
-                .value("lang", lang)
-                .value("participation_deadline", Instant.now().plus(contest.contestDuration(), ChronoUnit.MINUTES))
-                .value("who_created", getUserId())
-                .create();
+    public int create(int eventId, int pupilId) {
+        return select("create_participation(?,?,?)")
+                .parameter(eventId)
+                .parameter(pupilId)
+                .parameter(getUserId())
+                .noFrom()
+                .getInt();
     }
 
     private static Participation makeParticipation(ResultSet rs) throws SQLException {
@@ -124,6 +118,7 @@ public class JDBCParticipationDao extends JDBCAbstractDao implements Participati
 
     @Override
     public ParticipationWithMarks getMarks(int contestId, int pupilId) {
+        System.err.println(contestId+ " " + pupilId);
         return select("contest_id, pupil_id, age_group_id, lang, participation_total_marks, (max_marks - min_marks) as max_marks")
                 .from("participations JOIN contests_ag USING(contest_id, age_group_id) JOIN question_sets USING(contest_id, age_group_id)")
                 .where("contest_id", contestId)

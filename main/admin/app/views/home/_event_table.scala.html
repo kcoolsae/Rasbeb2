@@ -13,9 +13,9 @@
     @th("event.events.title", "event.events.language", "event.events.contest", "event.events.status", "")
 } {
     @foreach.tr(events) { event =>
-        <td>@event.title</td>
-        <td>@LanguageInfo.get(event.lang).name</td>
-        <td>@event.contestTitle</td>
+        <td>@event.header.title</td>
+        <td>@LanguageInfo.get(event.header.lang).name</td>
+        <td>@event.header.contestTitle</td>
         <td>@i18n("enum.status." + event.eventStatus.name)</td>
         <td><a href="@routes.EventController.getEvent(event.id)" class="btn btn-outline-primary">@i18n("event.events.details")</a></td>
     }

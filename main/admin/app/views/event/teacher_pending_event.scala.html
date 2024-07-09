@@ -8,16 +8,19 @@
 
 @import _root_.be.ugent.rasbeb2.db.dto.{ClassWithPermissions, Event}
 @import deputies.event.EventDeputy
-@import deputies.event.EventDeputy.EditEventData
+@import views.html.event._event_actions
+@import views.html.event._permissions_list_inactive
+@import views.html.event._event_title
+@import views.html.event._permissions_list
 @(event: Event, classesWithPermissions: Iterable[ClassWithPermissions])(implicit deputy: EventDeputy)
 
 @layout.teacher("epnd") {
-    @_event_title(event)
+    @_event_title(event.header)
     @_event_actions(event)
 
     @if(deputy.isActiveYear) {
-        @_permissions_list(event, classesWithPermissions, true)
+        @_permissions_list(event.id, classesWithPermissions, true)
     } else {
-        @_permissions_list_inactive(event, classesWithPermissions)
+        @_permissions_list_inactive(event.id, classesWithPermissions)
     }
 }

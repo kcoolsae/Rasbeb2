@@ -12,10 +12,10 @@
 @(event: Event, participations: List[ParticipationWithPupil])(implicit deputy: EventDeputy)
 
 @layout.teacher("eopn", js=include.js("deadlinedate.js")) {
-    @_event_title(event)
+    @_event_title(event.header)
     @_event_actions(event)
     @if(deputy.isActiveYear) {
-        @_participation_table(event, participations)
+        @_participation_table(event.id, participations)
     } else {
         @_participation_table_inactive(participations)
     }

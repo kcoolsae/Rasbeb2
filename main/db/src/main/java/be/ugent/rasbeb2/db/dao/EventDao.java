@@ -9,10 +9,7 @@
 
 package be.ugent.rasbeb2.db.dao;
 
-import be.ugent.rasbeb2.db.dto.ClassWithPermissions;
-import be.ugent.rasbeb2.db.dto.Event;
-import be.ugent.rasbeb2.db.dto.ParticipationWithPupil;
-import be.ugent.rasbeb2.db.dto.PupilWithScore;
+import be.ugent.rasbeb2.db.dto.*;
 
 import java.util.List;
 
@@ -21,6 +18,10 @@ public interface EventDao {
     void addEvent(int contestId, int ageGroupId, int yearId, String title, String lang);
 
     List<Event> listEvents(int schoolId, int yearId);
+
+    String getEventTitle(int eventId);
+
+    EventHeader getEventHeader (int eventId);
 
     Event getEvent(int eventId);
 
@@ -69,4 +70,10 @@ public interface EventDao {
     void closeEvent (int eventId);
 
     List<PupilWithScore> getPupilsWithScore(int eventId);
+
+    /**
+     * Check whether an event has extended status 'open': the event itself is open
+     * and the corresponding contest is open
+     */
+    boolean isOpen(int eventId);
 }

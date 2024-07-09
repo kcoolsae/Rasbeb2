@@ -20,12 +20,12 @@ public interface ParticipationDao {
     /**
      * Create participation for contest and age group without an event (i.e. participations for anonymous users).
      */
-    int create(int contestId, int ageGroupId, String lang, int pupilId);
+    void create(int contestId, int ageGroupId, String lang, int pupilId);
 
     /**
-     * Create participation for contest and age group with an event (i.e. participations for pupils).
+     * Create participation for an existing event (i.e. participations for pupils). Returns the contest id
      */
-    int create(int eventId, int contestId, int ageGroupId, String lang, int pupilId);
+    int create(int eventId, int pupilId);
 
     Participation get(int contestId, int pupilId);
 

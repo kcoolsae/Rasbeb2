@@ -32,33 +32,30 @@ public class EventDeputy extends TeacherOnlyDeputy {
      * Display event information
      */
     public Result getEvent(int eventId) {
-        Event event = dac().getEventDao().getEvent(eventId);
-        if (event == null) { // when school of event and school of teacher don't match
+        EventDao dao = dac().getEventDao();
+        if (dao.isCorrectSchool(eventId)) {
+            Event event = dao.getEvent(eventId);
+            return switch (event.getExtendedStatus()) {
+                case PENDING_FREE, PENDING_BLOCKED -> ok(teacher_pending_event.render(
+                        event,
+                        dac().getEventDao().listClassesWithPermissions(event.id()),
+                        this)
+                );
+                case OPEN -> ok(teacher_open_event.render(
+                        event,
+                        dac().getEventDao().getParticipations(event.id()),
+                        this)
+                );
+                case CLOSED_FREE, CLOSED_BLOCKED -> ok(teacher_closed_event.render(
+                        event,
+                        dac().getEventDao().getParticipations(event.id()),
+                        this)
+                );
+            };
+        } else { // when school of event and school of teacher don't match
             error("events.event.error-no-access");
             return redirect(controllers.home.routes.TeacherHomeController.index());
-        } else {
-            return viewEvent(event);
         }
-    }
-
-    private Result viewEvent(Event event) {
-        return switch (event.getExtendedStatus()) {
-            case PENDING_FREE, PENDING_BLOCKED -> ok(teacher_pending_event.render(
-                    event,
-                    dac().getEventDao().listClassesWithPermissions(event.id()),
-                    this)
-            );
-            case OPEN -> ok(teacher_open_event.render(
-                    event,
-                    dac().getEventDao().getParticipations(event.id()),
-                    this)
-            );
-            case CLOSED_FREE, CLOSED_BLOCKED -> ok(teacher_closed_event.render(
-                    event,
-                    dac().getEventDao().getParticipations(event.id()),
-                    this)
-            );
-        };
     }
 
     public static final int DEFAULT_MINUTES_TO_ADD = 10;
@@ -104,18 +101,17 @@ public class EventDeputy extends TeacherOnlyDeputy {
 
     public Result viewPermissions(int eventId) {
         EventDao dao = dac().getEventDao();
-        Event event = dao.getEvent(eventId);
         return ok(permissions_event.render(
-                event,
+                dao.getEventHeader(eventId),
                 dac().getEventDao().listClassesWithPermissions(eventId),
                 this
         ));
     }
 
     public Result downloadSelectedPupils(int eventId) {
-        Event event = dac().getEventDao().getEvent(eventId);
+        String title = dac().getEventDao().getEventTitle(eventId);
         List<PupilInClass> pupils = dac().getClassesDao().getPupilsInClass(dac().getEventDao().getSelectedPupils(eventId));
-        return ok(new PupilSheetWriter(this::i18n).write(pupils, event.title()))
+        return ok(new PupilSheetWriter(this::i18n).write(pupils, title))
                 .as("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
                 .withHeader(
                         "Content-Disposition",
@@ -124,9 +120,9 @@ public class EventDeputy extends TeacherOnlyDeputy {
     }
 
     public Result downloadScores(int eventId) {
-        Event event = dac().getEventDao().getEvent(eventId);
+        String title = dac().getEventDao().getEventTitle(eventId);
         List<PupilWithScore> pupils = dac().getEventDao().getPupilsWithScore(eventId);
-        return ok(new ScoreSheetWriter(this::i18n).write(pupils, event.title()))
+        return ok(new ScoreSheetWriter(this::i18n).write(pupils, title))
                 .as("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
                 .withHeader(
                         "Content-Disposition",
@@ -167,11 +163,7 @@ public class EventDeputy extends TeacherOnlyDeputy {
 
     public Result editEvent(int eventId) {
         EventDao dao = dac().getEventDao();
-        Event event = dao.getEvent(eventId);
-        if (event == null) { // when school of event and school of teacher don't match
-            error("event.event.error-no-access");
-            return redirect(controllers.home.routes.TeacherHomeController.index());
-        } else {
+        if (dao.isCorrectSchool(eventId)) {
             Form<EditEventData> form = formFromRequest(EditEventData.class);
             if (form.hasErrors()) {
                 return badRequest(); // should not happen
@@ -179,6 +171,9 @@ public class EventDeputy extends TeacherOnlyDeputy {
                 dao.editEvent(eventId, form.get().title);
                 return redirect(routes.EventController.getEvent(eventId));
             }
+        } else { // when school of event and school of teacher don't match
+            error("event.event.error-no-access");
+            return redirect(controllers.home.routes.TeacherHomeController.index());
         }
     }
 
@@ -240,15 +235,15 @@ public class EventDeputy extends TeacherOnlyDeputy {
     }
 
     public Result openParticipation(int eventId, int contestId, int pupilId) {
-        Event event = dac().getEventDao().getEvent(eventId);
         // participations can only be reopened if event is open
-        if (event.getExtendedStatus() != EventExtendedStatus.OPEN) {
-            return badRequest();
-        } else {
+        EventDao dao = dac().getEventDao();
+        if (dao.isOpen(eventId)) {
             // post but no form
-            dac().getEventDao().reopenParticipation(contestId, pupilId);
+            dao.reopenParticipation(contestId, pupilId);
             success("event.participations.success-reopen");
             return redirect(routes.EventController.getEvent(eventId));
+        } else {
+            return badRequest();
         }
     }
 }

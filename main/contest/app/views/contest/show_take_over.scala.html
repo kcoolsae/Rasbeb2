@@ -6,16 +6,16 @@
  * in the top level project directory.
  *@
 
-@import _root_.be.ugent.rasbeb2.db.dto.ContestForPupilTable
+@import _root_.be.ugent.rasbeb2.db.dto.EventHeader
 @import common.Deputy
 @import views.html.be.ugent.caagt.play.ext.i18n
-@(c: ContestForPupilTable)(implicit deputy: Deputy)
+@(event: EventHeader, contestId: Int)(implicit deputy: Deputy)
 
 @* TODO make this a popup *@
 @layout.pupil("takeover") {
-    <h1>@c.event.contestTitle</h1>
-    <h2>@c.event.title</h2>
+    <h1>@event.contestTitle</h1>
+    <h2>@event.title</h2>
     <p>@i18n.html("pupil.take-over.text")</p>
     <a class="btn btn-outline-primary"
-        href="@controllers.contest.routes.PupilController.firstParticipation(c.contestId)">@i18n("pupil.take-over.caption")</a>
+        href="@controllers.contest.routes.PupilController.firstParticipation(contestId)">@i18n("pupil.take-over.caption")</a>
 }

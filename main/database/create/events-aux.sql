@@ -15,7 +15,6 @@ CREATE OR REPLACE PROCEDURE grant_permission_to_class(INTEGER, INTEGER, INTEGER)
 DECLARE
     id INTEGER;
 BEGIN
-    -- TODO replace by select into?
     FOR id IN
         SELECT pupil_id FROM classes
                  JOIN pupils_classes USING (class_id)

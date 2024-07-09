@@ -11,14 +11,14 @@
 @import views.html.b5._
 
 @import common.Deputy
-@(event: Event, classesWithPermissions: Iterable[ClassWithPermissions])(implicit deputy: Deputy)
+@(eventId: Int, classesWithPermissions: Iterable[ClassWithPermissions])(implicit deputy: Deputy)
 
 @* This page will probably almost never be seen? *@
 
 @h4("event.registrations.heading")
 <div class="row">
     <div class="mb-2">
-        <a class="btn btn-outline-primary" href="@routes.EventController.downloadSelectedPupils(event.id)">@i18n("spreadsheet.caption.download-registrations")</a>
+        <a class="btn btn-outline-primary" href="@routes.EventController.downloadSelectedPupils(eventId)">@i18n("spreadsheet.caption.download-registrations")</a>
     </div>
 </div>
 

@@ -11,13 +11,13 @@ package be.ugent.rasbeb2.db.dto;
 
 import static be.ugent.rasbeb2.db.dto.EventExtendedStatus.*;
 
-public record Event(int id, String title, String contestTitle, EventStatus eventStatus, ContestStatus contestStatus,
-                    ContestType contestType, String lang) {
+/**
+ * Information about an event and the contest to which it belongs
+ */
+public record Event(EventHeader header, int contestId, EventStatus eventStatus, ContestStatus contestStatus, ContestType contestType) {
 
-    public Event {
-        if (title == null || title.isBlank()) {
-            title = "Event #" + id;
-        }
+    public int id() {
+        return header.id();
     }
 
     public EventExtendedStatus getExtendedStatus() {

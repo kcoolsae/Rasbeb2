@@ -14,23 +14,23 @@
 @import views.html.b5._
 @import views.html.be.ugent.caagt.play.ext.i18n
 @import views.html.ext.{collapse, include}
-@(event: Event, classesWithPermissions: Iterable[ClassWithPermissions],
+@(eventId: Int, classesWithPermissions: Iterable[ClassWithPermissions],
         fromHome: Boolean)(implicit deputy: Deputy)
 @h4("event.registrations.heading")
 @p("event.registrations.text")
 <div class="row">
     <div class="mb-2">
-        <a class="btn btn-outline-primary" href="@routes.EventController.downloadSelectedPupils(event.id)">@i18n("spreadsheet.caption.download-registrations")</a>
+        <a class="btn btn-outline-primary" href="@routes.EventController.downloadSelectedPupils(eventId)">@i18n("spreadsheet.caption.download-registrations")</a>
         @collapse.button("addExtraPupil", "event.registrations.add")
     </div>
 </div>
 
-@collapse.form(routes.EventController.addExtraPupil(event.id, fromHome), "addExtraPupil", "event.registrations.add") {
+@collapse.form(routes.EventController.addExtraPupil(eventId, fromHome), "addExtraPupil", "event.registrations.add") {
     <div class="col">@select(Forms.field("classId", null), classesWithPermissions.asScala.map(x => x.group.id.toString -> x.group.name).toSeq, "_label" -> "school.pupil.class")</div>
     <div class="col">@text(Forms.field("name", ""), "_label" -> "school.pupil.name", "required" -> None)</div>
     <div class="col">@select(Forms.field("gender", null), classOf[Gender], "enum.gender", "_label" -> "school.pupil.gender")</div>
     @include.js("generatePassword.js")
-    @defining(s"password-${event.id}") { textFieldId =>
+    @defining(s"password-${eventId}") { textFieldId =>
         <div class="col">@text(Forms.field("password", PasswordGenerator.generate()), "_label" -> "school.pupil.password", "id" -> textFieldId, "required" -> None)</div>
     @ext.generatePasswordButton(textFieldId)
     }
@@ -42,7 +42,7 @@
         <h3>@cwp.group.name</h3>
         <p>@i18n("common.no-data")</p>
     } else {
-        @form(routes.EventController.addPermissions(event.id, cwp.group.id, fromHome)) {
+        @form(routes.EventController.addPermissions(eventId, cwp.group.id, fromHome)) {
             @_left_right{<h3>@cwp.group.name</h3>} {
                 <button class="btn btn-outline-primary" type="submit">@i18n("event.registrations.update")</button>
             }
