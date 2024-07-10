@@ -55,6 +55,7 @@ public class ParticipationDeputy extends deputies.ContestDeputy {
         Participation part = participationDao.get(contestId, pupilId);
         if (deadlineHasPassed(part)) {
             warning("pupil.question.past-deadline");
+            LOGGER.info("{} {} past deadline", pupilId, contestId);
             return redirect(routes.ParticipationController.close());
         } // TODO check whether event is already closed
 
@@ -83,7 +84,7 @@ public class ParticipationDeputy extends deputies.ContestDeputy {
         QuestionInContest question = questionDao.getQuestionInContest(
                 contestId, questionId, part.ageGroupId(), part.lang()
         );
-
+        LOGGER.info("{} {} {} view question", pupilId, contestId, questionId);
         return ok(views.html.part.question.render(
                 formFromData(new AnswerData(
                         participationDao.getAnswer(contestId, pupilId, questionId)
@@ -116,7 +117,10 @@ public class ParticipationDeputy extends deputies.ContestDeputy {
             Form<AnswerData> form = formFromRequest(AnswerData.class);
             if (!form.hasErrors()) {
                 String answer = form.get().answer.strip();
-                dac().getParticipationDao().updateAnswer(getContestId(), getPupilId(), questionId, answer);
+                int pupilId = getPupilId();
+                int contestId = getContestId();
+                dac().getParticipationDao().updateAnswer(contestId, pupilId, questionId, answer);
+                LOGGER.info("{} {} {} answered: {} ", pupilId, contestId, questionId, answer);
                 return redirect(routes.ParticipationController.question(nextId));
             }
         }
@@ -125,23 +129,26 @@ public class ParticipationDeputy extends deputies.ContestDeputy {
     }
 
     /**
-     * Show the fact that the participation has superseeded the deadline
+     * Show the fact that the participation has superceeded the deadline
      */
     public Result close() {
         if (!inContest()) {
             return redirectToIndex();
         }
 
+        int contestId = getContestId();
+        int pupilId = getPupilId();
         if (request.session().get(Session.NAME).isPresent()) {
             // normal participation - go back to the index page
-            dac().getParticipationDao().close(getContestId(), getPupilId());
+            dac().getParticipationDao().close(contestId, pupilId);
+            LOGGER.info("{} {} closed participation", pupilId, contestId);
             return redirectToIndex().removingFromSession(request, "contest");
         } else {
             // anonymous participation directly leads to
-            dac().getParticipationDao().closeAndComputeMarks(getContestId(), getPupilId());
+            dac().getParticipationDao().closeAndComputeMarks(contestId, pupilId);
             return redirect(controllers.contest.routes.FeedbackController.show())
                     .removingFromSession(request, Session.CONTEST)
-                    .addingToSession(request, Session.FEEDBACK, String.valueOf(getContestId()));
+                    .addingToSession(request, Session.FEEDBACK, String.valueOf(contestId));
         }
     }
 }

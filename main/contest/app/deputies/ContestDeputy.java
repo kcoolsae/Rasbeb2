@@ -10,10 +10,14 @@
 package deputies;
 
 import common.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import play.mvc.Http;
 import play.mvc.Result;
 
 public class ContestDeputy extends common.DataAccessDeputy {
+
+    protected static final Logger LOGGER = LoggerFactory.getLogger("participation");
 
     protected Result redirectToIndex() {
         return redirect(controllers.auth.routes.HomeController.index());

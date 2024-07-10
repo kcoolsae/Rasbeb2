@@ -48,8 +48,10 @@ public class AuthenticationDeputy extends deputies.ContestDeputy {
             Pupil pupil = dac().getPupilDao().getPupil(data.id, data.password);
             if (pupil == null) {
                 error("auth.login.error");
+                LOGGER.info("{} {} login failed", data.id, data.password);
                 return badRequest(views.html.auth.login.render(form, this));
             } else {
+                LOGGER.info("{} login", pupil.id());
                 return redirect(controllers.auth.routes.HomeController.index()).withSession(
                         Map.of(
                                 Session.ID, Integer.toString(pupil.id()),
@@ -61,6 +63,7 @@ public class AuthenticationDeputy extends deputies.ContestDeputy {
     }
 
     public Result logout() {
+        LOGGER.info ("{} logout", getPupilId());
         success("auth.logout.message");
         return redirect(controllers.auth.routes.HomeController.index()).withNewSession();
     }
