@@ -44,12 +44,13 @@
         }
     }
         <table class="table">
-            @thead("school.pupil.name", "school.pupil.gender", "school.pupil.password","common.actions")
+            @thead("school.pupil.name", "school.pupil.gender", "school.pupil.bebras-id", "school.pupil.password","common.actions")
             <tbody>
             @foreach(classWithPupils.pupils) { pupil =>
                 <tr>
                     <td>@pupil.name</td>
                     <td>@i18n("enum.gender." + pupil.gender.name)</td>
+                    <td>@pupil.id</td>
                     <td>@pupil.password</td>
                     <td>
                         <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#editPupilForm-@pupil.id" aria-expanded="false" aria-controls="editPupilForm-@pupil.id">

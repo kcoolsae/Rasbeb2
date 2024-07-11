@@ -23,7 +23,7 @@ public class JDBCPupilDao extends JDBCAbstractDao implements PupilDao {
         super(context);
     }
 
-    private static Pupil makePupil(ResultSet rs) throws SQLException {
+    static Pupil makePupil(ResultSet rs) throws SQLException {
         return new Pupil(
                 rs.getInt("pupil_id"),
                 rs.getString("pupil_name"),

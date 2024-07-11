@@ -83,14 +83,6 @@ public class JDBCClassesDao extends JDBCAbstractDao implements ClassesDao {
         );
     }
 
-    private static Pupil makePupil(ResultSet rs) throws SQLException {
-        return new Pupil(
-                rs.getInt("pupil_id"),
-                rs.getString("pupil_name"),
-                Gender.valueOf(rs.getString("pupil_gender")),
-                rs.getString("pupil_password"));
-    }
-
     static TeacherWithSchool makeTeachersWithSchool(ResultSet rs) throws SQLException {
         return new TeacherWithSchool(
                 rs.getInt("user_id"),
@@ -220,15 +212,16 @@ public class JDBCClassesDao extends JDBCAbstractDao implements ClassesDao {
                 .execute();
     }
 
-    public List<Pupil> getPupils(int classId) {
+    private List<Pupil> getPupils(int classId) {
         return select("pupil_id, pupil_name, pupil_gender, pupil_password")
                 .from("pupils JOIN pupils_classes USING(pupil_id)")
                 .where("class_id", classId)
-                .getList(JDBCClassesDao::makePupil);
+                .getList(JDBCPupilDao::makePupil);
     }
 
     @Override
     public Iterable<ClassWithPupils> getClassesWithPupils(int yearId) {
+        // TODO do this with one call to the database?
         Iterable<ClassGroup> classes = getClasses(yearId);
         ArrayList<ClassWithPupils> classesWithPupils = new ArrayList<>();
         for (ClassGroup c : classes) {
