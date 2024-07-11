@@ -39,6 +39,10 @@ public class FeedbackDeputy extends ContestDeputy {
         if (inFeedback()) {
             ParticipationDao dao = dac().getParticipationDao();
             ParticipationWithMarks par = dao.getMarks(getContestId(), getPupilId());
+            if (par == null) {
+                warning("pupil.home.warning-no-participation");
+                return redirectToIndex().removingFromSession(request,Session.FEEDBACK);
+            }
             List<QuestionWithFeedback> questions = dao.listQuestionsWithFeedback(par.contestId(), par.pupilId(), par.ageGroupId(), par.lang());
             if (pupilLoggedIn()) {
                 return ok(feedback_show_pupil.render(par, questions, this));
@@ -57,6 +61,9 @@ public class FeedbackDeputy extends ContestDeputy {
         if (inFeedback()) {
             ParticipationDao dao = dac().getParticipationDao();
             ParticipationWithMarks par = dao.getMarks(getContestId(), getPupilId());
+            if (par == null) {
+                return badRequest();
+            }
             List<QuestionHeader> headers = dac().getQuestionDao().getQuestionsForContest(
                     par.contestId(), par.ageGroupId(), par.lang()
             );

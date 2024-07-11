@@ -118,12 +118,11 @@ public class JDBCParticipationDao extends JDBCAbstractDao implements Participati
 
     @Override
     public ParticipationWithMarks getMarks(int contestId, int pupilId) {
-        System.err.println(contestId+ " " + pupilId);
         return select("contest_id, pupil_id, age_group_id, lang, participation_total_marks, (max_marks - min_marks) as max_marks")
                 .from("participations JOIN contests_ag USING(contest_id, age_group_id) JOIN question_sets USING(contest_id, age_group_id)")
                 .where("contest_id", contestId)
                 .where("pupil_id", pupilId)
-                .getOneObject(JDBCParticipationDao::makeParticipationMarks);
+                .getObject(JDBCParticipationDao::makeParticipationMarks);
     }
 
     private static QuestionWithFeedback makeQuestionWithFeedback(ResultSet rs) throws SQLException {
