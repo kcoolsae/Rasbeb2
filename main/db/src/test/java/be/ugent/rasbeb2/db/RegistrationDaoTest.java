@@ -15,7 +15,7 @@ import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class RegistrationDaoTest extends DaoTest {
+public class RegistrationDaoTest extends OrganiserDaoTest {
 
     private RegistrationDao dao;
 

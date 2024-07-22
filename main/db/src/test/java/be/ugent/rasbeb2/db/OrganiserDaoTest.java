@@ -1,5 +1,5 @@
 /*
- * OrganiserDaoTest.java
+ * AsOrganiserTest.java
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
  *
@@ -9,24 +9,30 @@
 
 package be.ugent.rasbeb2.db;
 
-import be.ugent.rasbeb2.db.dao.OrganiserDao;
+import be.ugent.rasbeb2.db.dto.Role;
+import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.BeforeClass;
 
-import static org.assertj.core.api.Assertions.assertThat;
+/**
+ * Common super class of database tests run as an organiser. Provides a database
+ * initialized with a single organiser which is also the user running the tests.
+ */
+abstract class OrganiserDaoTest extends DaoTest {
 
-public class OrganiserDaoTest extends DaoTest {
+    // TODO work on a copy of the database
 
-    private OrganiserDao dao;
+    protected DataAccessContext dac;
 
     @Before
-    public void setupDao() {
-        this.dao = dac.getOrganiserDao();
+    public void setup() {
+        dac = DAP.getContext(1, 0, Role.ORGANISER);
+        dac.begin();
     }
 
-    @Test
-    public void initialTest() {
-        assertThat (dao.noOrganisersRegistered()).isTrue();
+    @After
+    public void tearDown() {
+        dac.rollback();
+        dac.close();
     }
-
 }

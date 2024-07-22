@@ -9,7 +9,7 @@
 #
 
 #
-# Exports the contents of the database to a set of .dat files
+# Imports the contents of the database from a set of .dat files
 DATABASE=${DATABASE:-rasbeb2}
 DBUSER=${DBUSER:-rasbeb2}
 SERVER=${SERVER:-localhost}

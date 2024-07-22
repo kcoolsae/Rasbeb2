@@ -9,64 +9,54 @@
 
 package be.ugent.rasbeb2.db;
 
-import be.ugent.rasbeb2.db.dto.Role;
 import be.ugent.rasbeb2.db.jdbc.JDBCDataAccessProvider;
 import lombok.SneakyThrows;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * Common super class for all tests of the Dao classes.
  */
 abstract class DaoTest {
 
-    protected DataAccessContext dac;
+    protected static DataAccessProvider DAP;
 
-    protected static final DataAccessProvider DAP =
-            new JDBCDataAccessProvider(getTestDataSource());
+    private static final DataSource ORIGINAL_DATA_SOURCE = getDataSource("rasbeb2test");
 
-    /**
-     * The role used when setting up the data access context. Can be overridden.
-     */
-    public Role getRole() {
-        return null;
+    @BeforeClass
+    public static void cloneDatabase() throws SQLException {
+        try (Connection connection = ORIGINAL_DATA_SOURCE.getConnection();
+             Statement statement = connection.createStatement()) {
+            statement.execute("CREATE DATABASE rasbeb2testclone WITH TEMPLATE rasbeb2test OWNER rasbeb2");
+        }
+        DAP = new JDBCDataAccessProvider(getDataSource("rasbeb2testclone"));
     }
 
-    /**
-     * The user ID used when setting up the data access context. Can be overridden.
-     */
-    public int getUserId() {
-        return 0;
-    }
-
-    public int getSchoolId() {
-        return 0;
-    }
-
-    @Before
-    public void beginDaoTest() {
-        dac = DAP.getContext(getUserId(),getSchoolId(), getRole());
-        dac.begin();
-    }
-
-    @After
-    public void endDaoTest() {
-        dac.rollback();
-        dac.close();
+    @AfterClass
+    public static void dropDatabase() throws SQLException {
+        try (Connection connection = ORIGINAL_DATA_SOURCE.getConnection();
+             Statement statement = connection.createStatement()) {
+            statement.execute("DROP DATABASE rasbeb2testclone");
+        }
     }
 
 
     @SneakyThrows
-    private static DataSource getTestDataSource() {
+    private static DataSource getDataSource(String dbName) {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
         // runs on localhost
-        dataSource.setDatabaseName("rasbeb2test");
+        dataSource.setDatabaseName(dbName);
         dataSource.setUser("rasbeb2");
         dataSource.setPassword("opensesame");
-        dataSource.setProperty("escapeSyntaxCallMode","callIfNoReturn"); // throws SQLException
+        dataSource.setProperty("escapeSyntaxCallMode", "callIfNoReturn"); // throws SQLException
         return dataSource;
     }
+
 }

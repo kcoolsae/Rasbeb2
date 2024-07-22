@@ -226,6 +226,6 @@ BEGIN
            lang,
            NOW() + (contest_duration || ' MINUTES')::INTERVAL,
            who_cre
-    FROM contests_ag WHERE contest_id = c_id AND age_group_id = ag_id
+    FROM contests_ag WHERE contest_id = c_id AND age_group_id = ag_id;
 END;
 $$ LANGUAGE plpgsql;
