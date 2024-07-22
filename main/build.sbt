@@ -59,17 +59,11 @@ lazy val commonAppSettings = Seq(
     "be.ugent.caagt" %% "play-utils" % "1.1",
     "org.webjars" % "font-awesome" % "6.4.0",
 
-    "org.projectlombok" % "lombok" % "1.18.30" % Compile,
+    "org.projectlombok" % "lombok" % "1.18.34" % Compile,
 
-    "org.postgresql" % "postgresql" % "42.7.1" % Runtime
+    "org.postgresql" % "postgresql" % "42.7.3" % Runtime
   ),
 
-/*  dependencyOverrides ++= Seq(
-    // more recent GUICE needed for Java 17
-    "com.google.inject" % "guice" % "5.1.0",
-    "com.google.inject.extensions" % "guice-assistedinject" % "5.1.0"
-  ),
-*/
   // Allow routes to be in a different directory
   Compile / unmanagedResourceDirectories += baseDirectory.value / "routes",
 

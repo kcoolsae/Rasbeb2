@@ -31,7 +31,7 @@ public interface RegistrationDao {
     void deletePasswordRequest(String email);
 
     /**
-     * Adds a teacher registration for the given email address with a validity of 24 hours.
+     * Adds a teacher registration for the given email address with a validity of 72 hours.
      * @return The token stored in the database to validate this request
      */
     String addRegistration(String email, int schoolId);

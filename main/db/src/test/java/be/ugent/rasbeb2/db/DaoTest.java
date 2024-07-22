@@ -11,13 +11,12 @@ package be.ugent.rasbeb2.db;
 
 import be.ugent.rasbeb2.db.jdbc.JDBCDataAccessProvider;
 import lombok.SneakyThrows;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -30,8 +29,8 @@ abstract class DaoTest {
 
     private static final DataSource ORIGINAL_DATA_SOURCE = getDataSource("rasbeb2test");
 
-    @BeforeClass
-    public static void cloneDatabase() throws SQLException {
+    @BeforeAll
+    static void cloneDatabase() throws SQLException {
         try (Connection connection = ORIGINAL_DATA_SOURCE.getConnection();
              Statement statement = connection.createStatement()) {
             statement.execute("CREATE DATABASE rasbeb2testclone WITH TEMPLATE rasbeb2test OWNER rasbeb2");
@@ -39,8 +38,8 @@ abstract class DaoTest {
         DAP = new JDBCDataAccessProvider(getDataSource("rasbeb2testclone"));
     }
 
-    @AfterClass
-    public static void dropDatabase() throws SQLException {
+    @AfterAll
+    static void dropDatabase() throws SQLException {
         try (Connection connection = ORIGINAL_DATA_SOURCE.getConnection();
              Statement statement = connection.createStatement()) {
             statement.execute("DROP DATABASE rasbeb2testclone");

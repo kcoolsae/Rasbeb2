@@ -10,9 +10,8 @@
 package be.ugent.rasbeb2.db;
 
 import be.ugent.rasbeb2.db.dto.Role;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Common super class of database tests run as an organiser. Provides a database
@@ -24,14 +23,14 @@ abstract class OrganiserDaoTest extends DaoTest {
 
     protected DataAccessContext dac;
 
-    @Before
-    public void setup() {
+    @BeforeEach
+    void setup() {
         dac = DAP.getContext(1, 0, Role.ORGANISER);
         dac.begin();
     }
 
-    @After
-    public void tearDown() {
+    @AfterEach
+    void tearDown() {
         dac.rollback();
         dac.close();
     }

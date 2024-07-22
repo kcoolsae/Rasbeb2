@@ -102,7 +102,7 @@ public class JDBCRegistrationDao extends JDBCAbstractDao implements Registration
     @Override
     public void deleteExpiredRegistrations() {
         deleteFrom("registrations")
-                .where("registration_expires > now()")
+                .where("registration_expires < now()")
                 .execute();
     }
 }
