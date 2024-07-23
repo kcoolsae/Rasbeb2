@@ -224,7 +224,7 @@ public class JDBCQuestionDao extends JDBCAbstractDao implements QuestionDao {
 
     @Override
     public void setUploaded(int questionId, String lang, FileType fileType) {
-        update("question_i18n")
+        update("questions_i18n")
                 .set("question_uploaded_" + fileType.name().charAt(0) + "=true")
                 .set("who_updated", getUserId())
                 .where("question_id", questionId)

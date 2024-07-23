@@ -30,6 +30,13 @@ VALUES ('newuser@some.email.com', 1, 'some token', now() - interval '4 days');
 INSERT INTO password_requests (user_email, request_token, request_expires)
 VALUES ('teacher2@some.email.com', 'some token', now() - interval '2 hours');
 
+-- Years
+INSERT INTO years (year_id, year_name, when_created)
+VALUES (23, '2023-2024', now() - interval '200 days'),
+       (24, '2024-2025', now());
+
+
+
 
 SELECT reset_sequences('public');
 
