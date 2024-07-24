@@ -25,6 +25,7 @@ import play.mvc.Http;
 import play.mvc.Result;
 import views.html.notuploaded;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PupilDeputy extends TeacherOnlyDeputy {
@@ -85,10 +86,13 @@ public class PupilDeputy extends TeacherOnlyDeputy {
         int yearId = getCurrentYearId();
 
         try {
-            List<DataOrError<PupilInClass>> pupils = new PupilSheetReader(dac().getClassesDao(), yearId, this::translateGender).read(part.getRef().path());
-            for (DataOrError<PupilInClass> p : pupils) {
-                if (p.hasError()) {
-                    return badRequest(notuploaded.render(pupils, this));
+            List<DataOrError<PupilInClass>> data = new PupilSheetReader(dac().getClassesDao(), yearId, this::translateGender).read(part.getRef().path());
+            List<PupilInClass> pupils = new ArrayList<>();
+            for (DataOrError<PupilInClass> d : data) {
+                if (d.hasError()) {
+                    return badRequest(notuploaded.render(data, this));
+                } else {
+                    pupils.add(d.getData());
                 }
             }
             // no errors

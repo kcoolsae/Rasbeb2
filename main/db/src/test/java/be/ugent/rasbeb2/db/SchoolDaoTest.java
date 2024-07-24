@@ -121,5 +121,5 @@ class SchoolDaoTest extends OrganiserDaoTest {
         assertThat(users).extracting(User::disabled).containsExactly(true);
     }
 
-    // TODO test getSchool() with teacher as user (separate test class)
+    // test getSchool() with teacher as user (separate test class) tested in ClassesDaoTest
 }

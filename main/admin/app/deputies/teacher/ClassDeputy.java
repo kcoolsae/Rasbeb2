@@ -97,7 +97,7 @@ public class ClassDeputy extends TeacherOnlyDeputy {
         if (className == null || className.isBlank()) {
             // this should not happen
         } else {
-            dac().getClassesDao().editClass(className, classId);
+            dac().getClassesDao().editClass(classId, className);
             success("school.classes.success-updated");
         }
     }

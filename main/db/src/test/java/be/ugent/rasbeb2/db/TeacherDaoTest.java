@@ -14,15 +14,15 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
- * Common super class of database tests run as an organiser (user 1).
+ * Common super class of database tests run as a teacher (user 2 of school 1).
  */
-abstract class OrganiserDaoTest extends DaoTest {
+abstract class TeacherDaoTest extends DaoTest {
 
     protected DataAccessContext dac;
 
     @BeforeEach
     void setupDac() {
-        dac = DAP.getContext(1, 0, Role.ORGANISER);
+        dac = DAP.getContext(2, 1, Role.TEACHER);
         dac.begin();
     }
 

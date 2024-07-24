@@ -9,11 +9,13 @@
 
 package be.ugent.rasbeb2.db.jdbc;
 
+import be.ugent.caagt.dao.helper.IntArrayParameter;
 import be.ugent.caagt.dao.helper.SelectSQLStatement;
+import be.ugent.caagt.dao.helper.WhereClause;
 import be.ugent.rasbeb2.db.dao.ClassesDao;
 import be.ugent.rasbeb2.db.dto.*;
-import be.ugent.rasbeb2.db.poi.DataOrError;
 import be.ugent.rasbeb2.db.util.PasswordGenerator;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -84,8 +86,8 @@ public class JDBCClassesDao extends JDBCAbstractDao implements ClassesDao {
     }
 
     @Override
-    public void editClass(String class_name, int classId) {
-        update("classes").set("class_name", class_name).where("class_id", classId).execute();
+    public void editClass(int classId, String className) {
+        update("classes").set("class_name", className).where("class_id", classId).execute();
     }
 
     @Override
@@ -168,18 +170,18 @@ public class JDBCClassesDao extends JDBCAbstractDao implements ClassesDao {
     }
 
     @Override
-    public void addPupils(List<DataOrError<PupilInClass>> pupils) {
-        for (DataOrError<PupilInClass> pupil : pupils) {
+    public void addPupils(List<PupilInClass> pupils) {
+        for (PupilInClass pupil : pupils) {
             int pupilId = insertInto("pupils")
-                    .value("pupil_name", pupil.getData().name())
-                    .value("pupil_gender", pupil.getData().gender())
+                    .value("pupil_name", pupil.name())
+                    .value("pupil_gender", pupil.gender())
                     .value("pupil_password", PasswordGenerator.generate())
                     .value("who_created", getUserId())
                     .create();
 
             insertInto("pupils_classes")
                     .value("pupil_id", pupilId)
-                    .value("class_id", pupil.getData().classId())
+                    .value("class_id", pupil.classId())
                     .execute();
         }
     }
@@ -202,14 +204,17 @@ public class JDBCClassesDao extends JDBCAbstractDao implements ClassesDao {
                 .where("year_id", yearId)
                 .where("school_id", getSchoolId())
                 .orderBy("class_id")
+                .orderBy("pupil_name")
                 .getList(JDBCClassesDao::makePupilInClass);
     }
 
     public List<PupilInClass> getPupilsInClass(List<Integer> pupilIds) {
+        // could use array parameters, but there is no support yet in DAOHelper
         return select("class_id, class_name, pupil_id, pupil_password, pupil_name, pupil_gender")
                 .from("pupils JOIN pupils_classes USING(pupil_id) JOIN classes USING(class_id)")
                 .where(String.format("pupil_id IN (%s)", pupilIds.stream().map(Object::toString).collect(Collectors.joining(", "))))
                 .orderBy("class_id")
+                .orderBy("pupil_name")
                 .getList(JDBCClassesDao::makePupilInClass);
     }
 

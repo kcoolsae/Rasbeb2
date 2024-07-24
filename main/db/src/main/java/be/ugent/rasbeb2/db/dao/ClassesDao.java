@@ -9,8 +9,10 @@
 
 package be.ugent.rasbeb2.db.dao;
 
-import be.ugent.rasbeb2.db.dto.*;
-import be.ugent.rasbeb2.db.poi.DataOrError;
+import be.ugent.rasbeb2.db.dto.ClassGroup;
+import be.ugent.rasbeb2.db.dto.ClassWithPupils;
+import be.ugent.rasbeb2.db.dto.Gender;
+import be.ugent.rasbeb2.db.dto.PupilInClass;
 
 import java.util.List;
 import java.util.OptionalInt;
@@ -26,16 +28,12 @@ public interface ClassesDao {
 
     void addClasses(String classes, int yearId);
 
-    int addPupil(int classId, String name, Gender gender, String password);
-
-    void editPupil(int pupilId, String name, Gender gender, String password);
-
     /**
      * Lists the classes of the school of the current user for the given year
      */
     List<ClassGroup> listClasses(int yearId);
 
-    void editClass(String class_name, int classId);
+    void editClass(int classId, String className);
 
     void removeClass(int classId);
 
@@ -52,11 +50,19 @@ public interface ClassesDao {
 
     boolean pupilExistsInClass(String pupilName, int classId);
 
-    void addPupils(List<DataOrError<PupilInClass>> pupils);
+    /**
+     * Creates new pupils and adds them to the listed classes.
+     * Only uses name, gender and class id of the {@link PupilInClass} objectass. Generates a new password for each pupil.
+     */
+    void addPupils(List<PupilInClass> pupils);
 
     List<PupilInClass> getPupilsByClass(int yearId);
 
     List<PupilInClass> getPupilsInClass(List<Integer> pupilIds);
+
+    int addPupil(int classId, String name, Gender gender, String password);
+
+    void editPupil(int pupilId, String name, Gender gender, String password);
 
     void removePupil(int pupilId);
 }

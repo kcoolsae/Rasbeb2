@@ -9,6 +9,7 @@
 
 package be.ugent.rasbeb2.db;
 
+import be.ugent.caagt.dao.ForeignKeyViolation;
 import be.ugent.rasbeb2.db.dao.YearDao;
 import be.ugent.rasbeb2.db.dto.Year;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class YearDaoTest extends OrganiserDaoTest {
 
@@ -31,8 +33,8 @@ class YearDaoTest extends OrganiserDaoTest {
     void listAllYears() {
         List<Year> years = dao.listAllYears();
 
-        assertThat(years).extracting(Year::name).containsExactly("2024-2025", "2023-2024");
-        assertThat(years).extracting(Year::id).containsExactly(24, 23);
+        assertThat(years).extracting(Year::name).containsExactly("2024-2025", "2023-2024", "2022-2023");
+        assertThat(years).extracting(Year::id).containsExactly(24, 23, 22);
     }
 
     @Test
@@ -51,14 +53,20 @@ class YearDaoTest extends OrganiserDaoTest {
     void createYear() {
         dao.createYear("2025-2026");
         List<Year> years = dao.listAllYears();
-        assertThat(years).extracting(Year::name).containsExactly("2025-2026", "2024-2025", "2023-2024");
+        assertThat(years).extracting(Year::name).containsExactly("2025-2026", "2024-2025", "2023-2024", "2022-2023");
     }
 
     @Test
     void removeYear() {
-        dao.removeYear(23);
+        dao.removeYear(22);
         List<Year> years = dao.listAllYears();
-        assertThat(years).extracting(Year::name).containsExactly("2024-2025");
+        assertThat(years).extracting(Year::name).containsExactly("2024-2025", "2023-2024");
+    }
+
+    @Test
+    void removeYearWithError() {
+        assertThatThrownBy(() -> dao.removeYear(23))
+                .isInstanceOf(ForeignKeyViolation.class);
     }
 
     @Test

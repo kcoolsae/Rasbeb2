@@ -76,8 +76,7 @@ public class JDBCSchoolDao extends JDBCAbstractDao implements SchoolDao {
 
     @Override
     public School getSchool() {
-        return select("school_id, school_name, school_street, school_zip, school_town, user_id")
-                .from("schools")
+        return selectSchool()
                 .where("school_id", getSchoolId())
                 .getOneObject(JDBCSchoolDao::makeSchool);
     }
