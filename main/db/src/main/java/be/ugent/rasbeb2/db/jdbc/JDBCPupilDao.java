@@ -66,9 +66,9 @@ public class JDBCPupilDao extends JDBCAbstractDao implements PupilDao {
                     participation_closed, participation_deadline
                     """)
                 .from("""
-                        permissions 
+                        permissions
                           JOIN events USING(event_id)
-                          JOIN contests USING(contest_id) 
+                          JOIN contests USING(contest_id)
                           LEFT JOIN contests_i18n USING(contest_id, lang)
                           LEFT JOIN contests_ag USING(contest_id, age_group_id)
                           JOIN age_groups USING(age_group_id, lang)

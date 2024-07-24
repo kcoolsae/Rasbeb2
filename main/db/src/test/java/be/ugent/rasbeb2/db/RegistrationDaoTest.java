@@ -82,7 +82,7 @@ class RegistrationDaoTest extends OrganiserDaoTest {
     void deleteExpiredRegistrations() {
         dao.deleteExpiredRegistrations();
         int remaining = dao.findRegistrations()
-                .getPageOrderedBy(Registration.Field.EMAIL, true, 0, 1)
+                .getPageOrderedBy(Registration.Field.EMAIL, true, 0, 10)
                 .getFullSize();
         assertThat(remaining).isEqualTo(0);
     }
@@ -90,7 +90,7 @@ class RegistrationDaoTest extends OrganiserDaoTest {
     @Test
     void findRegistrations() {
         List<Registration> registrations = dao.findRegistrations()
-                .getPageOrderedBy(Registration.Field.EMAIL, true, 0, 1)
+                .getPageOrderedBy(Registration.Field.EMAIL, true, 0, 10)
                 .getList();
         assertThat(registrations).extracting(Registration::email)
                 .containsExactly("newuser@some.email.com");

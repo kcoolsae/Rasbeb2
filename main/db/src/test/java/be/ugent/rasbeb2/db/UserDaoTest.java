@@ -19,6 +19,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class UserDaoTest extends OrganiserDaoTest {
 
+    // TODO clean up and extend
+
     private UserDao dao;
 
     @BeforeEach

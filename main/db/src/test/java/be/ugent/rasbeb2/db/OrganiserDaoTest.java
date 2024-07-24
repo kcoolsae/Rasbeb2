@@ -19,18 +19,16 @@ import org.junit.jupiter.api.BeforeEach;
  */
 abstract class OrganiserDaoTest extends DaoTest {
 
-    // TODO work on a copy of the database
-
     protected DataAccessContext dac;
 
     @BeforeEach
-    void setup() {
+    void setupDac() {
         dac = DAP.getContext(1, 0, Role.ORGANISER);
         dac.begin();
     }
 
     @AfterEach
-    void tearDown() {
+    void tearDownDac() {
         dac.rollback();
         dac.close();
     }

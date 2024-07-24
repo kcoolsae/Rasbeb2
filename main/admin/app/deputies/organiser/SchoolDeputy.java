@@ -12,7 +12,6 @@ package deputies.organiser;
 import be.ugent.caagt.dao.DataAccessException;
 import be.ugent.caagt.play.binders.PSF;
 import be.ugent.rasbeb2.db.dao.SchoolDao;
-import be.ugent.rasbeb2.db.dao.SchoolDao;
 import be.ugent.rasbeb2.db.dto.School;
 import controllers.organiser.routes;
 import deputies.OrganiserOnlyDeputy;

@@ -12,7 +12,6 @@ package be.ugent.rasbeb2.db;
 /* Abstraction of a database connection. Provides data access objects. */
 
 import be.ugent.rasbeb2.db.dao.*;
-import be.ugent.rasbeb2.db.dto.School;
 
 public interface DataAccessContext extends AutoCloseable {
 

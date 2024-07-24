@@ -12,7 +12,6 @@ package deputies.teacher;
 import be.ugent.caagt.dao.DataAccessException;
 import be.ugent.rasbeb2.db.dao.ClassesDao;
 import be.ugent.rasbeb2.db.dto.ClassWithPupils;
-import be.ugent.rasbeb2.db.dto.Year;
 import deputies.TeacherOnlyDeputy;
 import lombok.Getter;
 import lombok.Setter;

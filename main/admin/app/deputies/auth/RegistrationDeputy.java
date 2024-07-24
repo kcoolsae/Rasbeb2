@@ -178,6 +178,7 @@ public class RegistrationDeputy extends EmailSendingDeputy {
             if (registrationDao.isValidRegistration(data.email, token, schoolId)) {
                 // create user
                 UserDao userDao = dac().getUserDao();
+                // TODO combine this into a single DAO method?
                 int userId = userDao.createUser(data.name, data.email.toLowerCase().strip(), Role.TEACHER);
                 userDao.updatePassword(userId, data.password);
                 // delete token
