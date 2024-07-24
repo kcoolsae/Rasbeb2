@@ -57,7 +57,7 @@ lazy val commonAppSettings = Seq(
     javaCore, guice, javaJdbc,
 
     "be.ugent.caagt" %% "play-utils" % "1.1",
-    "org.webjars" % "font-awesome" % "6.4.0",
+    "org.webjars" % "font-awesome" % "6.5.1",
 
     "org.projectlombok" % "lombok" % "1.18.34" % Compile,
 
