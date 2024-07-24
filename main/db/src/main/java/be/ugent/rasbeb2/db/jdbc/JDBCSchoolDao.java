@@ -71,7 +71,9 @@ public class JDBCSchoolDao extends JDBCAbstractDao implements SchoolDao {
 
     @Override
     public School getSchool(int schoolId) {
-        return selectSchool().where("school_id", schoolId).getOneObject(JDBCSchoolDao::makeSchool);
+        return selectSchool()
+                .where("school_id", schoolId)
+                .getOneObject(JDBCSchoolDao::makeSchool);
     }
 
     @Override
@@ -89,12 +91,6 @@ public class JDBCSchoolDao extends JDBCAbstractDao implements SchoolDao {
                 .findInt();
     }
 
-    public SelectSQLStatement getSchoolStatement(int schoolId) {
-        return select("user_id, user_name, user_email, user_role, user_disabled")
-                .from("users JOIN teachers USING(user_id)")
-                .where("school_id", schoolId);
-    }
-
     private static User makeTeachers(ResultSet rs) throws SQLException {
         return new User(
                 rs.getInt("user_id"),
@@ -106,7 +102,10 @@ public class JDBCSchoolDao extends JDBCAbstractDao implements SchoolDao {
     }
 
     public List<User> listAllTeachers(int schoolId) {
-        return getSchoolStatement(schoolId).getList(JDBCSchoolDao::makeTeachers);
+        return select("user_id, user_name, user_email, user_role, user_disabled")
+                .from("users JOIN teachers USING(user_id)")
+                .where("school_id", schoolId)
+                .getList(JDBCSchoolDao::makeTeachers);
     }
 
     private SelectSQLStatement selectTeachersWithSchool() {

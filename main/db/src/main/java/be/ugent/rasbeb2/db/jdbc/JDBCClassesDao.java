@@ -9,18 +9,17 @@
 
 package be.ugent.rasbeb2.db.jdbc;
 
-import be.ugent.caagt.dao.helper.IntArrayParameter;
+import be.ugent.caagt.dao.helper.OrderedSQLStatement;
 import be.ugent.caagt.dao.helper.SelectSQLStatement;
-import be.ugent.caagt.dao.helper.WhereClause;
 import be.ugent.rasbeb2.db.dao.ClassesDao;
 import be.ugent.rasbeb2.db.dto.*;
 import be.ugent.rasbeb2.db.util.PasswordGenerator;
-import org.apache.commons.lang3.ArrayUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.OptionalInt;
 import java.util.stream.Collectors;
 
@@ -30,11 +29,17 @@ public class JDBCClassesDao extends JDBCAbstractDao implements ClassesDao {
         super(context);
     }
 
-
     private static ClassGroup makeClass(ResultSet rs) throws SQLException {
         return new ClassGroup(
                 rs.getInt("class_id"),
                 rs.getString("class_name")
+        );
+    }
+
+    private static ClassWithPupils makeClassWithPupils(ResultSet rs) throws SQLException {
+        return new ClassWithPupils(
+                makeClass(rs),
+                new ArrayList<>()
         );
     }
 
@@ -51,13 +56,16 @@ public class JDBCClassesDao extends JDBCAbstractDao implements ClassesDao {
         );
     }
 
-
-    public Iterable<ClassGroup> getClasses(int yearId) {
-        return select("class_id, class_name")
+    private OrderedSQLStatement selectClasses(int yearId) {
+        return select("class_id, class_name")// id must be first!
                 .from("classes")
                 .where("year_id", yearId)
                 .where("school_id", getSchoolId())
-                .orderBy("class_id")
+                .orderBy("class_id");
+    }
+
+    public Iterable<ClassGroup> getClasses(int yearId) {
+        return selectClasses(yearId)
                 .getList(JDBCClassesDao::makeClass);
     }
 
@@ -113,22 +121,24 @@ public class JDBCClassesDao extends JDBCAbstractDao implements ClassesDao {
                 .execute();
     }
 
-    private List<Pupil> getPupils(int classId) {
-        return select("pupil_id, pupil_name, pupil_gender, pupil_password")
-                .from("pupils JOIN pupils_classes USING(pupil_id)")
-                .where("class_id", classId)
-                .getList(JDBCPupilDao::makePupil);
-    }
-
     @Override
     public Iterable<ClassWithPupils> getClassesWithPupils(int yearId) {
-        // TODO do this with one call to the database?
-        Iterable<ClassGroup> classes = getClasses(yearId);
-        ArrayList<ClassWithPupils> classesWithPupils = new ArrayList<>();
-        for (ClassGroup c : classes) {
-            classesWithPupils.add(new ClassWithPupils(c, getPupils(c.id())));
-        }
-        return classesWithPupils;
+        // uses the method in DAOHelper master/detail documentation
+        Map<Integer,ClassWithPupils> map = selectClasses(yearId)
+                .getMap(JDBCClassesDao::makeClassWithPupils);
+        select("classes.class_id, pupil_id, pupil_name, pupil_gender, pupil_password") // class_id must be first!
+                .from("""
+                    pupils
+                       JOIN pupils_classes USING(pupil_id)
+                       JOIN classes ON pupils_classes.class_id = classes.class_id
+                                        AND year_id = ? AND school_id = ?
+                """)
+                .parameter(yearId)
+                .parameter(getSchoolId())
+                .processMap(map,
+                        (c,rs) -> c.pupils().add(JDBCPupilDao.makePupil(rs))
+                );
+        return map.values();
     }
 
     @Override
