@@ -28,53 +28,6 @@ public class JDBCClassesDao extends JDBCAbstractDao implements ClassesDao {
         super(context);
     }
 
-    @Override
-    public int createSchool(String name, String street, String zip, String town) {
-        return insertInto("schools")
-                .value("school_name", name)
-                .value("school_street", street)
-                .value("school_zip", zip)
-                .value("school_town", town)
-                .value("who_created", getUserId())
-                .create();
-    }
-
-
-    public void editSchool(int schoolId, String name, String street, String zip, String town) {
-        update("schools")
-                .set("school_name", name)
-                .set("school_street", street)
-                .set("school_zip", zip)
-                .set("school_town", town)
-                .set("who_updated", getUserId())
-                .where("school_id", schoolId)
-                .execute();
-    }
-
-    @Override
-    public void removeSchool(int schoolId) {
-        deleteFrom("schools").where("school_id", schoolId).execute();
-    }
-
-    static School makeSchool(ResultSet rs) throws SQLException {
-        return new School(
-                rs.getInt("school_id"),
-                rs.getString("school_name"),
-                rs.getString("school_street"),
-                rs.getString("school_zip"),
-                rs.getString("school_town")
-        );
-    }
-
-    private static User makeTeachers(ResultSet rs) throws SQLException {
-        return new User(
-                rs.getInt("user_id"),
-                rs.getString("user_name"),
-                rs.getString("user_email"),
-                Role.valueOf(rs.getString("user_role")),
-                rs.getBoolean("user_disabled")
-        );
-    }
 
     private static ClassGroup makeClass(ResultSet rs) throws SQLException {
         return new ClassGroup(
@@ -96,66 +49,12 @@ public class JDBCClassesDao extends JDBCAbstractDao implements ClassesDao {
         );
     }
 
-    private SelectSQLStatement selectSchool() {
-        return select("school_id, school_name, school_street, school_zip, school_town")
-                .from("schools");
-    }
-
-    public School getSchool(int schoolId) {
-        return selectSchool().where("school_id", schoolId).getOneObject(JDBCClassesDao::makeSchool);
-    }
-
-    public School getSchool() {
-        return select("school_id, school_name, school_street, school_zip, school_town, user_id")
-                .from("schools JOIN teachers USING(school_id)")
-                .where("user_id", getUserId())
-                .getOneObject(JDBCClassesDao::makeSchool);
-    }
-
-    public int getSchoolId() {
-        // TODO move to different DAO
-        return select("school_id")
-                .from("teachers")
-                .where("user_id", getUserId())
-                .getOneInt();
-    }
-
-    public OptionalInt getSchoolId(int userId) {
-        return select("school_id")
-                .from("teachers")
-                .where("user_id", userId)
-                .findInt();
-    }
-
-    public SelectSQLStatement getSchoolStatement(int schoolId) {
-        return select("user_id, user_name, user_email, user_role, user_disabled")
-                .from("users JOIN teachers USING(user_id)")
-                .where("school_id", schoolId);
-    }
-
-    public List<User> listAllTeachers(int schoolId) {
-        return getSchoolStatement(schoolId).getList(JDBCClassesDao::makeTeachers);
-    }
-
-    private SelectSQLStatement selectTeachersWithSchool() {
-        return select("user_id, user_name, user_email, user_role, user_disabled, school_name, school_id, school_town")
-                .from("users JOIN teachers USING(user_id) JOIN schools USING(school_id)");
-    }
-
-    @Override
-    public void disableTeacher(int userId) {
-        update("users")
-                .set("user_disabled = not user_disabled")
-                .set("who_updated", getUserId())
-                .where("user_id", userId)
-                .execute();
-    }
 
     public Iterable<ClassGroup> getClasses(int yearId) {
         return select("class_id, class_name")
                 .from("classes")
                 .where("year_id", yearId)
-                .where("school_id", getSchool().id())
+                .where("school_id", getSchoolId())
                 .orderBy("class_id")
                 .getList(JDBCClassesDao::makeClass);
     }
@@ -170,7 +69,7 @@ public class JDBCClassesDao extends JDBCAbstractDao implements ClassesDao {
     @Override
     public void addClasses(String classes, int yearId) {
         if (!classes.isBlank()) {
-            int schoolId = getSchool().id();
+            int schoolId = getSchoolId();
             for (String c : classes.split("\\s*[,;]\\s*")) {
                 if (selectClass(c.strip(), schoolId, yearId).isEmpty()) {
                     insertInto("classes")
@@ -231,11 +130,11 @@ public class JDBCClassesDao extends JDBCAbstractDao implements ClassesDao {
     }
 
     @Override
-    public List<ClassGroup> listClasses(int schoolId, int yearId) {
+    public List<ClassGroup> listClasses(int yearId) {
         return select("class_id, class_name")
                 .from("classes")
                 .where("year_id", yearId)
-                .where("school_id", schoolId)
+                .where("school_id", getSchoolId())
                 .orderBy("class_name")
                 .getList(JDBCClassesDao::makeClass);
     }
@@ -301,7 +200,7 @@ public class JDBCClassesDao extends JDBCAbstractDao implements ClassesDao {
         return select("class_id, class_name, pupil_id, pupil_password, pupil_name, pupil_gender")
                 .from("pupils JOIN pupils_classes USING(pupil_id) JOIN classes USING(class_id)")
                 .where("year_id", yearId)
-                .where("school_id", getSchool().id())
+                .where("school_id", getSchoolId())
                 .orderBy("class_id")
                 .getList(JDBCClassesDao::makePupilInClass);
     }
@@ -312,16 +211,6 @@ public class JDBCClassesDao extends JDBCAbstractDao implements ClassesDao {
                 .where(String.format("pupil_id IN (%s)", pupilIds.stream().map(Object::toString).collect(Collectors.joining(", "))))
                 .orderBy("class_id")
                 .getList(JDBCClassesDao::makePupilInClass);
-    }
-
-    @Override
-    public SchoolFinder findSchools() {
-        return new JDBCSchoolFinder(selectSchool());
-    }
-
-    @Override
-    public TeacherFinder findTeachers() {
-        return new JDBCTeacherFinder(selectTeachersWithSchool());
     }
 
 }

@@ -11,6 +11,7 @@ package deputies.teacher;
 
 import be.ugent.caagt.dao.DataAccessException;
 import be.ugent.rasbeb2.db.dao.ClassesDao;
+import be.ugent.rasbeb2.db.dto.ClassWithPupils;
 import be.ugent.rasbeb2.db.dto.Year;
 import deputies.TeacherOnlyDeputy;
 import lombok.Getter;
@@ -22,17 +23,17 @@ import play.mvc.Result;
 
 public class ClassDeputy extends TeacherOnlyDeputy {
 
-   public Result getClasses() {
+    public Result getClasses() {
         ClassesDao dao = dac().getClassesDao();
-        Year year = getCurrentYear();
+        Iterable<ClassWithPupils> classesWithPupils = dao.getClassesWithPupils(getCurrentYearId());
         if (isActiveYear()) {
             return ok(views.html.school.classes.render(
                     emptyForm(ClassesData.class),
-                    dao.getClassesWithPupils(year.id()),
+                    classesWithPupils,
                     this));
         } else {
             return ok(views.html.school.classes_inactive.render(
-                    dao.getClassesWithPupils(year.id()),
+                    classesWithPupils,
                     this));
         }
     }

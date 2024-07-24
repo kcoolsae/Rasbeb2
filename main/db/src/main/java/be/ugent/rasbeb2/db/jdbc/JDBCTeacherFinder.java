@@ -10,13 +10,13 @@
 package be.ugent.rasbeb2.db.jdbc;
 
 import be.ugent.caagt.dao.helper.SelectSQLStatement;
-import be.ugent.rasbeb2.db.dao.ClassesDao;
+import be.ugent.rasbeb2.db.dao.SchoolDao;
 import be.ugent.rasbeb2.db.dto.TeacherWithSchool;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class JDBCTeacherFinder extends JDBCAbstractFinder<TeacherWithSchool, TeacherWithSchool.Field, ClassesDao.TeacherFinder> implements ClassesDao.TeacherFinder {
+public class JDBCTeacherFinder extends JDBCAbstractFinder<TeacherWithSchool, TeacherWithSchool.Field, SchoolDao.TeacherFinder> implements SchoolDao.TeacherFinder {
 
     public JDBCTeacherFinder(SelectSQLStatement stat) {
         super(stat);
@@ -32,7 +32,7 @@ public class JDBCTeacherFinder extends JDBCAbstractFinder<TeacherWithSchool, Tea
         return JDBCClassesDao.makeTeachersWithSchool(rs);
     }
 
-    public ClassesDao.TeacherFinder filter(TeacherWithSchool.Field field, String value) {
+    public SchoolDao.TeacherFinder filter(TeacherWithSchool.Field field, String value) {
         return whereContains(field, value);
     }
 }

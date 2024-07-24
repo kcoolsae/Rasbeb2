@@ -37,13 +37,13 @@ public class TeacherDeputy extends OrganiserOnlyDeputy {
             return badRequest();
         } else {
             TeacherActionData data = form.get();
-            dac().getClassesDao().disableTeacher(data.disable);
+            dac().getSchoolDao().disableTeacher(data.disable);
             return redirect(routes.SchoolController.getSchool(schoolId));
         }
     }
 
     public Result disableTeacherInList(int userId) {
-        dac().getClassesDao().disableTeacher(userId);
+        dac().getSchoolDao().disableTeacher(userId);
         return redirect(routes.TeacherController.listTeachers());
     }
 
@@ -53,7 +53,7 @@ public class TeacherDeputy extends OrganiserOnlyDeputy {
 
     public Result list(PSF psf) {
         return ok(list_teachers.render(
-                getPage(dac().getClassesDao().findTeachers(), psf, TeacherWithSchool.Field.class),
+                getPage(dac().getSchoolDao().findTeachers(), psf, TeacherWithSchool.Field.class),
                 new Table(psf) {
                     public Call list(PSF newPsf) {
                         return routes.TeacherController.list(newPsf);
@@ -90,7 +90,7 @@ public class TeacherDeputy extends OrganiserOnlyDeputy {
             TeacherActionData data = form.get();
             if (data.mimic != null) {
                 User teacher = dac().getUserDao().getUser(data.mimic);
-                int schoolId = dac().getClassesDao().getSchoolId(teacher.id()).orElseThrow();
+                int schoolId = dac().getSchoolDao().getSchoolId(teacher.id()).orElseThrow();
                 return redirect(controllers.home.routes.HomeController.index()).addingToSession(
                         request,
                         Map.of(

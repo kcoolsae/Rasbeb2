@@ -73,7 +73,7 @@ public class AuthenticationDeputy extends DataAccessDeputy {
 
     private Map<String, String> getSessionVariables(User user) {
         Year recentYear = dac().getYearDao().getRecentYear();
-        int schoolId = dac().getClassesDao().getSchoolId(user.id()).orElse(0);
+        int schoolId = dac().getSchoolDao().getSchoolId(user.id()).orElse(0);
         return Map.of(
                 Session.ID, Integer.toString(user.id()),
                 Session.ROLE, user.role().name(),

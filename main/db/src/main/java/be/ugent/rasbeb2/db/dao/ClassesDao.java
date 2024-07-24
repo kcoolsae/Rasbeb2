@@ -15,40 +15,14 @@ import be.ugent.rasbeb2.db.poi.DataOrError;
 import java.util.List;
 import java.util.OptionalInt;
 
+/**
+ * DAO for handling classes and pupils
+ */
 public interface ClassesDao {
 
-    int createSchool (String name, String street, String zip, String town);
-
-    void editSchool(int schoolId, String name, String street, String zip, String town);
-
-    void removeSchool(int schoolId);
-
-    interface SchoolFinder extends Finder<School, School.Field, SchoolFinder> {}
-    SchoolFinder findSchools ();
-
-    School getSchool(int schoolId);
-
-    /**
-     * Return the school of the current user.
-     */
-    School getSchool();
-
-    /**
-     * Return the id of the school of the current user
-     */
-    int getSchoolId();
-
-    /**
-     * Return the id of the school of the given user.
-     */
-    OptionalInt getSchoolId(int userId);
-
-    List<User> listAllTeachers(int schoolId);
-
-    interface TeacherFinder extends Finder<TeacherWithSchool, TeacherWithSchool.Field, TeacherFinder> {}
-    TeacherFinder findTeachers ();
-
-    void disableTeacher(int userId);
+    /* =======
+       CLASSES
+       ======= */
 
     void addClasses(String classes, int yearId);
 
@@ -56,20 +30,25 @@ public interface ClassesDao {
 
     void editPupil(int pupilId, String name, Gender gender, String password);
 
-    Iterable<ClassWithPupils> getClassesWithPupils(int yearId);
-
-    List<ClassGroup> listClasses(int schoolId, int yearId);
+    /**
+     * Lists the classes of the school of the current user for the given year
+     */
+    List<ClassGroup> listClasses(int yearId);
 
     void editClass(String class_name, int classId);
 
     void removeClass(int classId);
 
-    void removePupil(int pupilId);
-
     /**
      * Returns the id of the class with the given name in the given year and in the school of the current user
      */
     OptionalInt getClassId(String className, int yearId);
+
+    /* =======
+       PUPILS IN CLASSES
+       ======= */
+
+    Iterable<ClassWithPupils> getClassesWithPupils(int yearId);
 
     boolean pupilExistsInClass(String pupilName, int classId);
 
@@ -78,4 +57,6 @@ public interface ClassesDao {
     List<PupilInClass> getPupilsByClass(int yearId);
 
     List<PupilInClass> getPupilsInClass(List<Integer> pupilIds);
+
+    void removePupil(int pupilId);
 }

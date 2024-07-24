@@ -10,13 +10,13 @@
 package be.ugent.rasbeb2.db.jdbc;
 
 import be.ugent.caagt.dao.helper.SelectSQLStatement;
-import be.ugent.rasbeb2.db.dao.ClassesDao;
+import be.ugent.rasbeb2.db.dao.SchoolDao;
 import be.ugent.rasbeb2.db.dto.School;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class JDBCSchoolFinder extends JDBCAbstractFinder<School,School.Field, ClassesDao.SchoolFinder> implements ClassesDao.SchoolFinder {
+public class JDBCSchoolFinder extends JDBCAbstractFinder<School,School.Field, SchoolDao.SchoolFinder> implements SchoolDao.SchoolFinder {
 
     public JDBCSchoolFinder(SelectSQLStatement stat) {
         super(stat);
@@ -29,10 +29,10 @@ public class JDBCSchoolFinder extends JDBCAbstractFinder<School,School.Field, Cl
 
     @Override
     protected School makeRecord(ResultSet rs) throws SQLException {
-        return JDBCClassesDao.makeSchool(rs);
+        return JDBCSchoolDao.makeSchool(rs);
     }
 
-    public ClassesDao.SchoolFinder filter(School.Field field, String value) {
+    public SchoolDao.SchoolFinder filter(School.Field field, String value) {
         if (field == School.Field.ZIP) {
             return whereStartsWith(field, value);
         } else {

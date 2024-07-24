@@ -76,9 +76,9 @@ public class JDBCEventDao extends JDBCAbstractDao implements EventDao {
     }
 
     @Override
-    public List<Event> listEvents(int schoolId, int yearId) {
+    public List<Event> listEvents(int yearId) {
         return selectEvents()
-                .where("school_id", schoolId)
+                .where("school_id", getSchoolId())
                 .where("year_id", yearId)
                 .getList(JDBCEventDao::makeEvent);
     }

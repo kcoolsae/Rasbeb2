@@ -11,7 +11,8 @@ package deputies.organiser;
 
 import be.ugent.caagt.dao.DataAccessException;
 import be.ugent.caagt.play.binders.PSF;
-import be.ugent.rasbeb2.db.dao.ClassesDao;
+import be.ugent.rasbeb2.db.dao.SchoolDao;
+import be.ugent.rasbeb2.db.dao.SchoolDao;
 import be.ugent.rasbeb2.db.dto.School;
 import controllers.organiser.routes;
 import deputies.OrganiserOnlyDeputy;
@@ -58,7 +59,7 @@ public class SchoolDeputy extends OrganiserOnlyDeputy {
             return listWithErrors(getInitialPSF(School.Field.NAME), form);
         } else {
             SchoolData data = form.get();
-            dac().getClassesDao().createSchool(
+            dac().getSchoolDao().createSchool(
                     data.name, data.street, data.zip, data.town
             );
             success("school.schools.success-added");
@@ -68,7 +69,7 @@ public class SchoolDeputy extends OrganiserOnlyDeputy {
 
     public Result editSchool(int schoolId) {
         Form<SchoolData> form = formFromRequest(SchoolData.class);
-        ClassesDao dao = dac().getClassesDao();
+        SchoolDao dao = dac().getSchoolDao();
         if (form.hasErrors()) {
             return badRequest(organiser_school.render(
                     dao.getSchool(schoolId),
@@ -88,7 +89,7 @@ public class SchoolDeputy extends OrganiserOnlyDeputy {
 
     public Result removeSchool(int schoolId) {
         try {
-            dac().getClassesDao().removeSchool(schoolId);
+            dac().getSchoolDao().removeSchool(schoolId);
             success("school.schools.success-deleted");
         } catch (DataAccessException ex) {
             error("school.schools.error-deleted");
@@ -101,7 +102,7 @@ public class SchoolDeputy extends OrganiserOnlyDeputy {
     }
 
     public Result getSchool(int schoolId) {
-        ClassesDao dao = dac().getClassesDao();
+        SchoolDao dao = dac().getSchoolDao();
         School school = dao.getSchool(schoolId);
         return ok(organiser_school.render(
                 school,
@@ -134,14 +135,14 @@ public class SchoolDeputy extends OrganiserOnlyDeputy {
 
     public Result list(PSF psf) {
         return ok(list_schools.render(
-                getPage(dac().getClassesDao().findSchools(), psf, School.Field.class),
+                getPage(dac().getSchoolDao().findSchools(), psf, School.Field.class),
                 emptyForm(SchoolData.class), "", getTable(psf), this)
         );
     }
 
     public Result listWithErrors(PSF psf, Form<SchoolData> form) {
         return badRequest(list_schools.render(
-                getPage(dac().getClassesDao().findSchools(), psf, School.Field.class),
+                getPage(dac().getSchoolDao().findSchools(), psf, School.Field.class),
                 form, "new", getTable(psf), this)
         );
     }

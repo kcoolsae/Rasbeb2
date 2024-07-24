@@ -9,7 +9,7 @@
 
 package deputies.teacher;
 
-import be.ugent.rasbeb2.db.dao.ClassesDao;
+import be.ugent.rasbeb2.db.dao.SchoolDao;
 import be.ugent.rasbeb2.db.dto.School;
 import be.ugent.rasbeb2.db.dto.Year;
 import common.Session;
@@ -20,7 +20,7 @@ import views.html.school.teacher_school;
 public class TeacherDeputy extends TeacherOnlyDeputy {
 
     public Result getSchool() {
-        ClassesDao dao = dac().getClassesDao();
+        SchoolDao dao = dac().getSchoolDao();
         School school = dao.getSchool();
         int schoolId = school.id();
         return ok(teacher_school.render(

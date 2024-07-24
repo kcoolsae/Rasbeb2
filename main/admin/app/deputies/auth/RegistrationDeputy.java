@@ -15,6 +15,7 @@ import be.ugent.rasbeb2.db.dao.RegistrationDao;
 import be.ugent.rasbeb2.db.dao.UserDao;
 import be.ugent.rasbeb2.db.dto.Registration;
 import be.ugent.rasbeb2.db.dto.Role;
+import common.Session;
 import controllers.auth.routes;
 import lombok.Getter;
 import lombok.Setter;
@@ -151,7 +152,8 @@ public class RegistrationDeputy extends EmailSendingDeputy {
             // this should not happen
             return badRequest();
         } else {
-            sendRegistrationMail(dac().getClassesDao().getSchoolId(), form.get().email);
+            int schoolId = Integer.parseInt(getFromSession(Session.SCHOOL_ID));
+            sendRegistrationMail(schoolId, form.get().email);
             return redirect(controllers.teacher.routes.TeacherController.getSchool());
         }
     }

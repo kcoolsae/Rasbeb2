@@ -45,6 +45,11 @@ public class JDBCDataAccessContext extends BaseDAC implements DataAccessContext 
     }
 
     @Override
+    public SchoolDao getSchoolDao() {
+        return new JDBCSchoolDao(this);
+    }
+
+    @Override
     public ContestDao getContestDao() {
         return new JDBCContestDao(this);
     }

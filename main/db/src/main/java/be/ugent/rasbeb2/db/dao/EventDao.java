@@ -17,7 +17,10 @@ public interface EventDao {
 
     void addEvent(int contestId, int ageGroupId, int yearId, String title, String lang);
 
-    List<Event> listEvents(int schoolId, int yearId);
+    /**
+     * List the events for the school of the current user in the given year
+     */
+    List<Event> listEvents(int yearId);
 
     String getEventTitle(int eventId);
 
