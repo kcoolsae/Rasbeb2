@@ -129,7 +129,7 @@ public class AuthenticationDeputy extends DataAccessDeputy {
             UpdatePasswordData data = form.get();
             UserDao dao = dac().getUserDao();
             if (dao.hasPassword(data.currentPassword) && data.newPassword.equals(data.confirmPassword)) {
-                dao.updatePassword(dao.getCurrentUserId(), data.newPassword);
+                dao.updatePassword(getCurrentUserId(), data.newPassword);
                 success("auth.change-password.success");
                 return redirect(controllers.home.routes.HomeController.index());
             } else {

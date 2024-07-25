@@ -12,7 +12,6 @@ package deputies.auth;
 import be.ugent.caagt.dao.DataAccessException;
 import be.ugent.rasbeb2.db.dao.RegistrationDao;
 import be.ugent.rasbeb2.db.dao.UserDao;
-import be.ugent.rasbeb2.db.dto.User;
 import controllers.auth.routes;
 import lombok.Getter;
 import lombok.Setter;
@@ -74,9 +73,9 @@ public class PasswordDeputy extends EmailSendingDeputy {
             if (registrationDao.isValidPasswordRequest(data.email, token)) {
                 UserDao userDao = dac().getUserDao();
                 try {
-                    User user = userDao.getUser(data.email);
+                    int userId = userDao.getUserId(data.email);
                     // update password
-                    userDao.updatePassword(user.id(), data.password);
+                    userDao.updatePassword(userId, data.password);
                     // delete token
                     registrationDao.deletePasswordRequest(data.email);
                     success("auth.reset-password.success");

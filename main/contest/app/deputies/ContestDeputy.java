@@ -40,8 +40,4 @@ public class ContestDeputy extends common.DataAccessDeputy {
         return session.get(Session.ID).isPresent() && session.get(Session.NAME).isPresent();
     }
 
-    protected int getPupilId() {
-        return Integer.parseInt(findInSession(Session.ID));
-    }
-
 }

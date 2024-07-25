@@ -14,8 +14,6 @@ import be.ugent.rasbeb2.db.dto.User;
 
 public interface UserDao {
 
-    int getCurrentUserId();
-
     /**
      * Create a new user. Returns the user id of the newly created user. Password must
      * be set separately.
@@ -32,7 +30,10 @@ public interface UserDao {
      */
     void updatePassword(int userId, String password);
 
-    void updateUsername(int userId, String username);
+    /**
+     * Update the name of the curren user
+     */
+    void updateUsername(String username);
 
     /**
      * Returns the user for the given credentials.
@@ -46,13 +47,11 @@ public interface UserDao {
     boolean hasPassword(String password);
 
     /**
-     * Returns the user for the given email.
+     * Returns the user id for the given email.
      */
-    User getUser(String email);
+    int getUserId(String email);
 
     User getUser(int userId);
-
-    //User getUser();
 
     /**
      * Returns whether the given email address is known in the database.

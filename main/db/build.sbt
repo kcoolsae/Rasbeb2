@@ -3,7 +3,7 @@ name := "Rasbeb2 - db"
 normalizedName := "db"
 
 libraryDependencies ++= Seq(
-  "be.ugent.caagt" % "daohelper" % "1.1.12",
+  "be.ugent.caagt" % "daohelper" % "1.1.13",
   "com.google.guava" % "guava" % "32.1.3-jre",  // = version used by play
   "org.apache.poi" % "poi-ooxml" % "5.3.0",
 

@@ -23,11 +23,6 @@ public class JDBCUserDao extends JDBCAbstractDao implements UserDao {
     }
 
     @Override
-    public int getCurrentUserId() {
-        return getUserId();
-    }
-
-    @Override
     public int createUser(String name, String email, Role role) {
         return insertInto("users")
                 .value("user_name", name)
@@ -54,10 +49,11 @@ public class JDBCUserDao extends JDBCAbstractDao implements UserDao {
     }
 
     @Override
-    public void updateUsername(int userId, String username) {
+    public void updateUsername(String username) {
+        int userId = getUserId();
         update("users")
                 .set("user_name", username)
-                .set("who_updated", getUserId())
+                .set("who_updated", userId)
                 .where("user_id", userId)
                 .execute();
     }
@@ -125,11 +121,11 @@ public class JDBCUserDao extends JDBCAbstractDao implements UserDao {
     }
 
     @Override
-    public User getUser(String email) {
-        return select("user_id, user_name, user_email, user_role, user_password_salt, user_password_hash, user_disabled")
+    public int getUserId(String email) {
+        return select("user_id")
                 .from("users")
                 .where("user_email", email.toLowerCase().strip())
-                .getOneObject(JDBCUserDao::makeUser);
+                .getOneInt();
     }
 
     @Override

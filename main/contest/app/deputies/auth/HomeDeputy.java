@@ -70,7 +70,7 @@ public class HomeDeputy extends ContestDeputy {
                 return redirect(controllers.auth.routes.HomeController.index());
             } else {
                 return ok(home_pupil.render(
-                        dac().getPupilDao().getContests(getPupilId()),
+                        dac().getPupilDao().getContests(getCurrentUserId()),
                         this)
                 );
             }

@@ -63,7 +63,7 @@ public class AuthenticationDeputy extends deputies.ContestDeputy {
     }
 
     public Result logout() {
-        LOGGER.info ("{} logout", getPupilId());
+        LOGGER.info ("{} logout", getCurrentUserId());
         success("auth.logout.message");
         return redirect(controllers.auth.routes.HomeController.index()).withNewSession();
     }

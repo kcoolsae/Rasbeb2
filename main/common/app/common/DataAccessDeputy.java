@@ -57,4 +57,19 @@ public class DataAccessDeputy extends Deputy {
         return redirect(psfToCall.apply(psf.resize(pageSize))).withCookies(createPageSizeCookie(pageSize));
     }
 
+    /**
+     * Id of current user (teacher/organiser/pupil) taken from session.
+     */
+    public int getCurrentUserId() {
+        return Integer.parseInt(findInSession(Session.ID));
+    }
+
+    /**
+     * Id of current school taken from session. Only use this when the current user is a teacher.
+     */
+    public int getCurrentSchoolId() {
+        return Integer.parseInt(findInSession(Session.SCHOOL_ID));
+    }
+
+    // getCurrentYearId can be found in TeacherOnlyDeputy
 }

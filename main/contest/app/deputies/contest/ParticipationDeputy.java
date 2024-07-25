@@ -49,7 +49,7 @@ public class ParticipationDeputy extends deputies.ContestDeputy {
             return redirectToIndex();
         }
 
-        int pupilId = getPupilId();
+        int pupilId = getCurrentUserId();
         int contestId = getContestId();
         ParticipationDao participationDao = dac().getParticipationDao();
         Participation part = participationDao.get(contestId, pupilId);
@@ -117,7 +117,7 @@ public class ParticipationDeputy extends deputies.ContestDeputy {
             Form<AnswerData> form = formFromRequest(AnswerData.class);
             if (!form.hasErrors()) {
                 String answer = form.get().answer.strip();
-                int pupilId = getPupilId();
+                int pupilId = getCurrentUserId();
                 int contestId = getContestId();
                 dac().getParticipationDao().updateAnswer(contestId, pupilId, questionId, answer);
                 LOGGER.info("{} {} {} answered: {} ", pupilId, contestId, questionId, answer);
@@ -137,7 +137,7 @@ public class ParticipationDeputy extends deputies.ContestDeputy {
         }
 
         int contestId = getContestId();
-        int pupilId = getPupilId();
+        int pupilId = getCurrentUserId();
         if (request.session().get(Session.NAME).isPresent()) {
             // normal participation - go back to the index page
             dac().getParticipationDao().close(contestId, pupilId);

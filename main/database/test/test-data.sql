@@ -39,6 +39,12 @@ VALUES
     (3, 'Teacher 3, The', 'teacher3@some.email.com', 'TEACHER'),
     (4, 'Teacher 4, The', 'teacher4@some.email.com', 'TEACHER');
 
+-- set passwords for all users to Opensesame
+UPDATE users
+SET user_password_hash = '399B572EB2D093D6833A07AD55C48CC0',
+    user_password_salt = 'BA7D5D48D00ECB6E38D5DDED811B55D4'
+WHERE user_id >= 1 AND user_id <= 4;
+
 -- School 1 has two teachers (2 and 3), school 2 has one teacher (4)
 INSERT INTO teachers (user_id, school_id)
 VALUES (2, 1), (3, 1), (4, 2);

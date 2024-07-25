@@ -35,7 +35,7 @@ For development
 * Several external libraries, as specified in the various `build.sbt` files. Most of these will
   be downloaded automatically by SBT, with the following exceptions:
   * `be.ugent.caagt:play-utils:1.1`
-  * `be.ugent.caagt:daohelper:1.1.12`
+  * `be.ugent.caagt:daohelper:1.1.13`
   
   which are not yet publicly available and must be installed in your local repository. See
   [additional libraries](caagt-libraries.md).

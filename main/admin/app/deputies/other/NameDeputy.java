@@ -41,7 +41,7 @@ public class NameDeputy extends DataAccessDeputy {
         } else {
             UserDao dao = dac().getUserDao();
             String newName = form.get().name;
-            dao.updateUsername(dao.getCurrentUserId(), newName);
+            dao.updateUsername(newName);
             success("change-name.message");
             return redirect(controllers.home.routes.HomeController.index())
                     .addingToSession(request, "name", newName);

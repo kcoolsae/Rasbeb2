@@ -32,7 +32,7 @@ public class PupilDeputy extends ContestDeputy {
      * Start participation of this pupil in the given contest.
      */
     public Result start(int eventId) {
-        int pupilId = getPupilId();
+        int pupilId = getCurrentUserId();
         int contestId = dac().getParticipationDao().create(eventId, pupilId);
         LOGGER.info("{} {} start event", pupilId, eventId);
         return firstParticipation(contestId);
@@ -42,7 +42,7 @@ public class PupilDeputy extends ContestDeputy {
      * Initiates showing of feedback from the pupils home page
      */
     public Result showFeedback(int contestId) {
-        LOGGER.info("{} {} init feedback", getPupilId(), contestId);
+        LOGGER.info("{} {} init feedback", getCurrentUserId(), contestId);
         return redirect(routes.FeedbackController.show())
                 .removingFromSession(request, Session.CONTEST) // just to make sure
                 .addingToSession(request, Session.FEEDBACK, String.valueOf(contestId));
@@ -62,7 +62,7 @@ public class PupilDeputy extends ContestDeputy {
      */
     public Result takeOver(int eventId) {
         Event event = dac().getEventDao().getEvent(eventId);
-        LOGGER.info("{} {} take over", getPupilId(), eventId);
+        LOGGER.info("{} {} take over", getCurrentUserId(), eventId);
         return ok(show_take_over.render(event.header(), event.contestId(), this));
     }
 

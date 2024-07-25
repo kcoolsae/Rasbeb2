@@ -219,10 +219,9 @@ public class JDBCClassesDao extends JDBCAbstractDao implements ClassesDao {
     }
 
     public List<PupilInClass> getPupilsInClass(List<Integer> pupilIds) {
-        // could use array parameters, but there is no support yet in DAOHelper
         return select("class_id, class_name, pupil_id, pupil_password, pupil_name, pupil_gender")
                 .from("pupils JOIN pupils_classes USING(pupil_id) JOIN classes USING(class_id)")
-                .where(String.format("pupil_id IN (%s)", pupilIds.stream().map(Object::toString).collect(Collectors.joining(", "))))
+                .where("pupil_id = ANY (?)", pupilIds.toArray(new Integer[pupilIds.size()])) // needs DAOHelper 1.1.13
                 .orderBy("class_id")
                 .orderBy("pupil_name")
                 .getList(JDBCClassesDao::makePupilInClass);
