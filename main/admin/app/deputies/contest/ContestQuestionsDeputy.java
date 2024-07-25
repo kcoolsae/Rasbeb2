@@ -60,11 +60,10 @@ public class ContestQuestionsDeputy  extends OrganiserOnlyDeputy {
 
     public Result listQuestions(PSF psf, int contestId) {
         String lang = getLanguage();
-        ContestDao dao = dac().getContestDao();
         return ok(contest_questions_select.render(
-                dao.getContest(contestId, lang),
+                dac().getContestDao().getContest(contestId, lang),
                 getQuestionWithAgeGroupsPage(contestId, lang, psf),
-                dao.getAgeGroups(contestId, lang),
+                dac().getAgeGroupDao().getAgeGroups(contestId, lang),
                 getQuestionTable(psf, contestId),
                 this)
         );

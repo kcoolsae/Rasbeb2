@@ -10,6 +10,7 @@
 package be.ugent.rasbeb2.db.jdbc;
 
 import be.ugent.rasbeb2.db.dao.UserDao;
+import be.ugent.rasbeb2.db.dto.Pupil;
 import be.ugent.rasbeb2.db.dto.Role;
 import be.ugent.rasbeb2.db.dto.User;
 
@@ -35,6 +36,24 @@ public class JDBCUserDao extends JDBCAbstractDao implements UserDao {
     @Override
     public void createTeacher(int userId, int schoolId) {
         insertInto("teachers").value("user_id", userId).value("school_id", schoolId).create();
+    }
+
+    @Override
+    public int createAnonymousPupil() {
+        return insertInto("pupils")
+                .value("pupil_name", "")
+                .value("pupil_password", "")
+                .value("pupil_anonymous", true)
+                .create();
+    }
+
+    @Override
+    public Pupil getPupil(int pupilId, String password) {
+        return select("pupil_id, pupil_name, pupil_gender, pupil_password")
+                .from("pupils")
+                .where("pupil_id", pupilId)
+                .where("pupil_password", password)
+                .getObject(JDBCPupilContestDao::makePupil);
     }
 
     @Override

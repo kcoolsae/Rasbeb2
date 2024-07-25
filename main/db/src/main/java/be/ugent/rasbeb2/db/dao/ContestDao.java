@@ -27,8 +27,6 @@ public interface ContestDao {
      */
     Contest getContest(int contestId, String lang);
 
-    ContestWithAgeGroup getContestWithAgeGroup(int contestId, int ageGroupId, String lang);
-
     List<ContestI18n> getAllContestTranslations(int contestId);
 
     interface ContestFinder extends Finder<Contest, Contest.Field, ContestDao.ContestFinder> {}
@@ -47,24 +45,6 @@ public interface ContestDao {
      */
     void removeContestLanguage(int contestId, String lang);
 
-    List<AgeGroup> getAllAgeGroups(String lang);
-
-    /**
-     * Return the list of age groups for which the contest is organised.
-     * @param lang Language to be used for the age group titles
-     */
-    List<AgeGroup> getAgeGroups(int contestId, String lang);
-
-    /**
-     * Return the list of all age groups with duration for which the contest is organised. Duration
-     * can be null if the contest is not organised for this age group.
-     * @param lang Language to be used for the age group titles
-     */
-    List<AgeGroupWithDuration> getAgeGroupsWithDuration(int contestId, String lang);
-
-    void removeAgeGroup(int contestId, int ageGroupId);
-
-    void updateDuration(int contestId, int ageGroupId, int duration);
 
     void changeStatus(int contestId, ContestStatus status);
 
@@ -78,11 +58,6 @@ public interface ContestDao {
      * Returns a list of all contests that can be viewed by a teacher in the given language
      */
     List<Contest> getViewableContests(int ageGroupId, String lang);
-
-    /**
-     * Returns a list of all contests that can be taken by an anonymous user
-     */
-    List<ContestForAnonTable> getOpenPublicContests(String lang);
 
     List<QuestionInSet> getQuestionSet(int contestId, int ageGroupId, String lang);
 

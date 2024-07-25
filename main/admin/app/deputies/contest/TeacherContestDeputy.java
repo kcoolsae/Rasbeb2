@@ -28,9 +28,8 @@ public class TeacherContestDeputy extends TeacherOnlyDeputy {
      * @param ageGroupId age group for which the contests should be listed. Youngest age group is used if zero.
      */
     public Result listContests(int ageGroupId) {
-        ContestDao dao = dac().getContestDao();
         String lang = getLanguage();
-        List<AgeGroup> ageGroups = dao.getAllAgeGroups(lang);
+        List<AgeGroup> ageGroups = dac().getAgeGroupDao().getAllAgeGroups(lang);
         if (ageGroupId == 0) {
             // default value when no id given
             ageGroupId = ageGroups.getFirst().id();
@@ -39,7 +38,7 @@ public class TeacherContestDeputy extends TeacherOnlyDeputy {
         return ok(views.html.contest.teacher_list_contests.render(
                 ageGroupId,
                 ageGroups,
-                dao.getViewableContests(ageGroupId, lang),
+                dac().getContestDao().getViewableContests(ageGroupId, lang),
                 this
         ));
     }
@@ -47,7 +46,7 @@ public class TeacherContestDeputy extends TeacherOnlyDeputy {
     public Result getContestQuestion(int contestId, int ageGroupId, int questionId) {
         String lang = getLanguage();
         Contest c = dac().getContestDao().getContest(contestId, lang);
-        ContestWithAgeGroup contest = dac().getContestDao().getContestWithAgeGroup(contestId, ageGroupId, lang);
+        ContestWithAgeGroup contest = dac().getPupilContestDao().getContestWithAgeGroup(contestId, ageGroupId, lang);
         List<QuestionHeader> headers = dac().getQuestionDao().getQuestionsForContest(contestId, ageGroupId, lang);
         if (questionId == 0) {
             questionId = headers.getFirst().id();

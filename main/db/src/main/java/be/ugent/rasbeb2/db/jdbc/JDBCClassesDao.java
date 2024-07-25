@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.OptionalInt;
-import java.util.stream.Collectors;
 
 public class JDBCClassesDao extends JDBCAbstractDao implements ClassesDao {
 
@@ -136,7 +135,7 @@ public class JDBCClassesDao extends JDBCAbstractDao implements ClassesDao {
                 .parameter(yearId)
                 .parameter(getSchoolId())
                 .processMap(map,
-                        (c,rs) -> c.pupils().add(JDBCPupilDao.makePupil(rs))
+                        (c,rs) -> c.pupils().add(JDBCPupilContestDao.makePupil(rs))
                 );
         return map.values();
     }

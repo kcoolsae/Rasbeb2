@@ -10,8 +10,12 @@
 package deputies.contest;
 
 import be.ugent.caagt.dao.ForeignKeyViolation;
+import be.ugent.rasbeb2.db.dao.AgeGroupDao;
 import be.ugent.rasbeb2.db.dao.ContestDao;
-import be.ugent.rasbeb2.db.dto.*;
+import be.ugent.rasbeb2.db.dto.AgeGroupWithDuration;
+import be.ugent.rasbeb2.db.dto.Contest;
+import be.ugent.rasbeb2.db.dto.ContestI18n;
+import be.ugent.rasbeb2.db.dto.ContestType;
 import controllers.contest.routes;
 import deputies.OrganiserOnlyDeputy;
 import lombok.Getter;
@@ -87,7 +91,7 @@ public class ContestSettingsDeputy extends OrganiserOnlyDeputy {
         ContestDao dao = dac().getContestDao();
         Contest contest = dao.getContest(contestId, lang);
         List<ContestI18n> list = dao.getAllContestTranslations(contestId);
-        List<AgeGroupWithDuration> ageGroups = dao.getAgeGroupsWithDuration(contestId, lang);
+        List<AgeGroupWithDuration> ageGroups = dac().getAgeGroupDao().getAgeGroupsWithDuration(contestId, lang);
         return ok(contest_settings.render(
                 formFromData(new ContestData(contest.contestType(), list)),
                 formFromData(new DurationData(ageGroups)),
@@ -126,7 +130,7 @@ public class ContestSettingsDeputy extends OrganiserOnlyDeputy {
     public Result ageGroupSettings(int contestId) {
         Form<DurationData> form = formFromRequest(DurationData.class);
         DurationData data = form.get(); // note that
-        ContestDao dao = dac().getContestDao();
+        AgeGroupDao dao = dac().getAgeGroupDao();
         try {
             for (Map.Entry<Integer, Integer> entry : data.duration.entrySet()) {
                 int ageGroupId = entry.getKey();

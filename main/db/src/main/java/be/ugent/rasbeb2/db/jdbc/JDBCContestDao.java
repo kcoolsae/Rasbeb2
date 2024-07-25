@@ -151,69 +151,7 @@ public class JDBCContestDao extends JDBCAbstractDao implements ContestDao {
                 .execute();
     }
 
-    private static AgeGroup makeAgeGroup(ResultSet rs) throws SQLException {
-        return new AgeGroup(
-                rs.getInt("age_group_id"),
-                rs.getString("age_group_name"),
-                rs.getString("age_group_description")
-        );
-    }
-
-    private static AgeGroupWithDuration makeAgeGroupWithDuration(ResultSet rs) throws SQLException {
-        return new AgeGroupWithDuration(
-                makeAgeGroup(rs),
-                rs.getObject("contest_duration", Integer.class)
-        );
-    }
-
-    private static final String AGE_GROUP_FIELDS = "age_groups.age_group_id, age_group_name, age_group_description";
-
-    @Override
-    public List<AgeGroup> getAgeGroups(int contestId, String lang) {
-        return select(AGE_GROUP_FIELDS)
-                .from("age_groups JOIN contests_ag USING(age_group_id)")
-                .where("lang", lang)
-                .where("contest_id", contestId)
-                .orderBy("age_groups.age_group_id")
-                .getList(JDBCContestDao::makeAgeGroup);
-    }
-
-    @Override
-    public List<AgeGroupWithDuration> getAgeGroupsWithDuration(int contestId, String lang) {
-        return select(AGE_GROUP_FIELDS + ", contest_duration")
-                .from("age_groups LEFT JOIN contests_ag ON(age_groups.age_group_id=contests_ag.age_group_id AND contest_id = ?)")
-                .parameter(contestId)
-                .where("lang", lang)
-                .orderBy("age_groups.age_group_id")
-                .getList(JDBCContestDao::makeAgeGroupWithDuration);
-    }
-
-    @Override
-    public void removeAgeGroup(int contestId, int ageGroupId) {
-        deleteFrom("contests_ag")
-                .where("contest_id", contestId)
-                .where("age_group_id", ageGroupId)
-                .execute();
-    }
-
-    @Override
-    public void updateDuration(int contestId, int ageGroupId, int duration) {
-        insertOrUpdateInto("contests_ag")
-                .key("contest_id", contestId)
-                .key("age_group_id", ageGroupId)
-                .value("contest_duration", duration)
-                .execute();
-    }
-
-    @Override
-    public List<AgeGroup> getAllAgeGroups(String lang) {
-        return select(AGE_GROUP_FIELDS)
-                .from("age_groups")
-                .where("lang", lang)
-                .getList(JDBCContestDao::makeAgeGroup);
-    }
-
-    @Override
+  @Override
     public void changeStatus(int contestId, ContestStatus status) {
         if (status == ContestStatus.CLOSED) {
             // should only happen with an official contest
@@ -240,34 +178,6 @@ public class JDBCContestDao extends JDBCAbstractDao implements ContestDao {
                 .isEmpty();
     }
 
-    private static ContestWithAgeGroup makeContestWithAgeGroup(ResultSet rs) throws SQLException {
-        return new ContestWithAgeGroup(
-                rs.getInt("contest_id"),
-                rs.getString("contest_title"),
-                rs.getInt("contest_duration"),
-                rs.getInt("age_group_id"),
-                rs.getString("age_group_name"),
-                rs.getString("age_group_description")
-        );
-    }
-
-
-    public SelectSQLStatement selectContestsWithAgeGroup(String lang) {
-        return select("contest_id, contest_title, contest_duration, lang, age_group_id, age_group_name, age_group_description")
-                .from("contests JOIN contests_ag USING(contest_id) JOIN age_groups USING(age_group_id) JOIN contests_i18n USING(contest_id, lang)")
-                .where("lang", lang);
-    }
-
-    @Override
-    public ContestWithAgeGroup getContestWithAgeGroup(int contestId, int ageGroupId, String lang) {
-        return selectContestsWithAgeGroup(lang)
-                .where("lang", lang)
-                .where("contest_id", contestId)
-                .where("age_group_id", ageGroupId)
-                .getOneObject(JDBCContestDao::makeContestWithAgeGroup);
-    }
-
-
     @Override
     public List<Contest> getOrganisableContests(int ageGroupId, String lang) {
         return selectContests(lang, ageGroupId)
@@ -283,33 +193,6 @@ public class JDBCContestDao extends JDBCAbstractDao implements ContestDao {
                 .where("(contest_status = 'OPEN' or contest_status = 'CLOSED')")
                 .orderBy("contests.contest_id", false)
                 .getList(JDBCContestDao::makeContest);
-    }
-
-    @Override
-    public List<ContestForAnonTable> getOpenPublicContests(String lang) {
-        List<ContestWithAgeGroup> contests = selectContestsWithAgeGroup(lang)
-                .where("contest_type", ContestType.PUBLIC)
-                .where("contest_status", ContestStatus.OPEN)
-                .orderBy("contest_id", false)
-                .getList(JDBCContestDao::makeContestWithAgeGroup);
-
-        int i = 0;
-        List<ContestForAnonTable> contestForAnonTable = new ArrayList<>();
-        while (i < contests.size()) {
-            List<Integer> ageGroups = new ArrayList<>();
-            int contestId = contests.get(i).contestId();
-            int contestDuration = contests.get(i).contestDuration();
-            String contestTitle = contests.get(i).contestTitle();
-            while (i < contests.size() && contests.get(i).contestId() == contestId) {
-                ageGroups.add(contests.get(i).ageGroupId());
-                i++;
-            }
-            contestForAnonTable.add(new ContestForAnonTable(
-                    contestId, contestTitle, contestDuration,
-                    ageGroups
-            ));
-        }
-        return contestForAnonTable;
     }
 
     private static QuestionInSet makeQuestionInSet(ResultSet rs) throws SQLException {

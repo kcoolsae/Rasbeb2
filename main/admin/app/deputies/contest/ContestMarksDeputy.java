@@ -42,13 +42,13 @@ public class ContestMarksDeputy extends OrganiserOnlyDeputy {
 
     public Result getQuestionSet(int contestId, int ageGroupId) {
         String lang = getLanguage();
-        ContestDao dao = dac().getContestDao();
-        List<AgeGroup> ageGroups = dao.getAgeGroups(contestId, lang);
+        List<AgeGroup> ageGroups = dac().getAgeGroupDao().getAgeGroups(contestId, lang);
         if (ageGroupId == 0) {
             // default value when no id given
             ageGroupId = ageGroups.getFirst().id();
         }
 
+        ContestDao dao = dac().getContestDao();
         List<QuestionInSet> questionSet = dao.getQuestionSet(contestId, ageGroupId, lang);
         QuestionSetData data = new QuestionSetData();
         for (QuestionInSet q : questionSet) {
@@ -74,7 +74,7 @@ public class ContestMarksDeputy extends OrganiserOnlyDeputy {
                     form,
                     dao.getQuestionSet(contestId, ageGroupId, lang),
                     dao.getContest(contestId, lang),
-                    dao.getAgeGroups(contestId, lang),
+                    dac().getAgeGroupDao().getAgeGroups(contestId, lang),
                     ageGroupId,
                     this
             ));

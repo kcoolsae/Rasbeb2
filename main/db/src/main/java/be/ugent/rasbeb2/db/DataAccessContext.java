@@ -21,7 +21,7 @@ public interface DataAccessContext extends AutoCloseable {
 
     UserDao getUserDao();
 
-    PupilDao getPupilDao();
+    PupilContestDao getPupilContestDao();
 
     YearDao getYearDao();
 
@@ -36,6 +36,8 @@ public interface DataAccessContext extends AutoCloseable {
     EventDao getEventDao();
 
     ParticipationDao getParticipationDao();
+
+    AgeGroupDao getAgeGroupDao();
 
     void begin();
 

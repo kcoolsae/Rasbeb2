@@ -23,12 +23,12 @@ public class ContestOrderDeputy extends OrganiserOnlyDeputy {
 
     public Result getQuestionSet(int contestId, int ageGroupId) {
         String lang = getLanguage();
-        ContestDao dao = dac().getContestDao();
-        List<AgeGroup> ageGroups = dao.getAgeGroups(contestId, lang);
+        List<AgeGroup> ageGroups = dac().getAgeGroupDao().getAgeGroups(contestId, lang);
         if (ageGroupId == 0) {
             // default value when no id given
             ageGroupId = ageGroups.getFirst().id();
         }
+        ContestDao dao = dac().getContestDao();
         return ok(question_set_order.render(
                 dao.getQuestionSet(contestId, ageGroupId, lang),
                 dao.getContest(contestId, lang),

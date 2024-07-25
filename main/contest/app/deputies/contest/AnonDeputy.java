@@ -25,7 +25,7 @@ public class AnonDeputy extends ContestDeputy {
             // anonymous users only login later
             return badRequest();
         } else {
-            ContestWithAgeGroup contest = dac().getContestDao().getContestWithAgeGroup(contestId, ageGroupId, getLanguage());
+            ContestWithAgeGroup contest = dac().getPupilContestDao().getContestWithAgeGroup(contestId, ageGroupId, getLanguage());
             return ok(show_anon.render(contest, this));
         }
     }
@@ -38,7 +38,7 @@ public class AnonDeputy extends ContestDeputy {
             // anonymous users only login later
             return badRequest();
         } else {
-           int pupilId = dac().getPupilDao().createAnonymousPupil();
+           int pupilId = dac().getUserDao().createAnonymousPupil();
            dac().getParticipationDao().create(contestId, ageGroupId, getLanguage(), pupilId);
            return redirect(controllers.contest.routes.ParticipationController.question(0))
                    .addingToSession(request, Session.CONTEST, Integer.toString(contestId))

@@ -10,6 +10,7 @@
 package be.ugent.rasbeb2.db;
 
 import be.ugent.rasbeb2.db.dao.UserDao;
+import be.ugent.rasbeb2.db.dto.Pupil;
 import be.ugent.rasbeb2.db.dto.Role;
 import be.ugent.rasbeb2.db.dto.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,6 +46,9 @@ class UserDaoTest extends OrganiserDaoTest {
         List<User> teachers = dac.getSchoolDao().listAllTeachers(2);
         assertThat(teachers).extracting(User::name).contains("John Doe");
     }
+
+    // createAnonymousPupil cannot easily  be tested
+    // getPupil is tested in ClassesDaoTest editPupil and addPupil
 
     @Test
     void getUser() {

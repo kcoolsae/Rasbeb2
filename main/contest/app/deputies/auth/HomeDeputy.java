@@ -9,7 +9,6 @@
 
 package deputies.auth;
 
-import be.ugent.rasbeb2.db.dao.ContestDao;
 import common.Session;
 import deputies.ContestDeputy;
 import play.mvc.Call;
@@ -49,10 +48,9 @@ public class HomeDeputy extends ContestDeputy {
             return dispatchAccordingToSession(true);
         } else {
             // note that anonymous users are only logged in when in participation or feedback
-            ContestDao dao = dac().getContestDao();
             return ok(home_anon.render(
-                    dao.getOpenPublicContests(getLanguage()),
-                    dao.getAllAgeGroups(getLanguage()),
+                    dac().getPupilContestDao().getOpenPublicContests(getLanguage()),
+                    dac().getAgeGroupDao().getAllAgeGroups(getLanguage()),
                     this)
             );
         }
@@ -70,7 +68,7 @@ public class HomeDeputy extends ContestDeputy {
                 return redirect(controllers.auth.routes.HomeController.index());
             } else {
                 return ok(home_pupil.render(
-                        dac().getPupilDao().getContests(getCurrentUserId()),
+                        dac().getPupilContestDao().getContests(getCurrentUserId()),
                         this)
                 );
             }

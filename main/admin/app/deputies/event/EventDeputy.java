@@ -200,8 +200,7 @@ public class EventDeputy extends TeacherOnlyDeputy {
     }
 
     public Result listEventContests(int ageGroupId, String lang) {
-        ContestDao dao = dac().getContestDao();
-        List<AgeGroup> ageGroups = dao.getAllAgeGroups(lang);
+        List<AgeGroup> ageGroups = dac().getAgeGroupDao().getAllAgeGroups(lang);
         if (ageGroupId == 0) {
             // default value when no id given
             ageGroupId = ageGroups.getFirst().id();
@@ -211,7 +210,7 @@ public class EventDeputy extends TeacherOnlyDeputy {
                 getUILanguagesInfo(),
                 ageGroupId,
                 ageGroups,
-                dao.getOrganisableContests(ageGroupId, lang),
+                dac().getContestDao().getOrganisableContests(ageGroupId, lang),
                 this)
         );
     }

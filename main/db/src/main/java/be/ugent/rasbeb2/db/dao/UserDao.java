@@ -9,6 +9,7 @@
 
 package be.ugent.rasbeb2.db.dao;
 
+import be.ugent.rasbeb2.db.dto.Pupil;
 import be.ugent.rasbeb2.db.dto.Role;
 import be.ugent.rasbeb2.db.dto.User;
 
@@ -24,6 +25,17 @@ public interface UserDao {
      * Create a new teacher. User must be made separately.
      */
     void createTeacher(int userId, int schoolId);
+
+    /**
+     * Create a new anonymous pupil. Returns the user id of the newly created pupil.
+     */
+    int createAnonymousPupil();
+
+    /**
+     * Returns the pupil for the given name and password. Cannot be used
+     * on an anonymous pupil.
+     */
+    Pupil getPupil(int pupilId, String password);
 
     /**
      * Update the password for the given user.

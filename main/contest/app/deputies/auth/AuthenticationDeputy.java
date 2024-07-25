@@ -19,7 +19,6 @@ import play.mvc.Result;
 
 import java.util.Map;
 
-
 public class AuthenticationDeputy extends deputies.ContestDeputy {
 
     @Getter
@@ -45,7 +44,7 @@ public class AuthenticationDeputy extends deputies.ContestDeputy {
             return badRequest(views.html.auth.login.render(form, this));
         } else {
             LoginData data = form.get();
-            Pupil pupil = dac().getPupilDao().getPupil(data.id, data.password);
+            Pupil pupil = dac().getUserDao().getPupil(data.id, data.password);
             if (pupil == null) {
                 error("auth.login.error");
                 LOGGER.info("{} {} login failed", data.id, data.password);

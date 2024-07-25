@@ -137,7 +137,7 @@ class ClassesDaoTest extends TeacherDaoTest {
     @Test
     void addPupil() {
         int pupilId = dao.addPupil(4, "Pupil 1000", Gender.MALE, "password");
-        Pupil pupil = dac.getPupilDao().getPupil(pupilId, "password");
+        Pupil pupil = dac.getUserDao().getPupil(pupilId, "password");
         assertThat(pupil).isEqualTo(
                 new Pupil (pupilId, "Pupil 1000", Gender.MALE, "password")
         );
@@ -146,7 +146,7 @@ class ClassesDaoTest extends TeacherDaoTest {
     @Test
     void editPupil() {
         dao.editPupil(3, "Pupil 3 (updated)", Gender.MALE, "new password");
-        Pupil pupil = dac.getPupilDao().getPupil(3, "new password");
+        Pupil pupil = dac.getUserDao().getPupil(3, "new password");
         assertThat(pupil).isEqualTo(
                 new Pupil (3, "Pupil 3 (updated)", Gender.MALE, "new password")
         );
