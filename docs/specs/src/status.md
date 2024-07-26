@@ -24,7 +24,7 @@ _pending_, _published_ or _open_
 * Nothing can be done if the status is _pending_
 * If _published_, corresponding events can be organised, but
   these events cannot be _opened_. Questions/answers are not yet available
-  to the teachers
+  to the teachers. (In practice this status is not often used.)
 * If _open_, all actions are allowed in principle, but may be restricted by
   the status of associated events
 

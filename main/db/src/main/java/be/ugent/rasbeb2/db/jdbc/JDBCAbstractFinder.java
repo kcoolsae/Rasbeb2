@@ -30,7 +30,7 @@ public abstract class JDBCAbstractFinder<D, F extends Enum<F> & FieldEnum<D>, SE
     protected abstract D makeRecord(ResultSet rs) throws SQLException;
 
     private SELF whereContains(String fieldName, String value) {
-        // my need to become protected
+        // may need to become protected
         return create(stat.where(fieldName + " ILIKE '%'||?||'%'", value));
     }
 
@@ -39,7 +39,7 @@ public abstract class JDBCAbstractFinder<D, F extends Enum<F> & FieldEnum<D>, SE
     }
 
     private SELF whereStartsWith(String fieldName, String value) {
-        // my need to become protected
+        // may need to become protected
         return create(stat.where(fieldName + " ILIKE ?||'%'", value));
     }
 
@@ -48,7 +48,7 @@ public abstract class JDBCAbstractFinder<D, F extends Enum<F> & FieldEnum<D>, SE
     }
 
     private Page<D> getPageOrderedBy(String fieldName, boolean asc, int pageNr, int pageSize) {
-        // my need to become protected
+        // may need to become protected
         return stat.orderBy(fieldName, asc).onlyPage(pageNr, pageSize).getPage(this::makeRecord);
     }
 

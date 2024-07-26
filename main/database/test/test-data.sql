@@ -71,6 +71,35 @@ VALUES
 INSERT INTO pupils_classes (pupil_id, class_id)
 VALUES (1, 3), (2, 3), (5, 4), (6, 4), (3, 1), (4, 6);
 
+-- Age groups (3)
+INSERT INTO age_groups (age_group_id, lang, age_group_name, age_group_description)
+SELECT id, language, 'Age group ' || id || ' in ' || language, 'Description of age group ' || id || ' in ' || language
+FROM generate_series(1, 3) AS id
+    CROSS JOIN unnest (ARRAY['en', 'nl', 'fr']) AS language;
+
+-- Contests
+INSERT INTO contests (contest_id, contest_type, contest_status)
+VALUES (1, 'OFFICIAL', 'PUBLISHED'),
+       (2, 'RESTRICTED', 'PENDING'),
+       (3, 'RESTRICTED', 'OPEN'),
+       (4, 'RESTRICTED', 'PUBLISHED'),
+       (5, 'PUBLIC', 'OPEN');
+
+-- Contest titles in various languages
+INSERT INTO contests_i18n (contest_id, lang, contest_title)
+SELECT contest_id, language, 'Contest ' || contest_id || ' in ' || language
+FROM contests CROSS JOIN unnest (ARRAY['en', 'nl', 'fr']) AS language;
+
+-- All have 3 languages, except contest 4
+DELETE FROM contests_i18n WHERE contest_id = 4 AND lang = 'fr';
+
+-- Supported age groups for contests
+INSERT INTO contests_ag(contest_id, age_group_id, contest_duration)
+VALUES (1, 1, 40), (1, 2, 40), (1, 3, 40),
+       (2, 1, 40), (2, 2, 40),
+       (3, 2, 40), (3, 3, 30),
+       (4, 1, 40),
+       (5, 1, 50), (5, 3, 30);
 
 SELECT reset_sequences('public');
 

@@ -77,15 +77,18 @@ public class JDBCContestDao extends JDBCAbstractDao implements ContestDao {
                 .parameter(lang);
     }
 
+    /**
+     * Alle contests for the given language and age group, presented
+     * in the given language.
+     */
     public SelectSQLStatement selectContests(String lang, int ageGroupId) {
-        return select("contests.contest_id, contest_type, contest_status, contest_title")
+        return select("contest_id, contest_type, contest_status, contest_title")
                 .from("""
                         contests
                         JOIN contests_ag USING(contest_id)
-                        LEFT JOIN contests_i18n
-                          ON contests.contest_id = contests_i18n.contest_id AND lang = ?
+                        JOIN contests_i18n USING(contest_id)
                         """)
-                .parameter(lang)
+                .where("lang", lang)
                 .where("age_group_id", ageGroupId);
     }
 
@@ -109,6 +112,7 @@ public class JDBCContestDao extends JDBCAbstractDao implements ContestDao {
         return select("contest_id, lang, contest_title")
                 .from("contests_i18n")
                 .where("contest_id", contestId)
+                .orderBy("lang")
                 .getList(JDBCContestDao::makeContestI18n);
     }
 
@@ -136,7 +140,7 @@ public class JDBCContestDao extends JDBCAbstractDao implements ContestDao {
                         VALUES (?,?,'',?)
                         ON CONFLICT (contest_id,lang) DO NOTHING
                         """).parameter(contestId)
-                        .parameter(lang)
+                        .parameter(lang.strip())
                         .parameter(getUserId())
                         .execute();
             }
@@ -156,6 +160,7 @@ public class JDBCContestDao extends JDBCAbstractDao implements ContestDao {
         if (status == ContestStatus.CLOSED) {
             // should only happen with an official contest
             if (isOfficialContest(contestId)) {
+                // TODO do this test at the database level
                 call("close_contest(?,?)")
                         .parameter(contestId)
                         .parameter(getUserId())

@@ -9,7 +9,6 @@
 
 package deputies.event;
 
-import be.ugent.rasbeb2.db.dao.ContestDao;
 import be.ugent.rasbeb2.db.dao.EventDao;
 import be.ugent.rasbeb2.db.dto.*;
 import be.ugent.rasbeb2.db.poi.PupilSheetWriter;

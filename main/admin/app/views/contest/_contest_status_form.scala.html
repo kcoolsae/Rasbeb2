@@ -17,7 +17,7 @@
 @statuses()=@{
     contest.contestType() match {
         case ContestType.PUBLIC =>
-            Seq (ContestStatus.PENDING, ContestStatus.PUBLISHED)
+            Seq (ContestStatus.PENDING, ContestStatus.OPEN)
         case ContestType.RESTRICTED =>
             Seq (ContestStatus.PENDING, ContestStatus.PUBLISHED, ContestStatus.OPEN)
         case ContestType.OFFICIAL =>

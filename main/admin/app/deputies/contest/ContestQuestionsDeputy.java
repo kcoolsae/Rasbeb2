@@ -11,7 +11,6 @@ package deputies.contest;
 
 import be.ugent.caagt.dao.Page;
 import be.ugent.caagt.play.binders.PSF;
-import be.ugent.rasbeb2.db.dao.ContestDao;
 import be.ugent.rasbeb2.db.dto.QuestionWithAgeGroups;
 import controllers.contest.routes;
 import deputies.OrganiserOnlyDeputy;

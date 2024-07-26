@@ -9,7 +9,6 @@
 
 package deputies.contest;
 
-import be.ugent.rasbeb2.db.dao.ContestDao;
 import be.ugent.rasbeb2.db.dto.*;
 import deputies.TeacherOnlyDeputy;
 import play.mvc.Result;

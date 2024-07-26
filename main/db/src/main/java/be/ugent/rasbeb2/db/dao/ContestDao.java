@@ -46,16 +46,26 @@ public interface ContestDao {
     void removeContestLanguage(int contestId, String lang);
 
 
+    /**
+     * Change the status of the contest.
+     * <p>
+     * In the special case where
+     * the contest if official and the new status is closed, also all events
+     * and participations corresponding to this contest are closed
+     */
     void changeStatus(int contestId, ContestStatus status);
 
     /**
      * Returns a list of all restricted or official contests that
-     * are currently available for events in the given language
+     * are currently available for events in the given language.
+     * Most recent first (according to contest id).
      */
     List<Contest> getOrganisableContests(int ageGroupId, String lang);
 
     /**
-     * Returns a list of all contests that can be viewed by a teacher in the given language
+     * Returns a list of all contests that can be viewed by a teacher
+     * in the given language.
+     * Most recent first (according to contest id).
      */
     List<Contest> getViewableContests(int ageGroupId, String lang);
 
