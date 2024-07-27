@@ -154,7 +154,8 @@ END;
 $$ LANGUAGE 'plpgsql';
 
 -- Sets/resets age groups that use a particular question in a particular contest
--- Keeps sequence number untouched
+-- Keeps sequence number of existing records untouched, but new additions are put at the end of the
+-- sequence
 
 CREATE OR REPLACE PROCEDURE setQuestionAgeGroups (
         c_id Integer, q_id Integer, age_groups Integer[], who INTEGER
@@ -163,7 +164,7 @@ DECLARE
     a_g INTEGER;
 BEGIN
     FOR a_g IN
-        SELECT age_group_id FROM age_groups
+        SELECT DISTINCT age_group_id FROM age_groups
     LOOP
         IF array_position(age_groups,a_g) IS NOT NULL
         THEN

@@ -55,6 +55,11 @@ public interface QuestionDao {
 
     List<QuestionI18n> getQuestionI18n(int questionId);
 
+    /**
+     * Set the age groups for the given question in the given contest, removing all age groups
+     * that are not mentioned in the list
+     * Nulls in the list are ignored
+     */
     void setQuestionAgeGroups(int contestId, int questionId, List<Integer> ageGroups);
 
     interface QuestionWithAgeGroupsFinder extends Finder<QuestionWithAgeGroups, QuestionWithAgeGroups.Field, QuestionDao.QuestionWithAgeGroupsFinder> {}

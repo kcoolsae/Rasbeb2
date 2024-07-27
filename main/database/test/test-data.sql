@@ -83,7 +83,8 @@ VALUES (1, 'OFFICIAL', 'PUBLISHED'),
        (2, 'RESTRICTED', 'PENDING'),
        (3, 'RESTRICTED', 'OPEN'),
        (4, 'RESTRICTED', 'PUBLISHED'),
-       (5, 'PUBLIC', 'OPEN');
+       (5, 'PUBLIC', 'OPEN'),
+       (6, 'OFFICIAL', 'PENDING');  -- not referred to, can be deleted
 
 -- Contest titles in various languages
 INSERT INTO contests_i18n (contest_id, lang, contest_title)
@@ -99,7 +100,7 @@ VALUES (1, 1, 40), (1, 2, 40), (1, 3, 40),
        (2, 1, 40), (2, 2, 40),
        (3, 2, 40), (3, 3, 30),
        (4, 1, 40),
-       (5, 1, 50), (5, 3, 30);
+       (5, 1, 50), (5, 3, 30); -- no age groups for contest 6!
 
 -- Questions
 INSERT INTO questions(question_id, question_type, question_type_xtra, question_external_id, question_magic_q, question_magic_f)
@@ -115,6 +116,29 @@ SELECT question_id, language,
        'Answer to ' || question_id || ' in ' || language
 FROM questions CROSS JOIN unnest (ARRAY['fr', 'nl', 'en']) AS language;
 
+-- Which questions in which contests:
+-- In contest 1: age group 1 questions 1-3, ag 2 q 2-3, ag 3 q 3
+--  i.e., q 1 ag 1, q 2 ag 1-2, q 3 ag 1-3
+-- Marks increasingly (6,-2), (9,-3), (12, -4)
+INSERT INTO questions_in_set (contest_id, age_group_id, question_id, question_marks_if_correct, question_marks_if_incorrect)
+SELECT
+    1,
+    age_group_id,
+    question_id,
+    3* (question_id - age_group_id) + 6,
+    age_group_id - question_id - 2
+FROM age_groups JOIN questions
+    ON question_id >= age_group_id AND lang = 'en'; -- age_groups contain each id 3 times
+
+-- In contest 2-5 all questions for all supported age groups
+INSERT INTO questions_in_set (contest_id, age_group_id, question_id, question_marks_if_correct, question_marks_if_incorrect)
+SELECT
+    contest_id,
+    age_group_id,
+    question_id,
+    6,
+    -2
+FROM contests_ag CROSS JOIN questions WHERE contest_id > 1;
 
 SELECT reset_sequences('public');
 

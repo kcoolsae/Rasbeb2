@@ -9,6 +9,7 @@
 
 package be.ugent.rasbeb2.db;
 
+import be.ugent.caagt.dao.ForeignKeyViolation;
 import be.ugent.rasbeb2.db.dao.AgeGroupDao;
 import be.ugent.rasbeb2.db.dto.AgeGroup;
 import be.ugent.rasbeb2.db.dto.AgeGroupWithDuration;
@@ -18,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class AgeGroupDaoTest extends TeacherDaoTest {
 
@@ -68,9 +70,15 @@ class AgeGroupDaoTest extends TeacherDaoTest {
 
     @Test
     void removeAgeGroup() {
-         dao.removeAgeGroup(5, 3);
-         assertThat(dao.getAgeGroups(5, "nl"))
-                 .extracting(AgeGroup::name)
-                 .containsExactly("Age group 1 in nl");
+        dao.updateDuration(6, 3, 40);
+        assertThat(dao.getAgeGroups(6, "nl")).hasSize(1);
+        dao.removeAgeGroup(6, 3);
+        assertThat(dao.getAgeGroups(6, "nl")).isEmpty();
+    }
+
+    @Test
+    void removeAgeGroupError() {
+        assertThatThrownBy(() -> dao.removeAgeGroup(5, 1))
+                .isInstanceOf(ForeignKeyViolation.class);
     }
 }

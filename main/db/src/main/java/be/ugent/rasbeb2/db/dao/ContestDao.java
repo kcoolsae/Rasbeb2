@@ -85,6 +85,12 @@ public interface ContestDao {
 
     /**
      * Make a copy of the given contest.
+     *
+     * Copies languages, age groups and question sets.
+     * New titles are old titles with ' (+)' appended. New contest
+     * is of type restricted and open.
+     * <p>
+     * Intended to be used on a official contest that is closed.
      * @return the id of the new contest
      */
     int copyContest(int contestId);

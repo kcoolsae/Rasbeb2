@@ -10,10 +10,7 @@
 package be.ugent.rasbeb2.db;
 
 import be.ugent.rasbeb2.db.dao.ContestDao;
-import be.ugent.rasbeb2.db.dto.Contest;
-import be.ugent.rasbeb2.db.dto.ContestI18n;
-import be.ugent.rasbeb2.db.dto.ContestStatus;
-import be.ugent.rasbeb2.db.dto.ContestType;
+import be.ugent.rasbeb2.db.dto.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -39,7 +36,7 @@ class ContestDaoTest extends OrganiserDaoTest {
     @Test
     void getAllContestTranslations() {
         List<ContestI18n> contests = dao.getAllContestTranslations(4);
-        assertThat (contests).extracting(ContestI18n::title)
+        assertThat(contests).extracting(ContestI18n::title)
                 .containsExactly(
                         "Contest 4 in en", "Contest 4 in nl"
                 );
@@ -52,7 +49,7 @@ class ContestDaoTest extends OrganiserDaoTest {
                 .getPageOrderedBy(Contest.Field.STATUS, false, 0, 10)
                 .getList();
         assertThat(contests).extracting(Contest::id)
-                .containsExactly(3, 5, 1, 4, 2); // Hm. order is not really predictable...
+                .containsExactly(3, 5, 1, 4, 2, 6); // Hm. order is not really predictable...
     }
 
     @Test
@@ -67,7 +64,7 @@ class ContestDaoTest extends OrganiserDaoTest {
                 .getPageOrderedBy(Contest.Field.STATUS, false, 0, 10)
                 .getList().getFirst().id();
 
-        Contest expected = new Contest(6, ContestType.OFFICIAL, ContestStatus.PENDING, "New contest");
+        Contest expected = new Contest(id, ContestType.OFFICIAL, ContestStatus.PENDING, "New contest");
 
         assertThat(dao.getContest(id, "en")).isEqualTo(expected);
     }
@@ -143,6 +140,48 @@ class ContestDaoTest extends OrganiserDaoTest {
                 .isEmpty();
     }
 
-    // TODO question/marks related tests
-    // TODO test of copy procedure
+    @Test
+    void getQuestionSet() {
+        List<QuestionInSet> questions = dao.getQuestionSet(1, 2, "nl");
+        assertThat(questions).extracting(QuestionInSet::title).containsExactly(
+                "Question 2 in nl", "Question 3 in nl"
+        );
+        assertThat(questions).extracting(QuestionInSet::marksIfCorrect).containsExactly(6, 9);
+        assertThat(questions).extracting(QuestionInSet::marksIfIncorrect).containsExactly(-2, -3);
+
+    }
+
+    @Test
+    void updateMarks() {
+        dao.updateMarks(1, 2, List.of(3, 2, 1), List.of(7, 8, 9), List.of(-1, -11, -13));
+        List<QuestionInSet> questions = dao.getQuestionSet(1, 2, "fr");
+        assertThat(questions).extracting(QuestionInSet::marksIfCorrect).containsExactly(8, 7);
+        assertThat(questions).extracting(QuestionInSet::marksIfIncorrect).containsExactly(-11, -1);
+    }
+
+    @Test
+    void updateOrder2() {
+        // get sequence numbers of the questions
+        List<QuestionInSet> questions = dao.getQuestionSet(2, 1, "nl");
+        int seqNum1 = questions.get(0).seqNum();
+        int seqNum2 = questions.get(1).seqNum();
+        // interchange them
+        dao.updateOrder(2, 1, seqNum1, seqNum2); // interchange first two questions
+        questions = dao.getQuestionSet(2, 1, "nl");
+        assertThat(questions).extracting(QuestionInSet::title)
+                .containsExactly("Question 2 in nl", "Question 1 in nl", "Question 3 in nl");
+    }
+
+    @Test
+    void updateOrder() {
+        // make first question more difficult, third easier
+        dao.updateMarks(2, 1, List.of(1,3), List.of(8,4), List.of(-4,0));
+        // reorder them according to difficulty
+        dao.updateOrder(2, 1);
+        List<QuestionInSet>  questions = dao.getQuestionSet(2, 1, "nl");
+        assertThat(questions).extracting(QuestionInSet::title)
+                .containsExactly("Question 3 in nl", "Question 2 in nl", "Question 1 in nl");
+    }
+
+    // method copyContest is tested in class CopyContestTest
 }
