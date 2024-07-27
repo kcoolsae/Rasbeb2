@@ -101,5 +101,20 @@ VALUES (1, 1, 40), (1, 2, 40), (1, 3, 40),
        (4, 1, 40),
        (5, 1, 50), (5, 3, 30);
 
+-- Questions
+INSERT INTO questions(question_id, question_type, question_type_xtra, question_external_id, question_magic_q, question_magic_f)
+VALUES
+  (1, 'MC', '4', '2024-XY-01', 'MagicQ1', 'MagicF1'),
+  (2, 'INT', NULL, '2024-XY-02', 'MagicQ2', 'MagicF2'),
+  (3, 'TEXT', NULL, '2024-XY-12', 'MagicQ3', 'MagicF3');
+
+-- Question titles in various languages
+INSERT INTO questions_i18n (question_id, lang, question_title, question_correct_answer)
+SELECT question_id, language,
+       'Question ' || question_id || ' in ' || language,
+       'Answer to ' || question_id || ' in ' || language
+FROM questions CROSS JOIN unnest (ARRAY['fr', 'nl', 'en']) AS language;
+
+
 SELECT reset_sequences('public');
 

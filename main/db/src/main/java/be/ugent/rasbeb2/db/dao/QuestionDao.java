@@ -16,36 +16,23 @@ import java.util.List;
 
 public interface QuestionDao {
 
-    interface QuestionFinder extends Finder<QuestionHeader, QuestionHeader.Field, QuestionDao.QuestionFinder> {}
-    QuestionDao.QuestionFinder findQuestions (String lang);
-
-    interface QuestionWithAgeGroupsFinder extends Finder<QuestionWithAgeGroups, QuestionWithAgeGroups.Field, QuestionDao.QuestionWithAgeGroupsFinder> {}
-    QuestionDao.QuestionWithAgeGroupsFinder findQuestionsWithAgeGroups (int contestId, String lang);
-
+    /**
+     * Create a new question. Magic numbers are generated automatically.
+     */
     int createQuestion(AnswerType type, String typeExtra, String externalId);
-
-    Question getQuestion(int questionId, String lang);
-
-    QuestionInContest getQuestionInContest(int contestId, int questionId, int ageGroupId, String lang);
-
-    List<QuestionHeader> getQuestionsForContest(int contestId, int ageGroupId, String lang);
-
-    void editTranslation(int questionId, String lang, String newTitle, String newSolution);
-
-    void addTranslation(int questionId, String lang);
-
-    void addTranslation(int questionId, Translation translation);
-
-    void removeTranslation(int questionId, String lang);
-
-    List<QuestionI18n> getQuestionI18n(int questionId);
 
     void editQuestion(int questionId, AnswerType type, String typeExtra, String externalId);
 
-    void setQuestionAgeGroups(int contestId, int questionId, List<Integer> ageGroups);
+    Question getQuestion(int questionId, String lang);
+
+    interface QuestionFinder extends Finder<QuestionHeader, QuestionHeader.Field, QuestionDao.QuestionFinder> {}
+    QuestionDao.QuestionFinder findQuestions (String lang);
 
     boolean questionExists(String externalId);
 
+    /**
+     * Check whether either the question or the feedback for the given language has already been uploaded
+     */
     boolean questionAlreadyUploaded (int questionId, String lang);
 
     enum FileType {
@@ -55,5 +42,26 @@ public interface QuestionDao {
     void setUploaded (int questionId, String lang, FileType fileType);
 
     String getMagic (int questionId, FileType fileType);
+    /**
+     * Add an empty translation for the given language
+     */
+    void addTranslation(int questionId, String lang);
+
+    void addTranslation(int questionId, Translation translation);
+
+    void editTranslation(int questionId, String lang, String newTitle, String newSolution);
+
+    void removeTranslation(int questionId, String lang);
+
+    List<QuestionI18n> getQuestionI18n(int questionId);
+
+    void setQuestionAgeGroups(int contestId, int questionId, List<Integer> ageGroups);
+
+    interface QuestionWithAgeGroupsFinder extends Finder<QuestionWithAgeGroups, QuestionWithAgeGroups.Field, QuestionDao.QuestionWithAgeGroupsFinder> {}
+    QuestionDao.QuestionWithAgeGroupsFinder findQuestionsWithAgeGroups (int contestId, String lang);
+
+    QuestionInContest getQuestionInContest(int contestId, int questionId, int ageGroupId, String lang);
+
+    List<QuestionHeader> getQuestionsForContest(int contestId, int ageGroupId, String lang);
 
 }
