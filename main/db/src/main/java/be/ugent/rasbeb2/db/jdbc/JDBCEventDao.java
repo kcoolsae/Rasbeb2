@@ -304,10 +304,10 @@ public class JDBCEventDao extends JDBCAbstractDao implements EventDao {
     @Override
     public boolean isOpen(int eventId) {
         return ! select("1")
-                .from ("events JOIN contests USING contest_id")
+                .from ("events JOIN contests USING (contest_id)")
                 .where ("event_id", eventId)
-                .where ("event_status = OPEN::event_status")
-                .where ("contest_status = OPEN::contest_status")
+                .where ("event_status = 'OPEN'::event_status")
+                .where ("contest_status = 'OPEN'::contest_status")
                 .isEmpty();
     }
 }

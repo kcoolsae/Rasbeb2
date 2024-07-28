@@ -154,9 +154,15 @@ class ClassesDaoTest extends TeacherDaoTest {
 
     @Test
     void removePupil() {
-        assertThat(dao.pupilExistsInClass("Pupil 3", 1)).isTrue();
-        dao.removePupil(3);
-        assertThat(dao.pupilExistsInClass("Pupil 3", 1)).isFalse();
+        assertThat(dao.pupilExistsInClass("Pupil 4", 6)).isTrue();
+        dao.removePupil(4);
+        assertThat(dao.pupilExistsInClass("Pupil 4", 6)).isFalse();
+    }
+
+    @Test
+    void removePupilError() {
+        assertThatThrownBy(() -> dao.removePupil(3))
+                .isInstanceOf(ForeignKeyViolation.class);
     }
 
 }

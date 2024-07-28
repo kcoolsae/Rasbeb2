@@ -140,5 +140,25 @@ SELECT
     -2
 FROM contests_ag CROSS JOIN questions WHERE contest_id > 1;
 
+-- Events
+INSERT INTO events (event_id, event_status,
+                    contest_id, age_group_id, school_id, year_id,
+                    lang, event_title)
+VALUES
+   (1, 'OPEN', 1, 2, 1, 24, 'nl', 'Event 1'),
+   (2, 'PENDING', 1, 2, 1, 24, 'nl', 'Event 2'),
+   (3, 'PENDING', 1, 3, 1, 24, 'fr', 'Event 3'),
+   (4, 'CLOSED', 1, 3, 1, 24, 'en', 'Event 4'),
+   (5, 'OPEN', 1, 3, 1, 23, 'en', 'Event 5'), -- wrong year
+   (6, 'OPEN', 1, 3, 2, 24, 'en', 'Event 6'), -- wrong school
+   (7, 'PENDING', 3, 2, 1, 24, 'en', 'Event 7'); -- other contest
+
+-- Pupils registered for events
+INSERT INTO permissions (event_id, pupil_id)
+VALUES (1, 1), (1, 2),
+       (2, 3), (2, 5),
+       (3, 6),
+       (7, 5), (7, 6);
+
 SELECT reset_sequences('public');
 
