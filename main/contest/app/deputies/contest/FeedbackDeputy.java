@@ -43,7 +43,7 @@ public class FeedbackDeputy extends ContestDeputy {
                 warning("pupil.home.warning-no-participation");
                 return redirectToIndex().removingFromSession(request,Session.FEEDBACK);
             }
-            List<QuestionWithFeedback> questions = dao.listQuestionsWithFeedback(par.contestId(), par.pupilId(), par.ageGroupId(), par.lang());
+            List<QuestionWithFeedback> questions = dao.listQuestionsWithFeedback(par.contestId(), par.ageGroupId(), par.lang());
             if (pupilLoggedIn()) {
                 return ok(feedback_show_pupil.render(par, questions, this));
             } else {
@@ -71,7 +71,7 @@ public class FeedbackDeputy extends ContestDeputy {
                 questionId = headers.getFirst().id();
             }
             QuestionWithFeedback question = dao.getQuestionWithFeedback(
-                    par.contestId(), questionId, par.pupilId(), par.ageGroupId(), par.lang()
+                    par.contestId(), questionId, par.ageGroupId(), par.lang()
             );
             return ok(feedback_question.render(par, question, headers, this));
         } else {

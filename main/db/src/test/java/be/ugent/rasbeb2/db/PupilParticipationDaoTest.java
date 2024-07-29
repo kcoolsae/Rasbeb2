@@ -12,6 +12,7 @@ package be.ugent.rasbeb2.db;
 import be.ugent.rasbeb2.db.dao.ParticipationDao;
 import be.ugent.rasbeb2.db.dto.Participation;
 import be.ugent.rasbeb2.db.dto.ParticipationWithMarks;
+import be.ugent.rasbeb2.db.dto.QuestionWithFeedback;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -92,6 +93,25 @@ class PupilParticipationDaoTest extends PupilDaoTest {
                 3, 5, 2, "en", 10, 24
         );
         assertThat(actual).isEqualTo(expected);
-
     }
+
+    @Test
+    void getQuestionWithFeedback() {
+        dao.closeParticipationAndComputeMarks(3);
+        QuestionWithFeedback actual = dao.getQuestionWithFeedback(3, 1, 2, "en");
+        QuestionWithFeedback expected = new QuestionWithFeedback(
+                1, "Question 1 in en", "MagicQ1", "MagicF1", "A", -2, 6
+        );
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void listQuestionsWithFeedback() {
+        dao.closeParticipationAndComputeMarks(3);
+        assertThat(dao.listQuestionsWithFeedback(3, 2, "en"))
+                .hasSize(3)
+                .extracting(QuestionWithFeedback::marks)
+                .containsExactly(-2, 6, 0);
+    }
+
 }

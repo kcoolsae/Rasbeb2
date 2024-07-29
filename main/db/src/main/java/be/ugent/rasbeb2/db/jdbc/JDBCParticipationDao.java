@@ -136,7 +136,7 @@ public class JDBCParticipationDao extends JDBCAbstractDao implements Participati
         );
     }
 
-    private SelectSQLStatement selectQuestionWithFeedback(int contestId, int pupilId, int ageGroupId, String lang) {
+    private SelectSQLStatement selectQuestionWithFeedback(int contestId, int ageGroupId, String lang) {
         return select("q.question_id, question_title, question_magic_q, question_magic_f, participation_answer, participation_marks, question_marks_if_correct")
                 .from("""
                       questions_in_set q JOIN questions USING(question_id)
@@ -144,22 +144,22 @@ public class JDBCParticipationDao extends JDBCAbstractDao implements Participati
                           LEFT JOIN participation_details p
                             ON(p.contest_id = q.contest_id AND p.question_id = q.question_id AND pupil_id = ?)
                       """)
-                .parameter(pupilId)
+                .parameter(getUserId())
                 .where("q.contest_id", contestId)
                 .where("age_group_id", ageGroupId)
                 .where("lang", lang);
     }
 
     @Override
-    public List<QuestionWithFeedback> listQuestionsWithFeedback(int contestId, int pupilId, int ageGroupId, String lang) {
-        return selectQuestionWithFeedback(contestId, pupilId, ageGroupId, lang)
+    public List<QuestionWithFeedback> listQuestionsWithFeedback(int contestId, int ageGroupId, String lang) {
+        return selectQuestionWithFeedback(contestId, ageGroupId, lang)
                 .orderBy("question_seq_nr")
                 .getList(JDBCParticipationDao::makeQuestionWithFeedback);
     }
 
     @Override
-    public QuestionWithFeedback getQuestionWithFeedback(int contestId, int questionId, int pupilId, int ageGroupId, String lang) {
-        return selectQuestionWithFeedback(contestId, pupilId, ageGroupId, lang)
+    public QuestionWithFeedback getQuestionWithFeedback(int contestId, int questionId, int ageGroupId, String lang) {
+        return selectQuestionWithFeedback(contestId, ageGroupId, lang)
                 .where("q.question_id", questionId)
                 .getOneObject(JDBCParticipationDao::makeQuestionWithFeedback);
     }

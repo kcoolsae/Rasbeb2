@@ -53,8 +53,14 @@ public interface ParticipationDao {
      */
     ParticipationWithMarks getMarks(int contestId);
 
-    List<QuestionWithFeedback> listQuestionsWithFeedback(int contestId, int pupilId, int ageGroupId, String lang);
+    /**
+     * Retrieve question and feedback information for the current user and given question
+     */
+    QuestionWithFeedback getQuestionWithFeedback(int contestId, int questionId, int ageGroupId, String lang);
 
-    QuestionWithFeedback getQuestionWithFeedback(int contestId, int questionId, int pupilId, int ageGroupId, String lang);
+    /**
+     * Retrieve question and feedback information for the current user and the given contest
+     */
+    List<QuestionWithFeedback> listQuestionsWithFeedback(int contestId, int ageGroupId, String lang);
 
 }
