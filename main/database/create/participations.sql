@@ -76,6 +76,7 @@ FROM questions_in_set
          JOIN questions_i18n USING (question_id);
 
 -- Sum of marks over an entire question set
+-- Needs to be updated after each change in questions_in_set!
 CREATE MATERIALIZED VIEW question_sets AS
 SELECT contest_id,
        age_group_id,
@@ -83,6 +84,19 @@ SELECT contest_id,
        SUM(question_marks_if_incorrect) as min_marks
 FROM questions_in_set
 GROUP BY contest_id, age_group_id;
+
+-- Refreshes question_sets every time something is changed in questions_in_set
+CREATE OR REPLACE FUNCTION refresh_question_sets() RETURNS TRIGGER AS $$
+BEGIN
+    REFRESH MATERIALIZED VIEW question_sets;
+    RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER refresh_question_sets
+    AFTER INSERT OR UPDATE OR DELETE
+    ON questions_in_set
+    FOR EACH STATEMENT EXECUTE FUNCTION refresh_question_sets();
 
 -- Update the marks in participation_details for a certain contest and pupil
 -- Auxiliary procedure, use close_participations or close_event instead
