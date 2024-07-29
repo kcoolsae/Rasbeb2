@@ -9,12 +9,20 @@
 
 package be.ugent.rasbeb2.db.dto;
 
-public record ContestWithAgeGroup(int contestId, String contestTitle, int contestDuration, int ageGroupId, String ageGroupName, String ageGroupDescription) implements Comparable<ContestWithAgeGroup> {
+public record ContestWithAgeGroup(Contest contest, int contestDuration, int ageGroupId, String ageGroupName, String ageGroupDescription) implements Comparable<ContestWithAgeGroup> {
+
+    public int contestId() {
+        return contest.id();
+    }
 
     @Override
-    public int compareTo(ContestWithAgeGroup contest) {
-        int contestCompare = contest.contestId() - this.contestId;
-        return contestCompare == 0 ? this.ageGroupId - contest.ageGroupId() : contestCompare;
+    public int compareTo(ContestWithAgeGroup other) {
+        int contestCompare = other.contest.id() - this.contest.id();
+        if (contestCompare == 0) {
+            return this.ageGroupId - other.ageGroupId();
+        } else {
+            return contestCompare;
+        }
     }
 
 }

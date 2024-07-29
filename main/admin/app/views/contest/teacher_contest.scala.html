@@ -13,7 +13,7 @@
 @layout.teacher("conq", css = include.js("iframeresize")) { @* css is a hack to ensure early loading of the script *@
     <div class="d-flex mt-2">
         <div class="flex-grow-0 me-2">
-            <h3>@contest.contestTitle</h3>
+            <h3>@contest.contest.title</h3>
             <p>@contest.ageGroupName - @contest.ageGroupDescription</p>
             <div class="mb-2">
                 <a class="btn btn-outline-secondary" href="@controllers.contest.routes.TeacherContestController.listContests(contest.ageGroupId)">@i18n("common.caption.back")</a>

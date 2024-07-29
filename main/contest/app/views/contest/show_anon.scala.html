@@ -11,7 +11,7 @@
 @(contest: ContestWithAgeGroup)(implicit deputy: Deputy)
 
 @layout.anon("showcontest") {
-    <h1>@contest.contestTitle</h1>
+    <h1>@contest.contest.title</h1>
     <p>@contest.ageGroupName @i18n("pupil.minutes-count-short", ""+contest.contestDuration)</p>
     <a class="btn btn-outline-primary" href=@controllers.contest.routes.AnonController.start(contest.contestId, contest.ageGroupId)>@i18n("pupil.enter-contest")</a>
 }

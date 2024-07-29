@@ -21,17 +21,18 @@ import java.util.List;
 public interface PupilContestDao {
 
     /**
-     * Returns contests in which the pupil can participate or has participated.
+     * Returns contests in which the current pupil can participate or has participated.
      */
-    List<ContestForPupilTable> getContests(int pupilId);
-
-    ContestForPupilTable getContest(int pupilId, int eventId);
+    List<ContestForPupilTable> getContests();
 
     /**
      * Returns a list of all contests that can be taken by an anonymous user
      */
     List<ContestForAnonTable> getOpenPublicContests(String lang);
 
+    /**
+     * Returns information in the given language of the given contest and age group combination
+     */
     ContestWithAgeGroup getContestWithAgeGroup(int contestId, int ageGroupId, String lang);
 
 }

@@ -41,7 +41,7 @@ public class HomeDeputy extends ContestDeputy {
      * Starting page for anonymous participation.
      */
     public Result anonymous() {
-        // ensure language is set // TODO use action composition
+        // ensure language is set
         if (!isLanguageSet()) {
             return redirect(controllers.other.routes.LanguageController.chooseLanguage());
         } else if (isUserLoggedIn()) {
@@ -68,7 +68,7 @@ public class HomeDeputy extends ContestDeputy {
                 return redirect(controllers.auth.routes.HomeController.index());
             } else {
                 return ok(home_pupil.render(
-                        dac().getPupilContestDao().getContests(getCurrentUserId()),
+                        dac().getPupilContestDao().getContests(),
                         this)
                 );
             }

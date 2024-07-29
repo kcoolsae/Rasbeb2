@@ -9,6 +9,7 @@
 
 package deputies.contest;
 
+import be.ugent.rasbeb2.db.dao.QuestionDao;
 import be.ugent.rasbeb2.db.dto.*;
 import deputies.TeacherOnlyDeputy;
 import play.mvc.Result;
@@ -44,15 +45,16 @@ public class TeacherContestDeputy extends TeacherOnlyDeputy {
 
     public Result getContestQuestion(int contestId, int ageGroupId, int questionId) {
         String lang = getLanguage();
-        Contest c = dac().getContestDao().getContest(contestId, lang);
-        ContestWithAgeGroup contest = dac().getPupilContestDao().getContestWithAgeGroup(contestId, ageGroupId, lang);
-        List<QuestionHeader> headers = dac().getQuestionDao().getQuestionsForContest(contestId, ageGroupId, lang);
+        ContestWithAgeGroup cwa = dac().getPupilContestDao().getContestWithAgeGroup(contestId, ageGroupId, lang);
+        QuestionDao questionDao = dac().getQuestionDao();
+        List<QuestionHeader> headers = questionDao.getQuestionsForContest(contestId, ageGroupId, lang);
         if (questionId == 0) {
             questionId = headers.getFirst().id();
         }
-        Question question = dac().getQuestionDao().getQuestion(questionId, lang);
-        boolean showFeedback = c.contestType() != ContestType.OFFICIAL || c.status() == ContestStatus.CLOSED;
-        return ok(teacher_contest.render(contest, lang, question, headers, showFeedback, this));
+        Question question = questionDao.getQuestion(questionId, lang);
+        Contest contest = cwa.contest();
+        boolean showFeedback = contest.contestType() != ContestType.OFFICIAL || contest.status() == ContestStatus.CLOSED;
+        return ok(teacher_contest.render(cwa, lang, question, headers, showFeedback, this));
     }
 
 }
