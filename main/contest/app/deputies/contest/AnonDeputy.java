@@ -39,7 +39,7 @@ public class AnonDeputy extends ContestDeputy {
             return badRequest();
         } else {
            int pupilId = dac().getUserDao().createAnonymousPupil();
-           dac().getParticipationDao().create(contestId, ageGroupId, getLanguage(), pupilId);
+           dac().getParticipationDao().createParticipation(contestId, ageGroupId, getLanguage(), pupilId);
            return redirect(controllers.contest.routes.ParticipationController.question(0))
                    .addingToSession(request, Session.CONTEST, Integer.toString(contestId))
                    .addingToSession(request, Session.ID, Integer.toString(pupilId));

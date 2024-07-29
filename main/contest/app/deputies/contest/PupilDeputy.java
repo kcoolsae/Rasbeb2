@@ -33,7 +33,7 @@ public class PupilDeputy extends ContestDeputy {
      */
     public Result start(int eventId) {
         int pupilId = getCurrentUserId();
-        int contestId = dac().getParticipationDao().create(eventId, pupilId);
+        int contestId = dac().getParticipationDao().createParticipation(eventId);
         LOGGER.info("{} {} start event", pupilId, eventId);
         return firstParticipation(contestId);
     }

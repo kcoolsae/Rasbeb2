@@ -24,7 +24,7 @@ public class JDBCParticipationDao extends JDBCAbstractDao implements Participati
     }
 
     @Override
-    public void create(int contestId, int ageGroupId, String lang, int pupilId) {
+    public void createParticipation(int contestId, int ageGroupId, String lang, int pupilId) {
         call ("create_anonymous_participation(?,?,?,?,?)")
                 .parameter(contestId)
                 .parameter(ageGroupId)
@@ -35,11 +35,12 @@ public class JDBCParticipationDao extends JDBCAbstractDao implements Participati
     }
 
     @Override
-    public int create(int eventId, int pupilId) {
+    public int createParticipation(int eventId) {
+        int pupilId = getUserId();
         return select("create_participation(?,?,?)")
                 .parameter(eventId)
                 .parameter(pupilId)
-                .parameter(getUserId())
+                .parameter(pupilId)
                 .noFrom()
                 .getInt();
     }
@@ -59,11 +60,11 @@ public class JDBCParticipationDao extends JDBCAbstractDao implements Participati
     }
 
     @Override
-    public Participation get(int contestId, int pupilId) {
+    public Participation getParticipation(int contestId) {
         return select("contest_id, pupil_id, age_group_id, lang, event_id, participation_closed, extract (epoch from (participation_deadline-now())) as time_left_in_seconds, participation_closed, (contest_duration * 60) as duration_in_seconds, participation_deadline")
                 .from("participations JOIN contests_ag USING(contest_id, age_group_id)")
                 .where("contest_id", contestId)
-                .where("pupil_id", pupilId)
+                .where("pupil_id", getUserId())
                 .getOneObject(JDBCParticipationDao::makeParticipation);
     }
 
@@ -87,18 +88,18 @@ public class JDBCParticipationDao extends JDBCAbstractDao implements Participati
     }
 
     @Override
-    public void close(int contestId, int pupilId) {
+    public void closeParticipation(int contestId) {
         update("participations").set("participation_closed", true)
                 .where("contest_id", contestId)
-                .where("pupil_id", pupilId)
+                .where("pupil_id", getUserId())
                 .execute();
     }
 
     @Override
-    public void closeAndComputeMarks(int contestId, int pupilId) {
+    public void closeParticipationAndComputeMarks(int contestId) {
         call("close_participation(?,?,?)")
                 .parameter(contestId)
-                .parameter(pupilId)
+                .parameter(getUserId())
                 .parameter(getUserId())
                 .execute();
     }
@@ -115,11 +116,11 @@ public class JDBCParticipationDao extends JDBCAbstractDao implements Participati
     }
 
     @Override
-    public ParticipationWithMarks getMarks(int contestId, int pupilId) {
+    public ParticipationWithMarks getMarks(int contestId) {
         return select("contest_id, pupil_id, age_group_id, lang, participation_total_marks, (max_marks - min_marks) as max_marks")
                 .from("participations JOIN contests_ag USING(contest_id, age_group_id) JOIN question_sets USING(contest_id, age_group_id)")
                 .where("contest_id", contestId)
-                .where("pupil_id", pupilId)
+                .where("pupil_id", getUserId())
                 .getObject(JDBCParticipationDao::makeParticipationMarks);
     }
 

@@ -18,26 +18,40 @@ import java.util.List;
 public interface ParticipationDao {
 
     /**
-     * Create participation for contest and age group without an event (i.e. participations for anonymous users).
+     * Create participation for the current anonymous user for contest and age group without an event (i.e. participations for anonymous users).
      */
-    void create(int contestId, int ageGroupId, String lang, int pupilId);
+    void createParticipation(int contestId, int ageGroupId, String lang, int pupilId);
 
     /**
-     * Create participation for an existing event (i.e. participations for pupils). Returns the contest id
+     * Create participation for the current user for an existing event. Returns the contest id
      */
-    int create(int eventId, int pupilId);
+    int createParticipation(int eventId);
 
-    Participation get(int contestId, int pupilId);
+    /**
+     * Return the participation record of the current user for the given contest.
+     */
+    Participation getParticipation(int contestId);
 
     String getAnswer (int contestId, int pupilId, int questionId);
 
     void updateAnswer(int contestId, int pupilId, int questionId, String answer);
 
-    void close(int contestId, int pupilId);
+    /**
+     * Closes the participation for the given contest and the current user.
+     * Marks are not computed.
+     */
+    void closeParticipation(int contestId);
 
-    void closeAndComputeMarks(int contestId, int pupilId);
+    /**
+     * Closes the participation for the given contest and the current anonymous user.
+     * Computes the marks for this participation.
+     */
+    void closeParticipationAndComputeMarks(int contestId);
 
-    ParticipationWithMarks getMarks(int contestId, int pupilId);
+    /**
+     * Get the total marks for the given contest and the current user.
+     */
+    ParticipationWithMarks getMarks(int contestId);
 
     List<QuestionWithFeedback> listQuestionsWithFeedback(int contestId, int pupilId, int ageGroupId, String lang);
 

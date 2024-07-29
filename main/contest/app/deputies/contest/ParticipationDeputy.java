@@ -52,7 +52,7 @@ public class ParticipationDeputy extends deputies.ContestDeputy {
         int pupilId = getCurrentUserId();
         int contestId = getContestId();
         ParticipationDao participationDao = dac().getParticipationDao();
-        Participation part = participationDao.get(contestId, pupilId);
+        Participation part = participationDao.getParticipation(contestId);
         if (deadlineHasPassed(part)) {
             warning("pupil.question.past-deadline");
             LOGGER.info("{} {} past deadline", pupilId, contestId);
@@ -140,12 +140,12 @@ public class ParticipationDeputy extends deputies.ContestDeputy {
         int pupilId = getCurrentUserId();
         if (request.session().get(Session.NAME).isPresent()) {
             // normal participation - go back to the index page
-            dac().getParticipationDao().close(contestId, pupilId);
+            dac().getParticipationDao().closeParticipation(contestId);
             LOGGER.info("{} {} closed participation", pupilId, contestId);
             return redirectToIndex().removingFromSession(request, "contest");
         } else {
             // anonymous participation directly leads to
-            dac().getParticipationDao().closeAndComputeMarks(contestId, pupilId);
+            dac().getParticipationDao().closeParticipationAndComputeMarks(contestId);
             return redirect(controllers.contest.routes.FeedbackController.show())
                     .removingFromSession(request, Session.CONTEST)
                     .addingToSession(request, Session.FEEDBACK, String.valueOf(contestId));

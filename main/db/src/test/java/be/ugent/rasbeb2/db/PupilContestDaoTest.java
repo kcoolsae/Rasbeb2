@@ -31,15 +31,13 @@ class PupilContestDaoTest extends PupilDaoTest {
     @Test
     void getContests() {
         List<ContestForPupilTable> contests = dao.getContests();
-        // pupil 5 is registered for events/contests 2/1 and 7/2
+        // pupil 5 is registered for events/contests 2/1 and 7/3
         List<Event> events = contests.stream().map(ContestForPupilTable::event).toList();
         assertThat(events).flatExtracting(Event::id, Event::contestId)
                 .containsExactly(2, 1, 7, 3);
         assertThat(contests).extracting(ContestForPupilTable::participationClosed)
                 .containsExactly(false, false);
-        assertThat(contests).extracting(ContestForPupilTable::participationDeadline)
-                .containsExactly(null, null);
-        // TODO also test contests where participated
+        assertThat(contests.get(1).participationDeadline()).isNotNull();
     }
 
     @Test

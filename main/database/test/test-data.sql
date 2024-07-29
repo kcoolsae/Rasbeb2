@@ -160,5 +160,17 @@ VALUES (1, 1), (1, 2),
        (3, 6),
        (7, 5), (7, 6);
 
+-- Create anonymous pupil
+INSERT INTO pupils (pupil_id, pupil_name, pupil_password, pupil_anonymous)
+VALUES (7, '', '', true);
+
+-- Participation of pupil 5 in contest 3 (event 7) age group 2
+INSERT INTO participations (contest_id, pupil_id, age_group_id, lang, event_id, participation_closed, participation_deadline)
+VALUES (3, 5, 2, 'en', 7, false, now() + interval '4 years');
+
+-- Answered 2 out of 3 questions
+INSERT INTO participation_details (contest_id, pupil_id, question_id, participation_answer)
+VALUES (3, 5, 1, 'A'), (3, 5, 2, 'Answer to 2 in en');
+
 SELECT reset_sequences('public');
 

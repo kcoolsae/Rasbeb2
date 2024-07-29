@@ -38,7 +38,7 @@ public class FeedbackDeputy extends ContestDeputy {
     public Result show() {
         if (inFeedback()) {
             ParticipationDao dao = dac().getParticipationDao();
-            ParticipationWithMarks par = dao.getMarks(getContestId(), getCurrentUserId());
+            ParticipationWithMarks par = dao.getMarks(getContestId());
             if (par == null) {
                 warning("pupil.home.warning-no-participation");
                 return redirectToIndex().removingFromSession(request,Session.FEEDBACK);
@@ -60,7 +60,7 @@ public class FeedbackDeputy extends ContestDeputy {
     public Result question(int questionId) {
         if (inFeedback()) {
             ParticipationDao dao = dac().getParticipationDao();
-            ParticipationWithMarks par = dao.getMarks(getContestId(), getCurrentUserId());
+            ParticipationWithMarks par = dao.getMarks(getContestId());
             if (par == null) {
                 return badRequest();
             }
