@@ -85,7 +85,7 @@ public interface ContestDao {
 
     /**
      * Make a copy of the given contest.
-     *
+     * <p>
      * Copies languages, age groups and question sets.
      * New titles are old titles with ' (+)' appended. New contest
      * is of type restricted and open.

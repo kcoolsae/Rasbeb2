@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -37,7 +38,7 @@ class PupilContestDaoTest extends PupilDaoTest {
         assertThat(contests).extracting(ContestForPupilTable::participationClosed)
                 .containsExactly(false, false);
         assertThat(contests).extracting(ContestForPupilTable::participationDeadline)
-                .containsExactly(null,null);
+                .containsExactly(null, null);
         // TODO also test contests where participated
     }
 
@@ -46,6 +47,9 @@ class PupilContestDaoTest extends PupilDaoTest {
         assertThat(dao.getOpenPublicContests("nl"))
                 .extracting(ContestForAnonTable::contestTitle)
                 .containsExactly("Contest 5 in nl");
+        assertThat(dao.getOpenPublicContests("nl"))
+                .extracting(ContestForAnonTable::durations)
+                .containsExactly(Map.of(1,50,3,30));
     }
 
     @Test
@@ -53,12 +57,13 @@ class PupilContestDaoTest extends PupilDaoTest {
         Contest expectedContest = new Contest(1, ContestType.OFFICIAL, ContestStatus.PUBLISHED, "Contest 1 in nl");
         ContestWithAgeGroup expected = new ContestWithAgeGroup(
                 expectedContest,
-                40,
-                2,
-                "Age group 2 in nl",
-                "Description of age group 2 in nl"
+                new AgeGroupWithDuration(
+                        new AgeGroup(2,
+                                "Age group 2 in nl",
+                                "Description of age group 2 in nl"),
+                40)
         );
-        assertThat(dao.getContestWithAgeGroup(1,2,"nl")).isEqualTo(expected);
+        assertThat(dao.getContestWithAgeGroup(1, 2, "nl")).isEqualTo(expected);
     }
 
 }

@@ -10,7 +10,6 @@
 package be.ugent.rasbeb2.db;
 
 import be.ugent.rasbeb2.db.dao.UserDao;
-import be.ugent.rasbeb2.db.dto.Pupil;
 import be.ugent.rasbeb2.db.dto.Role;
 import be.ugent.rasbeb2.db.dto.User;
 import org.junit.jupiter.api.BeforeEach;

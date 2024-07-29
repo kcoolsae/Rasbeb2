@@ -13,6 +13,7 @@ import be.ugent.rasbeb2.db.dto.ContestForAnonTable;
 import be.ugent.rasbeb2.db.dto.ContestForPupilTable;
 import be.ugent.rasbeb2.db.dto.ContestWithAgeGroup;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -28,7 +29,7 @@ public interface PupilContestDao {
     /**
      * Returns a list of all contests that can be taken by an anonymous user
      */
-    List<ContestForAnonTable> getOpenPublicContests(String lang);
+    Collection<ContestForAnonTable> getOpenPublicContests(String lang);
 
     /**
      * Returns information in the given language of the given contest and age group combination

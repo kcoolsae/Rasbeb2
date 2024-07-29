@@ -15,8 +15,10 @@ import be.ugent.rasbeb2.db.dto.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class JDBCPupilContestDao extends JDBCAbstractDao implements PupilContestDao {
 
@@ -44,10 +46,10 @@ public class JDBCPupilContestDao extends JDBCAbstractDao implements PupilContest
     @Override
     public List<ContestForPupilTable> getContests() {
         return select("""
-                    event_id, event_title, contest_title, events.lang, age_group_name,
-                    event_status, contest_id, contest_status, contest_type,
-                    participation_closed, participation_deadline
-                    """)
+                event_id, event_title, contest_title, events.lang, age_group_name,
+                event_status, contest_id, contest_status, contest_type,
+                participation_closed, participation_deadline
+                """)
                 .from("""
                         permissions
                           JOIN events USING(event_id)
@@ -64,10 +66,7 @@ public class JDBCPupilContestDao extends JDBCAbstractDao implements PupilContest
     private static ContestWithAgeGroup makeContestWithAgeGroup(ResultSet rs) throws SQLException {
         return new ContestWithAgeGroup(
                 JDBCContestDao.makeContest(rs),
-                rs.getInt("contest_duration"),
-                rs.getInt("age_group_id"),
-                rs.getString("age_group_name"),
-                rs.getString("age_group_description")
+                JDBCAgeGroupDao.makeAgeGroupWithDuration(rs)
         );
     }
 
@@ -83,39 +82,40 @@ public class JDBCPupilContestDao extends JDBCAbstractDao implements PupilContest
 
     public SelectSQLStatement selectContestsWithAgeGroup(String lang) {
         return select("""
-                  contest_id, contest_type, contest_status, contest_title,
-                  contest_duration, age_group_id, age_group_name, age_group_description
-                  """)
+                contest_id, contest_type, contest_status, contest_title,
+                contest_duration, age_group_id, age_group_name, age_group_description
+                """)
                 .from("contests JOIN contests_ag USING(contest_id) JOIN age_groups USING(age_group_id) JOIN contests_i18n USING(contest_id, lang)")
                 .where("lang", lang);
     }
 
     @Override
-    public List<ContestForAnonTable> getOpenPublicContests(String lang) {
-        List<ContestWithAgeGroup> contests = selectContestsWithAgeGroup(lang)
+    public Collection<ContestForAnonTable> getOpenPublicContests(String lang) {
+        // all open public contests
+        Map<Integer, ContestForAnonTable> map = select("contest_id, contest_title")// id must be first!
+                .from("contests JOIN contests_i18n USING(contest_id)")
+                .where("lang", lang)
                 .where("contest_type", ContestType.PUBLIC)
                 .where("contest_status", ContestStatus.OPEN)
                 .orderBy("contest_id", false)
-                .getList(JDBCPupilContestDao::makeContestWithAgeGroup);
-
-        int i = 0;
-        List<ContestForAnonTable> contestForAnonTable = new ArrayList<>();
-        while (i < contests.size()) {
-            // TODO what is happening here?
-            List<Integer> ageGroups = new ArrayList<>();
-            int contestId = contests.get(i).contestId();
-            int contestDuration = contests.get(i).contestDuration();
-            String contestTitle = contests.get(i).contest().title();
-            while (i < contests.size() && contests.get(i).contestId() == contestId) {
-                ageGroups.add(contests.get(i).ageGroupId());
-                i++;
-            }
-            contestForAnonTable.add(new ContestForAnonTable(
-                    contestId, contestTitle, contestDuration,
-                    ageGroups
-            ));
-        }
-        return contestForAnonTable;
+                .getMap(rs -> new ContestForAnonTable(
+                                rs.getInt("contest_id"),
+                                rs.getString("contest_title"),
+                                new HashMap<>()
+                        )
+                );
+        // related age group information
+        select("contest_id, age_group_id, contest_duration")
+                .from("contests JOIN contests_ag USING(contest_id)")
+                .where("contest_type", ContestType.PUBLIC)
+                .where("contest_status", ContestStatus.OPEN)
+                .processMap(map,
+                        (c, rs) -> c.durations().put(
+                                rs.getInt("age_group_id"),
+                                rs.getInt("contest_duration")
+                        )
+                );
+        return map.values();
     }
 
 }

@@ -9,7 +9,7 @@
 
 package be.ugent.rasbeb2.db.dto;
 
-public record ContestWithAgeGroup(Contest contest, int contestDuration, int ageGroupId, String ageGroupName, String ageGroupDescription) implements Comparable<ContestWithAgeGroup> {
+public record ContestWithAgeGroup(Contest contest, AgeGroupWithDuration ageGroup) implements Comparable<ContestWithAgeGroup> {
 
     public int contestId() {
         return contest.id();
@@ -19,7 +19,7 @@ public record ContestWithAgeGroup(Contest contest, int contestDuration, int ageG
     public int compareTo(ContestWithAgeGroup other) {
         int contestCompare = other.contest.id() - this.contest.id();
         if (contestCompare == 0) {
-            return this.ageGroupId - other.ageGroupId();
+            return this.ageGroup.id() - other.ageGroup.id();
         } else {
             return contestCompare;
         }

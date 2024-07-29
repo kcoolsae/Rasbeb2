@@ -9,7 +9,6 @@
 
 package be.ugent.rasbeb2.db;
 
-import be.ugent.rasbeb2.db.dto.Role;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 

@@ -10,7 +10,7 @@
 @import _root_.be.ugent.rasbeb2.db.dto.AgeGroup
 @import _root_.be.ugent.rasbeb2.db.dto.ContestForAnonTable
 
-@(contests: List[ContestForAnonTable], ageGroups: Iterable[AgeGroup])(implicit deputy: Deputy)
+@(contests: Collection[ContestForAnonTable], ageGroups: Iterable[AgeGroup])(implicit deputy: Deputy)
 
 @layout.anon("homeanon") {
     @table(contests.size){
@@ -22,9 +22,9 @@
         @foreach.tr(contests) { contest =>
             <td>@contest.contestTitle</td>
             @foreach(ageGroups, "td") { ageGroup =>
-                @if(contest.ageGroupIds.contains(ageGroup.id)) {
+                @if(contest.durations.contains(ageGroup.id)) {
                     <a href=@controllers.contest.routes.AnonController.show(contest.contestId, ageGroup.id)>@i18n("pupil.enter-contest")</a>
-                    <br/>@i18n("pupil.minutes-count-short", ""+contest.contestDuration)
+                    <br/>@i18n("pupil.minutes-count-short", ""+contest.durations.get(ageGroup.id))
                 } else {
                     @i18n("pupil.home-anon.not-available")
                 }

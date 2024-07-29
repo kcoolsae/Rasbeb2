@@ -9,7 +9,7 @@
 
 package be.ugent.rasbeb2.db.dto;
 
-import java.util.List;
+import java.util.Map;
 
-public record ContestForAnonTable(int contestId, String contestTitle, int contestDuration, List<Integer> ageGroupIds) {
+public record ContestForAnonTable(int contestId, String contestTitle, Map<Integer,Integer> durations) {
 }

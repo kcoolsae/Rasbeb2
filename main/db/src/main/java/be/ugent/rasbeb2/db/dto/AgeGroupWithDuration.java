@@ -14,4 +14,8 @@ package be.ugent.rasbeb2.db.dto;
  */
 public record AgeGroupWithDuration(AgeGroup ageGroup, Integer duration) {
 
+    public int id() {
+        return ageGroup.id();
+    }
+
 }

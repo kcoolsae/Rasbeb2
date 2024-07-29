@@ -91,7 +91,7 @@ class QuestionDaoTest extends OrganiserDaoTest {
     @Test
     void addTranslation() {
         dao.addTranslation(3, "de");
-        QuestionI18n actual = dao.getQuestionI18n(3).get(0);
+        QuestionI18n actual = dao.getQuestionI18n(3).getFirst();
         QuestionI18n expected = new QuestionI18n(3, "de", "", "", false, false);
         assertThat(actual).isEqualTo(expected);
     }
@@ -99,7 +99,7 @@ class QuestionDaoTest extends OrganiserDaoTest {
     @Test
     void addTranslation2() {
         dao.addTranslation(3, new Translation("de", "Title", "Answer"));
-        QuestionI18n actual = dao.getQuestionI18n(3).get(0);
+        QuestionI18n actual = dao.getQuestionI18n(3).getFirst();
         QuestionI18n expected = new QuestionI18n(3, "de", "Title", "Answer", false, false);
         assertThat(actual).isEqualTo(expected);
     }

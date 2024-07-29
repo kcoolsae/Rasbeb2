@@ -33,7 +33,7 @@ class JDBCAgeGroupDao extends JDBCAbstractDao implements AgeGroupDao {
         );
     }
 
-    private static AgeGroupWithDuration makeAgeGroupWithDuration(ResultSet rs) throws SQLException {
+    static AgeGroupWithDuration makeAgeGroupWithDuration(ResultSet rs) throws SQLException {
         return new AgeGroupWithDuration(
                 makeAgeGroup(rs),
                 rs.getObject("contest_duration", Integer.class)

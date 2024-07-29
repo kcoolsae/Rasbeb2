@@ -14,13 +14,13 @@
     <div class="d-flex mt-2">
         <div class="flex-grow-0 me-2">
             <h3>@contest.contest.title</h3>
-            <p>@contest.ageGroupName - @contest.ageGroupDescription</p>
+            <p>@contest.ageGroup.ageGroup.name - @contest.ageGroup.ageGroup.description</p>
             <div class="mb-2">
-                <a class="btn btn-outline-secondary" href="@controllers.contest.routes.TeacherContestController.listContests(contest.ageGroupId)">@i18n("common.caption.back")</a>
+                <a class="btn btn-outline-secondary" href="@controllers.contest.routes.TeacherContestController.listContests(contest.ageGroup.id)">@i18n("common.caption.back")</a>
            </div>
             <div class="list-group">
                 @foreach(headers) { header: QuestionHeader =>
-                    <a class="list-group-item list-group-item-action @(if(header.id == question.id) "active" else "")" href="@controllers.contest.routes.TeacherContestController.getContestQuestion(contest.contestId, contest.ageGroupId, header.id)">@header.title</a>
+                    <a class="list-group-item list-group-item-action @(if(header.id == question.id) "active" else "")" href="@controllers.contest.routes.TeacherContestController.getContestQuestion(contest.contestId, contest.ageGroup.id, header.id)">@header.title</a>
                 }
             </div>
         </div>

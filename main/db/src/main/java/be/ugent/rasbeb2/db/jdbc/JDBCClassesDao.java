@@ -220,7 +220,7 @@ public class JDBCClassesDao extends JDBCAbstractDao implements ClassesDao {
     public List<PupilInClass> getPupilsInClass(List<Integer> pupilIds) {
         return select("class_id, class_name, pupil_id, pupil_password, pupil_name, pupil_gender")
                 .from("pupils JOIN pupils_classes USING(pupil_id) JOIN classes USING(class_id)")
-                .where("pupil_id = ANY (?)", pupilIds.toArray(new Integer[pupilIds.size()])) // needs DAOHelper 1.1.13
+                .where("pupil_id = ANY (?)", pupilIds.toArray(new Integer[0])) // needs DAOHelper 1.1.13
                 .orderBy("class_id")
                 .orderBy("pupil_name")
                 .getList(JDBCClassesDao::makePupilInClass);
