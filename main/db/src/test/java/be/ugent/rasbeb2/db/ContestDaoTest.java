@@ -101,11 +101,6 @@ class ContestDaoTest extends OrganiserDaoTest {
         assertThat(dao.getContest(5, "en").status()).isEqualTo(ContestStatus.PENDING);
     }
 
-    // TODO close an official contest and check whether corresponding events
-    //      and participations are also closed
-    //      Then also check whether it is viewable/organisable
-    //      Suggestion: separate Test class
-
     @Test
     void getOrganisableContests() {
         // must not be pending or closed or public (1, 3, 4)

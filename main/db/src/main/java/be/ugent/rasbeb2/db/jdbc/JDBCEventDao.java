@@ -80,6 +80,7 @@ public class JDBCEventDao extends JDBCAbstractDao implements EventDao {
         return selectEvents()
                 .where("school_id", getSchoolId())
                 .where("year_id", yearId)
+                .orderBy("event_id")
                 .getList(JDBCEventDao::makeEvent);
     }
 

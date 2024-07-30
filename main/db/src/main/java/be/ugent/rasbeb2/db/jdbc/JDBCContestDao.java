@@ -154,17 +154,14 @@ public class JDBCContestDao extends JDBCAbstractDao implements ContestDao {
                 .execute();
     }
 
-  @Override
+    @Override
     public void changeStatus(int contestId, ContestStatus status) {
         if (status == ContestStatus.CLOSED) {
-            // should only happen with an official contest
-            if (isOfficialContest(contestId)) {
-                // TODO do this test at the database level
-                call("close_contest(?,?)")
-                        .parameter(contestId)
-                        .parameter(getUserId())
-                        .execute();
-            }
+            // will not result in an action when contest is not official
+            call("close_contest(?,?)")
+                    .parameter(contestId)
+                    .parameter(getUserId())
+                    .execute();
         } else {
             update("contests")
                     .set("contest_status", status)
@@ -172,14 +169,6 @@ public class JDBCContestDao extends JDBCAbstractDao implements ContestDao {
                     .where("contest_id", contestId)
                     .execute();
         }
-    }
-
-    private boolean isOfficialContest(int contestId) {
-        return !select("1")
-                .from("contests")
-                .where("contest_id", contestId)
-                .where("contest_type = 'OFFICIAL'")
-                .isEmpty();
     }
 
     @Override

@@ -177,32 +177,38 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Close a (public) contest, close the related participations, compute the related marks
+-- Close an (official) contest, close the related participations, compute the related marks
 -- and close the related events
+-- No action if not an official contest
 
 CREATE OR REPLACE PROCEDURE close_contest(c_id INT, who_upd INT) AS
 $$
 DECLARE
     p_id INT;
+    ct   contest_type;
 BEGIN
-    FOR p_id IN
-        SELECT pupil_id
-        FROM participations
-        WHERE participations.contest_id = c_id
-        LOOP
-            CALL close_participation(c_id, p_id, who_upd);
-        END LOOP;
-
-    UPDATE events
-    SET event_status = 'CLOSED'::event_status,
-        who_updated  = who_upd
+    SELECT contest_type INTO ct
+    FROM contests
     WHERE contest_id = c_id;
+    IF ct = 'OFFICIAL'::contest_type THEN
+        FOR p_id IN
+            SELECT pupil_id
+            FROM participations
+            WHERE participations.contest_id = c_id
+            LOOP
+                CALL close_participation(c_id, p_id, who_upd);
+            END LOOP;
 
-    UPDATE contests
-    SET contest_status = 'CLOSED'::contest_status,
-        who_updated    = who_upd
-    WHERE contest_id = c_id
-      AND contest_type = 'PUBLIC'::contest_type;
+        UPDATE events
+        SET event_status = 'CLOSED'::event_status,
+            who_updated  = who_upd
+        WHERE contest_id = c_id;
+
+        UPDATE contests
+        SET contest_status = 'CLOSED'::contest_status,
+            who_updated    = who_upd
+        WHERE contest_id = c_id;
+    END IF;
 END;
 $$ LANGUAGE plpgsql;
 
