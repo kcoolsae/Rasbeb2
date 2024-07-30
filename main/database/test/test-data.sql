@@ -165,12 +165,20 @@ INSERT INTO pupils (pupil_id, pupil_name, pupil_password, pupil_anonymous)
 VALUES (7, '', '', true);
 
 -- Participation of pupil 5 in contest 3 (event 7) age group 2
+-- pupil 1, 2 in contest 1 (event 1) age group 1
 INSERT INTO participations (contest_id, pupil_id, age_group_id, lang, event_id, participation_closed, participation_deadline)
-VALUES (3, 5, 2, 'en', 7, false, now() + interval '4 years');
+VALUES
+    (3, 5, 2, 'en', 7, false, now() + interval '4 years'),
+    (1, 1, 1, 'nl', 1, false, now() + interval '4 years'),
+    (1, 2, 1, 'nl', 1, true, now() + interval '4 years');
 
--- Answered 2 out of 3 questions
+-- Pupil 3 answered 2 out of 3 questions
+-- pupil 1 and 2 answered all questions
 INSERT INTO participation_details (contest_id, pupil_id, question_id, participation_answer)
-VALUES (3, 5, 1, 'A'), (3, 5, 2, 'Answer to 2 in en');
+VALUES
+    (3, 5, 1, 'A'), (3, 5, 2, 'Answer to 2 in en'),
+    (1, 1, 1, 'Answer to 1 in nl'), (1, 1, 2, 'Answer to 2 in nl'), (1, 1, 3, 'Wrong answer'),
+    (1, 2, 2, 'Answer to 2 in nl'), (1, 2, 3, 'Answer to 3 in nl');
 
 SELECT reset_sequences('public');
 

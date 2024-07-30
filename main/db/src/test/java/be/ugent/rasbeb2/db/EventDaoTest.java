@@ -14,10 +14,12 @@ import be.ugent.rasbeb2.db.dto.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Instant;
 import java.util.Iterator;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.within;
 
 class EventDaoTest extends TeacherDaoTest {
 
@@ -117,22 +119,43 @@ class EventDaoTest extends TeacherDaoTest {
 
     @Test
     void getParticipations() {
-        // TODO
+        List<ParticipationWithPupil> actual = dao.getParticipations(1);
+        List<ParticipationWithPupil> expected = List.of(
+                new ParticipationWithPupil(1, 1, "Pupil 1", false, actual.get(0).deadline(), 0, 36),
+                new ParticipationWithPupil(2, 1, "Pupil 2", true, actual.get(1).deadline(), 0, 36)
+        );
+        assertThat(actual).isEqualTo(expected);
+        // 6 did not participate in event 3
+        assertThat(dao.getParticipations(3)).flatExtracting(
+                ParticipationWithPupil::pupilId, ParticipationWithPupil::maxMarks)
+                .containsExactly(6,0);
     }
 
     @Test
     void participationAddExtraMinutes() {
-        // TODO
+        // minutes of pupil 1 in contest 1
+        Instant expected = dao.getParticipations(1).getFirst().deadline().plus(10, java.time.temporal.ChronoUnit.MINUTES);
+        dao.participationAddExtraMinutes(1, 1, 10);
+        Instant actual = dao.getParticipations(1).getFirst().deadline();
+        assertThat(actual).isCloseTo(expected, within(2, java.time.temporal.ChronoUnit.SECONDS));
     }
 
     @Test
     void reopenParticipation () {
-        // TODO
+        assertThat(dao.getParticipations(1).get(1).closed()).isTrue();
+        dao.reopenParticipation(1, 2);
+        assertThat(dao.getParticipations(1).get(1).closed()).isFalse();
     }
 
     @Test
     void getPupilsWithScore() {
-        // TODO
+        dao.closeEvent(7); // restricted contest
+        List<PupilWithScore> actual = dao.getPupilsWithScore(7);
+        List<PupilWithScore> expected = List.of(
+                new PupilWithScore(5, "Pupil 5", "3b", 10, 24),
+                new PupilWithScore(6, "Pupil 6", "3b", 0, 0)
+        );
+        assertThat(actual).isEqualTo(expected);
     }
 
 }

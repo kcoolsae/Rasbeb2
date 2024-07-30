@@ -258,7 +258,7 @@ public class JDBCEventDao extends JDBCAbstractDao implements EventDao {
     @Override
     public void closeEvent(int eventId) {
         ContestType contestType = select ("contest_type")
-                .from("events JOIN contest USING(contest_id)")
+                .from("events JOIN contests USING(contest_id)")
                 .where("event_id", eventId)
                 .getEnum(ContestType.class);
         switch (contestType) {
