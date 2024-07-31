@@ -14,12 +14,12 @@
 @(participations: List[ParticipationWithPupil])(implicit deputy: EventDeputy)
 
 @table(participations.size) {
-    @th("event.participation.student-name", "event.participation.deadline")
+    @th("event.participations.name", "event.participations.deadline")
 } {
     @foreach.tr(participations) { participation: ParticipationWithPupil =>
         <td>@participation.pupilName</td>
         @if(participation.deadline == null) {
-            <td>@i18n("event.participation.not-yet-started")</td>
+            <td>@i18n("event.participations.not-yet-started")</td>
         } else if (participation.closed) {
             <td>(@_deadline_span(participation))</td>
         } else {

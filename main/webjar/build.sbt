@@ -5,7 +5,7 @@ normalizedName := "webjar"
 // remove most of play functionality - we only need to build a webjar
 scalaVersion := "2.13.12"
 enablePlugins(PlayJava)
-disablePlugins(PlayFilters, PlayLogback, PlayAkkaHttpServer)
+disablePlugins(PlayFilters, PlayLogback, PlayPekkoHttpServer)
 
 // run the bootstrap build script whenever a file in scss changes
 lazy val customizeBootstrap = TaskKey[Unit]("customizeBootstrap", "Calls 'sass' to customize bootstrap")

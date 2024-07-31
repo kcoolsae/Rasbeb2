@@ -17,7 +17,7 @@
     @foreach.tr(teachers) { teacher =>
         <td>@teacher.name</td>
         <td>@teacher.email</td>
-        <td>@(if(teacher.disabled) i18n("school.status.inactive") else i18n("school.account.active"))</td>
+        <td>@(if(teacher.disabled) i18n("school.teachers.inactive") else i18n("school.teachers.active"))</td>
     }
 }
 
