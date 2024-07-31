@@ -16,11 +16,11 @@
             <h3>@contest.contest.title</h3>
             <p>@contest.ageGroup.ageGroup.name - @contest.ageGroup.ageGroup.description</p>
             <div class="mb-2">
-                <a class="btn btn-outline-secondary" href="@controllers.contest.routes.TeacherContestController.listContests(contest.ageGroup.id)">@i18n("common.caption.back")</a>
+                <a class="btn btn-outline-secondary" href="@controllers.contest.routes.TeacherContestController.listContests(lang,contest.ageGroup.id)">@i18n("contest.questions.overview")</a>
            </div>
             <div class="list-group">
                 @foreach(headers) { header: QuestionHeader =>
-                    <a class="list-group-item list-group-item-action @(if(header.id == question.id) "active" else "")" href="@controllers.contest.routes.TeacherContestController.getContestQuestion(contest.contestId, contest.ageGroup.id, header.id)">@header.title</a>
+                    <a class="list-group-item list-group-item-action @(if(header.id == question.id) "active" else "")" href="@controllers.contest.routes.TeacherContestController.getContestQuestion(lang, contest.contestId, contest.ageGroup.id, header.id)">@header.title</a>
                 }
             </div>
         </div>

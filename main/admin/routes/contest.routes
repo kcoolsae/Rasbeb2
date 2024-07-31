@@ -25,5 +25,5 @@ GET     /st/:contestId     controllers.contest.ContestSettingsController.setting
 POST    /st/t/:contestId   controllers.contest.ContestSettingsController.titleSettings(request: Request, contestId: Int)
 POST    /st/a/:contestId   controllers.contest.ContestSettingsController.ageGroupSettings(request: Request, contestId: Int)
 
-GET     /t/l/:ageGroupId  controllers.contest.TeacherContestController.listContests(request: Request, ageGroupId: Int)
-GET     /t/g/:contestId/:ageGroupId/:questionId   controllers.contest.TeacherContestController.getContestQuestion(request: Request, contestId: Int, ageGroupId: Int, questionId: Int)
+GET     /t/:lang/l/:ageGroupId  controllers.contest.TeacherContestController.listContests(request: Request, lang: String, ageGroupId: Int)
+GET     /t/:lang/g/:contestId/:ageGroupId/:questionId   controllers.contest.TeacherContestController.getContestQuestion(request: Request, lang: String, contestId: Int, ageGroupId: Int, questionId: Int)

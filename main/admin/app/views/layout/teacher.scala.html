@@ -31,7 +31,7 @@
             <ul class="nav nav-pills">
                 @_menu_item(pageId, "home", "menu.home", controllers.home.routes.TeacherHomeController.index(), cssClass="")
                 @_menu_item(pageId, "pup", "menu.pupils", controllers.teacher.routes.ClassController.getClasses(), cssClass="d-none d-md-block")
-                @_menu_item(pageId, "con", "menu.contests", controllers.contest.routes.TeacherContestController.listContests(0), cssClass="d-none d-md-block")
+                @_menu_item(pageId, "con", "menu.contests", controllers.contest.routes.TeacherContestController.listContests(deputy.getLanguage,0), cssClass="d-none d-md-block") @* TODO *@
                 @_menu_item(pageId, "sch", "menu.school", controllers.teacher.routes.TeacherController.getSchool(), cssClass="d-none d-md-block")
                 @if(years.isEmpty){
                     @_years_info()
