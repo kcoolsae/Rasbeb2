@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import play.data.Form;
 import play.mvc.Result;
+import util.AgeGroupsWithId;
 import views.html.contest.*;
 
 import java.util.*;
@@ -42,14 +43,13 @@ public class ContestMarksDeputy extends OrganiserOnlyDeputy {
 
     public Result getQuestionSet(int contestId, int ageGroupId) {
         String lang = getLanguage();
-        List<AgeGroup> ageGroups = dac().getAgeGroupDao().getAgeGroups(contestId, lang);
-        if (ageGroupId == 0) {
-            // default value when no id given
-            ageGroupId = ageGroups.getFirst().id();
-        }
 
+        AgeGroupsWithId ageGroups = new AgeGroupsWithId(
+                dac().getAgeGroupDao().getAllAgeGroups(lang),
+                ageGroupId
+        );
         ContestDao dao = dac().getContestDao();
-        List<QuestionInSet> questionSet = dao.getQuestionSet(contestId, ageGroupId, lang);
+        List<QuestionInSet> questionSet = dao.getQuestionSet(contestId, ageGroups.id(), lang);
         QuestionSetData data = new QuestionSetData();
         for (QuestionInSet q : questionSet) {
             data.items.put(q.id(), new MarksData(q.marksIfCorrect(), q.marksIfIncorrect()));
@@ -59,7 +59,6 @@ public class ContestMarksDeputy extends OrganiserOnlyDeputy {
                 questionSet,
                 dao.getContest(contestId, lang),
                 ageGroups,
-                ageGroupId,
                 this
         ));
     }
@@ -69,13 +68,16 @@ public class ContestMarksDeputy extends OrganiserOnlyDeputy {
         ContestDao dao = dac().getContestDao();
         if (form.hasErrors()) {
             String lang = getLanguage();
+            AgeGroupsWithId ageGroups = new AgeGroupsWithId(
+                    dac().getAgeGroupDao().getAllAgeGroups(lang),
+                    ageGroupId
+            );
             error("contest.marks.error");
             return badRequest(question_set_marks.render(
                     form,
-                    dao.getQuestionSet(contestId, ageGroupId, lang),
+                    dao.getQuestionSet(contestId, ageGroups.id(), lang),
                     dao.getContest(contestId, lang),
-                    dac().getAgeGroupDao().getAgeGroups(contestId, lang),
-                    ageGroupId,
+                    ageGroups,
                     this
             ));
         } else {

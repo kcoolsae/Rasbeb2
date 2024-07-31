@@ -6,13 +6,13 @@
  * in the top level project directory.
  *@
 
-@import _root_.be.ugent.rasbeb2.db.dto.AgeGroup
-@(ageGroupId: Int, ageGroups: List[AgeGroup], callFor: Int => Call)
+@import util.AgeGroupsWithId
+@(ageGroups: AgeGroupsWithId, callFor: Int => Call)
 
 <ul class="nav nav-tabs" role="tablist">
-    @for(ag <- ageGroups) {
+    @foreach(ageGroups) { ag =>
         <li class="nav-item" role="presentation">
-        @if(ag.id == ageGroupId) {
+        @if(ageGroups.isSelected(ag)) {
             <button class="nav-link active" type="button" role="tab">@ag.name</button>
         } else {
             <a href="@callFor(ag.id)" class="nav-link">@ag.name</a>

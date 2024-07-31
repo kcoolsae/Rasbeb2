@@ -14,6 +14,7 @@ import be.ugent.rasbeb2.db.dto.*;
 import common.LanguageInfo;
 import deputies.TeacherOnlyDeputy;
 import play.mvc.Result;
+import util.AgeGroupsWithId;
 import views.html.contest.teacher_contest;
 
 import java.util.List;
@@ -29,19 +30,17 @@ public class TeacherContestDeputy extends TeacherOnlyDeputy {
      * @param ageGroupId age group for which the contests should be listed. Youngest age group is used if zero.
      */
     public Result listContests(String language, int ageGroupId) {
-        // TODO much in common with EventDeputy.listEventContests
-        List<AgeGroup> ageGroups = dac().getAgeGroupDao().getAllAgeGroups(language);
-        if (ageGroupId == 0) {
-            // default value when no id given
-            ageGroupId = ageGroups.getFirst().id();
-        }
+
+        AgeGroupsWithId ageGroups = new AgeGroupsWithId(
+                dac().getAgeGroupDao().getAllAgeGroups(language),
+                ageGroupId
+        );
 
         return ok(views.html.contest.teacher_list_contests.render(
                 LanguageInfo.get(language),
                 getUILanguagesInfo(),
-                ageGroupId,
                 ageGroups,
-                dac().getContestDao().getViewableContests(ageGroupId, language),
+                dac().getContestDao().getViewableContests(ageGroups.id(), language),
                 this
         ));
     }

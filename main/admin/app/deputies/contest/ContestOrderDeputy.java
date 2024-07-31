@@ -11,29 +11,25 @@ package deputies.contest;
 
 
 import be.ugent.rasbeb2.db.dao.ContestDao;
-import be.ugent.rasbeb2.db.dto.*;
 import controllers.contest.routes;
 import deputies.OrganiserOnlyDeputy;
 import play.mvc.Result;
+import util.AgeGroupsWithId;
 import views.html.contest.*;
-
-import java.util.*;
 
 public class ContestOrderDeputy extends OrganiserOnlyDeputy {
 
     public Result getQuestionSet(int contestId, int ageGroupId) {
         String lang = getLanguage();
-        List<AgeGroup> ageGroups = dac().getAgeGroupDao().getAgeGroups(contestId, lang);
-        if (ageGroupId == 0) {
-            // default value when no id given
-            ageGroupId = ageGroups.getFirst().id();
-        }
+        AgeGroupsWithId ageGroups = new AgeGroupsWithId(
+                dac().getAgeGroupDao().getAllAgeGroups(lang),
+                ageGroupId
+        );
         ContestDao dao = dac().getContestDao();
         return ok(question_set_order.render(
-                dao.getQuestionSet(contestId, ageGroupId, lang),
+                dao.getQuestionSet(contestId, ageGroups.id(), lang),
                 dao.getContest(contestId, lang),
                 ageGroups,
-                ageGroupId,
                 this
         ));
     }

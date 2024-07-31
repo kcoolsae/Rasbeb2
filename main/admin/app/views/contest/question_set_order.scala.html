@@ -6,20 +6,21 @@
  * in the top level project directory.
  *@
 
-@import _root_.be.ugent.rasbeb2.db.dto.{AgeGroup, Contest, QuestionInSet}
+@import _root_.be.ugent.rasbeb2.db.dto.{Contest, QuestionInSet}
 @import common.Deputy
 @import controllers.contest.routes
+@import util.AgeGroupsWithId
 @import views.html.b5._
 @import views.html.be.ugent.caagt.play.ext.foreach
 @import views.html.contest.{_age_group_tabs, _submenu}
-@(questionSet: List[QuestionInSet], contest: Contest, ageGroups: List[AgeGroup], ageGroupId: Int)(implicit deputy: Deputy)
+@(questionSet: List[QuestionInSet], contest: Contest, ageGroups: AgeGroupsWithId)(implicit deputy: Deputy)
 
 @layout.organiser("cntqso") {
     @_submenu("order", contest)
 
-    @_age_group_tabs(ageGroupId, ageGroups, routes.ContestOrderController.getQuestionSet(contest.id, _))
+    @_age_group_tabs(ageGroups, routes.ContestOrderController.getQuestionSet(contest.id, _))
 
-    @form(routes.ContestOrderController.updateOrderByDifficulty(contest.id, ageGroupId)) {
+    @form(routes.ContestOrderController.updateOrderByDifficulty(contest.id, ageGroups.id)) {
         <div class="row mt-2">
             <div class="col-auto ms-auto">@submit("contest.order.caption",tp="outline-primary")</div>
         </div>
@@ -36,14 +37,14 @@
             <td>
                 <div class="d-flex justify-content-start">
                     @if(i != 0) {
-                        @form(routes.ContestOrderController.updateOrder(contest.id, ageGroupId, questionSet.get(i).seqNum, questionSet.get(i-1).seqNum)) {
+                        @form(routes.ContestOrderController.updateOrder(contest.id, ageGroups.id, questionSet.get(i).seqNum, questionSet.get(i-1).seqNum)) {
                             <button type="submit" class="btn btn-outline-primary me-2"><span class="fa-solid fa-arrow-up"></span></button>
                         }
                     } else {
                         <button type="button" class="btn btn-outline-primary me-2 disabled"><span class="fa-solid fa-arrow-up"></span></button>
                     }
                     @if(i != questionSet.size-1) {
-                        @form(routes.ContestOrderController.updateOrder(contest.id, ageGroupId, questionSet.get(i).seqNum, questionSet.get(i+1).seqNum)) {
+                        @form(routes.ContestOrderController.updateOrder(contest.id, ageGroups.id, questionSet.get(i).seqNum, questionSet.get(i+1).seqNum)) {
                             <button type="submit" class="btn btn-outline-primary me-2"><span class="fa-solid fa-arrow-down"></span></button>
                         }
                     } else {
@@ -54,4 +55,4 @@
         }
         </tbody>
     </table>
-}
+}@import util.AgeGroupsWithId

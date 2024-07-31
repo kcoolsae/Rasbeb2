@@ -6,15 +6,15 @@
  * in the top level project directory.
  *@
 
-@import _root_.be.ugent.rasbeb2.db.dto.{AgeGroup, Contest, QuestionInSet}
+@import _root_.be.ugent.rasbeb2.db.dto.{Contest, QuestionInSet}
 @import controllers.contest.routes
 @import deputies.contest.ContestMarksDeputy
 @import deputies.contest.ContestMarksDeputy.QuestionSetData
+@import util.AgeGroupsWithId
 @import views.html.b5._
-@import views.html.be.ugent.caagt.play.ext.i18n
 @import views.html.contest.{_age_group_tabs, _submenu}
 @(f: Form[QuestionSetData], questionSet: List[QuestionInSet], contest: Contest,
-        ageGroups: List[AgeGroup], ageGroupId: Int)(implicit deputy: ContestMarksDeputy)
+        ageGroups: AgeGroupsWithId)(implicit deputy: ContestMarksDeputy)
 
 @implicitFieldBuilder = @{
     fieldBuilder.plain
@@ -23,9 +23,9 @@
 @layout.organiser("cntqs") {
     @_submenu("marks", contest)
 
-    @_age_group_tabs(ageGroupId, ageGroups, routes.ContestMarksController.getQuestionSet(contest.id, _))
+    @_age_group_tabs(ageGroups, routes.ContestMarksController.getQuestionSet(contest.id, _))
 
-    @form(routes.ContestMarksController.updateMarks(contest.id, ageGroupId)) {
+    @form(routes.ContestMarksController.updateMarks(contest.id, ageGroups.id)) {
         <table class="table">
             @thead("contest.marks.title", "contest.marks.id", "contest.marks.correct", "contest.marks.incorrect")
             <tbody>

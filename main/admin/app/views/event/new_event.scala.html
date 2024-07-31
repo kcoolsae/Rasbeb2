@@ -6,13 +6,14 @@
  * in the top level project directory.
  *@
 
-@import _root_.be.ugent.rasbeb2.db.dto.{AgeGroup, Contest}
+@import _root_.be.ugent.rasbeb2.db.dto.Contest
 @import common.LanguageInfo
 @import controllers.event.routes
+@import util.AgeGroupsWithId
 @import views.html.be.ugent.caagt.play.ext.i18n
 @import views.html.ext.collapse
 @(lang: LanguageInfo, languages: List[LanguageInfo],
-        ageGroupId: Int, ageGroups: List[AgeGroup],
+        ageGroups: AgeGroupsWithId,
         contests:  Iterable[Contest])(implicit deputy: Deputy)
 @layout.teacher("evenew") {
     <h3>@i18n("event.add.title") (@lang.name)</h3>
@@ -22,13 +23,13 @@
         @i18n("common.other-language") :
         @foreach(languages) { l =>
             @if(l.code != lang.code) {
-                <span style="padding: 0 5px;"><a href="@routes.EventController.listEventContests(ageGroupId, l.code)">@l.name </a></span>
+                <span style="padding: 0 5px;"><a href="@routes.EventController.listEventContests(ageGroups.id, l.code)">@l.name </a></span>
             }
         }
         </div>
     }
 
-    @views.html.contest._age_group_tabs(ageGroupId, ageGroups, routes.EventController.listEventContests(_, lang.code))
+    @views.html.contest._age_group_tabs(ageGroups, routes.EventController.listEventContests(_, lang.code))
     <table class="table">
         @thead("common.title", "common.actions")
         <tbody>
@@ -40,7 +41,7 @@
                 </td>
             </tr>
             <tr class="collapse" id="addEventForm-@contest.id">
-                <td>@collapse.form(routes.EventController.addEvent(contest.id, ageGroupId, lang.code),
+                <td>@collapse.form(routes.EventController.addEvent(contest.id, ageGroups.id, lang.code),
                     "addEventForm-" + contest.id, "event.add.caption.add") {
                     <div class="col-auto">@b5.text(Forms.field("title", ""), "_label" -> "event.add.name", "required" -> None)</div>
                 }

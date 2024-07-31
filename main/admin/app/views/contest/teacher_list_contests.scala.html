@@ -6,15 +6,15 @@
  * in the top level project directory.
  *@
 
-@import _root_.be.ugent.rasbeb2.db.dto.{AgeGroup, Contest}
-@import common.Deputy
-@import common.LanguageInfo
+@import _root_.be.ugent.rasbeb2.db.dto.Contest
+@import common.{Deputy, LanguageInfo}
 @import controllers.contest.routes
+@import util.AgeGroupsWithId
 @import views.html.b5._
 @import views.html.be.ugent.caagt.play.ext.foreach
 @import views.html.contest._age_group_tabs
 @(lang: LanguageInfo, languages: List[LanguageInfo],
-        ageGroupId: Int, ageGroups: List[AgeGroup], contests: Iterable[Contest])(implicit deputy: Deputy)
+        ageGroups: AgeGroupsWithId, contests: Iterable[Contest])(implicit deputy: Deputy)
 
 @layout.teacher("contl") {
     @* TODO extract code common with new_event.scala.html *@
@@ -25,13 +25,13 @@
         @i18n("common.other-language") :
         @foreach(languages) { l =>
             @if(l.code != lang.code) {
-                <span style="padding: 0 5px;"><a href="@routes.TeacherContestController.listContests(l.code, ageGroupId)">@l.name </a></span>
+                <span style="padding: 0 5px;"><a href="@routes.TeacherContestController.listContests(l.code, ageGroups.id)">@l.name </a></span>
             }
         }
         </div>
     }
 
-    @_age_group_tabs(ageGroupId, ageGroups, routes.TeacherContestController.listContests(lang.code,_)) @* TODO *@
+    @_age_group_tabs(ageGroups, routes.TeacherContestController.listContests(lang.code,_)) @* TODO *@
 
     <table class="table">
         @thead("contest.title", "common.actions")
@@ -39,7 +39,7 @@
         @foreach.tr(contests) { contest =>
             <td>@contest.title</td>
             <td>
-               <a class="btn btn-outline-primary" href='@routes.TeacherContestController.getContestQuestion(lang.code, contest.id, ageGroupId, 0)'>...</a>
+               <a class="btn btn-outline-primary" href='@routes.TeacherContestController.getContestQuestion(lang.code, contest.id, ageGroups.id, 0)'>...</a>
             </td>
         }
         </tbody>

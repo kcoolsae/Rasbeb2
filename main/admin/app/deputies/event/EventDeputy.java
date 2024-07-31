@@ -20,6 +20,7 @@ import lombok.Getter;
 import lombok.Setter;
 import play.data.Form;
 import play.mvc.Result;
+import util.AgeGroupsWithId;
 import views.html.event.*;
 
 import java.util.ArrayList;
@@ -199,17 +200,15 @@ public class EventDeputy extends TeacherOnlyDeputy {
     }
 
     public Result listEventContests(int ageGroupId, String lang) {
-        List<AgeGroup> ageGroups = dac().getAgeGroupDao().getAllAgeGroups(lang);
-        if (ageGroupId == 0) {
-            // default value when no id given
-            ageGroupId = ageGroups.getFirst().id();
-        }
+        AgeGroupsWithId ageGroups = new AgeGroupsWithId(
+                dac().getAgeGroupDao().getAllAgeGroups(lang),
+                ageGroupId
+        );
         return ok(new_event.render(
                 LanguageInfo.get(lang),
                 getUILanguagesInfo(),
-                ageGroupId,
                 ageGroups,
-                dac().getContestDao().getOrganisableContests(ageGroupId, lang),
+                dac().getContestDao().getOrganisableContests(ageGroups.id(), lang),
                 this)
         );
     }
