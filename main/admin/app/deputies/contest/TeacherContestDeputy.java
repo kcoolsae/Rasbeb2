@@ -11,10 +11,10 @@ package deputies.contest;
 
 import be.ugent.rasbeb2.db.dao.QuestionDao;
 import be.ugent.rasbeb2.db.dto.*;
-import common.LanguageInfo;
 import deputies.TeacherOnlyDeputy;
 import play.mvc.Result;
 import util.AgeGroupsWithId;
+import util.LanguagesWithSelection;
 import views.html.contest.teacher_contest;
 
 import java.util.List;
@@ -35,10 +35,8 @@ public class TeacherContestDeputy extends TeacherOnlyDeputy {
                 dac().getAgeGroupDao().getAllAgeGroups(language),
                 ageGroupId
         );
-
         return ok(views.html.contest.teacher_list_contests.render(
-                LanguageInfo.get(language),
-                getUILanguagesInfo(),
+                new LanguagesWithSelection(getUILanguagesInfo(), language),
                 ageGroups,
                 dac().getContestDao().getViewableContests(ageGroups.id(), language),
                 this

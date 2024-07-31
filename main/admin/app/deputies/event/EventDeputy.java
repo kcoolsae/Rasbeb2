@@ -13,7 +13,6 @@ import be.ugent.rasbeb2.db.dao.EventDao;
 import be.ugent.rasbeb2.db.dto.*;
 import be.ugent.rasbeb2.db.poi.PupilSheetWriter;
 import be.ugent.rasbeb2.db.poi.ScoreSheetWriter;
-import common.LanguageInfo;
 import controllers.event.routes;
 import deputies.TeacherOnlyDeputy;
 import lombok.Getter;
@@ -21,6 +20,7 @@ import lombok.Setter;
 import play.data.Form;
 import play.mvc.Result;
 import util.AgeGroupsWithId;
+import util.LanguagesWithSelection;
 import views.html.event.*;
 
 import java.util.ArrayList;
@@ -205,8 +205,7 @@ public class EventDeputy extends TeacherOnlyDeputy {
                 ageGroupId
         );
         return ok(new_event.render(
-                LanguageInfo.get(lang),
-                getUILanguagesInfo(),
+                new LanguagesWithSelection(getUILanguagesInfo(), lang),
                 ageGroups,
                 dac().getContestDao().getOrganisableContests(ageGroups.id(), lang),
                 this)

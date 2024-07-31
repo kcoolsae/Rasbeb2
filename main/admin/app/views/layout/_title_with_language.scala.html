@@ -1,0 +1,29 @@
+@*_title_with_language.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@* Displays a title, language and choice of other languages *@
+
+@import util.LanguagesWithSelection
+@(title: String, languages: LanguagesWithSelection, call: String => Call)(implicit deputy: Deputy)
+
+<h3>@i18n(title) (@languages.name)</h3>
+
+@if(languages.isNotShort){
+    <div class="mb-2 text-end">
+    @i18n("common.other-language") :
+    @foreach(languages) { l =>
+        @if(! languages.isSelected(l)){
+            <span style="padding: 0 5px;"><a href="@call(l.code)">@l.name </a></span>
+        }
+    }
+    </div>
+}
+
+
+
+
