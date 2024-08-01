@@ -1,7 +1,7 @@
 
 name := "Rasbeb2 - parent project"
 
-scalaVersion:= "2.13.12"
+scalaVersion := "2.13.14"
 
 // subprojects
 //////////////
@@ -50,7 +50,7 @@ ThisBuild / packageSrc / publishArtifact := false
 // settings common to both Play apps
 lazy val commonAppSettings = Seq(
 
-  scalaVersion:= "2.13.12",
+  ThisBuild / scalaVersion:= "2.13.14",
 
   //
   libraryDependencies ++= Seq(
