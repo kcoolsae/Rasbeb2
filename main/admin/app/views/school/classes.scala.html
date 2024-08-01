@@ -13,6 +13,7 @@
 @import views.html.b5._
 @import views.html.be.ugent.caagt.play.ext.i18n
 @import views.html.ext.upload
+@import views.html.school._class_pupils_table
 @(cf: Form[ClassesData], classesWithPupils: Iterable[ClassWithPupils])(implicit deputy: Deputy)
 
 @layout.teacher("pup", js = include.js("generatePassword.js")) {
@@ -35,43 +36,18 @@
             @collapse.button("addPupilForm-" + classWithPupils.group.id, "school.pupils.add")
             </div>
         </div>
-    @collapse.form(controllers.teacher.routes.PupilController.addPupil(classWithPupils.group.id), "addPupilForm-" + classWithPupils.group.id, "common.caption.add") {
-        <div class="col">@text(Forms.field("name", ""), "_label" -> "school.pupil.name", "required" -> None)</div>
-        <div class="col">@select(Forms.field("gender", "MALE"), classOf[Gender], "enum.gender", "_label" -> "school.pupil.gender")</div>
-        @defining(s"password-${classWithPupils.group.id}") { textFieldId =>
-            <div class="col">@text(Forms.field("password", PasswordGenerator.generate()),"_label" -> "school.pupil.password", "id" -> textFieldId, "required" -> None)</div>
-            @ext.generatePasswordButton(textFieldId)
-        }
-    }
-        <table class="table">
-            @thead("school.pupil.name", "school.pupil.gender", "school.pupil.bebras-id", "school.pupil.password","common.actions")
-            <tbody>
-            @foreach(classWithPupils.pupils) { pupil =>
-                <tr>
-                    <td>@pupil.name</td>
-                    <td>@i18n("enum.gender." + pupil.gender.name)</td>
-                    <td>@pupil.id</td>
-                    <td>@pupil.password</td>
-                    <td>
-                        <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#editPupilForm-@pupil.id" aria-expanded="false" aria-controls="editPupilForm-@pupil.id">
-                            <span class="fa-solid fa-edit"></span>
-                        </button>
-                    </td>
-                </tr>
-                <tr class="collapse" id="editPupilForm-@pupil.id">
-                    <td>
-                    @collapse.form(controllers.teacher.routes.PupilController.editPupil(pupil.id), "editPupilForm-" + pupil.id, "school.pupils.edit") {
-                        <div class="col">@text(Forms.field("name",pupil.name), "_label" -> "school.pupil.name", "required" -> None)</div>
-                        <div class="col">@select(Forms.field("gender", pupil.gender.toString), classOf[Gender], "enum.gender", "_label" -> "school.pupil.gender")</div>
-                        @defining(s"password-${pupil.id}") { textFieldId =>
-                            <div class="col">@text(Forms.field("password",pupil.password), "_label" -> "school.pupil.password", "id" -> textFieldId, "required" -> None)</div>
-                            @ext.generatePasswordButton(textFieldId)
-                        }
-                    }
-                    </td>
-                </tr>
+        @collapse.form(controllers.teacher.routes.PupilController.addPupil(classWithPupils.group.id), "addPupilForm-" + classWithPupils.group.id, "common.caption.add") {
+            <div class="col">@text(Forms.field("name", ""), "_label" -> "school.pupil.name", "required" -> None)</div>
+            <div class="col">@select(Forms.field("gender", "MALE"), classOf[Gender], "enum.gender", "_label" -> "school.pupil.gender")</div>
+            @defining(s"password-${classWithPupils.group.id}") { textFieldId =>
+                <div class="col">@text(Forms.field("password", PasswordGenerator.generate()),"_label" -> "school.pupil.password", "id" -> textFieldId, "required" -> None)</div>
+                @ext.generatePasswordButton(textFieldId)
             }
-            </tbody>
-        </table>
+        }
+        @if(classWithPupils.pupils.isEmpty) {
+            <p>@i18n("school.pupils.no-data")</p>
+        } else {
+            @_class_pupils_table(classWithPupils.pupils)
+        }
     }
 }

@@ -10,6 +10,7 @@
 package deputies.teacher;
 
 import be.ugent.caagt.dao.DataAccessException;
+import be.ugent.caagt.dao.UniqueViolation;
 import be.ugent.rasbeb2.db.dao.ClassesDao;
 import be.ugent.rasbeb2.db.dto.ClassWithPupils;
 import deputies.TeacherOnlyDeputy;
@@ -52,10 +53,12 @@ public class ClassDeputy extends TeacherOnlyDeputy {
             // should not happen
             return badRequest();
         } else {
-            // TODO split into separate class names here, not in DAO
-            // TODO signal if class already existed
-            dac().getClassesDao().addClasses(form.get().classNames, getCurrentYearId());
-            success("school.classes.success-added");
+            try {
+                dac().getClassesDao().addClasses(form.get().classNames, getCurrentYearId());
+                success("school.classes.success-added");
+            } catch (UniqueViolation ex) {
+                error("school.classes.error-added");
+            }
             return redirect(controllers.home.routes.TeacherHomeController.index());
         }
     }

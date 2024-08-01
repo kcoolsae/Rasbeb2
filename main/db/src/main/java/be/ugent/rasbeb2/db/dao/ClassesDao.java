@@ -46,6 +46,8 @@ public interface ClassesDao {
        PUPILS IN CLASSES
        ======= */
 
+    // classes are ordered by name
+
     Iterable<ClassWithPupils> getClassesWithPupils(int yearId);
 
     boolean pupilExistsInClass(String pupilName, int classId);

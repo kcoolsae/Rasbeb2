@@ -10,6 +10,7 @@
 package be.ugent.rasbeb2.db;
 
 import be.ugent.caagt.dao.ForeignKeyViolation;
+import be.ugent.caagt.dao.UniqueViolation;
 import be.ugent.rasbeb2.db.dao.ClassesDao;
 import be.ugent.rasbeb2.db.dto.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -69,6 +70,12 @@ class ClassesDaoTest extends TeacherDaoTest {
         List<ClassGroup> classGroups = dao.listClasses(22);
         assertThat(classGroups).extracting(ClassGroup::name)
                 .containsExactly("4a el", "4b in");
+    }
+
+    @Test
+    void addClassesError() {
+        assertThatThrownBy(() -> dao.addClasses("1a, 2a, 3a", 24))
+                .isInstanceOf(UniqueViolation.class);
     }
 
     @Test

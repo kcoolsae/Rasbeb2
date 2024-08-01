@@ -60,7 +60,8 @@ CREATE TABLE classes
     when_created TIMESTAMP DEFAULT NOW(),
     who_created  INTEGER,
     when_updated TIMESTAMP,
-    who_updated  INTEGER
+    who_updated  INTEGER,
+    UNIQUE (school_id, year_id, class_name)
 );
 
 CREATE TRIGGER update_class

@@ -60,7 +60,7 @@ public class JDBCClassesDao extends JDBCAbstractDao implements ClassesDao {
                 .from("classes")
                 .where("year_id", yearId)
                 .where("school_id", getSchoolId())
-                .orderBy("class_id");
+                .orderBy("class_name");
     }
 
     public Iterable<ClassGroup> getClasses(int yearId) {
@@ -68,26 +68,17 @@ public class JDBCClassesDao extends JDBCAbstractDao implements ClassesDao {
                 .getList(JDBCClassesDao::makeClass);
     }
 
-    public SelectSQLStatement selectClass(String name, int schoolId, int yearId) {
-        return select("class_id").from("classes")
-                .where("class_name", name)
-                .where("school_id", schoolId)
-                .where("year_id", yearId);
-    }
-
     @Override
     public void addClasses(String classes, int yearId) {
         if (!classes.isBlank()) {
             int schoolId = getSchoolId();
             for (String c : classes.split("\\s*[,;]\\s*")) {
-                if (selectClass(c.strip(), schoolId, yearId).isEmpty()) {
-                    insertInto("classes")
-                            .value("year_id", yearId)
-                            .value("school_id", schoolId)
-                            .value("class_name", c.strip())
-                            .value("who_created", getUserId())
-                            .execute();
-                }
+                insertInto("classes")
+                        .value("year_id", yearId)
+                        .value("school_id", schoolId)
+                        .value("class_name", c.strip())
+                        .value("who_created", getUserId())
+                        .execute();
             }
         }
     }
@@ -123,19 +114,19 @@ public class JDBCClassesDao extends JDBCAbstractDao implements ClassesDao {
     @Override
     public Iterable<ClassWithPupils> getClassesWithPupils(int yearId) {
         // uses the method in DAOHelper master/detail documentation
-        Map<Integer,ClassWithPupils> map = selectClasses(yearId)
+        Map<Integer, ClassWithPupils> map = selectClasses(yearId)
                 .getMap(JDBCClassesDao::makeClassWithPupils);
         select("classes.class_id, pupil_id, pupil_name, pupil_gender, pupil_password") // class_id must be first!
                 .from("""
-                    pupils
-                       JOIN pupils_classes USING(pupil_id)
-                       JOIN classes ON pupils_classes.class_id = classes.class_id
-                                        AND year_id = ? AND school_id = ?
-                """)
+                            pupils
+                               JOIN pupils_classes USING(pupil_id)
+                               JOIN classes ON pupils_classes.class_id = classes.class_id
+                                                AND year_id = ? AND school_id = ?
+                        """)
                 .parameter(yearId)
                 .parameter(getSchoolId())
                 .processMap(map,
-                        (c,rs) -> c.pupils().add(JDBCPupilContestDao.makePupil(rs))
+                        (c, rs) -> c.pupils().add(JDBCPupilContestDao.makePupil(rs))
                 );
         return map.values();
     }
@@ -172,7 +163,7 @@ public class JDBCClassesDao extends JDBCAbstractDao implements ClassesDao {
 
     @Override
     public boolean pupilExistsInClass(String pupilName, int classId) {
-        return ! select("1").from("pupils_classes JOIN pupils USING(pupil_id)")
+        return !select("1").from("pupils_classes JOIN pupils USING(pupil_id)")
                 .where("class_id", classId)
                 .where("pupil_name", pupilName)
                 .isEmpty();
@@ -212,7 +203,7 @@ public class JDBCClassesDao extends JDBCAbstractDao implements ClassesDao {
                 .from("pupils JOIN pupils_classes USING(pupil_id) JOIN classes USING(class_id)")
                 .where("year_id", yearId)
                 .where("school_id", getSchoolId())
-                .orderBy("class_id")
+                .orderBy("class_name")
                 .orderBy("pupil_name")
                 .getList(JDBCClassesDao::makePupilInClass);
     }
@@ -221,7 +212,7 @@ public class JDBCClassesDao extends JDBCAbstractDao implements ClassesDao {
         return select("class_id, class_name, pupil_id, pupil_password, pupil_name, pupil_gender")
                 .from("pupils JOIN pupils_classes USING(pupil_id) JOIN classes USING(class_id)")
                 .where("pupil_id = ANY (?)", pupilIds.toArray(new Integer[0])) // needs DAOHelper 1.1.13
-                .orderBy("class_id")
+                .orderBy("class_name")
                 .orderBy("pupil_name")
                 .getList(JDBCClassesDao::makePupilInClass);
     }

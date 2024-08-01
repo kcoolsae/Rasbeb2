@@ -1,0 +1,44 @@
+@* _class_pupils_table.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.{Gender,Pupil}
+@import views.html.b5._
+@import views.html.be.ugent.caagt.play.ext.i18n
+
+@(pupils: List[Pupil])(implicit deputy: Deputy)
+
+<table class="table">
+    @thead("school.pupil.name", "school.pupil.gender", "school.pupil.bebras-id", "school.pupil.password","common.actions")
+    <tbody>
+    @foreach(pupils) { pupil =>
+        <tr>
+            <td>@pupil.name</td>
+            <td>@i18n("enum.gender." + pupil.gender.name)</td>
+            <td>@pupil.id</td>
+            <td>@pupil.password</td>
+            <td>
+                <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#editPupilForm-@pupil.id" aria-expanded="false" aria-controls="editPupilForm-@pupil.id">
+                    <span class="fa-solid fa-edit"></span>
+                </button>
+            </td>
+        </tr>
+        <tr class="collapse" id="editPupilForm-@pupil.id">
+            <td>
+            @collapse.form(controllers.teacher.routes.PupilController.editPupil(pupil.id), "editPupilForm-" + pupil.id, "school.pupils.edit") {
+                <div class="col">@text(Forms.field("name",pupil.name), "_label" -> "school.pupil.name", "required" -> None)</div>
+                <div class="col">@select(Forms.field("gender", pupil.gender.toString), classOf[Gender], "enum.gender", "_label" -> "school.pupil.gender")</div>
+                @defining(s"password-${pupil.id}") { textFieldId =>
+                    <div class="col">@text(Forms.field("password",pupil.password), "_label" -> "school.pupil.password", "id" -> textFieldId, "required" -> None)</div>
+                    @ext.generatePasswordButton(textFieldId)
+                }
+            }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
