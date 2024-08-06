@@ -36,6 +36,14 @@
             }
     </style>
     @include.js("iframeresize") @* ensures early loading of the script *@
+    @if(question.isInteractive){
+        @include.js("interactive")
+        <script>
+        receiveAnswer = function (answer) {
+            document.getElementById("answer_received").value = answer;
+        }
+        </script>
+    }
 }
 
 @js = {
@@ -47,6 +55,7 @@
                 postSize("iframeF" + button.id);
             })
         }
+        // TODO maybe call initializeTask with current user and task ID
     </script>
 }
 

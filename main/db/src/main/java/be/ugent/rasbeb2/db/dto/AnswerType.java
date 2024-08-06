@@ -14,5 +14,5 @@ public enum AnswerType {
     INT,
     TEXT,
     JSON,
-    CWC
+    CWC  // not yet supported
 }

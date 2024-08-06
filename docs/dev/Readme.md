@@ -18,6 +18,7 @@ The Rasbeb 2 repo consists of the following folders
   * `db` Database layer of the applications
   * `webjar` Shared CSS and Javascript code, bundled in a webjar. Based on bootstrap 5.3
   * (The `project` and `target` directories are part of the SBT build system.)
+* `itasks` JavaScript code for use in interactive tasks
 
 ### Prerequisites
 

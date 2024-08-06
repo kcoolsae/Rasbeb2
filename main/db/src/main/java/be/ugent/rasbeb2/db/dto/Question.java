@@ -14,4 +14,8 @@ public record Question (QuestionHeader header, String typeExtra, String magicQ, 
     public int id() {
         return header.id();
     }
+
+    public boolean isInteractive() {
+        return header.answerType() == AnswerType.JSON || header.answerType() == AnswerType.CWC;
+    }
 }

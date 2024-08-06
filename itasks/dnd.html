@@ -1,0 +1,67 @@
+<!--
+  ~ dnd.html
+  ~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+  ~
+  ~ This software is distributed under the MIT License - see files LICENSE and AUTHORS
+  ~ in the top level project directory.
+  -->
+
+<!-- Demonstrates the use of dnd-v1.js -->
+
+<html lang="en">
+<head>
+    <title>Drag and drop example</title>
+    <style>
+        .box {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 1px solid black;
+            margin: auto;
+            vertical-align: top;
+        }
+
+        .square {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            font-size: 25px;
+            font-weight: bold;
+            background-color: lightblue;
+        }
+        .row {
+            margin: 20px 20px;
+        }
+        .dnd-accept-drop {
+            background-color: lightgreen;
+        }
+    </style>
+    <script src="dnd-v1.js"></script>
+</head>
+<body>
+<h1>Drag and drop example</h1>
+
+<p>Drop the cards at the top into positions at the bottom.</p>
+<div class="row" id="top">
+    <div class="box" data-dnd-drop="5"><span class="square" data-dnd-drag="A">A</span></div>
+    <div class="box" data-dnd-drop="6"><span class="square" data-dnd-drag="B">B</span></div>
+    <div class="box" data-dnd-drop="7"><span class="square" data-dnd-drag="C">C</span></div>
+    <div class="box" data-dnd-drop="8"><span class="square" data-dnd-drag="C">C</span></div>
+</div>
+<div class="row"  id="bottom">
+    <div class="box" data-dnd-drop="1"></div>
+    <div class="box" data-dnd-drop="2"></div>
+    <div class="box" data-dnd-drop="3"></div>
+    <div class="box" data-dnd-drop="4"></div>
+</div>
+<p>
+    <button type="button" onclick='alert(`getAnswer returns ${getAnswerString()}.`)'>Show answer</button>
+</p>
+<p>
+    <button type="button" onclick='initializeTask(1234, "2024-BE-01", "C___B_AC")'>Reset to C___B_AC</button>
+</p>
+</body>
+</html>

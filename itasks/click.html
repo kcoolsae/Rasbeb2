@@ -1,0 +1,60 @@
+<!--
+  ~ click.html
+  ~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+  ~
+  ~ This software is distributed under the MIT License - see files LICENSE and AUTHORS
+  ~ in the top level project directory.
+  -->
+
+<!-- Demonstrates the use of click-v1.js -->
+
+<html lang="en">
+<head>
+    <title>Click example</title>
+    <style>
+        .box {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background-color: beige;
+            border: solid 1px grey;
+            line-height: 50px;
+            text-align: center;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .group {
+            display: inline-block;
+            user-select: none;
+            -webkit-user-select: none; /* For Safari */
+            -moz-user-select: none; /* For Firefox */
+            -ms-user-select: none; /* For Internet Explorer and Edge */
+        }
+    </style>
+    <script src="click-v1.js"></script>
+</head>
+<body>
+<h1>Click example</h1>
+
+<p>Click on the boxes to change their contents</p>
+
+<div class="group" data-click-group="1" data-click-skip-first="true">
+    <div class="box" data-click-value="0">0</div>
+    <div class="box" data-click-value="1">1</div>
+    <div class="box" data-click-value="2">2</div>
+</div>
+<div class="group" data-click-group="2">
+    <div class="box" data-click-value="A">A</div>
+    <div class="box" data-click-value="B">B</div>
+    <div class="box" data-click-value="C">C</div>
+</div>
+<p>
+    <button type="button" onclick='alert(`getAnswer returns ${getAnswerString()}.`)'>Show answer</button>
+</p>
+<p>
+    <button type="button" onclick='initializeTask(1234, "2024-BE-01", "2B")'>Reset to 2B</button>
+</p>
+
+</body>

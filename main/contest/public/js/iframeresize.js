@@ -1,5 +1,4 @@
-/*
- * iframeresize.js
+/* iframeresize.js
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
  *

@@ -39,6 +39,16 @@
     @if(q.uploadedQuestion()) {
         <iframe src="@url/@question.magicQ()/@q.lang/index.html" onLoad="postSize(this.id);" id="iframeQ@q.lang">
         </iframe>
+        @if(question.isInteractive) {
+            <div id="answer_pane" class="row g-1 bg-primary-subtle p-2 justify-content-center align-items-center">
+                <div class="col-auto">
+                    <button type="button" class="btn btn-primary" onclick="requestAnswer(iframeQ@q.lang);">@i18n("question.pages.answer-code")</button>
+                </div>
+                <div class="col-auto">
+                    <input type="text" readonly="readonly" id="answer_received" size="20"/>
+                </div>
+            </div>
+        }
     } else {
         <div class="nocontent">@i18n("question.pages.question-not-uploaded")</div>
     }
