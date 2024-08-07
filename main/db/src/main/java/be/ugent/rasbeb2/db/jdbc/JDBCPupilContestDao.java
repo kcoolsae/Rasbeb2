@@ -106,7 +106,8 @@ public class JDBCPupilContestDao extends JDBCAbstractDao implements PupilContest
                 );
         // related age group information
         select("contest_id, age_group_id, contest_duration")
-                .from("contests JOIN contests_ag USING(contest_id)")
+                .from("contests JOIN contests_i18n USING(contest_id) JOIN contests_ag USING(contest_id)")
+                .where("lang", lang)
                 .where("contest_type", ContestType.PUBLIC)
                 .where("contest_status", ContestStatus.OPEN)
                 .processMap(map,
