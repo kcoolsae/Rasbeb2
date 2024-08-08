@@ -33,13 +33,16 @@ getAnswerString = function () {
 initializeTask = function (userid, taskid, answerAsString) {
     if (answerAsString !== '') {
         const dropSites = dnd_dropSitesOrderedByKey();
-        dropSites.forEach(function (dropSite, index) {
+        // run through drop sites in reverse order, works better when there are duplicate values
+        // and the empty slots are at the end of the list
+        for (let index = dropSites.length - 1; index >= 0; index --) {
+            const dropSite = dropSites[index];
             const ch = answerAsString.charAt(index);
             if (ch !== '_') {
                 const draggableElement = document.querySelector(`[data-dnd-drag="${ch}"]`);
                 dnd_moveToDropSite(draggableElement, dropSite);
             }
-        });
+        }
     }
 }
 
@@ -47,11 +50,17 @@ initializeTask = function (userid, taskid, answerAsString) {
 document.addEventListener('DOMContentLoaded', function () {
 
     const draggableElements = document.querySelectorAll('[data-dnd-drag]');
+    // give all draggable elements a distinct key
+    let key = 1;
+    for (const draggableElement of draggableElements) {
+        draggableElement.dataset.dndKey = key;
+        key += 1;
+    }
+    // register drag listeners
     for (const draggableElement of draggableElements) {
         draggableElement.draggable = true;
-        const data = draggableElement.dataset.dndDrag;
         draggableElement.addEventListener('dragstart', function (e) {
-            e.dataTransfer.setData('text/plain', data);
+            e.dataTransfer.setData('text/plain', e.currentTarget.dataset.dndKey);
             e.dataTransfer.effectAllowed = 'move';
         });
     }
@@ -71,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
         dropSite.addEventListener('drop', function (e) {
             e.preventDefault();
             const data = e.dataTransfer.getData('text/plain');
-            const draggedElement = document.querySelector(`[data-dnd-drag="${data}"]`);
+            const draggedElement = document.querySelector(`[data-dnd-key="${data}"]`);
             dropSite.classList.remove('dnd-accept-drop');
             dnd_moveToDropSite(draggedElement, dropSite);
         });
