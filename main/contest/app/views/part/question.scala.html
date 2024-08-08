@@ -10,6 +10,7 @@
 @import deputies.contest.ParticipationDeputy.AnswerData
 @import deputies.contest.ParticipationDeputy
 @import views.html.be.ugent.caagt.play.ext.i18n
+
 @(f: Form[AnswerData], participation: Participation,
         question: QuestionInContest, questions: List[QuestionHeader], nextId: Int)(implicit deputy: ParticipationDeputy)
 
@@ -20,6 +21,22 @@
             const red_limit = orange_limit / 2;
     </script>
     @include.js("clock")
+    @if(question.isInteractive){
+        @include.js("interactive")
+        <script>
+            hiddenAnswerField = document.getElementById("hidden-answer-field");
+            receiveAnswer = function(json) {
+                hiddenAnswerField.value = json;
+                hiddenAnswerField.closest('form').submit();
+            }
+            if (hiddenAnswerField.value) {
+                const iframe = document.getElementById("iframeQ");
+                iframe.addEventListener("load", function(event) {
+                    initializeTask(iframe, @participation.pupilId, @question.id, hiddenAnswerField.value)
+                });
+            }
+        </script>
+    }
 }
 
 @layout.modal("modal-terminate", "pupil.terminate.title"){

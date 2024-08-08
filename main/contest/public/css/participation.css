@@ -72,8 +72,8 @@
 
 /* Rest of page */
 iframe, .nocontent {
-    width: 780px;
-    border: none;
+    min-width: 780px;
+    width: 100%;
     display: block;
 }
 

@@ -28,8 +28,6 @@ handleSizingResponse = function (e) {
     const data = e.data.split(':')
     if (data[0] === 'sizing') {
         setIframeHeight(data[1], data[2]);
-    } else {
-        console.log("Unknown message: " + e.data);
     }
 }
 

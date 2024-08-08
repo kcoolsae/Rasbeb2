@@ -20,6 +20,9 @@
             case AnswerType.MC => {
                 @_answer_pane_mc(f, q.typeExtra.toInt)
             }
+            case AnswerType.JSON => {
+                @_answer_pane_json(f)
+            }
             case _ => {
                 @_answer_pane_text(f) @* all others currently treated as text *@
             }
