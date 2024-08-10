@@ -43,6 +43,7 @@ CREATE TABLE participation_details
     question_id          INTEGER REFERENCES questions,
 
     participation_answer TEXT,
+    participation_model  TEXT,      -- optional information about the page model for an interactive task
     participation_marks  INTEGER   DEFAULT 0, -- filled in after participation closes
 
     when_created         TIMESTAMP DEFAULT NOW(),

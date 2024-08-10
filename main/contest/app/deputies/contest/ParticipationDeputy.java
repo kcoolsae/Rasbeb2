@@ -24,6 +24,7 @@ import play.mvc.Result;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Objects;
 
 public class ParticipationDeputy extends deputies.ContestDeputy {
 
@@ -87,7 +88,7 @@ public class ParticipationDeputy extends deputies.ContestDeputy {
         LOGGER.info("{} {} {} view question", pupilId, contestId, questionId);
         return ok(views.html.part.question.render(
                 formFromData(new AnswerData(
-                        participationDao.getAnswer(contestId, pupilId, questionId)
+                        participationDao.getAnswerAndModel(contestId, pupilId, questionId)
                 )),
                 part,
                 question,
@@ -102,10 +103,18 @@ public class ParticipationDeputy extends deputies.ContestDeputy {
     @NoArgsConstructor
     public static class AnswerData {
         public String answer;
+        public String model;
 
-        public AnswerData(String answer) {
-            this.answer = answer == null ? "" : answer;
+        public AnswerData(String[] answerAndModel) {
+            if (answerAndModel == null) {
+                this.answer = "";
+                this.model = "";
+            } else {
+                this.answer = Objects.requireNonNullElse(answerAndModel[0], "");
+                this.model = Objects.requireNonNullElse(answerAndModel[1], "");
+            }
         }
+
     }
 
     /**
@@ -119,7 +128,9 @@ public class ParticipationDeputy extends deputies.ContestDeputy {
                 String answer = form.get().answer.strip();
                 int pupilId = getCurrentUserId();
                 int contestId = getContestId();
-                dac().getParticipationDao().updateAnswer(contestId, pupilId, questionId, answer);
+                dac().getParticipationDao().updateAnswerAndModel(
+                        contestId, pupilId, questionId, answer, form.get().model
+                );
                 LOGGER.info("{} {} {} answered: {} ", pupilId, contestId, questionId, answer);
                 return redirect(routes.ParticipationController.question(nextId));
             }

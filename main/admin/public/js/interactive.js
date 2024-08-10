@@ -12,9 +12,9 @@
  */
 
 /** Send initial data to the task */
-function initializeTask(iframe, userid, taskid, answerAsString) {
+function initializeTask(iframe, answerAsString, modelAsString) {
     iframe.contentWindow.postMessage(
-        'init:' + userid + ':' + taskid +':' + answerAsString, '*'
+        'init:' + answerAsString + ":" + modelAsString, '*'
     );
 }
 

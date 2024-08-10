@@ -50,12 +50,11 @@
     <script>
         // ensure that the iframe is resized when the tab is shown
         for (const button of document.querySelectorAll('button[data-bs-toggle="tab"]')) {
-            button.addEventListener('shown.bs.tab', function (event) {
+            button.addEventListener('shown.bs.tab', function () {
                 postSize("iframeQ" + button.id);
                 postSize("iframeF" + button.id);
             })
         }
-        // TODO maybe call initializeTask with current user and task ID
     </script>
 }
 

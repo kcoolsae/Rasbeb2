@@ -29,8 +29,13 @@ getAnswerString = function () {
     return dnd_dropSitesOrderedByKey().map(dropSite => dropSite.hasChildNodes() ? dropSite.firstChild.dataset.dndDrag : '_').join('');
 }
 
+getModelString = function () {
+    return ''; // no page model
+}
+
 // initialize the task by moving the draggable elements to the correct drop sites
-initializeTask = function (userid, taskid, answerAsString) {
+initializeTask = function (answerAsString, modelAsString) {
+    // no page model - page reconstructed from answer
     if (answerAsString !== '') {
         const dropSites = dnd_dropSitesOrderedByKey();
         // run through drop sites in reverse order, works better when there are duplicate values

@@ -27,12 +27,18 @@
             hiddenAnswerField = document.getElementById("hidden-answer-field");
             receiveAnswer = function(json) {
                 hiddenAnswerField.value = json;
-                hiddenAnswerField.closest('form').submit();
+                const iframe = document.getElementById("iframeQ");
+                requestModel(iframe); // will then sumit the form
+            }
+            hiddenModelField = document.getElementById("hidden-model-field");
+            receiveModel = function(json) {
+                hiddenModelField.value = json;
+                hiddenModelField.closest('form').submit();
             }
             if (hiddenAnswerField.value) {
                 const iframe = document.getElementById("iframeQ");
                 iframe.addEventListener("load", function(event) {
-                    initializeTask(iframe, @participation.pupilId, @question.id, hiddenAnswerField.value)
+                    initializeTask(iframe, hiddenAnswerField.value, hiddenModelField.value)
                 });
             }
         </script>

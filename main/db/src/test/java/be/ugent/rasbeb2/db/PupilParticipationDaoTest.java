@@ -62,18 +62,18 @@ class PupilParticipationDaoTest extends PupilDaoTest {
 
     @Test
     void getAnswer () {
-        assertThat (dao.getAnswer(3, 5, 1)).isEqualTo("A");
-        assertThat (dao.getAnswer(3, 5, 3)).isNull();
+        assertThat (dao.getAnswerAndModel(3, 5, 1)).containsExactly("A", null);
+        assertThat (dao.getAnswerAndModel(3, 5, 3)).isNull();
     }
 
     @Test
-    void updateAnswer() {
-        dao.updateAnswer(3, 5, 1, "B");
-        assertThat (dao.getAnswer(3, 5, 1)).isEqualTo("B");
-        dao.updateAnswer(3, 5, 1, null);
-        assertThat (dao.getAnswer(3, 5, 1)).isNull();
-        dao.updateAnswer(3, 5, 3, "Answer");
-        assertThat (dao.getAnswer(3, 5, 3)).isEqualTo("Answer");
+    void updateAnswerAndModel() {
+        dao.updateAnswerAndModel(3, 5, 1, "B", "model");
+        assertThat (dao.getAnswerAndModel(3, 5, 1)).containsExactly("B", "model");
+        dao.updateAnswerAndModel(3, 5, 1, null, null);
+        assertThat (dao.getAnswerAndModel(3, 5, 1)).containsExactly(null, null);
+        dao.updateAnswerAndModel(3, 5, 3, "Answer", "MODEL");
+        assertThat (dao.getAnswerAndModel(3, 5, 3)).containsExactly("Answer", "MODEL");
     }
 
     @Test

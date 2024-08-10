@@ -11,35 +11,25 @@
 
    Clients must provide the following functions:
 
-   initializeTask(userid,taskid,answerAsString) - called when the task is first loaded
-   getAnswerString() - returns the answer as a string to be stored in the database
+   initializeTask(answerAsString,modelAsString) - called when the task is first loaded
+   getAnswerString() - returns the answer as a string to be stored in the database, this string cannot contain a colon (':')
+   getModelString() - returns the page model as a string to be stored in the database
  */
 
 respondToITaskMessage = function (e) {
     // e.data is the string sent by the origin with postMessage.
     if (e.data === 'getAnswer') {
         e.source.postMessage('answer:' + getAnswerString(), e.origin);
+    } else if (e.data === 'getModel') {
+        e.source.postMessage('model:' + getModelString(), e.origin);
     } else if (e.data.startsWith('init:')) {
         const data = e.data.split(':');
-        const userid = data[1];
-        const taskid = data[2];
-        const answerAsString = data.slice(3).join(':');
-        initializeTask(userid, taskid, answerAsString);
+        const answerAsString = data[1];
+        const modelAsString = data.slice(2).join(':');
+        initializeTask(answerAsString, modelAsString);
     }
 }
 
 window.addEventListener('message', respondToITaskMessage, false);
-
-/* Initializes local storage for this contest. Cleans up data which does
-   not belong to the current user.
- */
-function initializeLocalStorage(userid) {
-    const storedUserid = localstorage.getItem('userid');
-    if (storedUserid !== null && storedUserid !== userid) {
-        // clean up data from previous user
-        localStorage.clear();
-    }
-    localStorage.setItem('userid', userid);
-}
 
 

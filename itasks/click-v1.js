@@ -26,8 +26,13 @@ getAnswerString = function () {
     }).join('');
 }
 
+getModelString = function () {
+    return ''; // no page model
+}
+
 // initialize the task by displaying the correct group elements
-initializeTask = function (userid, taskid, answerAsString) {
+initializeTask = function (answerAsString, modelAsString) {
+    // no model, page is reconstructed from answer
     if (answerAsString !== '') {
         const groups = click_groupsOrderedByKey();
         let index = 0;

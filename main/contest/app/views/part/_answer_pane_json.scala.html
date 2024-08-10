@@ -15,6 +15,7 @@
 @implicitFieldBuilder = @{ fieldBuilder.plain }   @* removes labels etc from form fields *@
 
 @hidden(f("answer"), "id" -> "hidden-answer-field")
+@hidden(f("model"), "id" -> "hidden-model-field")
 <div class="col-auto"><button type="button" class="btn btn-primary"
                           onclick='requestAnswer(document.getElementById("iframeQ"));'>@i18n("pupil.answer.submit")</button></div>
 <div class="col-auto">

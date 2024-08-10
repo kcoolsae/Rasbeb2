@@ -32,9 +32,9 @@ public interface ParticipationDao {
      */
     Participation getParticipation(int contestId);
 
-    String getAnswer (int contestId, int pupilId, int questionId);
+    String[] getAnswerAndModel(int contestId, int pupilId, int questionId);
 
-    void updateAnswer(int contestId, int pupilId, int questionId, String answer);
+    void updateAnswerAndModel(int contestId, int pupilId, int questionId, String answer, String model);
 
     /**
      * Closes the participation for the given contest and the current user.

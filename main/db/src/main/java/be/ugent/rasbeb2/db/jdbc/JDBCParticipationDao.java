@@ -68,22 +68,26 @@ public class JDBCParticipationDao extends JDBCAbstractDao implements Participati
                 .getOneObject(JDBCParticipationDao::makeParticipation);
     }
 
-    public String getAnswer(int contestId, int pupilId, int questionId) {
-        return select("participation_answer")
+    public String[] getAnswerAndModel(int contestId, int pupilId, int questionId) {
+        return select("participation_answer, participation_model")
                 .from("participation_details")
                 .where("contest_id", contestId)
                 .where("pupil_id", pupilId)
                 .where("question_id", questionId)
-                .getString();
+                .getObject(rs -> new String[]{
+                        rs.getString("participation_answer"),
+                        rs.getString("participation_model")
+                });
     }
 
     @Override
-    public void updateAnswer(int contestId, int pupilId, int questionId, String answer) {
+    public void updateAnswerAndModel(int contestId, int pupilId, int questionId, String answer, String model) {
         insertOrUpdateInto("participation_details")
                 .key("contest_id", contestId)
                 .key("pupil_id", pupilId)
                 .key("question_id", questionId)
                 .value("participation_answer", answer)
+                .value("participation_model", model)
                 .execute();
     }
 
