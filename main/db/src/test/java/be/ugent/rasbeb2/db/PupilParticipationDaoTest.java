@@ -10,6 +10,7 @@
 package be.ugent.rasbeb2.db;
 
 import be.ugent.rasbeb2.db.dao.ParticipationDao;
+import be.ugent.rasbeb2.db.dto.AnswerType;
 import be.ugent.rasbeb2.db.dto.Participation;
 import be.ugent.rasbeb2.db.dto.ParticipationWithMarks;
 import be.ugent.rasbeb2.db.dto.QuestionWithFeedback;
@@ -100,8 +101,8 @@ class PupilParticipationDaoTest extends PupilDaoTest {
         dao.closeParticipationAndComputeMarks(3);
         QuestionWithFeedback actual = dao.getQuestionWithFeedback(3, 1, 2, "en");
         QuestionWithFeedback expected = new QuestionWithFeedback(
-                1, "Question 1 in en", "MagicQ1", "MagicF1", "A", -2, 6
-        );
+                1, AnswerType.MC, "Question 1 in en", "MagicQ1", "MagicF1", "A", null, -2,
+                6);
         assertThat(actual).isEqualTo(expected);
     }
 

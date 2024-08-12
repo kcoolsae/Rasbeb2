@@ -36,7 +36,7 @@ class QuestionInContestDaoTest extends TeacherDaoTest {
     void getQuestionInContest() {
         QuestionInContest actual = dao.getQuestionInContest(2, 3, 1, "fr");
         QuestionInContest expected = new QuestionInContest(
-                3, "Question 3 in fr", AnswerType.TEXT, "MagicQ3", null, 6, -2
+                3, "Question 3 in fr", AnswerType.JSON, "MagicQ3", null, 6, -2
         );
         assertThat(actual).isEqualTo(expected);
     }

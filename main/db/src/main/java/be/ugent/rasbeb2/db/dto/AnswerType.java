@@ -14,5 +14,9 @@ public enum AnswerType {
     INT,
     TEXT,
     JSON,
-    CWC  // not yet supported
+    CWC;  // not yet supported
+
+    public boolean isInteractive() {
+        return this == JSON || this == CWC;  // latter type not yet used
+    }
 }

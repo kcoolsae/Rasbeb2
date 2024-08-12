@@ -131,17 +131,22 @@ public class JDBCParticipationDao extends JDBCAbstractDao implements Participati
     private static QuestionWithFeedback makeQuestionWithFeedback(ResultSet rs) throws SQLException {
         return new QuestionWithFeedback(
                 rs.getInt("question_id"),
+                AnswerType.valueOf(rs.getString("question_type")),
                 rs.getString("question_title"),
                 rs.getString("question_magic_q"),
                 rs.getString("question_magic_f"),
                 rs.getString("participation_answer"),
+                rs.getString("participation_model"),
                 rs.getInt("participation_marks"),
-                rs.getInt("question_marks_if_correct")
-        );
+                rs.getInt("question_marks_if_correct"));
     }
 
     private SelectSQLStatement selectQuestionWithFeedback(int contestId, int ageGroupId, String lang) {
-        return select("q.question_id, question_title, question_magic_q, question_magic_f, participation_answer, participation_marks, question_marks_if_correct")
+        return select("""
+                      q.question_id, question_type, question_title, question_magic_q, question_magic_f,
+                      participation_answer, participation_model,
+                      participation_marks, question_marks_if_correct
+                      """)
                 .from("""
                       questions_in_set q JOIN questions USING(question_id)
                           JOIN questions_i18n USING(question_id)

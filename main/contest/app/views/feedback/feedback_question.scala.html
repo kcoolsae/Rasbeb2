@@ -8,9 +8,25 @@
 
 @import _root_.be.ugent.rasbeb2.db.dto.{ParticipationWithMarks, QuestionWithFeedback, QuestionHeader}
 @import views.html.be.ugent.caagt.play.ext.i18n
+@import play.twirl.api.utils.StringEscapeUtils
 @(participation: ParticipationWithMarks, question: QuestionWithFeedback, headers: List[QuestionHeader])(implicit deputy: Deputy)
 
-@layout.split("fbq", question.title) { @* top right *@
+@js = {
+    @if(question.answerType.isInteractive && question.answer != null && question.answer != "") {
+        @include.js("interactive")
+        <script>
+            const iframe = document.getElementById("iframeQ");
+            iframe.addEventListener("load", function() {
+                initializeTask(iframe,
+                        "@StringEscapeUtils.escapeEcmaScript(question.answer)",
+                        "@StringEscapeUtils.escapeEcmaScript(question.pageModel)"
+                );
+            });
+        </script>
+    }
+}
+
+@layout.split("fbq", question.title, js) { @* top right *@
     <div class="total">@question.marks</div>
 } { @* left *@
     <div id="total-marks-text" class="marks">
@@ -21,7 +37,7 @@
 } { @* right *@
     @defining(deputy.getConfig().getString("rasbeb2.questions-url")) { url =>
         <iframe id="iframeQ" src = "@url/@question.magicQ/@participation.lang/index.html" onload='postSize(this.id);'></iframe>
-        @_feedback_answer_pane(question.answer)
+        @_feedback_answer_pane(question)
         <iframe id="iframeF" src = "@url/@question.magicF/@participation.lang/index.html" onload='postSize(this.id);'></iframe>
     }
 }

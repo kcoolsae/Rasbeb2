@@ -5,13 +5,17 @@
  * This software is distributed under the MIT License - see files LICENSE and AUTHORS
  * in the top level project directory.
  *@
+@import _root_.be.ugent.rasbeb2.db.dto.QuestionWithFeedback
 
-@(answer: String)(implicit deputy: Deputy)
+@import views.html.feedback._feedback_answer_pane_text
+@import views.html.feedback._feedback_answer_pane_json
+
+@(question: QuestionWithFeedback)(implicit deputy: Deputy)
 
 <div id="answer_pane" class="row g-1 bg-primary-subtle p-2 text-center">
-    <span>@i18n("pupil.answer.title") @if(answer==null) {
-        @i18n("pupil.answer.none")
+    @if(question.answerType.isInteractive) {
+        @_feedback_answer_pane_json(question.answer)
     } else {
-        <b>@answer</b>
-    }</span>
+        @_feedback_answer_pane_text(question.answer)
+    }
 </div>

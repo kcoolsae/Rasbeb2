@@ -75,6 +75,7 @@ iframe, .nocontent {
     min-width: 780px;
     width: 100%;
     display: block;
+    overflow-x: hidden;
 }
 
 .nocontent {

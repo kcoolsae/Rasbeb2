@@ -10,7 +10,6 @@
 package be.ugent.rasbeb2.db.jdbc;
 
 import be.ugent.caagt.dao.helper.OrderedSQLStatement;
-import be.ugent.caagt.dao.helper.SelectSQLStatement;
 import be.ugent.rasbeb2.db.dao.ClassesDao;
 import be.ugent.rasbeb2.db.dto.*;
 import be.ugent.rasbeb2.db.util.PasswordGenerator;

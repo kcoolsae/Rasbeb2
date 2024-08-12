@@ -107,7 +107,7 @@ INSERT INTO questions(question_id, question_type, question_type_xtra, question_e
 VALUES
   (1, 'MC', '4', '2024-XY-01', 'MagicQ1', 'MagicF1'),
   (2, 'INT', NULL, '2024-XY-02', 'MagicQ2', 'MagicF2'),
-  (3, 'TEXT', NULL, '2024-XY-12', 'MagicQ3', 'MagicF3');
+  (3, 'JSON', NULL, '2024-XY-12', 'MagicQ3', 'MagicF3');
 
 -- Question titles in various languages
 INSERT INTO questions_i18n (question_id, lang, question_title, question_correct_answer)
@@ -174,11 +174,15 @@ VALUES
 
 -- Pupil 3 answered 2 out of 3 questions
 -- pupil 1 and 2 answered all questions
-INSERT INTO participation_details (contest_id, pupil_id, question_id, participation_answer)
+INSERT INTO participation_details (contest_id, pupil_id, question_id, participation_answer, participation_model)
 VALUES
-    (3, 5, 1, 'A'), (3, 5, 2, 'Answer to 2 in en'),
-    (1, 1, 1, 'Answer to 1 in nl'), (1, 1, 2, 'Answer to 2 in nl'), (1, 1, 3, 'Wrong answer'),
-    (1, 2, 2, 'Answer to 2 in nl'), (1, 2, 3, 'Answer to 3 in nl');
+    (3, 5, 1, 'A', null),
+    (3, 5, 2, 'Answer to 2 in en', ''),
+    (1, 1, 1, 'Answer to 1 in nl', ''),
+    (1, 1, 2, 'Answer to 2 in nl', ''),
+    (1, 1, 3, 'Wrong answer', ''),
+    (1, 2, 2, 'Answer to 2 in nl', ''),
+    (1, 2, 3, 'Answer to 3 in nl', 'model');
 
 SELECT reset_sequences('public');
 

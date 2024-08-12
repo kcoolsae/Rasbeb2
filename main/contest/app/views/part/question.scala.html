@@ -21,14 +21,14 @@
             const red_limit = orange_limit / 2;
     </script>
     @include.js("clock")
-    @if(question.isInteractive){
+    @if(question.answerType.isInteractive){
         @include.js("interactive")
         <script>
             hiddenAnswerField = document.getElementById("hidden-answer-field");
             receiveAnswer = function(json) {
                 hiddenAnswerField.value = json;
                 const iframe = document.getElementById("iframeQ");
-                requestModel(iframe); // will then sumit the form
+                requestModel(iframe); // will then submit the form
             }
             hiddenModelField = document.getElementById("hidden-model-field");
             receiveModel = function(json) {
@@ -37,7 +37,7 @@
             }
             if (hiddenAnswerField.value) {
                 const iframe = document.getElementById("iframeQ");
-                iframe.addEventListener("load", function(event) {
+                iframe.addEventListener("load", function() {
                     initializeTask(iframe, hiddenAnswerField.value, hiddenModelField.value)
                 });
             }

@@ -1,0 +1,13 @@
+@* _feedback_answer_pane.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@(answer: String)(implicit deputy: Deputy)
+
+<span>@i18n("pupil.answer.title")
+    @i18n(if(answer==null)("pupil.answer.none")else("pupil.answer.interactive"))
+</span>
