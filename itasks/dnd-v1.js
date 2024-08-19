@@ -9,16 +9,17 @@
 
 // auxiliary function returning an array with all drop sites ordered by key
 dnd_dropSitesOrderedByKey = function () {
-    const dropSites = document.querySelectorAll('div[data-dnd-drop]');
+    const dropSites = document.querySelectorAll('[data-dnd-drop]');
     return Array.from(dropSites).sort((a, b) => a.dataset.dndDrop.localeCompare(b.dataset.dndDrop));
 }
 
 // auxiliary function that moves a draggable element to a drop site, and if necessary, interchanges with the source
 dnd_moveToDropSite = function (draggableElement, dropSite) {
-    if (dropSite.hasChildNodes()) {
+    let firstChild = dropSite.firstElementChild;
+    if (firstChild) {
         const parentOfSource = draggableElement.parentElement;
         dropSite.appendChild(draggableElement);
-        parentOfSource.appendChild(dropSite.firstChild);
+        parentOfSource.appendChild(firstChild);
     } else {
         dropSite.appendChild(draggableElement);
     }
@@ -26,7 +27,16 @@ dnd_moveToDropSite = function (draggableElement, dropSite) {
 
 // string with all values of the drop sites in order. If a drop site is empty, the value is '_'.
 getAnswerString = function () {
-    return dnd_dropSitesOrderedByKey().map(dropSite => dropSite.hasChildNodes() ? dropSite.firstChild.dataset.dndDrag : '_').join('');
+    let result = '';
+    for (const dropSite of dnd_dropSitesOrderedByKey()) {
+        let firstChild = dropSite.firstElementChild;
+        if (firstChild && firstChild.dataset) {
+            result += firstChild.dataset.dndDrag;
+        } else {
+            result += '_';
+        }
+    }
+    return result;
 }
 
 getModelString = function () {
@@ -37,14 +47,21 @@ getModelString = function () {
 initializeTask = function (answerAsString, modelAsString) {
     // no page model - page reconstructed from answer
     if (answerAsString !== '') {
+        // use dndValue to indicate that the element can be moved, complication needed when
+        // there are duplicate drag values
+        for (const draggable of document.querySelectorAll('[data-dnd-drag]')) {
+            draggable.dataset.dndValue = draggable.dataset.dndDrag;
+        }
         const dropSites = dnd_dropSitesOrderedByKey();
         // run through drop sites in reverse order, works better when there are duplicate values
         // and the empty slots are at the end of the list
-        for (let index = dropSites.length - 1; index >= 0; index --) {
-            const dropSite = dropSites[index];
+        let index = 0;
+        for (dropSite of dropSites) {
             const ch = answerAsString.charAt(index);
+            index ++;
             if (ch !== '_') {
-                const draggableElement = document.querySelector(`[data-dnd-drag="${ch}"]`);
+                const draggableElement = document.querySelector(`[data-dnd-value="${ch}"]`);
+                draggableElement.removeAttribute('data-dnd-value'); // indicates that it should not be moved again
                 dnd_moveToDropSite(draggableElement, dropSite);
             }
         }
