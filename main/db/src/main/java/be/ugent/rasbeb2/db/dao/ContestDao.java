@@ -34,6 +34,7 @@ public interface ContestDao {
 
     void updateContestI18n(int contestId, String lang, String newTitle);
 
+    List<String> getContestLanguages(int contestId);
 
     /**
      * Adds languages to the given contest with blank titles. Takes a comma separated list of language codes
@@ -94,5 +95,15 @@ public interface ContestDao {
      * @return the id of the new contest
      */
     int copyContest(int contestId);
+
+    record QuestionLink (String externalId, String title, String magicQ, String magicF) {
+        // note that magicQ and magicF are null when no page is yet uploaded for that language
+    }
+
+    /**
+     * Get the question links for the given contest and language.
+     */
+    List<QuestionLink> getQuestionLinks(int contestId, String lang);
+
 
 }

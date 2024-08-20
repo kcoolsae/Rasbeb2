@@ -1,0 +1,46 @@
+@import _root_.be.ugent.rasbeb2.db.dao.ContestDao.QuestionLink
+
+@(questions: List[QuestionLink], lang: String)(implicit deputy: Deputy)
+
+@link(magic: String, name: String) = {
+    @if(magic != null) {
+        <a href="@magic/@lang/index.html">@i18n(name)</a>
+    } else {
+        &nbsp;
+    }
+}
+
+<!DOCTYPE html>
+<html lang="@deputy.getLocale().getLanguage()">
+    <head>
+        <title>Bebras</title>
+        <style>
+            table {
+                border-collapse: collapse;
+                margin: 0 auto;
+            }
+
+            th, td {
+                border: 1px solid black;
+                padding: 8px;
+                text-align: left;
+                min-width: 4em;
+            }
+
+            th {
+                background-color: #f2f2f2;
+            }
+        </style>
+    </head>
+    <base href='@deputy.getConfig.getString("rasbeb2.questions-url")/'>
+    <body>
+        <table>
+            @foreach.tr(questions) { q =>
+                <td>@q.externalId</td>
+                <td>@q.title</td>
+                <td>@link(q.magicQ, "contest.links.question")</td>
+                <td>@link(q.magicF, "contest.links.feedback")</td>
+            }
+        </table>
+    </body>
+</html>

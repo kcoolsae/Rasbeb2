@@ -213,7 +213,7 @@ public class JDBCQuestionDao extends JDBCAbstractDao implements QuestionDao {
     }
 
     @Override
-    public boolean questionAlreadyUploaded(int questionId, String lang) {
+    public boolean questionOrFeedbackAlreadyUploaded(int questionId, String lang) {
         return !select("1")
                 .from("questions_i18n")
                 .where("question_id", questionId)

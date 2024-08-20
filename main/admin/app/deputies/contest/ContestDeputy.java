@@ -10,8 +10,10 @@
 package deputies.contest;
 
 import be.ugent.caagt.play.binders.PSF;
+import be.ugent.rasbeb2.db.dao.ContestDao;
 import be.ugent.rasbeb2.db.dto.Contest;
 import be.ugent.rasbeb2.db.dto.ContestStatus;
+import common.LanguageInfo;
 import controllers.contest.routes;
 import deputies.OrganiserOnlyDeputy;
 import lombok.AllArgsConstructor;
@@ -21,6 +23,7 @@ import lombok.Setter;
 import play.mvc.Call;
 import play.mvc.Result;
 import util.Table;
+import views.html.contest.link_list;
 import views.html.contest.list_contests;
 import views.html.contest.organiser_contest;
 import views.html.contest.tools;
@@ -57,8 +60,11 @@ public class ContestDeputy extends OrganiserOnlyDeputy {
      */
     public Result tools(int contestId) {
         if (isOrganiser()) {
+
+            ContestDao dao = dac().getContestDao();
             return ok(tools.render(
-                    dac().getContestDao().getContest(contestId, getLanguage()),
+                    dao.getContest(contestId, getLanguage()),
+                    LanguageInfo.list(dao.getContestLanguages(contestId)),
                     this
             ));
         } else {
@@ -78,6 +84,15 @@ public class ContestDeputy extends OrganiserOnlyDeputy {
     public Result listContests() {
         return list(getInitialPSF(Contest.Field.STATUS));
     }
+
+    public Result listLinks(int contestId, String lang) {
+        return ok(link_list.render(
+                dac().getContestDao().getQuestionLinks(contestId, lang),
+                lang,
+                this
+        ));
+    }
+
 
     /* ======================
      * PAGED TABLE for CONTESTS

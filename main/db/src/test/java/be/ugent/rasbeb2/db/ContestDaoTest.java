@@ -178,5 +178,27 @@ class ContestDaoTest extends OrganiserDaoTest {
                 .containsExactly("Question 3 in nl", "Question 2 in nl", "Question 1 in nl");
     }
 
-    // method copyContest is tested in class CopyContestTest
+    @Test
+    void getContestLanguages() {
+        assertThat (dao.getContestLanguages(1)).containsExactly("en", "fr", "nl");
+        assertThat (dao.getContestLanguages(4)).containsExactly("en", "nl");
+    }
+
+    // method copyContest is tested in class CopyContestTes
+    @Test
+    void listQuestionLinks() {
+        List<ContestDao.QuestionLink> links = dao.getQuestionLinks(1, "en");
+        assertThat(links).extracting(ContestDao.QuestionLink::magicQ).containsExactly(
+                null, "MagicQ2", null
+        );
+        assertThat(links).extracting(ContestDao.QuestionLink::magicF).containsExactly(
+                null, "MagicF2", "MagicF3"
+        );
+        assertThat(links).extracting(ContestDao.QuestionLink::externalId).containsExactly(
+                "2024-XY-01", "2024-XY-02", "2024-XY-12"
+        );
+        assertThat(links).extracting(ContestDao.QuestionLink::title).containsExactly(
+                "Question 1 in en", "Question 2 in en", "Question 3 in en"
+        );
+    }
 }

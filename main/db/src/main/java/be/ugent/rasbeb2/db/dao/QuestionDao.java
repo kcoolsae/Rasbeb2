@@ -33,7 +33,7 @@ public interface QuestionDao {
     /**
      * Check whether either the question or the feedback for the given language has already been uploaded
      */
-    boolean questionAlreadyUploaded (int questionId, String lang);
+    boolean questionOrFeedbackAlreadyUploaded(int questionId, String lang);
 
     enum FileType {
         QUESTION, FEEDBACK

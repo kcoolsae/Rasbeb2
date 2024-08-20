@@ -149,7 +149,7 @@ public class Deputy extends be.ugent.caagt.play.deputies.Deputy {
         return config.getStringList("play.i18n.langs");
     }
 
-    protected List<LanguageInfo> getUILanguagesInfo() {
+    public List<LanguageInfo> getUILanguagesInfo() {
         return getUILanguages().stream().map(LanguageInfo.LANGUAGEINFO_MAP::get).toList();
     }
 

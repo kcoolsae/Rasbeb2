@@ -84,7 +84,7 @@ class QuestionDaoTest extends OrganiserDaoTest {
     void editTranslation() {
         dao.editTranslation(2, "fr", "New title", "New solution");
         QuestionI18n actual = dao.getQuestionI18n(2).get(1); // fr
-        QuestionI18n expected = new QuestionI18n(2, "fr", "New title", "New solution", false, false);
+        QuestionI18n expected = new QuestionI18n(2, "fr", "New title", "New solution", true, true);
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -119,10 +119,10 @@ class QuestionDaoTest extends OrganiserDaoTest {
     }
 
     @Test
-    void questionAlreadyUploaded() {
-        assertThat(dao.questionAlreadyUploaded(1, "en")).isFalse();
+    void questionOrFeedbackAlreadyUploaded() {
+        assertThat(dao.questionOrFeedbackAlreadyUploaded(1, "en")).isFalse();
         dao.setUploaded(1, "en", QuestionDao.FileType.QUESTION);
-        assertThat(dao.questionAlreadyUploaded(1, "en")).isTrue();
+        assertThat(dao.questionOrFeedbackAlreadyUploaded(1, "en")).isTrue();
         QuestionI18n expected = new QuestionI18n(1, "en", "Question 1 in en", "Answer to 1 in en", true, false);
         QuestionI18n actual = dao.getQuestionI18n(1).getFirst(); // en
         assertThat(actual).isEqualTo(expected);
@@ -131,8 +131,8 @@ class QuestionDaoTest extends OrganiserDaoTest {
     @Test
     void setUploaded() {
         dao.setUploaded(2, "fr", QuestionDao.FileType.FEEDBACK);
-        assertThat(dao.questionAlreadyUploaded(2, "fr")).isTrue();
-        QuestionI18n expected = new QuestionI18n(2, "fr", "Question 2 in fr", "Answer to 2 in fr", false, true);
+        assertThat(dao.questionOrFeedbackAlreadyUploaded(2, "fr")).isTrue();
+        QuestionI18n expected = new QuestionI18n(2, "fr", "Question 2 in fr", "Answer to 2 in fr", true, true);
         QuestionI18n actual = dao.getQuestionI18n(2).get(1); // fr
         assertThat(actual).isEqualTo(expected);
     }

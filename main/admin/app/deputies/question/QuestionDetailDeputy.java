@@ -188,7 +188,7 @@ public class QuestionDetailDeputy extends OrganiserOnlyDeputy {
 
     public Result removeTranslation(int questionId, String lang) {
         QuestionDao dao = dac().getQuestionDao();
-        if (dao.questionAlreadyUploaded(questionId, lang)) {
+        if (dao.questionOrFeedbackAlreadyUploaded(questionId, lang)) {
             error("question.translation.error-remove");
         } else {
             dao.removeTranslation(questionId, lang);

@@ -116,6 +116,15 @@ public class JDBCContestDao extends JDBCAbstractDao implements ContestDao {
     }
 
     @Override
+    public List<String> getContestLanguages(int contestId) {
+        return select ("lang")
+                .from("contests_i18n")
+                .where("contest_id", contestId)
+                .orderBy("lang")
+                .getList(rs -> rs.getString("lang"));
+    }
+
+    @Override
     public ContestFinder findContests(String lang) {
         return new JDBCContestFinder(selectContests(lang));
     }
@@ -262,5 +271,24 @@ public class JDBCContestDao extends JDBCAbstractDao implements ContestDao {
                 .parameter(getUserId())
                 .noFrom()
                 .getInt();
+    }
+
+    @Override
+    public List<QuestionLink> getQuestionLinks(int contestId, String lang) {
+        return select("""
+                DISTINCT (question_id), question_external_id, question_title,
+                CASE WHEN question_uploaded_q THEN question_magic_q ELSE NULL END AS mq,
+                CASE WHEN question_uploaded_f THEN question_magic_f ELSE NULL END AS mf
+                """)
+                .from("questions_in_set JOIN questions USING(question_id) JOIN questions_i18n USING(question_id)")
+                .where("contest_id", contestId)
+                .where("lang", lang)
+                .orderBy("question_external_id")
+                .getList(rs -> new QuestionLink(
+                        rs.getString("question_external_id"),
+                        rs.getString("question_title"),
+                        rs.getString("mq"),
+                        rs.getString("mf")
+                ));
     }
 }

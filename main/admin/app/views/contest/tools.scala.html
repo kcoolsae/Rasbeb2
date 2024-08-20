@@ -11,10 +11,18 @@
 @import views.html.contest._
 @import views.html.b5._
 @import views.html.be.ugent.caagt.play.ext.i18n
-@(contest: Contest)(implicit deputy: ContestDeputy)
+@(contest: Contest, languages: List[LanguageInfo])(implicit deputy: ContestDeputy)
 
 @layout.organiser("cntts") {
     @_submenu("tools", contest)
+
+    @h4("contest.links.title")
+    @p("contest.links.description")
+    <p>@i18n("contest.links.label")
+    @foreach(languages) { lang =>
+        <span style="padding: 0 5px;"><a href="@controllers.contest.routes.ContestController.listLinks(contest.id, lang.code)" target="link_list">@lang.name</a></span>
+    }
+    </p>
 
     @if(contest.contestType == ContestType.OFFICIAL) {
         @h4("contest.copy-contest.title")

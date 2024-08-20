@@ -10,6 +10,7 @@
 package common;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.io.InputStream;
@@ -39,5 +40,9 @@ public class LanguageInfo {
 
     public static LanguageInfo get(String code) {
         return LANGUAGEINFO_MAP.get(code);
+    }
+
+    public static List<LanguageInfo> list(List<String> languages) {
+        return languages.stream().map(LanguageInfo::get).toList();
     }
 }

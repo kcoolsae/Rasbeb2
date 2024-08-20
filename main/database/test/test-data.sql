@@ -116,6 +116,10 @@ SELECT question_id, language,
        'Answer to ' || question_id || ' in ' || language
 FROM questions CROSS JOIN unnest (ARRAY['fr', 'nl', 'en']) AS language;
 
+-- Some questions / feedback are uploaded, some are not
+UPDATE questions_i18n
+    SET question_uploaded_q = (question_id = 2), question_uploaded_f = question_id > 1;
+
 -- Which questions in which contests:
 -- In contest 1: age group 1 questions 1-3, ag 2 q 2-3, ag 3 q 3
 --  i.e., q 1 ag 1, q 2 ag 1-2, q 3 ag 1-3
