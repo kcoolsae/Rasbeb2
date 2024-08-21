@@ -18,7 +18,7 @@
     @h1("auth.registration-list.title")
     @paged(table, registrations.getFullSize) {
         @submit("auth.registration-list.caption.delete-expired",tp="outline-primary")
-    }(_.columns(EMAIL -> "common.email",SCHOOL -> "school.school",EXPIRE -> "auth.registration-list.expiry-date")){
+    }(_.columns(EMAIL -> "common.email",SCHOOL -> "common.school",EXPIRE -> "auth.registration-list.expiry-date")){
     @foreach.tr(registrations.getList) { registration =>
         <td>@registration.email</td>
         <td>@registration.school</td>
