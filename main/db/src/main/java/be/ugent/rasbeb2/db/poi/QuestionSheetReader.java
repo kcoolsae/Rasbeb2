@@ -48,29 +48,29 @@ public class QuestionSheetReader extends SheetReader<QuestionWithTranslations> {
     public void read(DataOrError<QuestionWithTranslations> data, Row row) {
         AnswerType answerType;
         try {
-            answerType = AnswerType.valueOf(getStringValue(row, 1));
+            answerType = AnswerType.valueOf(getStringValue(row, 1).strip());
         } catch (IllegalArgumentException | NullPointerException ignored) {
             answerType = AnswerType.MC;
-            data.addError("question.invalid-answer-type");
+            data.addError("question.upload.invalid-answer-type");
         }
 
         String externalId = getStringValue(row, 0);
         if (isMissing(externalId)) {
-            data.addError("question.blank-external-id");
+            data.addError("question.upload.blank-external-id");
         }
 
         Translation[] translations = new Translation[size];
 
         data.setData(
                 new QuestionWithTranslations(
-                        externalId, answerType, getStringValue(row, 2), translations
+                        externalId.strip(), answerType, getStringValue(row, 2), translations
                 )
         );
 
         // read translation information
         for (int i = 0; i < size; i++) {
             translations[i] = new Translation(
-                    langs.get(i), getStringValue(row, 2 * i + 3), getStringValue(row, 2 * i + 4)
+                    langs.get(i), getStringValue(row, 2 * i + 3).strip(), getStringValue(row, 2 * i + 4).strip()
             );
         }
     }

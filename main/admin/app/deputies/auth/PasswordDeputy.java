@@ -110,8 +110,8 @@ public class PasswordDeputy extends EmailSendingDeputy {
             } else {
                 String messages = "auth.change-password.constraint";
                 return Arrays.asList(
-                        new ValidationError("newPassword", messages),
-                        new ValidationError("confirmPassword", messages)
+                        new ValidationError("password", messages),
+                        new ValidationError("repeated", messages)
                 );
             }
         }

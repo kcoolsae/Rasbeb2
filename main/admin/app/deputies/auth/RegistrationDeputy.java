@@ -10,6 +10,7 @@
 package deputies.auth;
 
 import be.ugent.caagt.dao.DataAccessException;
+import be.ugent.caagt.dao.UniqueViolation;
 import be.ugent.caagt.play.binders.PSF;
 import be.ugent.rasbeb2.db.dao.RegistrationDao;
 import be.ugent.rasbeb2.db.dao.UserDao;
@@ -108,20 +109,20 @@ public class RegistrationDeputy extends EmailSendingDeputy {
 
     public void sendRegistrationMail(int schoolId, String email) {
         try {
-            sendEmail(
-                    i18n("auth.registration-request.mail-exists.subject"),
-                    email,
-                    i18n("auth.registration-request.mail-exists.text", request.remoteAddress())
-            );
-        } catch (DataAccessException ex) {
             String token = dac().getRegistrationDao().addRegistration(email, schoolId);
             sendEmail(
                     i18n("auth.registration-request.mail.subject"),
                     email,
                     i18n("auth.registration-request.mail.text",
                             hostUri() +
-                            routes.RegistrationController.teacherInfo(token, schoolId)
+                                    routes.RegistrationController.teacherInfo(token, schoolId)
                     )
+            );
+        } catch (UniqueViolation ex) {
+            sendEmail(
+                    i18n("auth.registration-request.mail-exists.subject"),
+                    email,
+                    i18n("auth.registration-request.mail-exists.text", request.remoteAddress())
             );
         } finally {
             success("auth.registration-request.message");
