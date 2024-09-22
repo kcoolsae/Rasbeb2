@@ -42,7 +42,7 @@ class UserDaoTest extends OrganiserDaoTest {
         assertThat(user).extracting(User::name, User::email, User::role)
                 .containsExactly("John Doe", "john.doe@email.com", Role.TEACHER);
         dao.createTeacher(id, 2);
-        List<User> teachers = dac.getSchoolDao().listAllTeachers(2);
+        List<User> teachers = dac.getSchoolDao().listAllTeachers(2, true);
         assertThat(teachers).extracting(User::name).contains("John Doe");
     }
 

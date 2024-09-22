@@ -2,8 +2,7 @@ Bebras: documentatie wedstrijdserver
 ===
 
 **Belangrijk** Vanaf begin april 2024 gebruiken we nieuwe software
-voor de organisatie van de Belgische Bebras-wedstrijd. Tijdens de paasvakantie zal de server daarom enkele dagen
-worden stilgelegd. De gegevens van de oude server worden overgenomen naar de nieuwe server.
+voor de organisatie van de Belgische Bebras-wedstrijd. De gegevens van de oude server werden overgenomen naar de nieuwe server.
 Meer informatie bij 
 * [Wat verandert er?](veranderingen.md)
 
@@ -18,7 +17,6 @@ Lerarenkant
 * Menu-overzicht (voor leerkrachten): [Wat staat waar?](watstaatwaar.md)
 * [Leerlingen registreren bij het systeem](registratie.md)
 * [Evenementen](evenementen.md)
-* (wordt nog aangevuld)
 
 Leerlingenkant
 * [Meedoen aan een Bebras-wedstrijd](leerling.md)

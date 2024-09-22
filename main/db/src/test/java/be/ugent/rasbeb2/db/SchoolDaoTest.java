@@ -86,7 +86,7 @@ class SchoolDaoTest extends OrganiserDaoTest {
 
     @Test
     void listAllTeachers() {
-        List<User> teachers = dao.listAllTeachers(1);
+        List<User> teachers = dao.listAllTeachers(1, true);
         User teacher2 = new User (2, "Teacher, The", "teacher2@some.email.com", Role.TEACHER, false);
         User teacher3 = new User (3, "Teacher 3, The", "teacher3@some.email.com", Role.TEACHER, false);
         assertThat(teachers).containsExactly(teacher2, teacher3);
@@ -117,8 +117,9 @@ class SchoolDaoTest extends OrganiserDaoTest {
     @Test
     void disableTeacher() {
         dao.disableTeacher(4);
-        List<User> users = dao.listAllTeachers(2);
+        List<User> users = dao.listAllTeachers(2, true);
         assertThat(users).extracting(User::disabled).containsExactly(true);
+        assertThat(dao.listAllTeachers(2, false)).isEmpty();
     }
 
     // test getSchool() with teacher as user (separate test class) tested in ClassesDaoTest

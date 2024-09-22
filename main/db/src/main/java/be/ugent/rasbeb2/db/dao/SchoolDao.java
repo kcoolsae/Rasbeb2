@@ -59,7 +59,7 @@ public interface SchoolDao {
        TEACHERS
        ======= */
 
-    List<User> listAllTeachers(int schoolId);
+    List<User> listAllTeachers(int schoolId, boolean includeDisabled);
 
     interface TeacherFinder extends Finder<TeacherWithSchool, TeacherWithSchool.Field, SchoolDao.TeacherFinder> {
     }

@@ -12,12 +12,11 @@
 
 @h4("school.teachers.title")
 @table(teachers.size) {
-    @th("school.teachers.name", "school.teachers.email", "school.teachers.status")
+    @th("school.teachers.name", "school.teachers.email")
 } {
     @foreach.tr(teachers) { teacher =>
         <td>@teacher.name</td>
         <td>@teacher.email</td>
-        <td>@(if(teacher.disabled) i18n("school.teachers.inactive") else i18n("school.teachers.active"))</td>
     }
 }
 

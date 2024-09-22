@@ -26,7 +26,7 @@ public class TeacherDeputy extends TeacherOnlyDeputy {
         return ok(teacher_school.render(
                 school,
                 getCurrentYear(),
-                dao.listAllTeachers(schoolId),
+                dao.listAllTeachers(schoolId, false),
                 this
         ));
     }

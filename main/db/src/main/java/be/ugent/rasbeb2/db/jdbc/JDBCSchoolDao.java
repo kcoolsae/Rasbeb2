@@ -101,11 +101,14 @@ public class JDBCSchoolDao extends JDBCAbstractDao implements SchoolDao {
         );
     }
 
-    public List<User> listAllTeachers(int schoolId) {
-        return select("user_id, user_name, user_email, user_role, user_disabled")
+    public List<User> listAllTeachers(int schoolId, boolean includeDisabled) {
+        SelectSQLStatement selectStatement = select("user_id, user_name, user_email, user_role, user_disabled")
                 .from("users JOIN teachers USING(user_id)")
-                .where("school_id", schoolId)
-                .getList(JDBCSchoolDao::makeTeachers);
+                .where("school_id", schoolId);
+        if (!includeDisabled) {
+            selectStatement = selectStatement.where("NOT user_disabled");
+        }
+        return selectStatement.getList(JDBCSchoolDao::makeTeachers);
     }
 
     private SelectSQLStatement selectTeachersWithSchool() {

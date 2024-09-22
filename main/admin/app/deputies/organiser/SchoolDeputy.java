@@ -72,7 +72,7 @@ public class SchoolDeputy extends OrganiserOnlyDeputy {
         if (form.hasErrors()) {
             return badRequest(organiser_school.render(
                     dao.getSchool(schoolId),
-                    dao.listAllTeachers(schoolId),
+                    dao.listAllTeachers(schoolId, true),
                     form,
                     "school",
                     this));
@@ -105,7 +105,7 @@ public class SchoolDeputy extends OrganiserOnlyDeputy {
         School school = dao.getSchool(schoolId);
         return ok(organiser_school.render(
                 school,
-                dao.listAllTeachers(schoolId),
+                dao.listAllTeachers(schoolId, true),
                 formFromData(new SchoolData(school)),
                 "",
                 this
