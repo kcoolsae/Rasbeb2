@@ -9,7 +9,6 @@
 
 package deputies.auth;
 
-import be.ugent.caagt.dao.DataAccessException;
 import be.ugent.caagt.dao.UniqueViolation;
 import be.ugent.caagt.play.binders.PSF;
 import be.ugent.rasbeb2.db.dao.RegistrationDao;

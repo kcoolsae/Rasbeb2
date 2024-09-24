@@ -7,11 +7,10 @@
  *@
 @import _root_.be.ugent.rasbeb2.db.dto.Contest
 @import _root_.be.ugent.rasbeb2.db.dto.ContestType
-@import deputies.contest.ContestDeputy
 @import views.html.contest._
 @import views.html.b5._
 @import views.html.be.ugent.caagt.play.ext.i18n
-@(contest: Contest, languages: List[LanguageInfo])(implicit deputy: ContestDeputy)
+@(contest: Contest, languages: List[LanguageInfo])(implicit deputy: Deputy)
 
 @layout.organiser("cntts") {
     @_submenu("tools", contest)
@@ -20,7 +19,7 @@
     @p("contest.links.description")
     <p>@i18n("contest.links.label")
     @foreach(languages) { lang =>
-        <span style="padding: 0 5px;"><a href="@controllers.contest.routes.ContestController.listLinks(contest.id, lang.code)" target="link_list">@lang.name</a></span>
+        <span style="padding: 0 5px;"><a href="@controllers.contest.routes.ContestToolsController.listLinks(contest.id, lang.code)" target="link_list">@lang.name</a></span>
     }
     </p>
 
@@ -28,7 +27,7 @@
         @h4("contest.copy-contest.title")
         <p>@i18n.html("contest.copy-contest.description")</p>
         <p>
-        @form(controllers.contest.routes.ContestController.copyContest(contest.id)) {
+        @form(controllers.contest.routes.ContestToolsController.copyContest(contest.id)) {
             @submit("contest.copy-contest.caption", tp = "outline-danger")
         }
         </p>

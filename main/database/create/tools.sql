@@ -41,3 +41,27 @@ BEGIN
 
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION winners(
+    c_id INTEGER,  -- id of the contest
+    a_id INTEGER,  -- id of the age group
+    n INTEGER  -- number of winners
+) RETURNS TABLE (pupil_name TEXT, school_name TEXT, school_town TEXT, marks INTEGER) AS $$
+DECLARE
+    rank INTEGER;
+BEGIN
+    SELECT participation_total_marks FROM participations WHERE contest_id = c_id AND age_group_id = a_id
+    ORDER BY participation_total_marks DESC OFFSET n-1 LIMIT 1 INTO rank;
+    RETURN QUERY
+        SELECT DISTINCT pupils.pupil_name, schools.school_name, schools.school_town, participation_total_marks FROM participations
+            JOIN pupils USING (pupil_id)
+            JOIN pupils_classes USING (pupil_id)
+            JOIN classes USING (class_id)
+            JOIN schools USING (school_id)
+        WHERE participation_total_marks >= rank AND contest_id = c_id AND age_group_id = a_id
+        ORDER BY participation_total_marks DESC, schools.school_name ASC;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP FUNCTION IF EXISTS winners(INTEGER, INTEGER, INTEGER);
+

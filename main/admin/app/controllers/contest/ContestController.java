@@ -28,18 +28,6 @@ public class ContestController extends OrganiserOnlyController<ContestDeputy> {
         return createDeputy(request).updateContestStatus(contestId);
     }
 
-    public Result tools(Http.Request request, int contestId) {
-        return createDeputy(request).tools(contestId);
-    }
-
-    public Result copyContest(Http.Request request, int contestId) {
-        return createDeputy(request).copyContest(contestId);
-    }
-
-    public Result listLinks(Http.Request request, int contestId, String lang) {
-        return createDeputy(request).listLinks(contestId, lang);
-    }
-
     public Result listContests (Http.Request request) {
         return createDeputy(request).listContests();
     }

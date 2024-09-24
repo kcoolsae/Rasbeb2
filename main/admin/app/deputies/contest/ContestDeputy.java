@@ -10,10 +10,8 @@
 package deputies.contest;
 
 import be.ugent.caagt.play.binders.PSF;
-import be.ugent.rasbeb2.db.dao.ContestDao;
 import be.ugent.rasbeb2.db.dto.Contest;
 import be.ugent.rasbeb2.db.dto.ContestStatus;
-import common.LanguageInfo;
 import controllers.contest.routes;
 import deputies.OrganiserOnlyDeputy;
 import lombok.AllArgsConstructor;
@@ -23,10 +21,8 @@ import lombok.Setter;
 import play.mvc.Call;
 import play.mvc.Result;
 import util.Table;
-import views.html.contest.link_list;
 import views.html.contest.list_contests;
 import views.html.contest.organiser_contest;
-import views.html.contest.tools;
 
 public class ContestDeputy extends OrganiserOnlyDeputy {
 
@@ -55,44 +51,9 @@ public class ContestDeputy extends OrganiserOnlyDeputy {
         return redirect(routes.ContestController.getContest(contestId));
     }
 
-    /**
-     * Shows additional tools that can be used on a contest. Currently organiser only
-     */
-    public Result tools(int contestId) {
-        if (isOrganiser()) {
-
-            ContestDao dao = dac().getContestDao();
-            return ok(tools.render(
-                    dao.getContest(contestId, getLanguage()),
-                    LanguageInfo.list(dao.getContestLanguages(contestId)),
-                    this
-            ));
-        } else {
-            return badRequest();
-        }
-    }
-
-    /**
-     * Make a copy of a contest
-     */
-    public Result copyContest(int contestId) {
-        int newId = dac().getContestDao().copyContest(contestId);
-        success("contest.copy-contest.message");
-        return redirect(routes.ContestSettingsController.settingsForm(newId));
-    }
-
     public Result listContests() {
         return list(getInitialPSF(Contest.Field.STATUS));
     }
-
-    public Result listLinks(int contestId, String lang) {
-        return ok(link_list.render(
-                dac().getContestDao().getQuestionLinks(contestId, lang),
-                lang,
-                this
-        ));
-    }
-
 
     /* ======================
      * PAGED TABLE for CONTESTS
