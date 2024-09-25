@@ -32,4 +32,8 @@ public class ContestToolsController extends OrganiserOnlyController<ContestTools
         return createDeputy(request).listLinks(contestId, lang);
     }
 
+    public Result printWinners(Http.Request request, int contestId) {
+        return createDeputy(request).printWinners(contestId);
+    }
+
 }

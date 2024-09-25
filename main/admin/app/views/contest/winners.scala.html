@@ -1,0 +1,64 @@
+@* winners.scala.html
+* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+*
+* This software is distributed under the MIT License - see files LICENSE and AUTHORS
+* in the top level project directory.
+*@
+@import deputies.contest.ContestToolsDeputy.WinnersWithAgeGroup
+@import common.Deputy
+@(list: List[WinnersWithAgeGroup])(implicit deputy: Deputy)
+
+<!DOCTYPE html>
+<html lang="@deputy.getLocale().getLanguage()">
+    <head>
+        <title>Bebras</title>
+        <style>
+                table {
+                    border-collapse: collapse;
+                    margin: 0 auto;
+                }
+
+                th, td {
+                    border: 1px solid black;
+                    padding: 8px;
+                    text-align: left;
+                    min-width: 4em;
+                }
+
+                th {
+                    background-color: #f2f2f2;
+                }
+
+            div {
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+
+    @foreach(list) { wa =>
+        <h3>@wa.ageGroup.name</h3>
+        <div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="width: 5%"></th>
+                        <th style="width: 30%">@i18n("contest.winners.name")</th>
+                        <th style="width: 60%">@i18n("contest.winners.school")</th>
+                        <th style="width: 5%">@i18n("contest.winners.score")</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach.tr(wa.winners) { w =>
+                    <td>@w.rank</td>
+                    <td>@w.winner.pupilName</td>
+                    <td>@w.winner.schoolName (@w.winner.town)</td>
+                    <td>@w.winner.marks</td>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+    </body>
+</html>

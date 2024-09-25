@@ -117,7 +117,7 @@ public class JDBCContestDao extends JDBCAbstractDao implements ContestDao {
 
     @Override
     public List<String> getContestLanguages(int contestId) {
-        return select ("lang")
+        return select("lang")
                 .from("contests_i18n")
                 .where("contest_id", contestId)
                 .orderBy("lang")
@@ -289,6 +289,22 @@ public class JDBCContestDao extends JDBCAbstractDao implements ContestDao {
                         rs.getString("question_title"),
                         rs.getString("mq"),
                         rs.getString("mf")
+                ));
+    }
+
+
+    @Override
+    public List<Winner> getWinners(int contestId, int ageGroupId, int count) {
+        return select("pupil_name, school_name, school_town, marks")
+                .from("winners(?,?,?)")
+                .parameter(contestId)
+                .parameter(ageGroupId)
+                .parameter(count)
+                .getList(rs -> new Winner(
+                        rs.getString("pupil_name"),
+                        rs.getString("school_name"),
+                        rs.getString("school_town"),
+                        rs.getInt("marks")
                 ));
     }
 }

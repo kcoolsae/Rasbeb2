@@ -8,6 +8,7 @@ POST    /p/a           controllers.contest.ContestController.action(request: Req
 GET     /t/l/:contestId  controllers.contest.ContestToolsController.tools(request: Request, contestId: Int)
 POST    /t/cp/:contestId controllers.contest.ContestToolsController.copyContest(request: Request, contestId: Int)
 GET     /t/ql/:contestId/:lang controllers.contest.ContestToolsController.listLinks(request: Request, contestId: Int, lang: String)
+GET     /t/w/:contestId controllers.contest.ContestToolsController.printWinners(request: Request, contestId: Integer)
 
 GET     /o/:contestId/:ageGroupId           controllers.contest.ContestOrderController.getQuestionSet(request: Request, contestId: Int, ageGroupId: Int)
 POST    /o/:contestId/:ageGroupId/:n1/:n2   controllers.contest.ContestOrderController.updateOrder(request: Request, contestId: Int, ageGroupId: Int, n1: Int, n2: Int)

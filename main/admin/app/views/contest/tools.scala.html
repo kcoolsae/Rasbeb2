@@ -5,8 +5,7 @@
  * This software is distributed under the MIT License - see files LICENSE and AUTHORS
  * in the top level project directory.
  *@
-@import _root_.be.ugent.rasbeb2.db.dto.Contest
-@import _root_.be.ugent.rasbeb2.db.dto.ContestType
+@import _root_.be.ugent.rasbeb2.db.dto.{Contest,ContestType,ContestStatus}
 @import views.html.contest._
 @import views.html.b5._
 @import views.html.be.ugent.caagt.play.ext.i18n
@@ -22,6 +21,11 @@
         <span style="padding: 0 5px;"><a href="@controllers.contest.routes.ContestToolsController.listLinks(contest.id, lang.code)" target="link_list">@lang.name</a></span>
     }
     </p>
+
+    @if(contest.status == ContestStatus.CLOSED) {
+        @h4("contest.winners.title")
+        <p><a href="@controllers.contest.routes.ContestToolsController.printWinners(contest.id)">@i18n("contest.winners.link")</a></p>
+    }
 
     @if(contest.contestType == ContestType.OFFICIAL) {
         @h4("contest.copy-contest.title")

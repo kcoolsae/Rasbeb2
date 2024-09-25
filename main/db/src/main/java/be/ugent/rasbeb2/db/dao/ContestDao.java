@@ -105,5 +105,14 @@ public interface ContestDao {
      */
     List<QuestionLink> getQuestionLinks(int contestId, String lang);
 
+    record Winner (String pupilName, String schoolName, String town, int marks) {
+
+    }
+
+    /**
+     * Return the list of winners
+     */
+    List<Winner> getWinners(int contestId, int ageGroupId, int count);
+
 
 }

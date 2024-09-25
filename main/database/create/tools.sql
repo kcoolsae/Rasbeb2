@@ -53,15 +53,17 @@ BEGIN
     SELECT participation_total_marks FROM participations WHERE contest_id = c_id AND age_group_id = a_id
     ORDER BY participation_total_marks DESC OFFSET n-1 LIMIT 1 INTO rank;
     RETURN QUERY
-        SELECT DISTINCT pupils.pupil_name, schools.school_name, schools.school_town, participation_total_marks FROM participations
+        WITH pupils_schools AS
+                 ( SELECT pupil_id, max(school_id) as school_id FROM pupils
+                            JOIN pupils_classes using (pupil_id)
+                            JOIN classes using (class_id)
+                   GROUP by pupil_id )
+        SELECT pupils.pupil_name, schools.school_name, schools.school_town, participation_total_marks
+            FROM participations
             JOIN pupils USING (pupil_id)
-            JOIN pupils_classes USING (pupil_id)
-            JOIN classes USING (class_id)
+            JOIN pupils_schools USING (pupil_id)
             JOIN schools USING (school_id)
         WHERE participation_total_marks >= rank AND contest_id = c_id AND age_group_id = a_id
-        ORDER BY participation_total_marks DESC, schools.school_name ASC;
+        ORDER BY participation_total_marks DESC, schools.school_name;
 END;
 $$ LANGUAGE plpgsql;
-
-DROP FUNCTION IF EXISTS winners(INTEGER, INTEGER, INTEGER);
-
