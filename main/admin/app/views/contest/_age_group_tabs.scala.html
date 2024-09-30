@@ -11,7 +11,7 @@
 
 <ul class="nav nav-tabs" role="tablist">
     @foreach(ageGroups) { ag =>
-        <li class="nav-item" role="presentation">
+        <li class="nav-item" role="presentation" title="@ag.description">
         @if(ageGroups.isSelected(ag)) {
             <button class="nav-link active" type="button" role="tab">@ag.name</button>
         } else {

@@ -12,13 +12,27 @@
 
 @(contests: Collection[ContestForAnonTable], ageGroups: Iterable[AgeGroup])(implicit deputy: Deputy)
 
-@layout.anon("homeanon") {
-    @table(contests.size){
+@css={
+    <style>
+        tr.description th {
+            font-size: small;
+            font-weight: normal;
+        }
+    </style>
+}
+@layout.anon("homeanon",css=css) {
+    @table(contests.size,striped=false){
         <th>@i18n("pupil.home-anon.title")</th>
         @foreach(ageGroups) { ageGroup =>
           <th>@ageGroup.name</th>
         }
     } {
+        <tr class="description">
+            <th>&nbsp;</th>
+            @foreach(ageGroups) { ageGroup =>
+                <th>@ageGroup.description</th>
+            }
+        </tr>
         @foreach.tr(contests) { contest =>
             <td>@contest.contestTitle</td>
             @foreach(ageGroups, "td") { ageGroup =>
