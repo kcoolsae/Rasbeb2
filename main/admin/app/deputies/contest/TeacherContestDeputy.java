@@ -9,13 +9,17 @@
 
 package deputies.contest;
 
+import be.ugent.caagt.play.binders.PSF;
 import be.ugent.rasbeb2.db.dao.QuestionDao;
 import be.ugent.rasbeb2.db.dto.*;
+import controllers.contest.routes;
 import deputies.TeacherOnlyDeputy;
+import play.mvc.Call;
 import play.mvc.Result;
 import util.AgeGroupsWithId;
 import util.LanguagesWithSelection;
-import views.html.contest.teacher_contest;
+import util.Table;
+import views.html.contest.*;
 
 import java.util.List;
 
@@ -29,7 +33,7 @@ public class TeacherContestDeputy extends TeacherOnlyDeputy {
      * @param language for which the contests should be listed
      * @param ageGroupId age group for which the contests should be listed. Youngest age group is used if zero.
      */
-    public Result listContests(String language, int ageGroupId) {
+    public Result listContestsForAgeGroup(String language, int ageGroupId) {
 
         AgeGroupsWithId ageGroups = new AgeGroupsWithId(
                 dac().getAgeGroupDao().getAllAgeGroups(language),
@@ -54,6 +58,53 @@ public class TeacherContestDeputy extends TeacherOnlyDeputy {
         Contest contest = cwa.contest();
         boolean showFeedback = contest.contestType() != ContestType.OFFICIAL || contest.status() == ContestStatus.CLOSED;
         return ok(teacher_contest.render(cwa, lang, question, headers, showFeedback, this));
+    }
+
+    public Result getContest(int contestId) {
+        Contest contest = dac().getContestDao().getContest(contestId, getLanguage());
+        return ok(teacher_contest_overview.render(
+                contest,
+                this
+        ));
+    }
+
+    public Result listContests() {
+        return list(getInitialPSF(Contest.Field.TITLE, false));
+    }
+
+    /* ======================
+     * PAGED TABLE for CONTESTS
+     * ====================== */
+
+    public Result list(PSF psf) {
+        return ok(list_teacher_contests.render(
+                getPage(dac().getContestDao().findContestsForTeachers(getLanguage()), psf, Contest.Field.class),
+                new Table(psf) {
+                    public Call list(PSF newPsf) {
+                        return routes.TeacherContestController.list(newPsf);
+                    }
+
+                    public Call resize() {
+                        return routes.TeacherContestController.resize(psf());
+                    }
+
+                    public Call action() {
+                        return routes.TeacherContestController.action(psf());
+                    }
+                },
+                this)
+        );
+    }
+
+    public Result resize(PSF psf) {
+        return resize(psf, routes.TeacherContestController::list);
+    }
+
+    public Result action(PSF psf) {
+        // filter button - not checked
+        return redirect(routes.TeacherContestController.list(
+                psf.refilter(getStringMapFromForm(Contest.Field.class))
+        ));
     }
 
 }

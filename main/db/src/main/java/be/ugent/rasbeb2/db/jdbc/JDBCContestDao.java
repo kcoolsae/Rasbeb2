@@ -67,7 +67,7 @@ public class JDBCContestDao extends JDBCAbstractDao implements ContestDao {
         );
     }
 
-    public SelectSQLStatement selectContests(String lang) {
+    private SelectSQLStatement selectContests(String lang) {
         return select("contests.contest_id, contest_type, contest_status, contest_title")
                 .from("""
                         contests LEFT JOIN contests_i18n
@@ -80,7 +80,7 @@ public class JDBCContestDao extends JDBCAbstractDao implements ContestDao {
      * Alle contests for the given language and age group, presented
      * in the given language.
      */
-    public SelectSQLStatement selectContests(String lang, int ageGroupId) {
+    private SelectSQLStatement selectContests(String lang, int ageGroupId) {
         return select("contest_id, contest_type, contest_status, contest_title")
                 .from("""
                         contests
@@ -127,6 +127,13 @@ public class JDBCContestDao extends JDBCAbstractDao implements ContestDao {
     @Override
     public ContestFinder findContests(String lang) {
         return new JDBCContestFinder(selectContests(lang));
+    }
+
+    @Override
+    public ContestFinder findContestsForTeachers(String lang) {
+        return new JDBCContestFinder(
+                selectContests(lang).where("contest_type != 'PUBLIC'")
+        );
     }
 
     @Override

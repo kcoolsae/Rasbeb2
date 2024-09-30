@@ -19,8 +19,8 @@
 
 @layout.teacher("contl") {
 
-    @_title_with_language("contest.questions.title", languages, routes.TeacherContestController.listContests(_, ageGroups.id))
-    @_age_group_tabs(ageGroups, routes.TeacherContestController.listContests(languages.code,_)) @* TODO *@
+    @_title_with_language("contest.questions.title", languages, routes.TeacherContestController.listContestsForAgeGroup(_, ageGroups.id))
+    @_age_group_tabs(ageGroups, routes.TeacherContestController.listContestsForAgeGroup(languages.code,_)) @* TODO *@
 
     <table class="table">
         @thead("contest.title", "common.actions")

@@ -1,4 +1,4 @@
-@* _submenu.scala.html
+@* _teacher_submenu.scala.html
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
  *
@@ -20,13 +20,6 @@
 <h3>@contest.title()</h3>
 @defining(contest.id) { id =>
     <nav class="nav nav-underline ps-2 pe-2 mb-3 bg-light">
-        @menu_item("overview", routes.ContestController.getContest(id))
-        @menu_item("settings", routes.ContestSettingsController.settingsForm(id))
-        @menu_item("questions", routes.ContestQuestionsController.questionSelection(id))
-        @menu_item("marks", routes.ContestMarksController.getQuestionSet(id, 0))
-        @menu_item("order", routes.ContestOrderController.getQuestionSet(id, 0))
-        @if(deputy.isOrganiser) {
-            @menu_item("tools", routes.ContestToolsController.tools(id))
-        }
+        @menu_item("overview", routes.TeacherContestController.getContest(id))
     </nav>
 }

@@ -7,15 +7,14 @@
  *@
 
 @import _root_.be.ugent.rasbeb2.db.dto.Contest
-@import deputies.contest.ContestDeputy
-@import deputies.contest.ContestDeputy.StatusData
 @import views.html.be.ugent.caagt.play.ext.i18n
 @import views.html.contest._
-@(f: Form[StatusData], contest: Contest)(implicit deputy: ContestDeputy)
-@layout.organiser("cntv") {
-    @_organiser_submenu("overview", contest)
+@(contest: Contest)(implicit deputy: Deputy)
+@layout.teacher("tcno") {
+    @_teacher_submenu("overview", contest)
 
-    @i18n.html("contest.description-long." + contest.contestType)
-    <div class="card p-3">@_contest_status_form(f, contest)</div>
+    @i18n.html("contest.description." + contest.contestType)
+    <p>@i18n("contest.status"): <b>@i18n("enum.status."+contest.status)</b></p>
+    @* <div class="card p-3">@_contest_status_form(f, contest)</div> *@
 
 }

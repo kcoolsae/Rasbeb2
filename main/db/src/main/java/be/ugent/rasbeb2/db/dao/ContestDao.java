@@ -31,6 +31,7 @@ public interface ContestDao {
 
     interface ContestFinder extends Finder<Contest, Contest.Field, ContestDao.ContestFinder> {}
     ContestFinder findContests (String lang);
+    ContestFinder findContestsForTeachers(String lang); // excludes public contests
 
     void updateContestI18n(int contestId, String lang, String newTitle);
 

@@ -52,7 +52,7 @@ public class ContestDeputy extends OrganiserOnlyDeputy {
     }
 
     public Result listContests() {
-        return list(getInitialPSF(Contest.Field.STATUS));
+        return list(getInitialPSF(Contest.Field.TITLE, false));
     }
 
     /* ======================
@@ -84,7 +84,7 @@ public class ContestDeputy extends OrganiserOnlyDeputy {
     }
 
     public Result action(PSF psf) {
-        // filter button - not che
+        // filter button - not checked
         return redirect(routes.ContestController.list(
                 psf.refilter(getStringMapFromForm(Contest.Field.class))
         ));

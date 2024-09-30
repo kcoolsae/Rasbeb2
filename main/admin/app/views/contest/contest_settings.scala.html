@@ -15,7 +15,7 @@
 @(cf: Form[ContestData], df: Form[DurationData],
         contest: Contest, languages: Iterable[String], ageGroups: Iterable[AgeGroupWithDuration])(implicit deputy: ContestSettingsDeputy)
 @layout.organiser("cnts") {
-    @_submenu("settings", contest)
+    @_organiser_submenu("settings", contest)
     @h4("contest.settings.titles")
     <div class="card p-3">
     @form(controllers.contest.routes.ContestSettingsController.titleSettings(contest.id)) {

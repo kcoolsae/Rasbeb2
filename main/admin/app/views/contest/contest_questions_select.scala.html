@@ -14,7 +14,7 @@
 
 @layout.organiser("cntque") {
 
-    @_submenu("questions", contest)
+    @_organiser_submenu("questions", contest)
 
     @paged(table, questions.getFullSize) {
         <button class="btn btn-outline-primary" type="submit" name="action" value="register">@i18n("contest.selection.caption")</button>

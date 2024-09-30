@@ -12,11 +12,11 @@
 @import util.AgeGroupsWithId
 @import views.html.b5._
 @import views.html.be.ugent.caagt.play.ext.foreach
-@import views.html.contest.{_age_group_tabs, _submenu}
+@import views.html.contest.{_age_group_tabs, _organiser_submenu}
 @(questionSet: List[QuestionInSet], contest: Contest, ageGroups: AgeGroupsWithId)(implicit deputy: Deputy)
 
 @layout.organiser("cntqso") {
-    @_submenu("order", contest)
+    @_organiser_submenu("order", contest)
 
     @_age_group_tabs(ageGroups, routes.ContestOrderController.getQuestionSet(contest.id, _))
 

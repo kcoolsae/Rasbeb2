@@ -200,6 +200,10 @@ public class Deputy extends be.ugent.caagt.play.deputies.Deputy {
         return getInitialPSF(field.name(), true);
     }
 
+    protected <E extends Enum<E>> PSF getInitialPSF(E field, boolean ascending) {
+        return getInitialPSF(field.name(), ascending);
+    }
+
     /**
      * Retrieves the current UI language
      */

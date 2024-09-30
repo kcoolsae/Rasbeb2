@@ -12,7 +12,7 @@
 @(contest: Contest, languages: List[LanguageInfo])(implicit deputy: Deputy)
 
 @layout.organiser("cntts") {
-    @_submenu("tools", contest)
+    @_organiser_submenu("tools", contest)
 
     @h4("contest.links.title")
     @p("contest.links.description")

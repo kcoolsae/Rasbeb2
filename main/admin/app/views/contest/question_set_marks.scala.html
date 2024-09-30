@@ -12,7 +12,7 @@
 @import deputies.contest.ContestMarksDeputy.QuestionSetData
 @import util.AgeGroupsWithId
 @import views.html.b5._
-@import views.html.contest.{_age_group_tabs, _submenu}
+@import views.html.contest.{_age_group_tabs, _organiser_submenu}
 @(f: Form[QuestionSetData], questionSet: List[QuestionInSet], contest: Contest,
         ageGroups: AgeGroupsWithId)(implicit deputy: ContestMarksDeputy)
 
@@ -21,7 +21,7 @@
 }   @* removes labels etc from form fields *@
 
 @layout.organiser("cntqs") {
-    @_submenu("marks", contest)
+    @_organiser_submenu("marks", contest)
 
     @_age_group_tabs(ageGroups, routes.ContestMarksController.getQuestionSet(contest.id, _))
 
