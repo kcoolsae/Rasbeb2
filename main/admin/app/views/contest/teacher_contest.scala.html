@@ -8,6 +8,8 @@
 
 @import _root_.be.ugent.rasbeb2.db.dto.{ContestWithAgeGroup, QuestionHeader, Question}
 @import views.html.be.ugent.caagt.play.ext.i18n
+@import controllers.contest.routes
+
 @(contest: ContestWithAgeGroup, lang: String, question: Question, headers: List[QuestionHeader], showFeedback: Boolean)(implicit deputy: Deputy)
 
 @layout.teacher("conq", css = include.js("iframeresize")) { @* css is a hack to ensure early loading of the script *@
@@ -16,11 +18,12 @@
             <h3>@contest.contest.title</h3>
             <p>@contest.ageGroup.ageGroup.name - @contest.ageGroup.ageGroup.description</p>
             <div class="mb-2">
-                <a class="btn btn-outline-secondary" href="@controllers.contest.routes.TeacherContestController.listContestsForAgeGroup(lang,contest.ageGroup.id)">@i18n("contest.questions.overview")</a>
+                <a class="btn btn-outline-secondary" href="@routes.TeacherContestController.listContestsForAgeGroup(lang,contest.ageGroup.id)">@i18n("contest.questions.overview")</a>
            </div>
             <div class="list-group">
                 @foreach(headers) { header: QuestionHeader =>
-                    <a class="list-group-item list-group-item-action @(if(header.id == question.id) "active" else "")" href="@controllers.contest.routes.TeacherContestController.getContestQuestion(lang, contest.contestId, contest.ageGroup.id, header.id)">@header.title</a>
+                    <a class="list-group-item list-group-item-action @(if(header.id == question.id) "active" else "")"
+                       href="@routes.TeacherContestController.getContestQuestion(lang, contest.contestId, contest.ageGroup.id, header.id)">@header.title</a>
                 }
             </div>
         </div>

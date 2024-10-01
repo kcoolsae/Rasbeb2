@@ -28,11 +28,12 @@ GET     /st/:contestId     controllers.contest.ContestSettingsController.setting
 POST    /st/t/:contestId   controllers.contest.ContestSettingsController.titleSettings(request: Request, contestId: Int)
 POST    /st/a/:contestId   controllers.contest.ContestSettingsController.ageGroupSettings(request: Request, contestId: Int)
 
-GET     /f/x           controllers.contest.TeacherContestController.listContests(request: Request)
-GET     /f/l           controllers.contest.TeacherContestController.list(request: Request, psf: PSF)
-POST    /f/r           controllers.contest.TeacherContestController.resize(request: Request, psf: PSF)
-POST    /f/a           controllers.contest.TeacherContestController.action(request: Request, psf: PSF)
-GET     /f/g/:contestId  controllers.contest.TeacherContestController.getContest(request: Request, contestId: Int)
+# TeacherContestController
+GET     /tp/x           controllers.contest.TeacherContestController.listContests(request: Request)
+GET     /tp/l           controllers.contest.TeacherContestController.list(request: Request, psf: PSF)
+POST    /tp/r           controllers.contest.TeacherContestController.resize(request: Request, psf: PSF)
+POST    /tp/a           controllers.contest.TeacherContestController.action(request: Request, psf: PSF)
+GET     /tg/:contestId  controllers.contest.TeacherContestController.getContest(request: Request, contestId: Int)
 
-GET     /f/lc/:lang/:ageGroupId  controllers.contest.TeacherContestController.listContestsForAgeGroup(request: Request, lang: String, ageGroupId: Int)
-GET     /f/q/:lang/:contestId/:ageGroupId/:questionId   controllers.contest.TeacherContestController.getContestQuestion(request: Request, lang: String, contestId: Int, ageGroupId: Int, questionId: Int)
+GET     /tlc/:lang/:ageGroupId  controllers.contest.TeacherContestController.listContestsForAgeGroup(request: Request, lang: String, ageGroupId: Int)
+GET     /tq/:lang/:contestId/:ageGroupId/:questionId   controllers.contest.TeacherContestController.getContestQuestion(request: Request, lang: String, contestId: Int, ageGroupId: Int, questionId: Int)

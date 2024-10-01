@@ -19,7 +19,7 @@ import play.mvc.Result;
 import util.AgeGroupsWithId;
 import util.LanguagesWithSelection;
 import util.Table;
-import views.html.contest.*;
+import views.html.teachercontest.*;
 
 import java.util.List;
 
@@ -34,6 +34,7 @@ public class TeacherContestDeputy extends TeacherOnlyDeputy {
      * @param ageGroupId age group for which the contests should be listed. Youngest age group is used if zero.
      */
     public Result listContestsForAgeGroup(String language, int ageGroupId) {
+        // TODO remove
 
         AgeGroupsWithId ageGroups = new AgeGroupsWithId(
                 dac().getAgeGroupDao().getAllAgeGroups(language),
@@ -57,12 +58,12 @@ public class TeacherContestDeputy extends TeacherOnlyDeputy {
         Question question = questionDao.getQuestion(questionId, lang);
         Contest contest = cwa.contest();
         boolean showFeedback = contest.contestType() != ContestType.OFFICIAL || contest.status() == ContestStatus.CLOSED;
-        return ok(teacher_contest.render(cwa, lang, question, headers, showFeedback, this));
+        return ok(views.html.contest.teacher_contest.render(cwa, lang, question, headers, showFeedback, this));
     }
 
     public Result getContest(int contestId) {
         Contest contest = dac().getContestDao().getContest(contestId, getLanguage());
-        return ok(teacher_contest_overview.render(
+        return ok(contest_overview.render(
                 contest,
                 this
         ));
@@ -77,7 +78,7 @@ public class TeacherContestDeputy extends TeacherOnlyDeputy {
      * ====================== */
 
     public Result list(PSF psf) {
-        return ok(list_teacher_contests.render(
+        return ok(list_contests.render(
                 getPage(dac().getContestDao().findContestsForTeachers(getLanguage()), psf, Contest.Field.class),
                 new Table(psf) {
                     public Call list(PSF newPsf) {

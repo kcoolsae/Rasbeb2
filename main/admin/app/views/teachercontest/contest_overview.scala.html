@@ -1,4 +1,4 @@
-@* organiser_contest.scala.html
+@* contest_overview.scala.html
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
  *
@@ -8,10 +8,9 @@
 
 @import _root_.be.ugent.rasbeb2.db.dto.Contest
 @import views.html.be.ugent.caagt.play.ext.i18n
-@import views.html.contest._
 @(contest: Contest)(implicit deputy: Deputy)
 @layout.teacher("tcno") {
-    @_teacher_submenu("overview", contest)
+    @_submenu("overview", contest)
 
     @i18n.html("contest.description." + contest.contestType)
     <p>@i18n("contest.status"): <b>@i18n("enum.status."+contest.status)</b></p>
