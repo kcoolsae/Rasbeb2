@@ -21,10 +21,6 @@ public class TeacherContestController extends TeacherOnlyController<TeacherConte
         super(TeacherContestDeputy::new);
     }
 
-    public Result listContestsForAgeGroup(Http.Request request, String language, int ageGroupId) {
-        return createDeputy(request).listContestsForAgeGroup(language, ageGroupId);
-    }
-
     public Result getContestQuestion(Http.Request request, String language, int contestId, int ageGroupId, int questionId) {
         return createDeputy(request).getContestQuestion(language, contestId, ageGroupId, questionId);
     }
@@ -47,5 +43,9 @@ public class TeacherContestController extends TeacherOnlyController<TeacherConte
 
     public Result getContest(Http.Request request, int contestId) {
         return createDeputy(request).getContest(contestId);
+    }
+
+    public Result showQuestions(Http.Request request, String lang, int contestId) {
+        return createDeputy(request).showQuestions(lang, contestId);
     }
 }

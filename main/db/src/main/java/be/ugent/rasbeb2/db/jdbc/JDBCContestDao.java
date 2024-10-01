@@ -132,7 +132,11 @@ public class JDBCContestDao extends JDBCAbstractDao implements ContestDao {
     @Override
     public ContestFinder findContestsForTeachers(String lang) {
         return new JDBCContestFinder(
-                selectContests(lang).where("contest_type != 'PUBLIC'")
+                // cannot use selectContests(lang) because it includes unsupported languages
+                select("contests.contest_id, contest_type, contest_status, contest_title")
+                        .from("contests JOIN contests_i18n USING(contest_id)")
+                        .where("lang", lang)
+                        .where("contest_type != 'PUBLIC'")
         );
     }
 

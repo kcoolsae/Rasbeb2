@@ -35,5 +35,5 @@ POST    /tp/r           controllers.contest.TeacherContestController.resize(requ
 POST    /tp/a           controllers.contest.TeacherContestController.action(request: Request, psf: PSF)
 GET     /tg/:contestId  controllers.contest.TeacherContestController.getContest(request: Request, contestId: Int)
 
-GET     /tlc/:lang/:ageGroupId  controllers.contest.TeacherContestController.listContestsForAgeGroup(request: Request, lang: String, ageGroupId: Int)
+GET     /tq/:lang/:contestId controllers.contest.TeacherContestController.showQuestions(request: Request, lang: String, contestId: Int)
 GET     /tq/:lang/:contestId/:ageGroupId/:questionId   controllers.contest.TeacherContestController.getContestQuestion(request: Request, lang: String, contestId: Int, ageGroupId: Int, questionId: Int)

@@ -10,13 +10,14 @@
 package deputies.contest;
 
 import be.ugent.caagt.play.binders.PSF;
+import be.ugent.rasbeb2.db.dao.ContestDao;
 import be.ugent.rasbeb2.db.dao.QuestionDao;
 import be.ugent.rasbeb2.db.dto.*;
+import common.LanguageInfo;
 import controllers.contest.routes;
 import deputies.TeacherOnlyDeputy;
 import play.mvc.Call;
 import play.mvc.Result;
-import util.AgeGroupsWithId;
 import util.LanguagesWithSelection;
 import util.Table;
 import views.html.teachercontest.*;
@@ -28,37 +29,21 @@ import java.util.List;
  */
 public class TeacherContestDeputy extends TeacherOnlyDeputy {
 
-    /**
-     * List all contests that can be viewed by a teacher.
-     * @param language for which the contests should be listed
-     * @param ageGroupId age group for which the contests should be listed. Youngest age group is used if zero.
-     */
-    public Result listContestsForAgeGroup(String language, int ageGroupId) {
-        // TODO remove
-
-        AgeGroupsWithId ageGroups = new AgeGroupsWithId(
-                dac().getAgeGroupDao().getAllAgeGroups(language),
-                ageGroupId
-        );
-        return ok(views.html.contest.teacher_list_contests.render(
-                new LanguagesWithSelection(getUILanguagesInfo(), language),
-                ageGroups,
-                dac().getContestDao().getViewableContests(ageGroups.id(), language),
-                this
-        ));
-    }
-
     public Result getContestQuestion(String lang, int contestId, int ageGroupId, int questionId) {
         ContestWithAgeGroup cwa = dac().getPupilContestDao().getContestWithAgeGroup(contestId, ageGroupId, lang);
-        QuestionDao questionDao = dac().getQuestionDao();
-        List<QuestionHeader> headers = questionDao.getQuestionsForContest(contestId, ageGroupId, lang);
-        if (questionId == 0) {
-            questionId = headers.getFirst().id();
-        }
-        Question question = questionDao.getQuestion(questionId, lang);
         Contest contest = cwa.contest();
-        boolean showFeedback = contest.contestType() != ContestType.OFFICIAL || contest.status() == ContestStatus.CLOSED;
-        return ok(views.html.contest.teacher_contest.render(cwa, lang, question, headers, showFeedback, this));
+        if (contest.isViewable()) {
+            QuestionDao questionDao = dac().getQuestionDao();
+            List<QuestionHeader> headers = questionDao.getQuestionsForContest(contestId, ageGroupId, lang);
+            if (questionId == 0) {
+                questionId = headers.getFirst().id();
+            }
+            Question question = questionDao.getQuestion(questionId, lang);
+            boolean showFeedback = contest.contestType() != ContestType.OFFICIAL || contest.status() == ContestStatus.CLOSED;
+            return ok(views.html.contest.teacher_contest.render(cwa, lang, question, headers, showFeedback, this));
+        } else {
+            return badRequest();
+        }
     }
 
     public Result getContest(int contestId) {
@@ -67,6 +52,17 @@ public class TeacherContestDeputy extends TeacherOnlyDeputy {
                 contest,
                 this
         ));
+    }
+
+    public Result showQuestions(String lang, int contestId) {
+        ContestDao dao = dac().getContestDao();
+        Contest contest = dao.getContest(contestId, lang);
+            return ok(show_questions.render(
+                    new LanguagesWithSelection(LanguageInfo.list(dao.getContestLanguages(contestId)), lang),
+                    contest,
+                    dac().getAgeGroupDao().getAgeGroups(contestId, getLanguage()),
+                    this
+            ));
     }
 
     public Result listContests() {

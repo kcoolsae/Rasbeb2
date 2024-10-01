@@ -31,7 +31,7 @@ public interface ContestDao {
 
     interface ContestFinder extends Finder<Contest, Contest.Field, ContestDao.ContestFinder> {}
     ContestFinder findContests (String lang);
-    ContestFinder findContestsForTeachers(String lang); // excludes public contests
+    ContestFinder findContestsForTeachers(String lang); // excludes public contests, excludes contests for which the language is not available
 
     void updateContestI18n(int contestId, String lang, String newTitle);
 
@@ -114,6 +114,5 @@ public interface ContestDao {
      * Return the list of winners
      */
     List<Winner> getWinners(int contestId, int ageGroupId, int count);
-
 
 }

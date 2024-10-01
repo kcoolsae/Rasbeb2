@@ -20,6 +20,10 @@ public record Contest(int id, ContestType contestType, ContestStatus status, Str
         }
     }
 
+    public boolean isViewable() {
+        return status == ContestStatus.OPEN || status == ContestStatus.CLOSED;
+    }
+
     @Getter
     @AllArgsConstructor
     public enum Field implements FieldEnum<Contest> {

@@ -1,0 +1,33 @@
+@* contest_overview.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.{AgeGroup,Contest}
+@import util.LanguagesWithSelection
+@import controllers.contest.routes
+
+@(languages: LanguagesWithSelection, contest: Contest, ageGroups: List[AgeGroup])(implicit deputy: Deputy)
+@layout.teacher("tcq") {
+    @_submenu("questions", contest, languages.name)
+    @if(contest.isViewable) {
+        <p>@i18n("contest.questions.heading")</p>
+        @table(ageGroups.size) {
+            @thead("contest.questions.age-group", "contest.questions.description", "contest.questions.questions")
+        } {
+            @foreach.tr(ageGroups) { ageGroup =>
+                <td>@ageGroup.name</td>
+                <td>@ageGroup.description</td>
+                <td>
+                    <a class="btn btn-outline-primary" href='@routes.TeacherContestController.getContestQuestion(languages.code, contest.id, ageGroup.id, 0)'>...</a>
+                </td>
+            }
+        }
+        @layout._language_selection(languages, controllers.contest.routes.TeacherContestController.showQuestions(_, contest.id))
+    } else {
+        <p>@i18n("contest.questions.notviewable")</p>
+    }
+}

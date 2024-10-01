@@ -11,15 +11,16 @@
 @import controllers.contest.routes
 @import play.twirl.api.TwirlFeatureImports.defining
 @import views.html.be.ugent.caagt.play.ext.i18n
-@(key: String, contest: Contest)(implicit deputy: Deputy)
+@(key: String, contest: Contest, languageName : String = null)(implicit deputy: Deputy)
 
 @menu_item(thisKey: String, call: Call) = {
         <a class='nav-link @if(key==thisKey)(" active")' href="@call">@i18n("contest.menu." + thisKey)</a>
 }
 
-<h3>@contest.title()</h3>
+<h3>@contest.title() @if(languageName!=null){(@languageName)}</h3>
 @defining(contest.id) { id =>
     <nav class="nav nav-underline ps-2 pe-2 mb-3 bg-light">
         @menu_item("overview", routes.TeacherContestController.getContest(id))
+        @menu_item("questions", routes.TeacherContestController.showQuestions(deputy.getLanguage, id))
     </nav>
 }

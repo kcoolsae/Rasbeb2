@@ -18,7 +18,7 @@
             <h3>@contest.contest.title</h3>
             <p>@contest.ageGroup.ageGroup.name - @contest.ageGroup.ageGroup.description</p>
             <div class="mb-2">
-                <a class="btn btn-outline-secondary" href="@routes.TeacherContestController.listContestsForAgeGroup(lang,contest.ageGroup.id)">@i18n("contest.questions.overview")</a>
+                <a class="btn btn-outline-secondary" href="@routes.TeacherContestController.showQuestions(lang,contest.contest.id)">@i18n("contest.questions.overview")</a>
            </div>
             <div class="list-group">
                 @foreach(headers) { header: QuestionHeader =>
