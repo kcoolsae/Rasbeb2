@@ -13,6 +13,13 @@
 @(pupils: List[Pupil])(implicit deputy: Deputy)
 
 <table class="table">
+    <colgroup>
+        <col style="width: 50%;">
+        <col style="width: 10%;">
+        <col style="width: 15%;">
+        <col style="width: 15%;">
+        <col style="width: 10%;">
+    </colgroup>
     @thead("school.pupil.name", "school.pupil.gender", "school.pupil.bebras-id", "school.pupil.password","common.actions")
     <tbody>
     @foreach(pupils) { pupil =>

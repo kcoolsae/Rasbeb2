@@ -1,0 +1,54 @@
+@* contest_overview.scala.html
+* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+*
+* This software is distributed under the MIT License - see files LICENSE and AUTHORS
+* in the top level project directory.
+*@
+@import _root_.be.ugent.rasbeb2.db.dto.{Contest, ContestStatus, ContestType, PupilWithScore}
+@(contest: Contest, map: Map[String, List[PupilWithScore]])(implicit deputy: Deputy)
+
+@css = {
+    <style>td:nth-child(2) {
+        text-align: right;
+    }</style>
+}
+@layout.teacher("tcpar", css = css) {
+    @_submenu("participations", contest)
+
+    @if(contest.contestType == ContestType.OFFICIAL && contest.status != ContestStatus.CLOSED) {
+        @p("contest.participations.official")
+    } else {
+        @p("contest.participations.only-closed")
+        @foreach(map.keySet) { className =>
+            <hr>
+            <h4>@className</h4>
+        @defining(map.get(className)) { pupils =>
+            @table(pupils.size) {
+                <colgroup>
+                    <col style="width: 80%;">
+                    <col style="width: 10%;">
+                    <col style="width: 10%;">
+                </colgroup>
+                @th("event.participations.name", "event.participations.score", "")
+            } {
+                @foreach.tr(pupils) { pupil =>
+                    @if(pupil.hidden) {
+                        <td class="text-body-tertiary">@pupil.name</td>
+                        <td class="text-body-tertiary">@pupil.marks/@pupil.maxMarks</td>
+                    } else {
+                        <td>@pupil.name</td>
+                        <td>@pupil.marks/@pupil.maxMarks</td>
+                    }
+                    <td><a href="" class="btn btn-outline-secondary btn-sm">
+                    @if(pupil.hidden) {
+                        <span class="fa-regular fa-eye"></span>
+                    } else {
+                        <span class="fa-regular fa-eye-slash"></span>
+                    }</a></td>
+                }
+            }
+        }
+        }
+    }
+}

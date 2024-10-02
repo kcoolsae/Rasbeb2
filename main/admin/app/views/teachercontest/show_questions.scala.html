@@ -14,7 +14,7 @@
 @layout.teacher("tcq") {
     @_submenu("questions", contest, languages.name)
     @if(contest.isViewable) {
-        <p>@i18n("contest.questions.heading")</p>
+        @p("contest.questions.heading")
         @table(ageGroups.size) {
             @thead("contest.questions.age-group", "contest.questions.description", "contest.questions.questions")
         } {
@@ -28,6 +28,6 @@
         }
         @layout._language_selection(languages, controllers.contest.routes.TeacherContestController.showQuestions(_, contest.id))
     } else {
-        <p>@i18n("contest.questions.notviewable")</p>
+        @p("contest.questions.notviewable")
     }
 }

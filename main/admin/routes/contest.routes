@@ -37,3 +37,5 @@ GET     /tg/:contestId  controllers.contest.TeacherContestController.getContest(
 
 GET     /tq/:lang/:contestId controllers.contest.TeacherContestController.showQuestions(request: Request, lang: String, contestId: Int)
 GET     /tq/:lang/:contestId/:ageGroupId/:questionId   controllers.contest.TeacherContestController.getContestQuestion(request: Request, lang: String, contestId: Int, ageGroupId: Int, questionId: Int)
+
+GET     /td/:contestId    controllers.contest.TeacherContestController.showParticipations(request: Request, contestId: Int)

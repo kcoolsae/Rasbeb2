@@ -22,5 +22,6 @@
     <nav class="nav nav-underline ps-2 pe-2 mb-3 bg-light">
         @menu_item("overview", routes.TeacherContestController.getContest(id))
         @menu_item("questions", routes.TeacherContestController.showQuestions(deputy.getLanguage, id))
+        @menu_item("participations", routes.TeacherContestController.showParticipations(id))
     </nav>
 }

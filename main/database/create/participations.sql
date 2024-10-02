@@ -19,6 +19,7 @@ CREATE TABLE participations
     participation_deadline    TIMESTAMP,
 
     participation_total_marks INTEGER   DEFAULT 0,       -- filled in after closed
+    participation_hidden      BOOLEAN   DEFAULT FALSE,   -- not shown in public results, not used in statistics
 
     when_created              TIMESTAMP DEFAULT NOW(),
     who_created               INTEGER,

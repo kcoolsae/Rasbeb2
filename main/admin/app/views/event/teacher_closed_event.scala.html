@@ -13,11 +13,18 @@
 @import views.html.event._
 @(event: Event, participations: List[ParticipationWithPupil])(implicit deputy: EventDeputy)
 
-@layout.teacher("ecl") {
+@css={
+    <style>td:nth-child(2) { text-align: right; }</style>
+}
+@layout.teacher("ecl", css=css) {
     @_event_title(event.header)
     @_event_actions(event)
 
     @table(participations.size) {
+        <colgroup>
+            <col style="width: 90%;">
+            <col style="width: 10%;">
+        </colgroup>
         @th("event.participations.name", "event.participations.score")
     } {
         @foreach.tr(participations) { participation: ParticipationWithPupil =>

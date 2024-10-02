@@ -48,4 +48,8 @@ public class TeacherContestController extends TeacherOnlyController<TeacherConte
     public Result showQuestions(Http.Request request, String lang, int contestId) {
         return createDeputy(request).showQuestions(lang, contestId);
     }
+
+    public Result showParticipations(Http.Request request, int contestId) {
+        return createDeputy(request).showParticipations(contestId);
+    }
 }

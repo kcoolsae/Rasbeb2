@@ -281,13 +281,17 @@ public class JDBCEventDao extends JDBCAbstractDao implements EventDao {
                 rs.getString("pupil_name"),
                 rs.getString("class_name"),
                 rs.getInt("participation_total_marks"),
-                rs.getInt("max_marks")
+                rs.getInt("max_marks"),
+                rs.getBoolean("participation_hidden")
         );
     }
 
+    private static final String PWS_FIELDS =
+            "pupil_id, pupil_name, class_name, participation_total_marks, (max_marks - min_marks) as max_marks, participation_hidden";
+
     @Override
     public List<PupilWithScore> getPupilsWithScore(int eventId) {
-        return select("pupil_id, pupil_name, class_name, participation_total_marks, (max_marks - min_marks) as max_marks")
+        return select(PWS_FIELDS)
                 .from("""
                         permissions JOIN pupils using(pupil_id)
                             JOIN pupils_classes using(pupil_id)
@@ -301,6 +305,25 @@ public class JDBCEventDao extends JDBCAbstractDao implements EventDao {
                 .getList(JDBCEventDao::makePupilWithScore);
     }
 
+    @Override
+    public List<PupilWithScore> getParticipatingPupils(int contestId, int year) {
+        return select (PWS_FIELDS)
+                .from ("""
+                participations 
+                    JOIN question_sets USING(contest_id, age_group_id)
+                    JOIN events USING (event_id,age_group_id,contest_id)
+                    JOIN pupils using(pupil_id)
+                    JOIN pupils_classes using(pupil_id)
+                    JOIN classes using(class_id,school_id,year_id)
+                """)
+                .where("school_id", getSchoolId())
+                .where("contest_id", contestId)
+                .where("year_id", year)
+                .where("participation_closed")
+                .orderBy("class_name")
+                .orderBy("pupil_name")
+                .getList(JDBCEventDao::makePupilWithScore);
+    }
 
     @Override
     public boolean isOpen(int eventId) {

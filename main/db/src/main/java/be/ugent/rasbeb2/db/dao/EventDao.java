@@ -82,4 +82,11 @@ public interface EventDao {
 
     List<PupilWithScore> getPupilsWithScore(int eventId);
 
+    /**
+     * Get pupils with their scores for all events of the current school,
+     * the given contest in the given year
+     * but only those for which the participation is already closed.
+     */
+    List<PupilWithScore> getParticipatingPupils(int contestId, int year);
+
 }

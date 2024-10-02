@@ -9,7 +9,7 @@
 
 package be.ugent.rasbeb2.db.dto;
 
-public record PupilWithScore(int pupilId, String name, String className, int marks, int maxMarks) {
+public record PupilWithScore(int pupilId, String name, String className, int marks, int maxMarks, boolean hidden) {
 
     public PupilWithScore {
         if (name == null || name.isBlank()) {

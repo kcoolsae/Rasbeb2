@@ -22,7 +22,10 @@ import util.LanguagesWithSelection;
 import util.Table;
 import views.html.teachercontest.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Provides views of questions and feedback for teachers.
@@ -40,7 +43,7 @@ public class TeacherContestDeputy extends TeacherOnlyDeputy {
             }
             Question question = questionDao.getQuestion(questionId, lang);
             boolean showFeedback = contest.contestType() != ContestType.OFFICIAL || contest.status() == ContestStatus.CLOSED;
-            return ok(views.html.contest.teacher_contest.render(cwa, lang, question, headers, showFeedback, this));
+            return ok(views.html.teachercontest.view_question.render(cwa, lang, question, headers, showFeedback, this));
         } else {
             return badRequest();
         }
@@ -63,6 +66,19 @@ public class TeacherContestDeputy extends TeacherOnlyDeputy {
                     dac().getAgeGroupDao().getAgeGroups(contestId, getLanguage()),
                     this
             ));
+    }
+
+    public Result showParticipations(int contestId) {
+        List<PupilWithScore> participatingPupils = dac().getEventDao().getParticipatingPupils(contestId, getCurrentYearId());
+        Map<String,List<PupilWithScore>> map = new TreeMap<>();
+        for (PupilWithScore pupil : participatingPupils) {
+            map.computeIfAbsent(pupil.className(), k -> new ArrayList<>()).add(pupil);
+        }
+        return ok(show_participations.render(
+                dac().getContestDao().getContest(contestId, getLanguage()),
+                map,
+                this
+        ));
     }
 
     public Result listContests() {

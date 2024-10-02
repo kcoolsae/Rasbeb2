@@ -25,6 +25,11 @@
             <h4 class="mt-4 col-auto">@classWithPupils.group.name</h4>
         </div>
         @table(classWithPupils.pupils.size) {
+            <colgroup>
+                <col style="width: 60%;">
+                <col style="width: 15%;">
+                <col style="width: 25%;">
+            </colgroup>
             @th("school.pupil.name", "school.pupil.gender", "school.pupil.password")
         } {
             @foreach.tr(classWithPupils.pupils) { pupil =>
