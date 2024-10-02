@@ -52,4 +52,8 @@ public class TeacherContestController extends TeacherOnlyController<TeacherConte
     public Result showParticipations(Http.Request request, int contestId) {
         return createDeputy(request).showParticipations(contestId);
     }
+
+    public Result toggleHidden(Http.Request request, int contestId, int pupilId) {
+        return createDeputy(request).toggleHidden(contestId, pupilId);
+    }
 }

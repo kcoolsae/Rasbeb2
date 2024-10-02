@@ -81,6 +81,11 @@ public class TeacherContestDeputy extends TeacherOnlyDeputy {
         ));
     }
 
+    public Result toggleHidden(int contestId, int pupilId) {
+        dac().getEventDao().toggleParticipationVisibility(contestId, pupilId);
+        return redirect(routes.TeacherContestController.showParticipations(contestId));
+    }
+
     public Result listContests() {
         return list(getInitialPSF(Contest.Field.TITLE, false));
     }

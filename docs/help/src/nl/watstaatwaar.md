@@ -15,7 +15,8 @@ Leerlingen
 : [Registratie](registratie.md) van leerlingen bij de server.
 
 Wedstrijden
-: Overzicht van alle beschikbare wedstrijden, wedstrijdvragen en oplossingen. Afzonderlijke tabs per leeftijdscategorie.
+: Overzicht van alle beschikbare wedstrijden, wedstrijdvragen en oplossingen. Laat ook toe
+om alle resultaten van één wedstrijd te bekijken (over alle evenementen heen).
 
 School
 : School en geregistreerde leerkrachten. Registreer een collega.

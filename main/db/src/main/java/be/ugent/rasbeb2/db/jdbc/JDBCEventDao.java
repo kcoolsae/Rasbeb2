@@ -334,4 +334,14 @@ public class JDBCEventDao extends JDBCAbstractDao implements EventDao {
                 .where ("contest_status = 'OPEN'::contest_status")
                 .isEmpty();
     }
+
+    @Override
+    public void toggleParticipationVisibility(int contestId, int pupilId) {
+        update("participations")
+                .set("participation_hidden = NOT participation_hidden")
+                .where("pupil_id", pupilId)
+                .where("contest_id", contestId)
+                .where("participation_closed")
+                .execute();
+    }
 }

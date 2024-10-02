@@ -6,7 +6,8 @@
 * in the top level project directory.
 *@
 @import _root_.be.ugent.rasbeb2.db.dto.{Contest, ContestStatus, ContestType, PupilWithScore}
-@(contest: Contest, map: Map[String, List[PupilWithScore]])(implicit deputy: Deputy)
+@import deputies.TeacherOnlyDeputy
+@(contest: Contest, map: Map[String, List[PupilWithScore]])(implicit deputy: TeacherOnlyDeputy)
 
 @css = {
     <style>td:nth-child(2) {
@@ -40,12 +41,16 @@
                         <td>@pupil.name</td>
                         <td>@pupil.marks/@pupil.maxMarks</td>
                     }
-                    <td><a href="" class="btn btn-outline-secondary btn-sm">
-                    @if(pupil.hidden) {
-                        <span class="fa-regular fa-eye"></span>
+                    @if(contest.contestType == ContestType.OFFICIAL && contest.status == ContestStatus.CLOSED && deputy.isActiveYear) {
+                        <td><a href="@controllers.contest.routes.TeacherContestController.toggleHidden(contest.id, pupil.pupilId)" class="btn btn-outline-secondary btn-sm">
+                        @if(pupil.hidden) {
+                            <span class="fa-regular fa-eye"></span>
+                        } else {
+                            <span class="fa-regular fa-eye-slash"></span>
+                        }</a></td>
                     } else {
-                        <span class="fa-regular fa-eye-slash"></span>
-                    }</a></td>
+                        <td></td>
+                    }
                 }
             }
         }

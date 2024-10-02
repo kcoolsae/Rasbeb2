@@ -89,4 +89,8 @@ public interface EventDao {
      */
     List<PupilWithScore> getParticipatingPupils(int contestId, int year);
 
+    /**
+     * Toggle participation visibility, but only for participations that are already closed
+     */
+    void toggleParticipationVisibility(int contestId, int participationId);
 }

@@ -39,3 +39,4 @@ GET     /tq/:lang/:contestId controllers.contest.TeacherContestController.showQu
 GET     /tq/:lang/:contestId/:ageGroupId/:questionId   controllers.contest.TeacherContestController.getContestQuestion(request: Request, lang: String, contestId: Int, ageGroupId: Int, questionId: Int)
 
 GET     /td/:contestId    controllers.contest.TeacherContestController.showParticipations(request: Request, contestId: Int)
+GET     /th/:contestId/:pId          controllers.contest.TeacherContestController.toggleHidden(request: Request, contestId: Int, pId: Int)
