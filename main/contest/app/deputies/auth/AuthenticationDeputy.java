@@ -62,7 +62,7 @@ public class AuthenticationDeputy extends deputies.ContestDeputy {
     }
 
     public Result logout() {
-        LOGGER.info ("{} logout", getCurrentUserId());
+        LOGGER.info ("{} logout", findInSession(Session.ID)); // note that session id can be null here
         success("auth.logout.message");
         return redirect(controllers.auth.routes.HomeController.index()).withNewSession();
     }
