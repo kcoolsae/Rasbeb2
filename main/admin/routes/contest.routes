@@ -43,3 +43,5 @@ GET     /td/d/:contestId    controllers.contest.TeacherContestController.downloa
 GET     /th/:contestId/:pId          controllers.contest.TeacherContestController.toggleHidden(request: Request, contestId: Int, pId: Int)
 
 GET     /te/l/:contestId    controllers.contest.TeacherContestController.showEvents(request: Request, contestId: Int)
+GET     /te/n/:contestId    controllers.contest.TeacherContestController.newEventForm(request: Request, contestId: Int)
+POST    /te/n/:contestId    controllers.contest.TeacherContestController.newEvent(request: Request, contestId: Int)

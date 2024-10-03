@@ -17,8 +17,15 @@ import be.ugent.rasbeb2.db.poi.ScoreSheetWriter;
 import common.LanguageInfo;
 import controllers.contest.routes;
 import deputies.TeacherOnlyDeputy;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import play.data.Form;
+import play.data.format.Formats;
+import play.data.validation.Constraints;
 import play.mvc.Call;
 import play.mvc.Result;
+import play.twirl.api.Html;
 import util.LanguagesWithSelection;
 import util.Table;
 import views.html.teachercontest.*;
@@ -115,6 +122,51 @@ public class TeacherContestDeputy extends TeacherOnlyDeputy {
             return badRequest();
         }
     }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class EventData {
+        @Formats.NonEmpty
+        @Constraints.Required
+        public String title;
+        @Constraints.Min(value=1, message = "event.add.error-age-group-required")
+        public int ageGroupId;
+        public String lang;
+        public EventData() {
+            // needed by Spring beans
+        }
+    }
+
+    private Html newEventRender(int contestId, Form<EventData> form) {
+        ContestDao dao = dac().getContestDao();
+        String lang = getLanguage();
+        return new_event.render(
+                dao.getContest(contestId, lang),
+                form,
+                dac().getAgeGroupDao().getAgeGroups(contestId, lang),
+                LanguageInfo.list(dao.getContestLanguages(contestId)),
+                this
+        );
+    }
+
+    public Result newEventForm(int contestId) {
+        String lang = getLanguage();
+        return ok(newEventRender(contestId, formFromData(new EventData("", 0, lang))));
+    }
+
+    public Result newEvent(int contestId) {
+        Form<EventData> form = formFromRequest(EventData.class);
+        if (form.hasErrors()) {
+            return badRequest(newEventRender(contestId, form));
+        } else {
+            EventData data = form.get();
+            dac().getEventDao().addEvent(contestId, data.ageGroupId, getCurrentYearId(), data.title, data.lang);
+            success("event.add.message");
+            return redirect(routes.TeacherContestController.showEvents(contestId));
+        }
+    }
+
 
     public Result listContests() {
         return list(getInitialPSF(Contest.Field.TITLE, false));

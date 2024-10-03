@@ -71,8 +71,7 @@ public class EventDeputy extends TeacherOnlyDeputy {
         if (form.hasErrors()) {
             return badRequest(); // this should not happen
         } else {
-            String title = form.get().title;
-            dac().getEventDao().addEvent(contestId, ageGroupId, getCurrentYearId(), title, lang);
+            dac().getEventDao().addEvent(contestId, ageGroupId, getCurrentYearId(), form.get().title, lang);
             success("event.add.message");
             return redirect(controllers.home.routes.TeacherHomeController.index());
         }

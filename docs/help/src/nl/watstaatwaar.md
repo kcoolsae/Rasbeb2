@@ -16,7 +16,7 @@ Leerlingen
 
 Wedstrijden
 : Overzicht van alle beschikbare wedstrijden, wedstrijdvragen en oplossingen. Laat ook toe
-om alle resultaten van één wedstrijd te bekijken (over alle evenementen heen).
+om alle resultaten van één wedstrijd te bekijken (over alle evenementen heen) en om een nieuw evenement aan te maken.
 
 School
 : School en geregistreerde leerkrachten. Registreer een collega.
@@ -47,6 +47,10 @@ Klikken op de *Details*-knop van een evenement, biedt je de volgende mogelijkhed
 * Leerlingen inschrijven/uitschrijven voor dat evenement (toelating geven tot deelname)
 * Tijdens het evenement: zien wie deelneemt, leerling extra tijd geven, enz.
 * Na het evenement: resultaten downloaden
+
+Bij het **Wedstrijden**-menu vind je ook een lijst van evenementen terug *voor een specifieke wedstrijd*. Je hebt
+daar ook de mogelijkheid om een nieuw evenement aan te maken *voor die specifieke wedstrijd*, als alternatief voor
+bovenstaande.
 
 #### Voetnoten
 [^1]: Anonimisatie van leerlingen zal wel nog mogelijk zijn voor vroegere schooljaren

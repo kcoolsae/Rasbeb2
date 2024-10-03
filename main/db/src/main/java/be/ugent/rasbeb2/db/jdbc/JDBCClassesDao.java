@@ -62,11 +62,6 @@ public class JDBCClassesDao extends JDBCAbstractDao implements ClassesDao {
                 .orderBy("class_name");
     }
 
-    public Iterable<ClassGroup> getClasses(int yearId) {
-        return selectClasses(yearId)
-                .getList(JDBCClassesDao::makeClass);
-    }
-
     @Override
     public void addClasses(String classes, int yearId) {
         if (!classes.isBlank()) {

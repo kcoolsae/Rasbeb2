@@ -1,0 +1,18 @@
+@* radio_group.scala.html
+* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+*
+* This software is distributed under the MIT License - see files LICENSE and AUTHORS
+* in the top level project directory.
+*@
+@(field: play.api.data.Field, options: Seq[(String, String)], args: (String, Any)*)(implicit handler: B5.FieldBuilder, messages: play.api.i18n.MessagesProvider)
+
+@b5.input(field, "form-check-input", args: _*) { t =>
+    @options.map { o =>
+        <div class='form-check @if(field.hasErrors)("is-invalid")'>
+            <input type="radio" id="@(t.id)_@o._1" name="@t.name" value="@o._1" class="@t.classArg"
+                @if(t.value.contains(o._1))("checked='checked'") @B5.toHtmlArgs(t.args)>
+            <label class="form-check-label" for="@(t.id)_@o._1">@o._2</label>
+        </div>
+    }
+}

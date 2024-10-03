@@ -321,7 +321,7 @@ public class JDBCEventDao extends JDBCAbstractDao implements EventDao {
     public List<PupilWithScore> getParticipatingPupils(int contestId, int year) {
         return select (PWS_FIELDS)
                 .from ("""
-                participations 
+                participations
                     JOIN question_sets USING(contest_id, age_group_id)
                     JOIN events USING (event_id,age_group_id,contest_id)
                     JOIN pupils using(pupil_id)

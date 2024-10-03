@@ -152,8 +152,8 @@ class EventDaoTest extends TeacherDaoTest {
         dao.closeEvent(7); // restricted contest
         List<PupilWithScore> actual = dao.getPupilsWithScore(7);
         List<PupilWithScore> expected = List.of(
-                new PupilWithScore(5, "Pupil 5", "3b", 10, 24, ),
-                new PupilWithScore(6, "Pupil 6", "3b", 0, 0, )
+                new PupilWithScore(5, "Pupil 5", "3b", 10, 24, false),
+                new PupilWithScore(6, "Pupil 6", "3b", 0, 0, false)
         );
         assertThat(actual).isEqualTo(expected);
     }

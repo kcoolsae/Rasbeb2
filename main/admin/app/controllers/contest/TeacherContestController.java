@@ -64,4 +64,14 @@ public class TeacherContestController extends TeacherOnlyController<TeacherConte
     public Result showEvents(Http.Request request, int contestId) {
         return createDeputy(request).showEvents(contestId);
     }
+
+    public Result newEventForm (Http.Request request, int contestId) {
+        return createDeputy(request).newEventForm(contestId);
+    }
+
+    public Result newEvent (Http.Request request, int contestId) {
+        return createDeputy(request).newEvent(contestId);
+    }
+
+
 }

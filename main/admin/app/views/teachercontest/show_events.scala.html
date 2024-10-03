@@ -7,10 +7,18 @@
 *@
 @import _root_.be.ugent.rasbeb2.db.dto.{Contest,Event}
 @import views.html.be.ugent.caagt.play.ext.i18n
-@(contest: Contest, events: List[Event])(implicit deputy: Deputy)
+@import deputies.TeacherOnlyDeputy
+@(contest: Contest, events: List[Event])(implicit deputy: TeacherOnlyDeputy)
 @layout.teacher("tcev") {
     @_submenu("events", contest)
-    @* TODO inactive vs active *@
+    @if(deputy.isActiveYear) {
+        <div class="row">
+            <div class="col-auto ms-auto">
+                <a href="@controllers.contest.routes.TeacherContestController.newEventForm(contest.id)"
+                   class="btn btn-outline-primary">@i18n("event.add.link")</a>
+            </div>
+        </div>
+    }
     @table(events.size) {
         @th("event.events.title", "event.events.age-group", "event.events.language", "event.events.status", "")
     } {

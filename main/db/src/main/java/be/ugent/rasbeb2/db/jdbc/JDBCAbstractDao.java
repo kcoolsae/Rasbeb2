@@ -31,7 +31,4 @@ public class JDBCAbstractDao extends BaseDAO {
         return getContext().getSchoolId();
     }
 
-    public Role getRole() {
-        return getContext().getRole();
-    }
 }

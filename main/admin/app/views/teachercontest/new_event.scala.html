@@ -1,0 +1,19 @@
+@import _root_.be.ugent.rasbeb2.db.dto.{AgeGroup, Contest}
+@import common.LanguageInfo
+@import deputies.contest.TeacherContestDeputy.EventData
+@(contest: Contest, f: Form[EventData], ageGroups: List[AgeGroup], languages: List[LanguageInfo])(implicit deputy: Deputy)
+@layout.teacher("tcef") {
+    @_submenu("events", contest)
+
+    @h4("event.add.title")
+    <div class="row">
+        <div class="col-auto p-4">
+        @form(action = controllers.contest.routes.TeacherContestController.newEvent(contest.id)) {
+            @b5.text(f("title"), "_label" -> "event.add.name", "required" -> None)
+            @b5.radio_group(f("ageGroupId"), ageGroups.map(a => (a.id.toString, s"${a.description} (${a.name})")).toSeq, "_label" -> "event.add.age-group")
+            @b5.select(f("lang"), languages.map(l => (l.code, l.name)).toSeq, "_label" -> "event.add.language")
+            @b5.submit("event.add.caption.add")
+        }
+        </div>
+    </div>
+}
