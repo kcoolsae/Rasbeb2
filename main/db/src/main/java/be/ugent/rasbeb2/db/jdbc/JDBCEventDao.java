@@ -65,7 +65,7 @@ public class JDBCEventDao extends JDBCAbstractDao implements EventDao {
         );
     }
 
-    public SelectSQLStatement selectEvents() {
+    private SelectSQLStatement selectEvents() {
         return select("""
                     event_id, event_title, contest_title, lang, age_group_name,
                     event_status, contest_id, contest_status, contest_type""")
@@ -75,11 +75,23 @@ public class JDBCEventDao extends JDBCAbstractDao implements EventDao {
                           LEFT JOIN contests_i18n USING(contest_id, lang)""");
     }
 
-    @Override
-    public List<Event> listEvents(int yearId) {
+    private SelectSQLStatement selectEventsSchoolYear(int yearId) {
         return selectEvents()
                 .where("school_id", getSchoolId())
-                .where("year_id", yearId)
+                .where("year_id", yearId);
+    }
+
+    @Override
+    public List<Event> listEvents(int yearId) {
+        return selectEventsSchoolYear(yearId)
+                .orderBy("event_id")
+                .getList(JDBCEventDao::makeEvent);
+    }
+
+    @Override
+    public List<Event> listEventsForContest(int contestId, int yearId) {
+        return selectEventsSchoolYear(yearId)
+                .where("contest_id", contestId)
                 .orderBy("event_id")
                 .getList(JDBCEventDao::makeEvent);
     }

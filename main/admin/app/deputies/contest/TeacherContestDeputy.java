@@ -13,6 +13,7 @@ import be.ugent.caagt.play.binders.PSF;
 import be.ugent.rasbeb2.db.dao.ContestDao;
 import be.ugent.rasbeb2.db.dao.QuestionDao;
 import be.ugent.rasbeb2.db.dto.*;
+import be.ugent.rasbeb2.db.poi.ScoreSheetWriter;
 import common.LanguageInfo;
 import controllers.contest.routes;
 import deputies.TeacherOnlyDeputy;
@@ -69,14 +70,27 @@ public class TeacherContestDeputy extends TeacherOnlyDeputy {
     }
 
     public Result showParticipations(int contestId) {
-        List<PupilWithScore> participatingPupils = dac().getEventDao().getParticipatingPupils(contestId, getCurrentYearId());
-        Map<String,List<PupilWithScore>> map = new TreeMap<>();
-        for (PupilWithScore pupil : participatingPupils) {
-            map.computeIfAbsent(pupil.className(), k -> new ArrayList<>()).add(pupil);
+        Contest contest = dac().getContestDao().getContest(contestId, getLanguage());
+        if (contest.status() == ContestStatus.CLOSED || contest.contestType() != ContestType.OFFICIAL) {
+            List<PupilWithScore> participatingPupils = dac().getEventDao().getParticipatingPupils(contestId, getCurrentYearId());
+            Map<String, List<PupilWithScore>> map = new TreeMap<>();
+            for (PupilWithScore pupil : participatingPupils) {
+                map.computeIfAbsent(pupil.className(), k -> new ArrayList<>()).add(pupil);
+            }
+            return ok(show_participations.render(
+                    contest,
+                    map,
+                    this
+            ));
+        } else {
+            return badRequest();
         }
-        return ok(show_participations.render(
+    }
+
+    public Result showEvents(int contestId) {
+        return ok (show_events.render(
                 dac().getContestDao().getContest(contestId, getLanguage()),
-                map,
+                dac().getEventDao().listEventsForContest(contestId,getCurrentYearId()),
                 this
         ));
     }
@@ -84,6 +98,22 @@ public class TeacherContestDeputy extends TeacherOnlyDeputy {
     public Result toggleHidden(int contestId, int pupilId) {
         dac().getEventDao().toggleParticipationVisibility(contestId, pupilId);
         return redirect(routes.TeacherContestController.showParticipations(contestId));
+    }
+
+    public Result downloadScores(int contestId) {
+        Contest contest = dac().getContestDao().getContest(contestId, getLanguage());
+        if (contest.status() == ContestStatus.CLOSED || contest.contestType() != ContestType.OFFICIAL) {
+            String title = contest.title(); // TODO getContestTitle?
+            List<PupilWithScore> pupils = dac().getEventDao().getParticipatingPupils(contestId, getCurrentYearId());
+            return ok(new ScoreSheetWriter(this::i18n).write(pupils, title))
+                    .as("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                    .withHeader(
+                            "Content-Disposition",
+                            "attachment; filename=" + i18n("spreadsheet.filename.scores") + "-c-" + contestId + ".xlsx"
+                    );
+        } else {
+            return badRequest();
+        }
     }
 
     public Result listContests() {

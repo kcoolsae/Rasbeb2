@@ -22,6 +22,12 @@ public interface EventDao {
      */
     List<Event> listEvents(int yearId);
 
+    /**
+     * List the events for the school of the current user, linked to the given contest,
+     * in the given year
+     */
+    List<Event> listEventsForContest(int contestId, int yearId);
+
     String getEventTitle(int eventId);
 
     EventHeader getEventHeader (int eventId);

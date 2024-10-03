@@ -38,5 +38,8 @@ GET     /tg/:contestId  controllers.contest.TeacherContestController.getContest(
 GET     /tq/:lang/:contestId controllers.contest.TeacherContestController.showQuestions(request: Request, lang: String, contestId: Int)
 GET     /tq/:lang/:contestId/:ageGroupId/:questionId   controllers.contest.TeacherContestController.getContestQuestion(request: Request, lang: String, contestId: Int, ageGroupId: Int, questionId: Int)
 
-GET     /td/:contestId    controllers.contest.TeacherContestController.showParticipations(request: Request, contestId: Int)
+GET     /td/l/:contestId    controllers.contest.TeacherContestController.showParticipations(request: Request, contestId: Int)
+GET     /td/d/:contestId    controllers.contest.TeacherContestController.downloadScores(request: Request, contestId: Int)
 GET     /th/:contestId/:pId          controllers.contest.TeacherContestController.toggleHidden(request: Request, contestId: Int, pId: Int)
+
+GET     /te/l/:contestId    controllers.contest.TeacherContestController.showEvents(request: Request, contestId: Int)

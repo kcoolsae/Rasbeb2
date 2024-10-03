@@ -1,0 +1,27 @@
+@* show_events.scala.html
+* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+*
+* This software is distributed under the MIT License - see files LICENSE and AUTHORS
+* in the top level project directory.
+*@
+@import _root_.be.ugent.rasbeb2.db.dto.{Contest,Event}
+@import views.html.be.ugent.caagt.play.ext.i18n
+@(contest: Contest, events: List[Event])(implicit deputy: Deputy)
+@layout.teacher("tcev") {
+    @_submenu("events", contest)
+    @* TODO inactive vs active *@
+    @table(events.size) {
+        @th("event.events.title", "event.events.age-group", "event.events.language", "event.events.status", "")
+    } {
+        @foreach.tr(events) { event =>
+            <td>@event.header.title</td>
+            <td>@event.header.ageGroupName</td>
+            <td>@LanguageInfo.get(event.header.lang).name</td>
+            <td>@i18n("enum.status." + event.eventStatus.name)</td>
+            <td><a href="@controllers.event.routes.EventController.getEvent(event.id)" class="btn btn-outline-primary">@i18n("event.events.details")</a></td>
+        }
+    }
+    <p class="text-body-secondary">@i18n.html("contest.events.footer")</p>
+
+}

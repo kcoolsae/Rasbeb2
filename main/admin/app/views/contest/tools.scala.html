@@ -24,7 +24,8 @@
 
     @if(contest.status == ContestStatus.CLOSED) {
         @h4("contest.winners.title")
-        <p><a href="@controllers.contest.routes.ContestToolsController.printWinners(contest.id)">@i18n("contest.winners.link")</a></p>
+        <p><a href="@controllers.contest.routes.ContestToolsController.printWinners(contest.id)"
+              target="_blank">@i18n("contest.winners.link")</a></p>
     }
 
     @if(contest.contestType == ContestType.OFFICIAL) {

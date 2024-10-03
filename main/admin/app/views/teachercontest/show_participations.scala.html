@@ -7,6 +7,8 @@
 *@
 @import _root_.be.ugent.rasbeb2.db.dto.{Contest, ContestStatus, ContestType, PupilWithScore}
 @import deputies.TeacherOnlyDeputy
+@import controllers.contest.routes
+
 @(contest: Contest, map: Map[String, List[PupilWithScore]])(implicit deputy: TeacherOnlyDeputy)
 
 @css = {
@@ -21,6 +23,7 @@
         @p("contest.participations.official")
     } else {
         @p("contest.participations.only-closed")
+        <a class="btn btn-primary" href="@routes.TeacherContestController.downloadScores(contest.id)">@i18n("spreadsheet.caption.download-scores")</a>
         @foreach(map.keySet) { className =>
             <hr>
             <h4>@className</h4>
@@ -42,7 +45,7 @@
                         <td>@pupil.marks/@pupil.maxMarks</td>
                     }
                     @if(contest.contestType == ContestType.OFFICIAL && contest.status == ContestStatus.CLOSED && deputy.isActiveYear) {
-                        <td><a href="@controllers.contest.routes.TeacherContestController.toggleHidden(contest.id, pupil.pupilId)" class="btn btn-outline-secondary btn-sm">
+                        <td><a href="@routes.TeacherContestController.toggleHidden(contest.id, pupil.pupilId)" class="btn btn-outline-secondary btn-sm">
                         @if(pupil.hidden) {
                             <span class="fa-regular fa-eye"></span>
                         } else {

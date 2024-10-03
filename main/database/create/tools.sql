@@ -50,7 +50,9 @@ CREATE OR REPLACE FUNCTION winners(
 DECLARE
     rank INTEGER;
 BEGIN
-    SELECT participation_total_marks FROM participations WHERE contest_id = c_id AND age_group_id = a_id
+    SELECT participation_total_marks
+    FROM participations
+    WHERE contest_id = c_id AND age_group_id = a_id AND NOT participation_hidden
     ORDER BY participation_total_marks DESC OFFSET n-1 LIMIT 1 INTO rank;
     RETURN QUERY
         SELECT pupils.pupil_name, schools.school_name, schools.school_town, participation_total_marks
@@ -60,7 +62,8 @@ BEGIN
                  JOIN schools USING (school_id)
         WHERE participation_total_marks >= rank AND
             contest_id = c_id AND
-            age_group_id = a_id
+            age_group_id = a_id AND
+            NOT participation_hidden
         ORDER BY participation_total_marks DESC, schools.school_name;
 END;
 $$ LANGUAGE plpgsql;
