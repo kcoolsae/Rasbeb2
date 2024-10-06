@@ -17,7 +17,8 @@
 @layout.organiser("regl") {
     @h1("auth.registration-list.title")
     @paged(table, registrations.getFullSize) {
-        @submit("auth.registration-list.caption.delete-expired",tp="outline-primary")
+            <button type="submit" name="delete" value="[remove]"
+            class="btn btn-outline-primary">@i18n("auth.registration-list.caption.delete-expired")</button>
     }(_.columns(EMAIL -> "common.email",SCHOOL -> "common.school",EXPIRE -> "auth.registration-list.expiry-date")){
     @foreach.tr(registrations.getList) { registration =>
         <td>@registration.email</td>

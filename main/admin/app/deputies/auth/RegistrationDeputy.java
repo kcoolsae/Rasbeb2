@@ -244,7 +244,7 @@ public class RegistrationDeputy extends EmailSendingDeputy {
                 return redirect(routes.RegistrationController.list(
                         psf.refilter(getStringMapFromForm(Registration.Field.class))
                 ));
-            } else if (data.delete.equals("remove")) {
+            } else if (data.delete.equals("[remove]")) {
                 dac().getRegistrationDao().deleteExpiredRegistrations();
             } else {
                 dac().getRegistrationDao().deleteRegistration(data.delete);
