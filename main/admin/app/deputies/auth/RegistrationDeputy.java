@@ -95,7 +95,7 @@ public class RegistrationDeputy extends EmailSendingDeputy {
                 // delete token
                 registrationDao.deletePasswordRequest(data.email);
                 success("auth.registration.success");
-                return redirect(controllers.home.routes.HomeController.index());
+                return redirect(controllers.home.routes.HomeController.index()).withNewSession();
             } else {
                 error("auth.registration.error");
                 return badRequest(registrationInfo.render(
@@ -183,7 +183,7 @@ public class RegistrationDeputy extends EmailSendingDeputy {
                 // add link to school
                 userDao.createTeacher(userId, schoolId);
                 success("auth.registration.success");
-                return redirect(controllers.home.routes.HomeController.index());
+                return redirect(controllers.home.routes.HomeController.index()).withNewSession();
             } else {
                 error("auth.registration.failed");
                 return badRequest(registrationInfo.render(
