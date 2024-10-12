@@ -134,7 +134,9 @@ public class RegistrationDeputy extends EmailSendingDeputy {
     public Result organiserRegisterTeacher(int schoolId) {
         Form<EmailData> form = formFromRequest(EmailData.class);
         if (form.hasErrors()) {
-            return badRequest();
+            // when e-mailaddress is invalid
+            error("auth.registration-request.error");
+            return redirect (controllers.organiser.routes.SchoolController.getSchool(schoolId));
         } else {
             sendRegistrationMail(schoolId, form.get().email);
             return redirect(routes.RegistrationController.listRegistrations());
@@ -147,12 +149,12 @@ public class RegistrationDeputy extends EmailSendingDeputy {
     public Result registerTeacher() {
         Form<EmailData> form = formFromRequest(EmailData.class);
         if (form.hasErrors()) {
-            // this should not happen
-            return badRequest();
+            // when e-mailaddress is invalid
+            error("auth.registration-request.error");
         } else {
             sendRegistrationMail(getCurrentSchoolId(), form.get().email);
-            return redirect(controllers.teacher.routes.TeacherController.getSchool());
         }
+        return redirect(controllers.teacher.routes.TeacherController.getSchool());
     }
 
     public Result teacherInfo(String token, int schoolId) {
