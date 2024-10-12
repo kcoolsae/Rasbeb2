@@ -6,17 +6,19 @@
  * in the top level project directory.
  *@
 @import _root_.be.ugent.rasbeb2.db.dto.Year
-@import deputies.organiser.TeacherDeputy.YearIdData
-@(years: List[Year], f: Form[YearIdData])(implicit deputy: Deputy)
+@import deputies.organiser.TeacherDeputy.YearLanguageData
+@import deputies.organiser.TeacherDeputy
+@(years: List[Year], f: Form[YearLanguageData])(implicit deputy: TeacherDeputy)
 
 @layout.organiser("tchl") {
     @h1("school.teacher-emails.title")
 
     <p>@i18n("school.teacher-emails.description")</p>
-    @b5.form(controllers.organiser.routes.TeacherController.listEmails(), "target" -> "_blank") {
+    @b5.form(controllers.organiser.routes.TeacherController.listEmails(), "target" -> "emails") {
         <div class="row align-items-baseline">
             <div class="col-auto">
             @b5.select(f("yearId"), years.map(y => (y.id.toString, y.name)).toSeq, "_label" -> "school.teacher-emails.year")
+                @b5.select(f("language"), deputy.getUILanguagesInfo.map(l => (l.code, l.name)).toSeq, "_label" -> "school.teacher-emails.language")
             @b5.submit("school.teacher-emails.caption")
             </div>
         </div>

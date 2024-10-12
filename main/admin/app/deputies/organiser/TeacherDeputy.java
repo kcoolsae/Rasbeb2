@@ -120,10 +120,11 @@ public class TeacherDeputy extends OrganiserOnlyDeputy {
     @Getter
     @Setter
     @AllArgsConstructor
-    public static class YearIdData {
+    public static class YearLanguageData {
         public int yearId;
+        public String language;
 
-        public YearIdData() {
+        public YearLanguageData() {
             // needed by Spring
         }
 
@@ -136,7 +137,7 @@ public class TeacherDeputy extends OrganiserOnlyDeputy {
         List<Year> years = dac().getYearDao().listAllYears();
         return ok (views.html.teacher.teacher_emails.render(
                 years,
-                formFromData(new YearIdData(years.getFirst().id())),
+                formFromData(new YearLanguageData(years.getFirst().id(), getLanguage())),
                 this
         ));
     }
@@ -146,12 +147,13 @@ public class TeacherDeputy extends OrganiserOnlyDeputy {
      * a given year.
      */
     public Result listEmails() {
-        Form<YearIdData> form = formFromRequest(YearIdData.class);
+        Form<YearLanguageData> form = formFromRequest(YearLanguageData.class);
         if (form.hasErrors()) {
             return badRequest();
         } else {
+            YearLanguageData data = form.get();
             return ok(
-                    dac().getSchoolDao().listTeacherEmails(form.get().yearId).stream().map(email -> email + "\n").collect(Collectors.joining())
+                    dac().getSchoolDao().listTeacherEmails(data.yearId, data.language).stream().map(email -> email + "\n").collect(Collectors.joining())
             ).as("text/plain");
         }
     }
