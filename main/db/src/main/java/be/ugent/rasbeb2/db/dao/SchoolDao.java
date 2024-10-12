@@ -68,5 +68,8 @@ public interface SchoolDao {
 
     void disableTeacher(int userId);
 
-
+    /**
+     * Returns the emails of all teachers for schools that have opened an event in the given year.
+     */
+    List<String> listTeacherEmails(int yearId);
 }

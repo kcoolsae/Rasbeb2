@@ -1,0 +1,24 @@
+@* list_years.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+@import _root_.be.ugent.rasbeb2.db.dto.Year
+@import deputies.organiser.TeacherDeputy.YearIdData
+@(years: List[Year], f: Form[YearIdData])(implicit deputy: Deputy)
+
+@layout.organiser("tchl") {
+    @h1("school.teacher-emails.title")
+
+    <p>@i18n("school.teacher-emails.description")</p>
+    @b5.form(controllers.organiser.routes.TeacherController.listEmails(), "target" -> "_blank") {
+        <div class="row align-items-baseline">
+            <div class="col-auto">
+            @b5.select(f("yearId"), years.map(y => (y.id.toString, y.name)).toSeq, "_label" -> "school.teacher-emails.year")
+            @b5.submit("school.teacher-emails.caption")
+            </div>
+        </div>
+    }
+}

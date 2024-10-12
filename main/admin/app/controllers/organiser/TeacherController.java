@@ -45,4 +45,12 @@ public class TeacherController extends OrganiserOnlyController<TeacherDeputy> {
         return createDeputy(request).action(psf);
     }
 
+    public Result listEmailsShow(Http.Request request) {
+        return createDeputy(request).listEmailsShow();
+    }
+
+    public Result listEmails(Http.Request request) {
+        return createDeputy(request).listEmails();
+    }
+
 }

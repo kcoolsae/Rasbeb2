@@ -136,4 +136,11 @@ public class JDBCSchoolDao extends JDBCAbstractDao implements SchoolDao {
         return new JDBCTeacherFinder(selectTeachersWithSchool());
     }
 
+    @Override
+    public List<String> listTeacherEmails(int yearId) {
+        return select("distinct user_email")
+                .from("users JOIN teachers USING(user_id) JOIN schools USING(school_id) JOIN events USING(school_id)")
+                .where("year_id", yearId)
+                .getList(rs -> rs.getString("user_email"));
+    }
 }

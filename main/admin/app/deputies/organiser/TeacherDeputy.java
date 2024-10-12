@@ -12,8 +12,10 @@ package deputies.organiser;
 import be.ugent.caagt.play.binders.PSF;
 import be.ugent.rasbeb2.db.dto.TeacherWithSchool;
 import be.ugent.rasbeb2.db.dto.User;
+import be.ugent.rasbeb2.db.dto.Year;
 import common.Session;
 import deputies.OrganiserOnlyDeputy;
+import lombok.AllArgsConstructor;
 import util.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,7 +25,9 @@ import play.mvc.Result;
 import views.html.teacher.list_teachers;
 import controllers.organiser.routes;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TeacherDeputy extends OrganiserOnlyDeputy {
 
@@ -113,4 +117,42 @@ public class TeacherDeputy extends OrganiserOnlyDeputy {
         }
     }
 
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class YearIdData {
+        public int yearId;
+
+        public YearIdData() {
+            // needed by Spring
+        }
+
+    }
+
+    /**
+     * Show page form which a list of email addresses can be obtained.
+     */
+    public Result listEmailsShow() {
+        List<Year> years = dac().getYearDao().listAllYears();
+        return ok (views.html.teacher.teacher_emails.render(
+                years,
+                formFromData(new YearIdData(years.getFirst().id())),
+                this
+        ));
+    }
+
+    /**
+     * List the email addresses of all teachers from schools that organised one or more events in
+     * a given year.
+     */
+    public Result listEmails() {
+        Form<YearIdData> form = formFromRequest(YearIdData.class);
+        if (form.hasErrors()) {
+            return badRequest();
+        } else {
+            return ok(
+                    dac().getSchoolDao().listTeacherEmails(form.get().yearId).stream().map(email -> email + "\n").collect(Collectors.joining())
+            ).as("text/plain");
+        }
+    }
 }

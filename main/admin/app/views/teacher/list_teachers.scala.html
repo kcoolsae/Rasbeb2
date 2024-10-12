@@ -16,6 +16,12 @@
 @(teachers: Page[TeacherWithSchool], table: Table)(implicit deputy: Deputy)
 @layout.organiser("tchl") {
     @h1("school.teachers.title")
+
+    <div class="mb-3">
+        @i18n("common.see-also"):
+        <a href="@controllers.organiser.routes.TeacherController.listEmailsShow()" >@i18n("school.teacher-emails.link")</a>
+    </div>
+
     @paged(table, teachers.getFullSize) {
     }(_.columns(NAME -> "school.teachers.name",EMAIL -> "school.teachers.email",SCHOOL_NAME -> "school.teachers.school",TOWN -> "school.teachers.town", DISABLED -> "school.teachers.status")){
     @foreach.tr(teachers.getList) { teacher =>

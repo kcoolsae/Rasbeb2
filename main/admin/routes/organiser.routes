@@ -13,3 +13,5 @@ POST    /tch/p/d/:userId    controllers.organiser.TeacherController.disableTeach
 GET     /tch/p/l            controllers.organiser.TeacherController.list(request: Request, psf: PSF)
 POST    /tch/p/r            controllers.organiser.TeacherController.resize(request: Request, psf: PSF)
 POST    /tch/p/a            controllers.organiser.TeacherController.action(request: Request, psf: PSF)
+GET     /tch/e         controllers.organiser.TeacherController.listEmailsShow(request: Request)
+POST    /tch/e         controllers.organiser.TeacherController.listEmails(request: Request)
