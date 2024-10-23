@@ -28,6 +28,8 @@ Lege rijen en rijen waarvan de eerste cel begint met # worden genegeerd. Elke an
 * Kolom **C**: het **gender** van de leerlingen - M, V of X. Dit wordt enkel gebruikt voor
   de internationale Bebras-statistieken. Je kan X gebruiken als je de privacy van de leerling wil beschermen.
 
+**Opgelet!** Het werkblad mag *geen formules* bevatten!
+
 Je hoeft niet alle leerlingen in één bestand te plaatsen of in één keer te uploaden. 
 Hetzelfde bestand mag leerlingen bevatten uit verschillende klassen.
 
