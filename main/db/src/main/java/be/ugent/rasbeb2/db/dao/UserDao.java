@@ -69,4 +69,11 @@ public interface UserDao {
      * Returns whether the given email address is known in the database.
      */
     boolean isKnownEmailAddress(String email);
+
+    /**
+     * Returns the user with a given e-mail address, or null if no such
+     * user exists. Used to check registration does not happen for existing user.
+     */
+    User findUserByEmail(String email);
+
 }

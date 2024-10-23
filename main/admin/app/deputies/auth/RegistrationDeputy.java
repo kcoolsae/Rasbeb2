@@ -9,12 +9,12 @@
 
 package deputies.auth;
 
-import be.ugent.caagt.dao.UniqueViolation;
 import be.ugent.caagt.play.binders.PSF;
 import be.ugent.rasbeb2.db.dao.RegistrationDao;
 import be.ugent.rasbeb2.db.dao.UserDao;
 import be.ugent.rasbeb2.db.dto.Registration;
 import be.ugent.rasbeb2.db.dto.Role;
+import be.ugent.rasbeb2.db.dto.User;
 import controllers.auth.routes;
 import lombok.Getter;
 import lombok.Setter;
@@ -59,7 +59,7 @@ public class RegistrationDeputy extends EmailSendingDeputy {
                     form.get().email,
                     i18n("init.mail.text",
                             hostUri() +
-                            routes.RegistrationController.firstOrganiserInfo(token)
+                                    routes.RegistrationController.firstOrganiserInfo(token)
                     )
             );
             success("init.message");
@@ -106,26 +106,15 @@ public class RegistrationDeputy extends EmailSendingDeputy {
         }
     }
 
-    public void sendRegistrationMail(int schoolId, String email) {
-        try {
-            String token = dac().getRegistrationDao().addRegistration(email, schoolId);
-            sendEmail(
-                    i18n("auth.registration-request.mail.subject"),
-                    email,
-                    i18n("auth.registration-request.mail.text",
-                            hostUri() +
-                                    routes.RegistrationController.teacherInfo(token, schoolId)
-                    )
-            );
-        } catch (UniqueViolation ex) {
-            sendEmail(
-                    i18n("auth.registration-request.mail-exists.subject"),
-                    email,
-                    i18n("auth.registration-request.mail-exists.text", request.remoteAddress())
-            );
-        } finally {
-            success("auth.registration-request.message");
-        }
+    private void sendRegistrationMail(int schoolId, String email) {
+        String token = dac().getRegistrationDao().addRegistration(email, schoolId);
+        sendEmail(
+                i18n("auth.registration-request.mail.subject"),
+                email,
+                i18n("auth.registration-request.mail.text",
+                        hostUri() + routes.RegistrationController.teacherInfo(token, schoolId)
+                )
+        );
     }
 
     /**
@@ -136,11 +125,19 @@ public class RegistrationDeputy extends EmailSendingDeputy {
         if (form.hasErrors()) {
             // when e-mailaddress is invalid
             error("auth.registration-request.error");
-            return redirect (controllers.organiser.routes.SchoolController.getSchool(schoolId));
+            // falls through
         } else {
-            sendRegistrationMail(schoolId, form.get().email);
-            return redirect(routes.RegistrationController.listRegistrations());
+            String email = form.get().email;
+            if (dac().getUserDao().isKnownEmailAddress(email)) {
+                error("auth.registration-request.error-exists");
+                // falls through
+            } else {
+                sendRegistrationMail(schoolId, email);
+                success("auth.registration-request.message");
+                return redirect(routes.RegistrationController.listRegistrations());
+            }
         }
+        return redirect(controllers.organiser.routes.SchoolController.getSchool(schoolId));
     }
 
     /**
@@ -152,7 +149,19 @@ public class RegistrationDeputy extends EmailSendingDeputy {
             // when e-mailaddress is invalid
             error("auth.registration-request.error");
         } else {
-            sendRegistrationMail(getCurrentSchoolId(), form.get().email);
+            int schoolId = getCurrentSchoolId();
+            String email = form.get().email;
+            User user = dac().getUserDao().findUserByEmail(email);
+            if (user == null) {
+                sendRegistrationMail(schoolId, email);
+            } else {
+                sendEmail(
+                        i18n("auth.registration-request.mail-exists.subject"),
+                        email,
+                        i18n("auth.registration-request.mail-exists.text", request.remoteAddress())
+                );
+            }
+            success("auth.registration-request.message");
         }
         return redirect(controllers.teacher.routes.TeacherController.getSchool());
     }
@@ -187,7 +196,7 @@ public class RegistrationDeputy extends EmailSendingDeputy {
                 success("auth.registration.success");
                 return redirect(controllers.home.routes.HomeController.index()).withNewSession();
             } else {
-                error("auth.registration.failed");
+                error("auth.registration.error");
                 return badRequest(registrationInfo.render(
                         routes.RegistrationController.registerTeacherInfo(token, schoolId),
                         form, token, this

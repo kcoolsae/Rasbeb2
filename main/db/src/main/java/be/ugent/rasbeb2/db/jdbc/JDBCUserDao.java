@@ -9,6 +9,7 @@
 
 package be.ugent.rasbeb2.db.jdbc;
 
+import be.ugent.caagt.dao.helper.SelectSQLStatement;
 import be.ugent.rasbeb2.db.dao.UserDao;
 import be.ugent.rasbeb2.db.dto.Pupil;
 import be.ugent.rasbeb2.db.dto.Role;
@@ -147,12 +148,24 @@ public class JDBCUserDao extends JDBCAbstractDao implements UserDao {
                 .getOneInt();
     }
 
+    private SelectSQLStatement selectUser() {
+        SelectSQLStatement users = select("user_id, user_name, user_email, user_role, user_password_salt, user_password_hash, user_disabled")
+                .from("users");
+        return users;
+    }
+
     @Override
     public User getUser(int userId) {
-        return select("user_id, user_name, user_email, user_role, user_password_salt, user_password_hash, user_disabled")
-                .from("users")
+        return selectUser()
                 .where("user_id", userId)
                 .getOneObject(JDBCUserDao::makeUser);
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+        return selectUser()
+                .where("user_email", email.toLowerCase().strip())
+                .getObject(JDBCUserDao::makeUser);
     }
 
     @Override
