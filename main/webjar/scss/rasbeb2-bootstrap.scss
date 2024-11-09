@@ -1,5 +1,4 @@
-/*!
- * rasbeb2-bootstrap.scss
+/* rasbeb2-bootstrap.scss
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
  *
@@ -13,6 +12,7 @@
 @import "../bootstrap/node_modules/bootstrap/scss/functions";
 
 // 2. Include any default variable overrides here
+$form-check-input-border:  var(--bs-border-width) solid #0d6efd;
 
 // 3. Include remainder of required Bootstrap stylesheets
 @import "../bootstrap/node_modules/bootstrap/scss/variables";
