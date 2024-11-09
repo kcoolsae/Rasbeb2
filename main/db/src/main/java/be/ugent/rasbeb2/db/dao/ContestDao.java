@@ -101,6 +101,8 @@ public interface ContestDao {
         // note that magicQ and magicF are null when no page is yet uploaded for that language
     }
 
+    // TODO? Move to a separate dao?
+
     /**
      * Get the question links for the given contest and language.
      */
@@ -115,4 +117,12 @@ public interface ContestDao {
      */
     List<Winner> getWinners(int contestId, int ageGroupId, int count);
 
+    record Count (int ageGroupId, String lang, int count) {
+
+    }
+
+    /**
+     * Participation counts for the given contest
+     */
+    List<Count> getCounts(int contestId);
 }

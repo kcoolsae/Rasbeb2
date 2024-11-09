@@ -1,0 +1,60 @@
+@* organiser_contest_extended.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.Contest
+@import deputies.contest.ContestDeputy
+@import deputies.contest.ContestDeputy.{StatusData,AgeGroupWithCounts}
+@import views.html.be.ugent.caagt.play.ext.i18n
+@import views.html.contest._
+@import common.LanguageInfo
+@(f: Form[StatusData], contest: Contest, languages: List[LanguageInfo],
+        contents: List[AgeGroupWithCounts], totals: List[Integer] )(implicit deputy: ContestDeputy)
+
+@css={
+    <style>
+    .table td, .table thead th {
+        text-align: right;
+    }
+    </style>
+}
+
+@layout.organiser("cntx",css=css) {
+    @_organiser_submenu("overview", contest)
+
+    @i18n.html("contest.description-long." + contest.contestType)
+    <div class="card p-3">@_contest_status_form(f, contest)</div>
+
+    @h4("contest.counts.title")
+
+    <table class="table mt2">
+        <thead>
+            <tr>
+                <th></th>
+                @foreach(languages) { l =>
+                    <th>@l.name</th>
+                }
+                @th("contest.counts.column-total")
+            </tr>
+        </thead>
+        <tbody>
+            @foreach.tr(contents) { c =>
+                <th>@c.ageGroup</th>
+                @foreach(c.counts) { l =>
+                    <td>@l</td>
+                }
+            }
+            <tr>
+                @th("contest.counts.row-total")
+                @foreach(totals) { l =>
+                    <td>@l</td>
+                }
+            </tr>
+        </tbody>
+    </table>
+
+}
