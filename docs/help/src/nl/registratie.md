@@ -3,8 +3,11 @@ Leerlingen registreren bij de server
 {% include _menu_nl.md %}
 
 ---
-Leerlingen kunnen in groep geregistreerd worden bij de server[^1] door het uploaden van een Excel-bestand. Hoe dan ook moet eerst de *klas* van de
+Leerlingen kunnen in groep geregistreerd worden bij de server door het uploaden van een Excel-bestand. Hoe dan ook moet eerst de *klas* van de
 leerlingen zijn toegevoegd aan de school.
+
+**Let op** Om aan een wedstrijd deel te kunnen deelnemen, is het niet voldoende dat een leerling
+geregistreerd is bij de server. De leerling moet ook ingeschreven zijn voor een specifiek [evenement](evenementen.md) dat bij die wedstrijd hoort!
 
 ###  Klassen
 

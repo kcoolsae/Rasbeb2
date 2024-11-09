@@ -242,6 +242,7 @@ public class RegistrationDeputy extends EmailSendingDeputy {
     @Setter
     public static class RegistrationActionData {
         public String delete;
+        public String renew;
     }
 
     public Result action(PSF psf) {
@@ -250,7 +251,9 @@ public class RegistrationDeputy extends EmailSendingDeputy {
             return badRequest();
         } else {
             RegistrationActionData data = form.get();
-            if (data.delete == null) {
+            if (data.renew != null) {
+                dac().getRegistrationDao().renewRegistration(data.renew);
+            } else if (data.delete == null) {
                 // filter button
                 return redirect(routes.RegistrationController.list(
                         psf.refilter(getStringMapFromForm(Registration.Field.class))

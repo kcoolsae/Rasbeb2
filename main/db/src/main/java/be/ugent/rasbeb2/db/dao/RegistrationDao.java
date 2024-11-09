@@ -47,6 +47,11 @@ public interface RegistrationDao {
      */
     void deleteRegistration(String email);
 
+    /**
+     * Renew the deadline for the registration for the given e-mail address
+     */
+    void renewRegistration(String email);
+
     interface RegistrationFinder extends Finder<Registration, Registration.Field, RegistrationDao.RegistrationFinder> {}
     RegistrationDao.RegistrationFinder findRegistrations ();
 

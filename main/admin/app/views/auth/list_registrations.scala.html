@@ -27,6 +27,8 @@
         <td>
             <button type="submit" name="delete" value="@registration.email" class="btn btn-sm btn-danger"
                     title='@i18n("auth.registration-list.caption.delete")'><span class="fa-solid fa-trash"></span></button>
+            <button type="submit" name="renew" value="@registration.email" class="btn btn-sm btn-outline-primary"
+                    title='@i18n("auth.registration-list.caption.renew")'><span class="fa-solid fa-arrows-rotate"></span></button>
         </td>
     }
     }( _.searchfields(EMAIL -> "common.filter.email",SCHOOL -> "school.filter.school",EXPIRE -> "auth.registration-list.filter.expiry-date"))

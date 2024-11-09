@@ -54,7 +54,7 @@
                 @defining(cwp.pupils.forall(_.permitted)) { allChecked =>
                     @if(cwp.pupils.size != 0) {
                         <input type="checkbox" class="form-check-input" onchange="updateAllCheckboxesInTable(this)" @if(allChecked)(" checked")>
-                    } @i18n("event.registrations.registered")
+                    } @i18n("event.registrations.registered")?
                 }
                 </th>
             } {

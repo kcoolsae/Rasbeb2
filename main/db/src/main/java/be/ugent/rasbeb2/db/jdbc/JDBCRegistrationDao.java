@@ -81,6 +81,14 @@ public class JDBCRegistrationDao extends JDBCAbstractDao implements Registration
                 .execute();
     }
 
+    @Override
+    public void renewRegistration(String email) {
+        update("registrations")
+                .set("registration_expires", Instant.now().plus(72, ChronoUnit.HOURS))
+                .where("user_email", email.toLowerCase().strip())
+                .execute();
+    }
+
     static Registration makeRegistration(ResultSet rs) throws SQLException {
         return new Registration(
                 rs.getString("user_email"),

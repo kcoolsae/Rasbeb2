@@ -30,8 +30,11 @@ Leerlingen kunnen niet zomaar deelnemen aan een evenement. Ze moeten eerst hierv
 bij dat evenement. Je kan enkel leerlingen inschrijven die reeds
 geregistreerd zijn bij het systeem. (Zie [registratie](registratie.md) - maar een enkele leerling kan je ook nog registreren op de inschrijvingspagina.)
 
-Leerlingen inschrijven doe je op de detailpagina van het evenement. Je ziet een lijst van alle leerlingen van je school, opgelijst per klas. Je kan
-een leerling hier aan of uitvinken om hem/haar in of uit te schrijven voor het evenement. Je kan ook een ganse klas in één keer aanvinken.
+Leerlingen inschrijven doe je op de detailpagina van het evenement. Inschrijven gebeurt daar *klas per klas*: vink, per klas, 
+in de rechterkolom de leerlingen aan
+die aan het evenement mogen deelnemen en druk daarna op de knop 'Aanpassen' bovenaan diezelfde klas om je aanpassingen
+te registreren.
+(Je kan ook een ganse klas in één keer aan- of uitvinken met het vinkje in de kop van de kolom.)
  
 #### Openen en sluiten
 Om een evenement op te starten, moet je het *openen* opdat leerlingen eraan kunnen deelnemen. Een evenement voor de officiële wedstrijd kan pas geopend worden
