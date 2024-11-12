@@ -78,20 +78,18 @@ public class TeacherContestDeputy extends TeacherOnlyDeputy {
 
     public Result showParticipations(int contestId) {
         Contest contest = dac().getContestDao().getContest(contestId, getLanguage());
+        Map<String, List<PupilWithScore>> map = new TreeMap<>();
         if (contest.status() == ContestStatus.CLOSED || contest.contestType() != ContestType.OFFICIAL) {
             List<PupilWithScore> participatingPupils = dac().getEventDao().getParticipatingPupils(contestId, getCurrentYearId());
-            Map<String, List<PupilWithScore>> map = new TreeMap<>();
             for (PupilWithScore pupil : participatingPupils) {
                 map.computeIfAbsent(pupil.className(), k -> new ArrayList<>()).add(pupil);
             }
-            return ok(show_participations.render(
-                    contest,
-                    map,
-                    this
-            ));
-        } else {
-            return badRequest();
         }
+        return ok(show_participations.render(
+                contest,
+                map,
+                this
+        ));
     }
 
     public Result showEvents(int contestId) {
