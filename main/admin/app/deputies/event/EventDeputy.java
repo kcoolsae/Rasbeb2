@@ -9,6 +9,8 @@
 
 package deputies.event;
 
+import be.ugent.caagt.dao.DataAccessException;
+import be.ugent.caagt.dao.ForeignKeyViolation;
 import be.ugent.rasbeb2.db.dao.EventDao;
 import be.ugent.rasbeb2.db.dto.*;
 import be.ugent.rasbeb2.db.poi.PupilSheetWriter;
@@ -38,17 +40,17 @@ public class EventDeputy extends TeacherOnlyDeputy {
             return switch (event.getExtendedStatus()) {
                 case PENDING_FREE, PENDING_BLOCKED -> ok(teacher_pending_event.render(
                         event,
-                        dac().getEventDao().listClassesWithPermissions(event.id()),
+                        dao.listClassesWithPermissions(event.id()),
                         this)
                 );
                 case OPEN -> ok(teacher_open_event.render(
                         event,
-                        dac().getEventDao().getParticipations(event.id()),
+                        dao.getParticipations(event.id()),
                         this)
                 );
                 case CLOSED_FREE, CLOSED_BLOCKED -> ok(teacher_closed_event.render(
                         event,
-                        dac().getEventDao().getParticipations(event.id()),
+                        dao.getParticipations(event.id()),
                         this)
                 );
             };
@@ -74,6 +76,17 @@ public class EventDeputy extends TeacherOnlyDeputy {
             dac().getEventDao().addEvent(contestId, ageGroupId, getCurrentYearId(), form.get().title, lang);
             success("event.add.message");
             return redirect(controllers.home.routes.TeacherHomeController.index());
+        }
+    }
+
+    public Result removeEvent(int eventId) {
+        EventDao dao = dac().getEventDao();
+        try {
+            dao.deleteEvent(eventId, getCurrentSchoolId());
+            return redirect(controllers.home.routes.TeacherHomeController.index());
+        } catch (ForeignKeyViolation ex) {
+            error ("event.delete.error");
+            return redirect(routes.EventController.getEvent(eventId));
         }
     }
 

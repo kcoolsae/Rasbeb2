@@ -71,6 +71,17 @@ public interface EventDao {
     Iterable<ClassWithPermissions> listClassesWithPermissions(int eventId);
 
     /**
+     * Returns whether the permission list for this event is currently empty
+     */
+    boolean hasEmptyPermissions(int eventId);
+
+    /**
+     * Deletes the given event.
+     * Throws an exception when the event is already referred to.
+     */
+    public void deleteEvent(int eventId, int schoolId);
+
+    /**
      * Updates the permissions to an event for a given class. Only the listed
      * pupils are permitted to take part, other pupils of the same class not.
      */

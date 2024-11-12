@@ -1,0 +1,17 @@
+@* _delete_event.scala.html
+* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+*
+* This software is distributed under the MIT License - see files LICENSE and AUTHORS
+* in the top level project directory.
+*@
+@import controllers.event.routes
+@(eventId: Int)(implicit deputy: Deputy)
+<div>
+    <div class="col mt-2">
+        @form(action = routes.EventController.removeEvent(eventId)) {
+            <button class="btn btn-outline-danger">@i18n("event.delete.caption") </button>
+            <p class="form-text">@i18n("event.delete.info")</p>
+        }
+    </div>
+</div>

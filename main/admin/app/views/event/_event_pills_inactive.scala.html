@@ -16,12 +16,12 @@
     @event.getExtendedStatus match {
        case OPEN => {
            <li class="nav-item">
-               <a class="btn btn-outline-primary" href="@routes.EventController.downloadSelectedPupils(event.id)">@i18n("spreadsheet.caption.download-registrations")</a>
+               <a class="btn btn-outline-primary me-1" href="@routes.EventController.downloadSelectedPupils(event.id)">@i18n("spreadsheet.caption.download-registrations")</a>
            </li>
        }
        case CLOSED_FREE | CLOSED_BLOCKED => {
            <li class="nav-item">
-               <a class="btn btn-primary ms-1" href="@routes.EventController.downloadScores(event.id)">@i18n("spreadsheet.caption.download-scores")</a>
+               <a class="btn btn-primary" href="@routes.EventController.downloadScores(event.id)">@i18n("spreadsheet.caption.download-scores")</a>
            </li>
        }
        case _ => {

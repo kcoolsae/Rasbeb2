@@ -24,23 +24,23 @@
        case OPEN => {
            <li class="nav-item">
            @b5.form(routes.EventController.closeEvent(event.id)) {
-               <button class="btn btn-primary">@i18n("event.caption.close")</button>
+               <button class="btn btn-primary me-1">@i18n("event.caption.close")</button>
            }
            </li>
            <li class="nav-item">
-           <a class="btn btn-primary ms-1" href="@routes.EventController.viewPermissions(event.id)">@i18n("event.registrations.link")</a>
+           <a class="btn btn-primary" href="@routes.EventController.viewPermissions(event.id)">@i18n("event.registrations.link")</a>
            </li>
        }
        case CLOSED_FREE | CLOSED_BLOCKED => {
            @if(event.contestStatus == ContestStatus.OPEN){
                <li class="nav-item">
                @b5.form(routes.EventController.openEvent(event.id)) {
-                   <button class="btn btn-outline-secondary">@i18n("event.caption.reopen")</button>
+                   <button class="btn btn-outline-secondary me-1">@i18n("event.caption.reopen")</button>
                }
                </li>
            }
            <li class="nav-item">
-               <a class="btn btn-primary ms-1" href="@routes.EventController.downloadScores(event.id)">@i18n("spreadsheet.caption.download-scores")</a>
+               <a class="btn btn-primary" href="@routes.EventController.downloadScores(event.id)">@i18n("spreadsheet.caption.download-scores")</a>
            </li>
        }
        case _ => {

@@ -27,6 +27,10 @@ public class EventController extends TeacherOnlyController<EventDeputy> {
         return createDeputy(request).addEvent(contestId, ageGroupId, lang);
     }
 
+    public Result removeEvent(Http.Request request, int eventId) {
+        return createDeputy(request).removeEvent(eventId);
+    }
+
     public Result getEvent(Http.Request request, int eventId) {
         return createDeputy(request).getEvent(eventId);
     }

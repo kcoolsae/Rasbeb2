@@ -18,6 +18,8 @@
     @_event_title(event.header)
     @_event_actions(event)
 
+    @_event_delete(event.id)
+
     @if(deputy.isActiveYear) {
         @_permissions_list(event.id, classesWithPermissions, true)
     } else {

@@ -19,7 +19,9 @@
 @layout.teacher("ecl", css=css) {
     @_event_title(event.header)
     @_event_actions(event)
-
+    @if(participations.forall(_.deadline == null)) {
+        @_event_delete(event.id)
+    }
     @table(participations.size) {
         <colgroup>
             <col style="width: 80%;">

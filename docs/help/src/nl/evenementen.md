@@ -46,6 +46,11 @@ zien zodra het evenement gesloten is. Bij de officiële wedstrijd kan dit pas na
 Terwijl een evenement open is, kan je op de detailpagina van het evenement zien welke leerlingen deelnemen en kan je zien hoeveel tijd ze nog hebben. 
 In geval van problemen kan je een leerling bijkomende tijd gunnen of een leerling die zijn deelname per ongeluk heeft afgesloten, terug toelaten.
 
+#### Verwijderen
+Een evenement kan verwijderd worden, bijvoorbeeld wanneer je het met de verkeerde leeftijdsgroep hebt aangemaakt, zolang er
+nog geen leerlingen aan dat evenement hebben deelgenomen. Inschrijvingen bij dat evenement gaan dan verloren. Vergeet dus niet
+die leerlingen bij een ander evenement in te schrijven.
+
 #### Voetnoten
 
 [^3]: In een vorige versie van de software heetten evenementen *lokale wedstrijden*.

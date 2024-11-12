@@ -253,6 +253,19 @@ public class JDBCEventDao extends JDBCAbstractDao implements EventDao {
     }
 
     @Override
+    public boolean hasEmptyPermissions(int eventId) {
+        return select("1").from("permissions").where("event_id", eventId).isEmpty();
+    }
+
+    @Override
+    public void deleteEvent(int eventId, int schoolId) {
+        deleteFrom("events")
+                .where("event_id", eventId)
+                .where("school_id", schoolId)
+                .execute();
+    }
+
+    @Override
     public void editEvent(int eventId, String title) {
         update("events")
                 .set("event_title", title)

@@ -14,6 +14,9 @@
 @layout.teacher("eopn", js=include.js("deadlinedate.js")) {
     @_event_title(event.header)
     @_event_actions(event)
+    @if(participations.forall(_.deadline == null)) {
+        @_event_delete(event.id)
+    }
     @if(deputy.isActiveYear) {
         @_participation_table(event.id, participations)
     } else {

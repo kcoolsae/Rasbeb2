@@ -17,6 +17,7 @@ Lerarenkant
 * Menu-overzicht (voor leerkrachten): [Wat staat waar?](watstaatwaar.md)
 * [Leerlingen registreren bij het systeem](registratie.md)
 * [Evenementen](evenementen.md)
+* [Na de wedstrijd](achteraf.md)
 
 Leerlingenkant
 * [Meedoen aan een Bebras-wedstrijd](leerling.md)
