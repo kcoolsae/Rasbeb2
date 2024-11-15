@@ -31,11 +31,15 @@ public record School (int id, String name, String street, String zip, String tow
         private final String fieldName;
     }
 
-    public String nameWithTown() {
+    public static String nameWithTown(String name, String town) {
         if (name.toLowerCase().contains(town.toLowerCase())) {
             return name;
         } else {
             return name + " (" + town + ")";
         }
+    }
+
+    public String nameWithTown() {
+        return nameWithTown(name, town);
     }
 }

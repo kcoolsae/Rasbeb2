@@ -36,4 +36,19 @@ public class ContestToolsController extends OrganiserOnlyController<ContestTools
         return createDeputy(request).printWinners(contestId);
     }
 
+    public Result showAnomalyTools(Http.Request request, int contestId) {
+        return createDeputy(request).showAnomalyTools(contestId);
+    }
+
+    public Result listAnomaliesHour(Http.Request request, int contestId) {
+        return createDeputy(request).listAnomaliesHour(contestId);
+    }
+
+    public Result listAnomaliesWeekend(Http.Request request, int contestId) {
+        return createDeputy(request).listAnomaliesWeekend(contestId);
+    }
+
+    public Result listAnomaliesDay(Http.Request request, int contestId) {
+        return createDeputy(request).listAnomaliesDay(contestId);
+    }
 }

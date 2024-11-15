@@ -25,7 +25,6 @@ import lombok.Setter;
 import play.data.Form;
 import play.mvc.Call;
 import play.mvc.Result;
-import util.AgeGroupsWithId;
 import util.Table;
 import views.html.contest.list_contests;
 import views.html.contest.organiser_contest;

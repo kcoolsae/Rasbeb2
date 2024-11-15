@@ -1,0 +1,73 @@
+@* anomalies.scala.html
+* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+*
+* This software is distributed under the MIT License - see files LICENSE and AUTHORS
+* in the top level project directory.
+*@
+@import _root_.be.ugent.rasbeb2.db.dto.{Contest,School}
+@import _root_.be.ugent.rasbeb2.db.dao.AnomalyFinder
+@import views.html.contest._
+@import views.html.b5._
+@import deputies.contest.ContestToolsDeputy.AnomalyData
+@import java.time.format.DateTimeFormatter
+@import java.time.ZoneId
+
+@(contest: Contest, fhour: Form[AnomalyData], fday: Form[AnomalyData], results: List[AnomalyFinder.Data])(implicit deputy: Deputy)
+
+@implicitFieldBuilder = @{
+    fieldBuilder.plain
+}   @* removes labels etc from form fields *@
+
+@formatter=@{DateTimeFormatter.ofPattern("dd MMM - HH:mm")
+    .withLocale(deputy.getLocale())
+    .withZone(ZoneId.systemDefault())
+}
+
+@layout.organiser("cntan") {
+    @_organiser_submenu("anomalies", contest)
+
+    @h4("contest.anomalies.title")
+
+    @form(controllers.contest.routes.ContestToolsController.listAnomaliesHour(contest.id)) {
+        <div class="row mb-2 align-items-center">
+            <label class="col-3 col-md-2">@i18n("contest.anomalies.from-hour")</label>
+            <div class="col-2 col-md-1">@number(fhour.field("value"))</div>
+            @submit("contest.anomalies.find", cl = "col-auto")
+        </div>
+    }
+    @form(controllers.contest.routes.ContestToolsController.listAnomaliesDay(contest.id)) {
+        <div class="row mb-2 align-items-center">
+            <label class="col-3 col-md-2">@i18n("contest.anomalies.on-day")</label>
+            <div class="col-2 col-md-1">@number(fday.field("value"))</div>
+            @submit("contest.anomalies.find", cl = "col-auto")
+        </div>
+    }
+    @form(controllers.contest.routes.ContestToolsController.listAnomaliesWeekend(contest.id)) {
+        <div class="row align-items-center">
+            <label class="col-5 col-md-3">@i18n("contest.anomalies.weekend")</label>
+            @submit("contest.anomalies.find", cl = "col-auto")
+        </div>
+    }
+
+    @if(results != null) {
+        <h4>@i18n("contest.anomalies.results")</h4>
+        @if(results.isEmpty) {
+            @p("contest.anomalies.no-results")
+        } else {
+            <table class="table table-striped table-bordered table-hover">
+                <tbody>
+                @foreach.tr(results) { r =>
+                    <td>@r.pupilId</td>
+                    <td>@r.pupilName</td>
+                    <td>@r.className</td>
+                    <td>
+                        <a href=@controllers.organiser.routes.SchoolController.getSchool(r.schoolId)>@School.nameWithTown(r.schoolName, r.schoolTown)</a>
+                    </td>
+                    <td>@formatter.format(r.instant)</td>
+                }
+                </tbody>
+            </table>
+        }
+    }
+}

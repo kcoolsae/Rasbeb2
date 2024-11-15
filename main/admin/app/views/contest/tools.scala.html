@@ -14,6 +14,10 @@
 @layout.organiser("cntts") {
     @_organiser_submenu("tools", contest)
 
+    @if(contest.contestType != ContestType.PUBLIC) {
+        <p><a href="@controllers.contest.routes.ContestToolsController.showAnomalyTools(contest.id)">@i18n("contest.anomalies.link")</a></p>
+    }
+
     @h4("contest.links.title")
     @p("contest.links.description")
     <p>@i18n("contest.links.label")

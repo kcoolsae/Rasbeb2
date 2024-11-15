@@ -9,7 +9,6 @@
 
 package deputies.event;
 
-import be.ugent.caagt.dao.DataAccessException;
 import be.ugent.caagt.dao.ForeignKeyViolation;
 import be.ugent.rasbeb2.db.dao.EventDao;
 import be.ugent.rasbeb2.db.dto.*;

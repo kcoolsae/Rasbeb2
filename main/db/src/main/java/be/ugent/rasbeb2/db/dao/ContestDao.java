@@ -11,6 +11,7 @@ package be.ugent.rasbeb2.db.dao;
 
 import be.ugent.rasbeb2.db.dto.*;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
@@ -125,4 +126,10 @@ public interface ContestDao {
      * Participation counts for the given contest
      */
     List<Count> getCounts(int contestId);
+
+    /**
+     * Anomaly finder for the given contest
+     */
+    AnomalyFinder findAnomalies(int contestId);
+
 }

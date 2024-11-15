@@ -14,9 +14,14 @@ import be.ugent.rasbeb2.db.dto.AgeGroup;
 import common.LanguageInfo;
 import controllers.contest.routes;
 import deputies.OrganiserOnlyDeputy;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import play.data.Form;
 import play.mvc.Result;
 import views.html.contest.link_list;
 import views.html.contest.tools;
+import views.html.contest.anomalies;
 import views.html.contest.winners;
 
 import java.util.ArrayList;
@@ -87,4 +92,71 @@ public class ContestToolsDeputy extends OrganiserOnlyDeputy {
         return ok(winners.render(result, this));
     }
 
+    /**
+     * Produce the page which allows anomalies to be listed
+     */
+    public Result showAnomalyTools(int contestId) {
+        return ok(anomalies.render(
+                dac().getContestDao().getContest(contestId, getLanguage()),
+                formFromData(new AnomalyData(18)),   // participations later than 18h00
+                formFromData(new AnomalyData(11)),   // participations on November 11th
+                null,
+                this)
+        );
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class AnomalyData {
+        public int value;
+        public AnomalyData() {
+            // needed by Spring
+        }
+    }
+
+    public Result listAnomaliesHour(int contestId) {
+        Form<AnomalyData> form = formFromRequest(AnomalyData.class);
+        if (form.hasErrors()) {
+            // will probably not happen
+            return showAnomalyTools(contestId);
+        } else {
+            ContestDao dao = dac().getContestDao();
+            return ok(anomalies.render(
+                    dao.getContest(contestId, getLanguage()),
+                    form,
+                    formFromData(new AnomalyData(11)),   // participations on November 11th
+                    dao.findAnomalies(contestId).listAfterHour(form.get().value),
+                    this)
+            );
+        }
+    }
+
+    public Result listAnomaliesDay(int contestId) {
+        Form<AnomalyData> form = formFromRequest(AnomalyData.class);
+        if (form.hasErrors()) {
+            // will probably not happen
+            return showAnomalyTools(contestId);
+        } else {
+            ContestDao dao = dac().getContestDao();
+            return ok(anomalies.render(
+                    dao.getContest(contestId, getLanguage()),
+                    formFromData(new AnomalyData(18)),   // participations later than 18h00
+                    form,
+                    dao.findAnomalies(contestId).listAtDayOfMonth(form.get().value),
+                    this)
+            );
+        }
+    }
+
+    public Result listAnomaliesWeekend(int contestId) {
+        ContestDao dao = dac().getContestDao();
+        return ok(anomalies.render(
+                dao.getContest(contestId, getLanguage()),
+                formFromData(new AnomalyData(18)),   // participations later than 18h00
+                formFromData(new AnomalyData(11)),   // participations on November 11th
+                dao.findAnomalies(contestId).listInWeekend(),
+                this)
+        );
+    }
 }
