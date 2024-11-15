@@ -131,7 +131,7 @@ public class TeacherDeputy extends OrganiserOnlyDeputy {
     }
 
     /**
-     * Show page form which a list of email addresses can be obtained.
+     * Show page from which a list of email addresses can be obtained.
      */
     public Result listEmailsShow() {
         List<Year> years = dac().getYearDao().listAllYears();
