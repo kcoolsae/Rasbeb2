@@ -51,4 +51,8 @@ public class ContestToolsController extends OrganiserOnlyController<ContestTools
     public Result listAnomaliesDay(Http.Request request, int contestId) {
         return createDeputy(request).listAnomaliesDay(contestId);
     }
+
+    public Result downloadParticipationSheet(Http.Request request, int contestId) {
+        return createDeputy(request).downloadParticipationSheet(contestId);
+    }
 }

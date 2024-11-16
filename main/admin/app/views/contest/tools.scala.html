@@ -15,6 +15,7 @@
     @_organiser_submenu("tools", contest)
 
     @if(contest.contestType != ContestType.PUBLIC) {
+        <p>Download alle deelnames <a class="btn btn-primary" href="@controllers.contest.routes.ContestToolsController.downloadParticipationSheet(contest.id)">Download</a></p>
         <p><a href="@controllers.contest.routes.ContestToolsController.showAnomalyTools(contest.id)">@i18n("contest.anomalies.link")</a></p>
     }
 

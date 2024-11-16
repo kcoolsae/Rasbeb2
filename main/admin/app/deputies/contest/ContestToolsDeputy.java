@@ -12,6 +12,7 @@ package deputies.contest;
 import be.ugent.rasbeb2.db.dao.ContestDao;
 import be.ugent.rasbeb2.db.dto.AgeGroup;
 import be.ugent.rasbeb2.db.dto.ParticipationInfo;
+import be.ugent.rasbeb2.db.poi.ParticipationSheetWriter;
 import common.LanguageInfo;
 import controllers.contest.routes;
 import deputies.OrganiserOnlyDeputy;
@@ -86,7 +87,7 @@ public class ContestToolsDeputy extends OrganiserOnlyDeputy {
             for (ParticipationInfo info : dac().getParticipationInfoDao().getWinners(contestId, ageGroup.id(), 15)) {
                 list.add(new WinnerWithRank(info, info.marks() == previousMarks ? "" : "" + rank));
                 previousMarks = info.marks();
-                rank ++;
+                rank++;
             }
             result.add(new WinnersWithAgeGroup(ageGroup, list));
         }
@@ -111,6 +112,7 @@ public class ContestToolsDeputy extends OrganiserOnlyDeputy {
     @AllArgsConstructor
     public static class AnomalyData {
         public int value;
+
         public AnomalyData() {
             // needed by Spring
         }
@@ -156,5 +158,16 @@ public class ContestToolsDeputy extends OrganiserOnlyDeputy {
                 dac().getParticipationInfoDao().listInWeekend(contestId),
                 this)
         );
+    }
+
+    public Result downloadParticipationSheet(int contestId) {
+        String title = dac().getContestDao().getContest(contestId, getLanguage()).title();
+        List<ParticipationInfo> infos = dac().getParticipationInfoDao().listAll(contestId);
+        return ok(new ParticipationSheetWriter(this::i18n).write(infos, title))
+                .as("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                .withHeader(
+                        "Content-Disposition",
+                        "attachment; filename=" + i18n("spreadsheet.filename.participations") + "-" + contestId + ".xlsx"
+                );
     }
 }

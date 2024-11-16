@@ -105,7 +105,7 @@ public class JDBCParticipationInfoDao extends JDBCAbstractDao implements Partici
                 Gender.valueOf(rs.getString("pupil_gender")),
                 rs.getInt("age_group_id"),
                 rs.getString("lang"),
-                rs.getInt("school_id"),
+                0,
                 rs.getString("school_name"),
                 rs.getString("school_town"),
                 rs.getString("class_name"),
@@ -117,12 +117,14 @@ public class JDBCParticipationInfoDao extends JDBCAbstractDao implements Partici
     @Override
     public List<ParticipationInfo> listAll(int contestId) {
         return select("""
-                pupil_id, pupil_name, pupil_gender, lang,
+                pupil_id, pupil_name, pupil_gender, participations.lang,
                 school_name, school_town,
-                class_name, age_group_id, participation_total_marks
+                class_name, participations.age_group_id, participation_total_marks
                 """).from(PARTICIPATION_INFO_JOIN)
                 .where("participations.contest_id", contestId)
                 .where("not participation_hidden")
+                .orderBy("participations.age_group_id")
+                .orderBy("participation_total_marks", false)
                 .getList(JDBCParticipationInfoDao::makeInfoExtended);
     }
 
