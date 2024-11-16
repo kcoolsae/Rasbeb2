@@ -83,7 +83,7 @@ public class ContestToolsDeputy extends OrganiserOnlyDeputy {
             List<WinnerWithRank> list = new ArrayList<>();
             int previousMarks = -1;
             int rank = 1;
-            for (ParticipationInfo info : dac().getContestDao().getWinners(contestId, ageGroup.id(), 15)) {
+            for (ParticipationInfo info : dac().getParticipationInfoDao().getWinners(contestId, ageGroup.id(), 15)) {
                 list.add(new WinnerWithRank(info, info.marks() == previousMarks ? "" : "" + rank));
                 previousMarks = info.marks();
                 rank ++;

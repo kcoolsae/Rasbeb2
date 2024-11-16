@@ -24,6 +24,21 @@ public class JDBCParticipationInfoDao extends JDBCAbstractDao implements Partici
         super(context);
     }
 
+    @Override
+    public List<ParticipationInfo> getWinners(int contestId, int ageGroupId, int count) {
+        return select("pupil_name, school_name, school_town, marks")
+                .from("winners(?,?,?)")
+                .parameter(contestId)
+                .parameter(ageGroupId)
+                .parameter(count)
+                .getList(rs -> new ParticipationInfo(
+                        rs.getString("pupil_name"),
+                        rs.getString("school_name"),
+                        rs.getString("school_town"),
+                        rs.getInt("marks")
+                ));
+    }
+
     private static ParticipationInfo makeInfo(ResultSet rs) throws SQLException {
         Timestamp timestamp = rs.getTimestamp("participation_deadline");
         return new ParticipationInfo(
@@ -38,8 +53,8 @@ public class JDBCParticipationInfoDao extends JDBCAbstractDao implements Partici
     }
 
     private static final String PARTICIPATION_INFO_JOIN = """
-            participations 
-            join pupils using(pupil_id) 
+            participations
+            join pupils using(pupil_id)
             join pupils_classes using(pupil_id)
             join events using(event_id)
             join classes using(class_id,school_id)
@@ -109,5 +124,20 @@ public class JDBCParticipationInfoDao extends JDBCAbstractDao implements Partici
                 .where("participations.contest_id", contestId)
                 .where("not participation_hidden")
                 .getList(JDBCParticipationInfoDao::makeInfoExtended);
+    }
+
+    @Override
+    public List<Count> getCounts(int contestId) {
+        return select("age_group_id, lang, count(*)")
+                .from("participations")
+                .where("contest_id", contestId)
+                .groupBy("age_group_id, lang")
+                .orderBy("age_group_id")
+                .orderBy("lang")
+                .getList(rs -> new Count(
+                        rs.getInt("age_group_id"),
+                        rs.getString("lang"),
+                        rs.getInt("count")
+                ));
     }
 }

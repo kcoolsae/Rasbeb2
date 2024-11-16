@@ -302,35 +302,4 @@ public class JDBCContestDao extends JDBCAbstractDao implements ContestDao {
                         rs.getString("mf")
                 ));
     }
-
-
-    @Override
-    public List<ParticipationInfo> getWinners(int contestId, int ageGroupId, int count) {
-        return select("pupil_name, school_name, school_town, marks")
-                .from("winners(?,?,?)")
-                .parameter(contestId)
-                .parameter(ageGroupId)
-                .parameter(count)
-                .getList(rs -> new ParticipationInfo(
-                        rs.getString("pupil_name"),
-                        rs.getString("school_name"),
-                        rs.getString("school_town"),
-                        rs.getInt("marks")
-                ));
-    }
-
-    @Override
-    public List<Count> getCounts(int contestId) {
-        return select("age_group_id, lang, count(*)")
-                .from("participations")
-                .where("contest_id", contestId)
-                .groupBy("age_group_id, lang")
-                .orderBy("age_group_id")
-                .orderBy("lang")
-                .getList(rs -> new Count(
-                        rs.getInt("age_group_id"),
-                        rs.getString("lang"),
-                        rs.getInt("count")
-                ));
-    }
 }

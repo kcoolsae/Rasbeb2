@@ -18,6 +18,11 @@ import java.util.List;
 public interface ParticipationInfoDao {
 
     /**
+     * Return the list of winners
+     */
+    List<ParticipationInfo> getWinners(int contestId, int ageGroupId, int count);
+
+    /**
      * Find participations after a given hour
      */
     List<ParticipationInfo> listAfterHour(int contestId, int hour);
@@ -36,4 +41,14 @@ public interface ParticipationInfoDao {
      * All participations
      */
     List<ParticipationInfo> listAll(int contestId);
+
+    record Count (int ageGroupId, String lang, int count) {
+
+    }
+
+    /**
+     * Participation counts for the given contest
+     */
+    List<Count> getCounts(int contestId);
+
 }

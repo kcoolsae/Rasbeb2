@@ -10,7 +10,6 @@
 package be.ugent.rasbeb2.db.jdbc;
 
 import be.ugent.caagt.dao.helper.BaseDAO;
-import be.ugent.rasbeb2.db.dto.Role;
 
 public class JDBCAbstractDao extends BaseDAO {
 

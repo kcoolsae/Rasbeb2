@@ -11,6 +11,7 @@ package deputies.contest;
 
 import be.ugent.caagt.play.binders.PSF;
 import be.ugent.rasbeb2.db.dao.ContestDao;
+import be.ugent.rasbeb2.db.dao.ParticipationInfoDao;
 import be.ugent.rasbeb2.db.dto.AgeGroup;
 import be.ugent.rasbeb2.db.dto.Contest;
 import be.ugent.rasbeb2.db.dto.ContestStatus;
@@ -50,7 +51,7 @@ public class ContestDeputy extends OrganiserOnlyDeputy {
         if (contest.contestType() == ContestType.OFFICIAL && contest.isViewable()) {
             List<String> languages = dao.getContestLanguages(contestId);
             List<AgeGroup> ageGroups = dac().getAgeGroupDao().getAgeGroups(contestId, getLanguage());
-            List<AgeGroupWithCounts> contents = tableContents(languages, ageGroups, dao.getCounts(contestId));
+            List<AgeGroupWithCounts> contents = tableContents(languages, ageGroups, dac().getParticipationInfoDao().getCounts(contestId));
             return ok(organiser_contest_extended.render(
                     form,
                     contest,
@@ -77,7 +78,7 @@ public class ContestDeputy extends OrganiserOnlyDeputy {
 
     private List<AgeGroupWithCounts> tableContents(
             List<String> languages, List<AgeGroup> ageGroups,
-            List<ContestDao.Count> counts) {
+            List<ParticipationInfoDao.Count> counts) {
         List<AgeGroupWithCounts> result = new ArrayList<>();
         for (AgeGroup ageGroup: ageGroups) {
             List<Integer> row = new ArrayList<>();

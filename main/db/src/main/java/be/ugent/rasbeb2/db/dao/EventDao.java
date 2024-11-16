@@ -79,7 +79,7 @@ public interface EventDao {
      * Deletes the given event.
      * Throws an exception when the event is already referred to.
      */
-    public void deleteEvent(int eventId, int schoolId);
+    void deleteEvent(int eventId, int schoolId);
 
     /**
      * Updates the permissions to an event for a given class. Only the listed
