@@ -1,5 +1,5 @@
 /*
- * AnomalyFinder.java
+ * ParticipationInfoDao.java
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
  *
@@ -10,26 +10,30 @@
 package be.ugent.rasbeb2.db.dao;
 
 import be.ugent.rasbeb2.db.dto.ParticipationInfo;
-
 import java.util.List;
 
 /**
- * Helps finding anomalies for public contest
+ * Provides access to all types of participation information.
  */
-public interface AnomalyFinder {
+public interface ParticipationInfoDao {
 
     /**
      * Find participations after a given hour
      */
-    List<ParticipationInfo> listAfterHour(int hour);
+    List<ParticipationInfo> listAfterHour(int contestId, int hour);
 
     /**
      * Find participations in the weekend
      */
-    List<ParticipationInfo> listInWeekend();
+    List<ParticipationInfo> listInWeekend(int contestId);
 
     /**
      * Find participations at a given day of the month
      */
-    List<ParticipationInfo> listAtDayOfMonth(int day);
+    List<ParticipationInfo> listAtDayOfMonth(int contestId, int day);
+
+    /**
+     * All participations
+     */
+    List<ParticipationInfo> listAll(int contestId);
 }

@@ -122,12 +122,11 @@ public class ContestToolsDeputy extends OrganiserOnlyDeputy {
             // will probably not happen
             return showAnomalyTools(contestId);
         } else {
-            ContestDao dao = dac().getContestDao();
             return ok(anomalies.render(
-                    dao.getContest(contestId, getLanguage()),
+                    dac().getContestDao().getContest(contestId, getLanguage()),
                     form,
                     formFromData(new AnomalyData(11)),   // participations on November 11th
-                    dao.findAnomalies(contestId).listAfterHour(form.get().value),
+                    dac().getParticipationInfoDao().listAfterHour(contestId, form.get().value),
                     this)
             );
         }
@@ -139,24 +138,22 @@ public class ContestToolsDeputy extends OrganiserOnlyDeputy {
             // will probably not happen
             return showAnomalyTools(contestId);
         } else {
-            ContestDao dao = dac().getContestDao();
             return ok(anomalies.render(
-                    dao.getContest(contestId, getLanguage()),
+                    dac().getContestDao().getContest(contestId, getLanguage()),
                     formFromData(new AnomalyData(18)),   // participations later than 18h00
                     form,
-                    dao.findAnomalies(contestId).listAtDayOfMonth(form.get().value),
+                    dac().getParticipationInfoDao().listAtDayOfMonth(contestId, form.get().value),
                     this)
             );
         }
     }
 
     public Result listAnomaliesWeekend(int contestId) {
-        ContestDao dao = dac().getContestDao();
         return ok(anomalies.render(
-                dao.getContest(contestId, getLanguage()),
+                dac().getContestDao().getContest(contestId, getLanguage()),
                 formFromData(new AnomalyData(18)),   // participations later than 18h00
                 formFromData(new AnomalyData(11)),   // participations on November 11th
-                dao.findAnomalies(contestId).listInWeekend(),
+                dac().getParticipationInfoDao().listInWeekend(contestId),
                 this)
         );
     }

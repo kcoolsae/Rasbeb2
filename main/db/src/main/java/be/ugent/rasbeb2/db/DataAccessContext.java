@@ -37,6 +37,8 @@ public interface DataAccessContext extends AutoCloseable {
 
     ParticipationDao getParticipationDao();
 
+    ParticipationInfoDao getParticipationInfoDao();
+
     AgeGroupDao getAgeGroupDao();
 
     void begin();

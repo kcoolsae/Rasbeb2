@@ -10,7 +10,6 @@
 package be.ugent.rasbeb2.db.jdbc;
 
 import be.ugent.caagt.dao.helper.SelectSQLStatement;
-import be.ugent.rasbeb2.db.dao.AnomalyFinder;
 import be.ugent.rasbeb2.db.dao.ContestDao;
 import be.ugent.rasbeb2.db.dto.*;
 
@@ -333,24 +332,5 @@ public class JDBCContestDao extends JDBCAbstractDao implements ContestDao {
                         rs.getString("lang"),
                         rs.getInt("count")
                 ));
-    }
-
-    @Override
-    public AnomalyFinder findAnomalies(int contestId) {
-        return new JDBCAnomalyFinder(
-                select("""
-                        pupil_id, pupil_name, school_id, school_name, school_town, 
-                        class_name, participation_deadline
-                        """
-                ).from("""
-                        participations 
-                        join pupils using(pupil_id) 
-                        join pupils_classes using(pupil_id)
-                        join events using(event_id)
-                        join classes using(class_id,school_id)
-                        join schools using(school_id)"""
-                ).where("participations.contest_id", contestId)
-                        .where("not participation_hidden")
-        );
     }
 }

@@ -70,6 +70,11 @@ public class JDBCDataAccessContext extends BaseDAC implements DataAccessContext 
     }
 
     @Override
+    public ParticipationInfoDao getParticipationInfoDao() {
+        return new JDBCParticipationInfoDao(this);
+    }
+
+    @Override
     public UserDao getUserDao() {
         return new JDBCUserDao(this);
     }
