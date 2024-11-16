@@ -6,43 +6,39 @@
  * in the top level project directory.
  *@
 
+@import views.html.layout._card
+
 @()(implicit deputy: Deputy)
 
 @layout.organiser("homeorg") {
 
     <div class="row gy-4">
-        @_card {
-            <h5 class="card-title">@i18n("menu.schools")</h5>
+        @_card("menu.schools"){
             @i18n.html("description.schools")
             <a href="@controllers.organiser.routes.SchoolController.listSchools()"
                class="card-link">@i18n("menu.schools")</a>
         }
-        @_card {
-            <h5 class="card-title">@i18n("menu.teachers")</h5>
+        @_card("menu.teachers"){
             @i18n.html("description.teachers")
             <a href="@controllers.organiser.routes.TeacherController.listTeachers()"
             class="card-link">@i18n("menu.teachers")</a>
         }
-        @_card {
-            <h5 class="card-title">@i18n("menu.contests")</h5>
+        @_card("menu.contests"){
             @i18n.html("description.contests")
             <a href="@controllers.contest.routes.ContestController.listContests()"
             class="card-link">@i18n("menu.contests")</a>
         }
-        @_card {
-            <h5 class="card-title">@i18n("menu.questions")</h5>
+        @_card("menu.questions"){
             @i18n.html("description.questions")
             <a href="@controllers.question.routes.QuestionController.listQuestions()"
             class="card-link">@i18n("menu.questions")</a>
         }
-        @_card {
-            <h5 class="card-title">@i18n("menu.registrations")</h5>
+        @_card("menu.registrations"){
             @i18n.html("description.registrations")
             <a href="@controllers.auth.routes.RegistrationController.listRegistrations()"
             class="card-link">@i18n("menu.registrations")</a>
         }
-        @_card {
-            <h5 class="card-title">@i18n("menu.years")</h5>
+        @_card("menu.years"){
             @i18n.html("description.years")
             <a href="@controllers.other.routes.YearController.listYears()"
             class="card-link">@i18n("menu.years")</a>
