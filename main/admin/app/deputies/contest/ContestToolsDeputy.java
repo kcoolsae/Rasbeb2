@@ -11,6 +11,7 @@ package deputies.contest;
 
 import be.ugent.rasbeb2.db.dao.ContestDao;
 import be.ugent.rasbeb2.db.dto.AgeGroup;
+import be.ugent.rasbeb2.db.dto.ParticipationInfo;
 import common.LanguageInfo;
 import controllers.contest.routes;
 import deputies.OrganiserOnlyDeputy;
@@ -67,7 +68,7 @@ public class ContestToolsDeputy extends OrganiserOnlyDeputy {
         ));
     }
 
-    public record WinnerWithRank(ContestDao.Winner winner, String rank) {
+    public record WinnerWithRank(ParticipationInfo info, String rank) {
     }
 
     public record WinnersWithAgeGroup(AgeGroup ageGroup, List<WinnerWithRank> winners) {
@@ -82,9 +83,9 @@ public class ContestToolsDeputy extends OrganiserOnlyDeputy {
             List<WinnerWithRank> list = new ArrayList<>();
             int previousMarks = -1;
             int rank = 1;
-            for (ContestDao.Winner winner : dac().getContestDao().getWinners(contestId, ageGroup.id(), 15)) {
-                list.add(new WinnerWithRank(winner, winner.marks() == previousMarks ? "" : "" + rank));
-                previousMarks = winner.marks();
+            for (ParticipationInfo info : dac().getContestDao().getWinners(contestId, ageGroup.id(), 15)) {
+                list.add(new WinnerWithRank(info, info.marks() == previousMarks ? "" : "" + rank));
+                previousMarks = info.marks();
                 rank ++;
             }
             result.add(new WinnersWithAgeGroup(ageGroup, list));

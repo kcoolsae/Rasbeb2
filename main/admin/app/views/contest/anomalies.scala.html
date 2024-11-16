@@ -5,15 +5,14 @@
 * This software is distributed under the MIT License - see files LICENSE and AUTHORS
 * in the top level project directory.
 *@
-@import _root_.be.ugent.rasbeb2.db.dto.{Contest,School}
-@import _root_.be.ugent.rasbeb2.db.dao.AnomalyFinder
+@import _root_.be.ugent.rasbeb2.db.dto.{Contest,School,ParticipationInfo}
 @import views.html.contest._
 @import views.html.b5._
 @import deputies.contest.ContestToolsDeputy.AnomalyData
 @import java.time.format.DateTimeFormatter
 @import java.time.ZoneId
 
-@(contest: Contest, fhour: Form[AnomalyData], fday: Form[AnomalyData], results: List[AnomalyFinder.Data])(implicit deputy: Deputy)
+@(contest: Contest, fhour: Form[AnomalyData], fday: Form[AnomalyData], results: List[ParticipationInfo])(implicit deputy: Deputy)
 
 @implicitFieldBuilder = @{
     fieldBuilder.plain
@@ -62,7 +61,7 @@
                     <td>@r.pupilName</td>
                     <td>@r.className</td>
                     <td>
-                        <a href=@controllers.organiser.routes.SchoolController.getSchool(r.schoolId)>@School.nameWithTown(r.schoolName, r.schoolTown)</a>
+                        <a href=@controllers.organiser.routes.SchoolController.getSchool(r.schoolId)>@r.schoolNameWithTown</a>
                     </td>
                     <td>@formatter.format(r.instant)</td>
                 }

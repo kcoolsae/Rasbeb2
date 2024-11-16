@@ -9,7 +9,8 @@
 
 package be.ugent.rasbeb2.db.dao;
 
-import java.time.Instant;
+import be.ugent.rasbeb2.db.dto.ParticipationInfo;
+
 import java.util.List;
 
 /**
@@ -17,22 +18,18 @@ import java.util.List;
  */
 public interface AnomalyFinder {
 
-    record Data (int pupilId, String pupilName, int schoolId, String schoolName, String schoolTown, String className, Instant instant) {
-
-    }
-
     /**
      * Find participations after a given hour
      */
-    List<Data> listAfterHour(int hour);
+    List<ParticipationInfo> listAfterHour(int hour);
 
     /**
      * Find participations in the weekend
      */
-    List<Data> listInWeekend();
+    List<ParticipationInfo> listInWeekend();
 
     /**
      * Find participations at a given day of the month
      */
-    List<Data> listAtDayOfMonth(int day);
+    List<ParticipationInfo> listAtDayOfMonth(int day);
 }

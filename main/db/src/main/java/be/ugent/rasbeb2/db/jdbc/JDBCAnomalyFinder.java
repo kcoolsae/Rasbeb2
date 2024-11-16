@@ -11,6 +11,7 @@ package be.ugent.rasbeb2.db.jdbc;
 
 import be.ugent.caagt.dao.helper.SelectSQLStatement;
 import be.ugent.rasbeb2.db.dao.AnomalyFinder;
+import be.ugent.rasbeb2.db.dto.ParticipationInfo;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,9 +26,9 @@ public class JDBCAnomalyFinder implements AnomalyFinder {
         this.stat = stat;
     }
 
-    private static Data makeData(ResultSet rs) throws SQLException {
+    private static ParticipationInfo makeInfo(ResultSet rs) throws SQLException {
         Timestamp timestamp = rs.getTimestamp("participation_deadline");
-        return new Data(
+        return new ParticipationInfo(
                 rs.getInt("pupil_id"),
                 rs.getString("pupil_name"),
                 rs.getInt("school_id"),
@@ -39,29 +40,29 @@ public class JDBCAnomalyFinder implements AnomalyFinder {
     }
 
     @Override
-    public List<Data> listAfterHour(int hour) {
+    public List<ParticipationInfo> listAfterHour(int hour) {
         return stat
                 .where("EXTRACT(HOUR FROM participation_deadline) >= ?", hour)
                 .orderBy("school_id")
                 .orderBy("pupil_name")
-                .getList(JDBCAnomalyFinder::makeData);
+                .getList(JDBCAnomalyFinder::makeInfo);
     }
 
     @Override
-    public List<Data> listInWeekend() {
+    public List<ParticipationInfo> listInWeekend() {
         return stat
                 .where("EXTRACT(DOW FROM participation_deadline) IN (0, 6)")
                 .orderBy("school_id")
                 .orderBy("pupil_name")
-                .getList(JDBCAnomalyFinder::makeData);
+                .getList(JDBCAnomalyFinder::makeInfo);
     }
 
     @Override
-    public List<Data> listAtDayOfMonth(int day) {
+    public List<ParticipationInfo> listAtDayOfMonth(int day) {
         return stat
                 .where("EXTRACT(DAY FROM participation_deadline) = ?", day)
                 .orderBy("school_id")
                 .orderBy("pupil_name")
-                .getList(JDBCAnomalyFinder::makeData);
+                .getList(JDBCAnomalyFinder::makeInfo);
     }
 }

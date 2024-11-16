@@ -11,9 +11,9 @@ GET     /t/ql/:contestId/:lang controllers.contest.ContestToolsController.listLi
 GET     /t/w/:contestId controllers.contest.ContestToolsController.printWinners(request: Request, contestId: Integer)
 
 GET     /t/a/:contestId   controllers.contest.ContestToolsController.showAnomalyTools(request: Request, contestId: Int)
-POST    /t/ah/:contestId  controllers.contest.ContestToolsController.listAnomaliesHour(request: Request, contestId: Int)
-POST    /t/ad/:contestId  controllers.contest.ContestToolsController.listAnomaliesDay(request: Request, contestId: Int)
-POST    /t/aw/:contestId  controllers.contest.ContestToolsController.listAnomaliesWeekend(request: Request, contestId: Int)
+GET     /t/ah/:contestId  controllers.contest.ContestToolsController.listAnomaliesHour(request: Request, contestId: Int)
+GET     /t/ad/:contestId  controllers.contest.ContestToolsController.listAnomaliesDay(request: Request, contestId: Int)
+GET     /t/aw/:contestId  controllers.contest.ContestToolsController.listAnomaliesWeekend(request: Request, contestId: Int)
 
 GET     /o/:contestId/:ageGroupId           controllers.contest.ContestOrderController.getQuestionSet(request: Request, contestId: Int, ageGroupId: Int)
 POST    /o/:contestId/:ageGroupId/:n1/:n2   controllers.contest.ContestOrderController.updateOrder(request: Request, contestId: Int, ageGroupId: Int, n1: Int, n2: Int)

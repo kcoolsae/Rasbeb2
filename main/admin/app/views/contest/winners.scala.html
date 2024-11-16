@@ -52,9 +52,9 @@
                 <tbody>
                 @foreach.tr(wa.winners) { w =>
                     <td>@w.rank</td>
-                    <td>@w.winner.pupilName</td>
-                    <td>@w.winner.schoolName (@w.winner.town)</td>
-                    <td>@w.winner.marks</td>
+                    <td>@w.info.pupilName</td>
+                    <td>@w.info.schoolNameWithTown</td>
+                    <td>@w.info.marks</td>
                 }
                 </tbody>
             </table>
