@@ -38,4 +38,14 @@ public interface AgeGroupDao {
 
     void updateDuration(int contestId, int ageGroupId, int duration);
 
+
+    record AgeGroupWithMaxMarks(String ageGroupName, int maxMarks) {
+    }
+
+    /**
+     * Get age group information plus maximum marks for the given contest and agegroup
+     */
+    AgeGroupWithMaxMarks getAgeGroupWithMaxMarks(int contestId, int ageGroupId, String lang);
+
+
 }

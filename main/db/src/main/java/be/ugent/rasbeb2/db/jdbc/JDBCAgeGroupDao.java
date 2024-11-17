@@ -86,4 +86,17 @@ class JDBCAgeGroupDao extends JDBCAbstractDao implements AgeGroupDao {
     }
 
 
+    @Override
+    public AgeGroupWithMaxMarks getAgeGroupWithMaxMarks(int contestId, int ageGroupId, String lang) {
+        return select("age_group_name, max_marks-min_marks AS max_marks")
+                .from("question_sets JOIN age_groups USING(age_group_id)")
+                .where("contest_id", contestId)
+                .where("age_group_id", ageGroupId)
+                .where("lang", lang)
+                .getObject(rs -> new AgeGroupWithMaxMarks(
+                        rs.getString("age_group_name"),
+                        rs.getInt("max_marks")
+                ));
+    }
+
 }

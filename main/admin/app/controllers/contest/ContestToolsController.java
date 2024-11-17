@@ -55,4 +55,8 @@ public class ContestToolsController extends OrganiserOnlyController<ContestTools
     public Result downloadParticipationSheet(Http.Request request, int contestId) {
         return createDeputy(request).downloadParticipationSheet(contestId);
     }
+
+    public Result chartMarks(Http.Request request, int contestId, int ageGroupId) {
+        return createDeputy(request).chartMarks(contestId, ageGroupId);
+    }
 }

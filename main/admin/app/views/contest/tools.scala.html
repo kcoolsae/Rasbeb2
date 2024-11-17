@@ -5,13 +5,12 @@
  * This software is distributed under the MIT License - see files LICENSE and AUTHORS
  * in the top level project directory.
  *@
-@import _root_.be.ugent.rasbeb2.db.dto.{Contest,ContestType,ContestStatus}
+@import _root_.be.ugent.rasbeb2.db.dto.{Contest,ContestType,ContestStatus,AgeGroup}
 @import views.html.contest._
 @import views.html.b5._
 @import views.html.be.ugent.caagt.play.ext.i18n
 @import views.html.layout._card
-
-@(contest: Contest, languages: List[LanguageInfo])(implicit deputy: Deputy)
+@(contest: Contest, languages: List[LanguageInfo], ageGroups: List[AgeGroup])(implicit deputy: Deputy)
 
 @layout.organiser("cntts") {
     @_organiser_submenu("tools", contest)
@@ -45,6 +44,17 @@
                 @submit("contest.copy-contest.caption", tp = "outline-danger")
             }
             </p>
+        }
+        @if(contest.status == ContestStatus.CLOSED) {
+            @_card("contest.charts.title"){
+                <p>@i18n.html("contest.charts.description")</p>
+                <ul>
+                    @foreach.li(ageGroups) { ageGroup =>
+                        <a href="@controllers.contest.routes.ContestToolsController.chartMarks(contest.id, ageGroup.id)"
+                           target="chart">@ageGroup.name</a>
+                    }
+                </ul>
+            }
         }
     }
     </div>

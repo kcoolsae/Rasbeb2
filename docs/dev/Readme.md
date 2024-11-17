@@ -26,6 +26,8 @@ For running the system
 * PostgreSQL database server, version 15.6 or higher
 * Java runtime environment, version 21 or higher
 * Web server, e.g., Apache
+* gnuplot executable
+* a script for uploading questions (example provided)
 
 For development
 * All of the above, plus

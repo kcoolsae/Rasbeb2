@@ -9,6 +9,7 @@
 
 package deputies.contest;
 
+import be.ugent.rasbeb2.db.dao.AgeGroupDao;
 import be.ugent.rasbeb2.db.dao.ContestDao;
 import be.ugent.rasbeb2.db.dto.AgeGroup;
 import be.ugent.rasbeb2.db.dto.ParticipationInfo;
@@ -25,7 +26,11 @@ import views.html.contest.link_list;
 import views.html.contest.tools;
 import views.html.contest.anomalies;
 import views.html.contest.winners;
+import views.txt.contest.chart;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +46,7 @@ public class ContestToolsDeputy extends OrganiserOnlyDeputy {
             return ok(tools.render(
                     dao.getContest(contestId, getLanguage()),
                     LanguageInfo.list(dao.getContestLanguages(contestId)),
+                    dac().getAgeGroupDao().getAllAgeGroups(getLanguage()),
                     this
             ));
         } else {
@@ -169,5 +175,31 @@ public class ContestToolsDeputy extends OrganiserOnlyDeputy {
                         "Content-Disposition",
                         "attachment; filename=" + i18n("spreadsheet.filename.participations") + "-" + contestId + ".xlsx"
                 );
+    }
+
+    private Result gnuplotSvg(String script) {
+        ProcessBuilder pb = new ProcessBuilder(getConfig().getString("rasbeb2.gnuplot-binary"));
+        try {
+            Process process = pb.start();
+            try (OutputStream out = process.getOutputStream()) {
+                out.write(script.getBytes());
+                out.flush();
+            }
+            try (InputStream in = process.getInputStream()) {
+                return ok(in.readAllBytes()).as("image/svg+xml"); // shown directly in browser
+            }
+        } catch (IOException ex) {
+            return badRequest(ex.getMessage());
+        }
+    }
+
+    public Result chartMarks(int contestId, int ageGroupId) {
+        AgeGroupDao.AgeGroupWithMaxMarks agwm = dac().getAgeGroupDao().getAgeGroupWithMaxMarks(contestId, ageGroupId, getLanguage());
+        String gnuplotScript = chart.render(
+                dac().getParticipationInfoDao().getMarks(contestId, ageGroupId),
+                agwm.maxMarks(),
+                agwm.ageGroupName()
+        ).toString();
+        return gnuplotSvg(gnuplotScript);
     }
 }

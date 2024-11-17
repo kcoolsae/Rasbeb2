@@ -9,6 +9,7 @@
 
 package be.ugent.rasbeb2.db.dao;
 
+import be.ugent.rasbeb2.db.dto.AgeGroup;
 import be.ugent.rasbeb2.db.dto.ParticipationInfo;
 import java.util.List;
 
@@ -50,5 +51,10 @@ public interface ParticipationInfoDao {
      * Participation counts for the given contest
      */
     List<Count> getCounts(int contestId);
+
+    /**
+     * All marks for the given age group, ordered from lowest to highest
+     */
+    List<Integer> getMarks(int contestId, int ageGroupId);
 
 }

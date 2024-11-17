@@ -17,6 +17,8 @@ GET     /t/aw/:contestId  controllers.contest.ContestToolsController.listAnomali
 
 GET     /t/pd/:contestId  controllers.contest.ContestToolsController.downloadParticipationSheet(request: Request, contestId: Int)
 
+GET     /t/chm/:contestId/:ageGroupId controllers.contest.ContestToolsController.chartMarks(request: Request, contestId: Int, ageGroupId: Int)
+
 GET     /o/:contestId/:ageGroupId           controllers.contest.ContestOrderController.getQuestionSet(request: Request, contestId: Int, ageGroupId: Int)
 POST    /o/:contestId/:ageGroupId/:n1/:n2   controllers.contest.ContestOrderController.updateOrder(request: Request, contestId: Int, ageGroupId: Int, n1: Int, n2: Int)
 POST    /od/:contestId/:ageGroupId          controllers.contest.ContestOrderController.updateOrderByDifficulty(request: Request, contestId: Int, ageGroupId: Int)

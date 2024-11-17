@@ -1,0 +1,40 @@
+@* chart.scala.txt
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@(marks: List[Integer], maxMarks: Int, title: String)
+
+@* Gnuplot script for drawing charts with marks *@
+
+# data
+$Mydata <<EOD
+@for(mark <- marks){@mark
+}EOD
+
+# script
+MAX_MARKS=@maxMarks
+stats $Mydata using 1 nooutput
+RANGE=STATS_records
+
+set style fill solid 0.5 noborder
+unset xtics
+set y2tics
+set grid ytics front
+unset key
+
+set yrange [0:MAX_MARKS]
+set y2range [0:MAX_MARKS]
+set xrange [-10:STATS_records+10]
+set label '@title' at 0,MAX_MARKS-10 font "sans,30"
+
+set arrow from STATS_records/2,0 to STATS_records/2,MAX_MARKS front nohead lt rgb "blue"
+
+set term svg size 1024,768
+plot $Mydata with filledcurves x1 lt rgb "#ff5555", STATS_mean lt rgb "red"
+
+
+

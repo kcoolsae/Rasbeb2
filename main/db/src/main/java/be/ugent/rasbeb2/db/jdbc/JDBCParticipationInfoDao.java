@@ -142,4 +142,14 @@ public class JDBCParticipationInfoDao extends JDBCAbstractDao implements Partici
                         rs.getInt("count")
                 ));
     }
+
+    @Override
+    public List<Integer> getMarks(int contestId, int ageGroupId) {
+        return select("participation_total_marks")
+                .from("participations")
+                .where("contest_id", contestId)
+                .where("age_group_id", ageGroupId)
+                .orderBy("participation_total_marks")
+                .getList(rs -> rs.getInt("participation_total_marks"));
+    }
 }
