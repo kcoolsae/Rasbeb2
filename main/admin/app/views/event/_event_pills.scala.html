@@ -39,9 +39,11 @@
                }
                </li>
            }
-           <li class="nav-item">
-               <a class="btn btn-primary" href="@routes.EventController.downloadScores(event.id)">@i18n("spreadsheet.caption.download-scores")</a>
-           </li>
+           @if(event.getExtendedStatus == CLOSED_FREE) {
+               <li class="nav-item">
+                   <a class="btn btn-primary" href="@routes.EventController.downloadScores(event.id)">@i18n("spreadsheet.caption.download-scores")</a>
+               </li>
+           }
        }
        case _ => {
            @* no actions can be taken at this point *@

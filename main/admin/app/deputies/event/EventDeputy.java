@@ -47,7 +47,12 @@ public class EventDeputy extends TeacherOnlyDeputy {
                         dao.getParticipations(event.id()),
                         this)
                 );
-                case CLOSED_FREE, CLOSED_BLOCKED -> ok(teacher_closed_event.render(
+                case CLOSED_BLOCKED -> ok(teacher_closed_blocked_event.render(
+                        event,
+                        dao.getParticipations(event.id()),
+                        this)
+                );
+                case CLOSED_FREE -> ok(teacher_closed_event.render(
                         event,
                         dao.getParticipations(event.id()),
                         this)

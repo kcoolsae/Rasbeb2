@@ -1,0 +1,20 @@
+@* teacher_closed_blocked_event.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import _root_.be.ugent.rasbeb2.db.dto.{Event, ParticipationWithPupil}
+@import deputies.event.EventDeputy
+@import views.html.event._
+@(event: Event, participations: List[ParticipationWithPupil])(implicit deputy: EventDeputy)
+
+@layout.teacher("eclb") {
+    @_event_title(event.header)
+    @_event_actions(event)
+    @if(participations.forall(_.deadline == null)) {
+        @_event_delete(event.id)
+    }
+}
