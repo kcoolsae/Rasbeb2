@@ -64,6 +64,6 @@ BEGIN
             contest_id = c_id AND
             age_group_id = a_id AND
             NOT participation_hidden
-        ORDER BY participation_total_marks DESC, schools.school_name;
+        ORDER BY participation_total_marks DESC, pupils.pupil_name;
 END;
 $$ LANGUAGE plpgsql;

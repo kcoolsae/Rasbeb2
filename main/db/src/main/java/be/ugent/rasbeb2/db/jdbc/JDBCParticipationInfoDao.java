@@ -133,6 +133,7 @@ public class JDBCParticipationInfoDao extends JDBCAbstractDao implements Partici
         return select("age_group_id, lang, count(*)")
                 .from("participations")
                 .where("contest_id", contestId)
+                .where("not participation_hidden")
                 .groupBy("age_group_id, lang")
                 .orderBy("age_group_id")
                 .orderBy("lang")

@@ -48,7 +48,7 @@ public interface ParticipationInfoDao {
     }
 
     /**
-     * Participation counts for the given contest
+     * Participation counts for the given contest - does not show hidden participations
      */
     List<Count> getCounts(int contestId);
 

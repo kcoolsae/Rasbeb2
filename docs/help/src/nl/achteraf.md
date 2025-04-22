@@ -4,13 +4,20 @@ Na de wedstrijd
 
 Zodra de officiële wedstrijd is afgelopen, staan punten en antwoorden ter beschikking. Leerlingen kunnen
 bij het inloggen hun resultaten bekijken, leerkrachten kunnen een
-overzichtslijst zien en downloaden. Voor elke vraag kan je het juiste antwoord
-zien en hoe je tot dit antwoord komt. Bovendien staat er ook (bijna)
+overzichtslijst zien en downloaden:
+
+* Bij *Start* (Evenementen) → *Details*, zie je de resultaten voor dat evenement
+* Bij *Wedstrijden* → *...* (knop) → *Deelnames* (menu), zie je de resultaten per klas, voor alle evenementen samen
+
+Je kan in beide gevallen ook de resultaten downloaden als Excel-bestand.
+
+Bij *Wedstrijden* → *...* (knop) → *Vragen* (menu) zie je nu bij elke vraag ook het correcte antwoord, en hoe
+je tot dit antwoord komt. Daar staat ook (bijna)
 steeds een woordje uitleg over wat de opgave te maken heeft met
 informaticawetenschappen (en soms, computationeel denken).
 
 (Het zou leuk zijn als je als leerkracht ooit eens de tijd vond om die antwoorden ook
-met je leerlingen te overlopen en ook eens hier en daar stil te staan
+met je leerlingen te overlopen en eens hier en daar stil te staan
 bij de informatica-aspecten van de vraag.)
 
 #### Nep-deelnames verbergen
