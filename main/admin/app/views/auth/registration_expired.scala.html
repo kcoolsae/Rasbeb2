@@ -1,0 +1,13 @@
+@import common.Deputy
+@()(implicit deputy: Deputy)
+
+@layout.raw("regtexpired") {
+    <main>
+        <div class="d-flex justify-content-center align-items-center py-5">
+            <div class="alert alert-danger" role="alert" style="max-width: 512px;">
+                @h4("auth.registration-error.title")
+                @i18n.html("auth.registration-error.text")
+            </div>
+        </div>
+    </main>
+}

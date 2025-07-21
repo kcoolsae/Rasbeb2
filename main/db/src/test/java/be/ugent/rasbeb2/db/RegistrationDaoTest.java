@@ -32,6 +32,7 @@ class RegistrationDaoTest extends OrganiserDaoTest {
         String email = "johndoe@email.com";
         String token = dao.addPasswordRequest(email);
         assertThat (dao.isValidPasswordRequest(email, token)).isTrue();
+        assertThat (dao.isValidPasswordRequestToken(token)).isTrue();
         assertThat (dao.isValidPasswordRequest("janedoe@email.com", token)).isFalse();
         assertThat (dao.isValidPasswordRequest(email, "definitely not a token")).isFalse();
 
@@ -51,12 +52,14 @@ class RegistrationDaoTest extends OrganiserDaoTest {
         String email = "teacher2@some.email.com";
         String token = "some token";
         assertThat(dao.isValidPasswordRequest(email, token)).isFalse();
+        assertThat(dao.isValidPasswordRequestToken(token)).isFalse();
     }
 
     @Test
     void addRegistration() {
         String email = "newTeacher@some.email.com";
         String token = dao.addRegistration(email, 1);
+        assertThat(dao.isValidRegistrationToken(token)).isTrue();
         assertThat(dao.isValidRegistration(email, token, 1)).isTrue();
         assertThat(dao.isValidRegistration(email, token, 2)).isFalse();
         assertThat(dao.isValidRegistration("not-a-user", token, 1)).isFalse();
@@ -101,6 +104,7 @@ class RegistrationDaoTest extends OrganiserDaoTest {
         String email = "newuser@some.email.com";
         String token = "some token";
         assertThat(dao.isValidPasswordRequest(email, token)).isFalse();
+        assertThat(dao.isValidPasswordRequestToken(token)).isFalse();
     }
 
     // findRegistrations().filter()  not tested

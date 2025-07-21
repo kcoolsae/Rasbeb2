@@ -57,9 +57,16 @@ public class PasswordDeputy extends EmailSendingDeputy {
     }
 
     public Result resetPasswordForm(String token) {
-        return ok(reset_password.render(
-               emptyForm(NewPasswordData.class), token, this
-        ));
+        RegistrationDao dao = dac().getRegistrationDao();
+        if (dao.isValidPasswordRequestToken(token)) {
+            // token not yet expired
+            return ok(reset_password.render(
+                    emptyForm(NewPasswordData.class), token, this
+            ));
+        } else {
+            error ("auth.reset-password.token-error");
+            return redirect(routes.PasswordController.forgotPasswordForm());
+        }
     }
 
     public Result resetPassword(String token) {

@@ -37,6 +37,14 @@ public class JDBCRegistrationDao extends JDBCAbstractDao implements Registration
     }
 
     @Override
+    public boolean isValidPasswordRequestToken(String token) {
+        return ! select("1").from("password_requests")
+                .where("request_token", token)
+                .where("request_expires > now()")
+                .isEmpty();
+    }
+
+    @Override
     public boolean isValidPasswordRequest(String email, String token) {
         return ! select("1").from("password_requests")
                 .where("user_email", email.toLowerCase().strip())
@@ -62,6 +70,14 @@ public class JDBCRegistrationDao extends JDBCAbstractDao implements Registration
                 .value("registration_expires", Instant.now().plus(72, ChronoUnit.HOURS))
                 .execute();
         return token;
+    }
+
+    @Override
+    public boolean isValidRegistrationToken(String token) {
+        return ! select("1").from("registrations")
+                .where("registration_token", token)
+                .where("registration_expires > now()")
+                .isEmpty();
     }
 
     @Override

@@ -26,6 +26,7 @@ import play.mvc.Result;
 import util.Table;
 import views.html.auth.list_registrations;
 import views.html.auth.registrationInfo;
+import views.html.auth.registration_expired;
 
 public class RegistrationDeputy extends EmailSendingDeputy {
 
@@ -167,10 +168,14 @@ public class RegistrationDeputy extends EmailSendingDeputy {
     }
 
     public Result teacherInfo(String token, int schoolId) {
-        return ok(registrationInfo.render(
-                routes.RegistrationController.registerTeacherInfo(token, schoolId),
-                emptyForm(RegistrationData.class), token, this
-        ));
+        if (dac().getRegistrationDao().isValidRegistrationToken(token)) {
+            return ok(registrationInfo.render(
+                    routes.RegistrationController.registerTeacherInfo(token, schoolId),
+                    emptyForm(RegistrationData.class), token, this
+            ));
+        } else {
+            return badRequest(registration_expired.render(this));
+        }
     }
 
     public Result registerTeacherInfo(String token, int schoolId) {

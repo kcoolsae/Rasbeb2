@@ -20,6 +20,11 @@ public interface RegistrationDao {
     String addPasswordRequest (String email);
 
     /**
+     * Check whether this is a password request token that has not yet expired.
+     */
+    boolean isValidPasswordRequestToken (String token);
+
+    /**
      * Check whether e-mail/token combination exists in the list of
      * password requests and whether it is not yet expired
      */
@@ -35,6 +40,11 @@ public interface RegistrationDao {
      * @return The token stored in the database to validate this request
      */
     String addRegistration(String email, int schoolId);
+
+    /**
+     * Check whether this ia a registration token that has not yet expired.
+     */
+    boolean isValidRegistrationToken(String token);
 
     /**
      * Check whether e-mail/token/school combination exists in the list of
