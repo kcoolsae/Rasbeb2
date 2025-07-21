@@ -1,0 +1,39 @@
+/*
+ * fonts.css
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2024 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ */
+
+/* Google fonts - served locally */
+
+@font-face {
+  font-family: 'Fira Sans';
+  src: url('../fonts/FiraSans-Regular.woff2') format('woff2'),
+       url('../fonts/FiraSans-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Fira Sans';
+  src: url('../fonts/FiraSans-Italic.woff2') format('woff2'),
+       url('../fonts/FiraSans-Italic.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Fira Sans';
+  src: url('../fonts/FiraSans-Medium.woff2') format('woff2'),
+       url('../fonts/FiraSans-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Fira Sans';
+  src: url('../fonts/FiraSans-MediumItalic.woff2') format('woff2'),
+       url('../fonts/FiraSans-MediumItalic.woff') format('woff');
+  font-weight: 500;
+  font-style: italic;
+}
