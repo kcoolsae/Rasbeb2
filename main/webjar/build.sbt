@@ -3,7 +3,7 @@ name := "Rasbeb2 - webjar"
 normalizedName := "webjar"
 
 // remove most of play functionality - we only need to build a webjar
-scalaVersion := "2.13.14"
+scalaVersion := "2.13.16"
 enablePlugins(PlayJava)
 disablePlugins(PlayFilters, PlayLogback, PlayPekkoHttpServer)
 

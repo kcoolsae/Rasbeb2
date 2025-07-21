@@ -1,7 +1,7 @@
 
 name := "Rasbeb2 - parent project"
 
-scalaVersion := "2.13.14"
+scalaVersion := "2.13.16"
 
 // subprojects
 //////////////
@@ -50,18 +50,18 @@ ThisBuild / packageSrc / publishArtifact := false
 // settings common to both Play apps
 lazy val commonAppSettings = Seq(
 
-  ThisBuild / scalaVersion:= "2.13.14",
+  ThisBuild / scalaVersion:= "2.13.16",
 
   //
   libraryDependencies ++= Seq(
     javaCore, guice, javaJdbc,
 
     "be.ugent.caagt" %% "play-utils" % "1.1",
-    "org.webjars" % "font-awesome" % "6.5.1",
+    "org.webjars" % "font-awesome" % "6.7.2",
 
-    "org.projectlombok" % "lombok" % "1.18.34" % Compile,
+    "org.projectlombok" % "lombok" % "1.18.38" % Compile,
 
-    "org.postgresql" % "postgresql" % "42.7.3" % Runtime
+    "org.postgresql" % "postgresql" % "42.7.7" % Runtime
   ),
 
   // Allow routes to be in a different directory
