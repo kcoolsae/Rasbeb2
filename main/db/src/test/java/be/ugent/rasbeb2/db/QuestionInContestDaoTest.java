@@ -65,7 +65,7 @@ class QuestionInContestDaoTest extends TeacherDaoTest {
         List<Integer> ageGroups = Arrays.asList(1, null, 3); // List.of does not like nulls
         dao.setQuestionAgeGroups(1, 2, ageGroups);
         assertThat(dao.getQuestionsForContest(1, 1, "nl")).extracting(QuestionHeader::title)
-                .containsExactly("Question 1 in nl", "Question 2 in nl", "Question 3 in nl");
+                .containsExactly("Question 1 in nl", "Question 2 in nl", "Question 3 in nl", "Question 4 in nl");
         assertThat(dao.getQuestionsForContest(1, 2, "nl")).extracting(QuestionHeader::title)
                 .containsExactly("Question 3 in nl");
         assertThat(dao.getQuestionsForContest(1, 3, "nl")).extracting(QuestionHeader::title)

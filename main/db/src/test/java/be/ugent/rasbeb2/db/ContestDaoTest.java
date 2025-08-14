@@ -189,16 +189,16 @@ class ContestDaoTest extends OrganiserDaoTest {
     void listQuestionLinks() {
         List<ContestDao.QuestionLink> links = dao.getQuestionLinks(1, "en");
         assertThat(links).extracting(ContestDao.QuestionLink::magicQ).containsExactly(
-                null, "MagicQ2", null
+                null, "MagicQ2", null, null
         );
         assertThat(links).extracting(ContestDao.QuestionLink::magicF).containsExactly(
-                null, "MagicF2", "MagicF3"
+                null, "MagicF2", "MagicF3", "MagicF4"
         );
         assertThat(links).extracting(ContestDao.QuestionLink::externalId).containsExactly(
-                "2024-XY-01", "2024-XY-02", "2024-XY-12"
+                "2024-XY-01", "2024-XY-02", "2024-XY-12", "2025-XY-12"
         );
         assertThat(links).extracting(ContestDao.QuestionLink::title).containsExactly(
-                "Question 1 in en", "Question 2 in en", "Question 3 in en"
+                "Question 1 in en", "Question 2 in en", "Question 3 in en", "Question 4 in en"
         );
     }
 }

@@ -122,8 +122,8 @@ class EventDaoTest extends TeacherDaoTest {
     void getParticipations() {
         List<ParticipationWithPupil> actual = dao.getParticipations(1);
         List<ParticipationWithPupil> expected = List.of(
-                new ParticipationWithPupil(1, 1, "Pupil 1", false, actual.get(0).deadline(), 0, 36),
-                new ParticipationWithPupil(2, 1, "Pupil 2", true, actual.get(1).deadline(), 0, 36)
+                new ParticipationWithPupil(1, 1, "Pupil 1", false, actual.get(0).deadline(), 0, 44),
+                new ParticipationWithPupil(2, 1, "Pupil 2", true, actual.get(1).deadline(), 0, 44)
         );
         assertThat(actual).isEqualTo(expected);
         // 6 did not participate in event 3

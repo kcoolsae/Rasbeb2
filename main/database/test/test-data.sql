@@ -150,6 +150,10 @@ SELECT
     -2
 FROM contests_ag CROSS JOIN questions WHERE contest_id > 1;
 
+-- Question 4 also in contest 1 for age group 1
+INSERT INTO questions_in_set (contest_id, age_group_id, question_id, question_marks_if_correct, question_marks_if_incorrect)
+VALUES (1, 1, 4, 6, -2);
+
 -- Events
 INSERT INTO events (event_id, event_status,
                     contest_id, age_group_id, school_id, year_id,
