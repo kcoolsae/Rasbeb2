@@ -114,11 +114,21 @@ BEGIN
     SET participation_marks =
             CASE
                 WHEN (participation_answer = '') IS NOT FALSE THEN 0 -- includes null case
-                WHEN participation_answer = info.question_correct_answer THEN
-                    info.question_marks_if_correct
+                WHEN info.question_correct_answer LIKE '^%' THEN
+                    CASE
+                        WHEN participation_answer ~ info.question_correct_answer THEN
+                            info.question_marks_if_correct
+                        ELSE
+                            info.question_marks_if_incorrect
+                    END
                 ELSE
-                    info.question_marks_if_incorrect
-                END
+                    CASE
+                        WHEN participation_answer = info.question_correct_answer THEN
+                            info.question_marks_if_correct
+                        ELSE
+                            info.question_marks_if_incorrect
+                    END
+            END
     FROM info
     WHERE pd.question_id = info.question_id
       AND contest_id = c_id

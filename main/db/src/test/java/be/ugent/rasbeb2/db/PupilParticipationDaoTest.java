@@ -91,7 +91,7 @@ class PupilParticipationDaoTest extends PupilDaoTest {
         // question 1 incorrect, 2 correct, 3 blank, marks 6 -2 + 0 = 4 + offset 6
         ParticipationWithMarks actual = dao.getMarks(3);
         ParticipationWithMarks expected = new ParticipationWithMarks(
-                3, 5, 2, "en", 10, 24
+                3, 5, 2, "en", 12, 32
         );
         assertThat(actual).isEqualTo(expected);
     }
@@ -110,9 +110,9 @@ class PupilParticipationDaoTest extends PupilDaoTest {
     void listQuestionsWithFeedback() {
         dao.closeParticipationAndComputeMarks(3);
         assertThat(dao.listQuestionsWithFeedback(3, 2, "en"))
-                .hasSize(3)
+                .hasSize(4)
                 .extracting(QuestionWithFeedback::marks)
-                .containsExactly(-2, 6, 0);
+                .containsExactly(-2, 6, 0, 0);
     }
 
 }

@@ -95,7 +95,7 @@ class EventDaoTest extends TeacherDaoTest {
     void listClassesWithPermissions() {
         Iterable<ClassWithPermissions> cwp = dao.listClassesWithPermissions(2);
         // classes of this school are 1,2,3,4 but only 3,4 are of the year of the event
-        // pupils are 1,2 and 5,6 respectively - only 5 is selected for the event
+        // pupils are 1,2 and 5,6,8 respectively - only 5 is selected for the event
         assertThat(cwp).extracting(c -> c.group().id())
                 .containsExactly(3,4);
         Iterator<ClassWithPermissions> iterator = cwp.iterator();
@@ -107,7 +107,8 @@ class EventDaoTest extends TeacherDaoTest {
         ClassWithPermissions second = iterator.next();
         assertThat (second.pupils()).containsExactly(
                 new PupilWithPermission(5, "Pupil 5", true),
-                new PupilWithPermission(6, "Pupil 6", false)
+                new PupilWithPermission(6, "Pupil 6", false),
+                new PupilWithPermission(8, "Pupil 8", false)
         );
     }
 
@@ -149,10 +150,10 @@ class EventDaoTest extends TeacherDaoTest {
 
     @Test
     void getPupilsWithScore() {
-        dao.closeEvent(7); // restricted contest
+        dao.closeEvent(7); // restricted contest 3:2, questions 1,2,3,4 max marks 6,6,6,6 + offset 8
         List<PupilWithScore> actual = dao.getPupilsWithScore(7);
         List<PupilWithScore> expected = List.of(
-                new PupilWithScore(5, "Pupil 5", "3b", 10, 24, false),
+                new PupilWithScore(5, "Pupil 5", "3b", 12, 32, false), // answered wrong/correct/blank/blank
                 new PupilWithScore(6, "Pupil 6", "3b", 0, 0, false)
         );
         assertThat(actual).isEqualTo(expected);

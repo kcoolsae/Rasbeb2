@@ -100,7 +100,7 @@ class ClassesDaoTest extends TeacherDaoTest {
         assertThat(first).extracting("name")
                 .containsExactly("Pupil 1", "Pupil 2");
         assertThat(second).extracting("name")
-                .containsExactly("Pupil 5", "Pupil 6");
+                .containsExactly("Pupil 5", "Pupil 6", "Pupil 8");
     }
 
     @Test
@@ -127,11 +127,11 @@ class ClassesDaoTest extends TeacherDaoTest {
     void getPupilsByClass() {
         List<PupilInClass> pupils = dao.getPupilsByClass(24);
         assertThat(pupils).flatExtracting(PupilInClass::className, PupilInClass::name)
-                .containsExactly("3a", "Pupil 1", "3a", "Pupil 2", "3b", "Pupil 5", "3b", "Pupil 6");
+                .containsExactly("3a", "Pupil 1", "3a", "Pupil 2", "3b", "Pupil 5", "3b", "Pupil 6", "3b", "Pupil 8");
         assertThat(pupils).flatExtracting(PupilInClass::classId, PupilInClass::pupilId)
-                .containsExactly(3, 1, 3, 2, 4, 5, 4, 6);
+                .containsExactly(3, 1, 3, 2, 4, 5, 4, 6, 4, 8);
         assertThat(pupils).extracting(PupilInClass::gender)
-                .containsExactly(Gender.MALE, Gender.FEMALE, Gender.FEMALE, Gender.OTHER);
+                .containsExactly(Gender.MALE, Gender.FEMALE, Gender.FEMALE, Gender.OTHER, Gender.FEMALE);
     }
 
     @Test
@@ -161,9 +161,9 @@ class ClassesDaoTest extends TeacherDaoTest {
 
     @Test
     void removePupil() {
-        assertThat(dao.pupilExistsInClass("Pupil 4", 6)).isTrue();
-        dao.removePupil(4);
-        assertThat(dao.pupilExistsInClass("Pupil 4", 6)).isFalse();
+        assertThat(dao.pupilExistsInClass("Pupil 8", 4)).isTrue();
+        dao.removePupil(8);
+        assertThat(dao.pupilExistsInClass("Pupil 8", 4)).isFalse();
     }
 
     @Test

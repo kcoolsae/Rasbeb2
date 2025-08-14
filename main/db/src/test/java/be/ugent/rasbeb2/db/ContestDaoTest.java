@@ -164,18 +164,18 @@ class ContestDaoTest extends OrganiserDaoTest {
         dao.updateOrder(2, 1, seqNum1, seqNum2); // interchange first two questions
         questions = dao.getQuestionSet(2, 1, "nl");
         assertThat(questions).extracting(QuestionInSet::title)
-                .containsExactly("Question 2 in nl", "Question 1 in nl", "Question 3 in nl");
+                .containsExactly("Question 2 in nl", "Question 1 in nl", "Question 3 in nl", "Question 4 in nl");
     }
 
     @Test
     void updateOrder() {
-        // make first question more difficult, third easier
-        dao.updateMarks(2, 1, List.of(1,3), List.of(8,4), List.of(-4,0));
+        // make first question more difficult, third easier, fourth more difficult
+        dao.updateMarks(2, 1, List.of(1,3,4), List.of(8,4,12), List.of(-4,0,-6));
         // reorder them according to difficulty
         dao.updateOrder(2, 1);
         List<QuestionInSet>  questions = dao.getQuestionSet(2, 1, "nl");
         assertThat(questions).extracting(QuestionInSet::title)
-                .containsExactly("Question 3 in nl", "Question 2 in nl", "Question 1 in nl");
+                .containsExactly("Question 3 in nl", "Question 2 in nl", "Question 1 in nl", "Question 4 in nl");
     }
 
     @Test

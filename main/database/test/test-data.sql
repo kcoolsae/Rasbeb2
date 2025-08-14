@@ -65,11 +65,13 @@ VALUES
     (3, 'Pupil 3', 'OTHER', 'password3'),
     (4, 'Pupil 4', 'MALE', 'password4'),
     (5, 'Pupil 5', 'FEMALE', 'password5'),
-    (6, 'Pupil 6', 'OTHER', 'password6');
+    (6, 'Pupil 6', 'OTHER', 'password6'),
+    (8, 'Pupil 8', 'FEMALE', 'password5');
 
 -- Pupils in classes
 INSERT INTO pupils_classes (pupil_id, class_id)
-VALUES (1, 3), (2, 3), (5, 4), (6, 4), (3, 1), (4, 6);
+VALUES (1, 3), (2, 3), (5, 4), (6, 4),
+       (3, 1), (4, 6), (8,4);
 
 -- Age groups (3)
 INSERT INTO age_groups (age_group_id, lang, age_group_name, age_group_description)
@@ -107,7 +109,8 @@ INSERT INTO questions(question_id, question_type, question_type_xtra, question_e
 VALUES
   (1, 'MC', '4', '2024-XY-01', 'MagicQ1', 'MagicF1'),
   (2, 'INT', NULL, '2024-XY-02', 'MagicQ2', 'MagicF2'),
-  (3, 'JSON', NULL, '2024-XY-12', 'MagicQ3', 'MagicF3');
+  (3, 'JSON', NULL, '2024-XY-12', 'MagicQ3', 'MagicF3'),
+  (4, 'TEXT', NULL, '2025-XY-12', 'MagicQ4', 'MagicF4');
 
 -- Question titles in various languages
 INSERT INTO questions_i18n (question_id, lang, question_title, question_correct_answer)
@@ -115,6 +118,9 @@ SELECT question_id, language,
        'Question ' || question_id || ' in ' || language,
        'Answer to ' || question_id || ' in ' || language
 FROM questions CROSS JOIN unnest (ARRAY['fr', 'nl', 'en']) AS language;
+
+-- For question 4 we use regular expression matching
+UPDATE questions_i18n SET question_correct_answer = '^(AB|BA)C$' WHERE question_id = 4;
 
 -- Some questions / feedback are uploaded, some are not
 UPDATE questions_i18n
@@ -132,7 +138,7 @@ SELECT
     3* (question_id - age_group_id) + 6,
     age_group_id - question_id - 2
 FROM age_groups JOIN questions
-    ON question_id >= age_group_id AND lang = 'en'; -- age_groups contain each id 3 times
+    ON question_id >= age_group_id AND lang = 'en' AND question_id <= 3; -- age_groups contain each id 3 times
 
 -- In contest 2-5 all questions for all supported age groups
 INSERT INTO questions_in_set (contest_id, age_group_id, question_id, question_marks_if_correct, question_marks_if_incorrect)
@@ -174,7 +180,9 @@ INSERT INTO participations (contest_id, pupil_id, age_group_id, lang, event_id, 
 VALUES
     (3, 5, 2, 'en', 7, false, now() + interval '4 years'),
     (1, 1, 1, 'nl', 1, false, now() + interval '4 years'),
-    (1, 2, 1, 'nl', 1, true, now() + interval '4 years');
+    (1, 2, 1, 'nl', 1, true, now() + interval '4 years'),
+    (1, 3, 1, 'nl', 1, false, now() + interval '4 years'),
+    (1, 4, 1, 'nl', 1, false, now() + interval '4 years');
 
 -- Pupil 3 answered 2 out of 3 questions
 -- pupil 1 and 2 answered all questions
@@ -186,7 +194,12 @@ VALUES
     (1, 1, 2, 'Answer to 2 in nl', ''),
     (1, 1, 3, 'Wrong answer', ''),
     (1, 2, 2, 'Answer to 2 in nl', ''),
-    (1, 2, 3, 'Answer to 3 in nl', 'model');
+    (1, 2, 3, 'Answer to 3 in nl', 'model'),
+    (1, 1, 4, 'ABC', ''),
+    (1, 2, 4, 'BAC', ''),
+    (1, 3, 4, 'ABCD', ''),
+    (1, 4, 4, 'AB', '');
 
 SELECT reset_sequences('public');
 
+REFRESH MATERIALIZED VIEW question_sets;
