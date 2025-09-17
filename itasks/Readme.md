@@ -19,5 +19,6 @@ The following JavaScript files are included in this folder:
 The following provide a 'library' for common types of interaction:
 * `dnd-v1.js`: drag and drop 
 * `click-v1.js`: click to change (rotate) selection 
+* `mark-v1.js`: mark (select/deselect) items by clicking on them
 
 The folder also contains some example HTML files that demonstrate how to use the JavaScript code.
