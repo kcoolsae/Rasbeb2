@@ -42,10 +42,11 @@ public class LanguageDeputy extends Deputy {
         } else {
             success("change-language.message");
             Result r;
-            if (form.get().redirectTo.isEmpty()) {
+            String redirectTo = form.get().redirectTo;
+            if (redirectTo == null || redirectTo.isEmpty()) {
                 r = redirect(controllers.home.routes.HomeController.index());
             } else {
-                r = redirect(form.get().redirectTo);
+                r = redirect(redirectTo);
             }
             return r.withCookies(
                     Http.Cookie.builder(getMessagesApi().langCookieName(), form.get().language)

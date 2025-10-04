@@ -42,7 +42,7 @@ public interface RegistrationDao {
     String addRegistration(String email, int schoolId);
 
     /**
-     * Check whether this ia a registration token that has not yet expired.
+     * Check whether this is a registration token that has not yet expired.
      */
     boolean isValidRegistrationToken(String token);
 
