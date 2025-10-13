@@ -40,7 +40,8 @@
         @include.js("interactive")
         <script>
         receiveAnswer = function (answer) {
-            document.getElementById("answer_received").value = answer;
+            // element with data-interactive="answer_received" and in a pane of class "tab-pane active" (so visible)
+            document.querySelector(".tab-pane.active [data-interactive='answer_received']").value = answer;
         }
         </script>
     }
