@@ -17,4 +17,4 @@
 <div class="col-auto">@i18n("pupil.answer.title")</div>
 <div class="col-auto">@text(f("answer"), "autocomplete" -> "off", "size" -> 6)</div>
 <div class="col-auto">@i18n("pupil.answer.leave-empty")</div>
-<div class="col-auto"><button type="submit" class="btn btn-primary">@i18n("pupil.answer.submit")</button></div>
+@_colored_submit(f("answer").value)

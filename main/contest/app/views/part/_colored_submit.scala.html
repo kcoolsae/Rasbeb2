@@ -1,0 +1,15 @@
+@* _colored_submit.scala.html
+* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+*
+* This software is distributed under the MIT License - see files LICENSE and AUTHORS
+* in the top level project directory.
+*@
+
+@import views.html.be.ugent.caagt.play.ext.i18n
+
+@(value: java.util.Optional[String])(implicit deputy: common.Deputy)
+
+@defining(if (value.orElse("").isBlank)("btn-outline-primary")else("btn-primary")) { clz =>
+    <div class="col-auto"><button type="submit" class="btn @clz">@i18n("pupil.answer.submit")</button></div>
+}

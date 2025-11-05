@@ -16,9 +16,15 @@
 
 @hidden(f("answer"), "id" -> "hidden-answer-field")
 @hidden(f("model"), "id" -> "hidden-model-field")
-<div class="col-auto"><button type="button" class="btn btn-primary"
-                          onclick='requestAnswer(document.getElementById("iframeQ"));'>@i18n("pupil.answer.submit")</button></div>
-<div class="col-auto">
-    <button type="submit" class="btn btn-outline-primary"
-          onclick="document.getElementById('hidden-answer-field').value='';">@i18n("pupil.answer.none-caption")</button>
-</div>
+@defining(f("answer").value.orElse("").isBlank) { emptyAnswer =>
+    <div class="col-auto"><button type="button" class='btn @{if(emptyAnswer) "btn-outline-primary" else "btn-primary"}'
+         onclick='requestAnswer(document.getElementById("iframeQ"));'>@i18n("pupil.answer.submit")</button></div>
+    <div class="col-auto">
+    @if(emptyAnswer) {
+        <span>Je hebt nog geen antwoord ingediend!</span>
+    } else {
+        <button type="submit" class="btn btn-outline-primary"
+        onclick="document.getElementById('hidden-answer-field').value = '';">@i18n("pupil.answer.none-caption")</button>
+    }
+    </div>
+}
