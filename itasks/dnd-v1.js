@@ -84,6 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
         draggableElement.addEventListener('dragstart', function (e) {
             e.dataTransfer.setData('text/plain', e.currentTarget.dataset.dndKey);
             e.dataTransfer.effectAllowed = 'move';
+            e.stopPropagation();
         });
     }
 
