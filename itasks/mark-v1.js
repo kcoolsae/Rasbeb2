@@ -12,14 +12,15 @@ elementsOrderedByMark = function () {
     return Array.from(groups).sort((a, b) => a.dataset.mark.localeCompare(b.dataset.mark));
 }
 
-// string with all selected values, ordered by mark
+// string with all selected values, ordered by mark, [none] if none selected
 getAnswerString = function () {
     const elements = elementsOrderedByMark();
     // list of elements that have class 'marked'
-    return elements
+    let result = elements
         .filter((element) => element.classList.contains('marked'))
         .map((element) => element.dataset.mark)
         .join('');
+    return result.length === 0 ? '[none]' : result;
 }
 
 getModelString = function () {
@@ -29,7 +30,13 @@ getModelString = function () {
 // initialize the task by marking the correct elements
 initializeTask = function (answerAsString, modelAsString) {
     // no model, page is reconstructed from answer
-    if (answerAsString !== '') {
+    if (answerAsString === '[none]') {
+        // unmark all
+        const elements = elementsOrderedByMark();
+        for (element of elements) {
+            element.classList.remove('marked');
+        }
+    } else if (answerAsString !== '') {
         const elements = elementsOrderedByMark();
         for (element of elements) {
             if (answerAsString.includes(element.dataset.mark)) {
