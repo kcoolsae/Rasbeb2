@@ -21,7 +21,7 @@
          onclick='requestAnswer(document.getElementById("iframeQ"));'>@i18n("pupil.answer.submit")</button></div>
     <div class="col-auto">
     @if(emptyAnswer) {
-        <span>Je hebt nog geen antwoord ingediend!</span>
+        <span>@i18n("pupil.answer.not-submitted)</span>
     } else {
         <button type="submit" class="btn btn-outline-primary"
         onclick="document.getElementById('hidden-answer-field').value = '';">@i18n("pupil.answer.none-caption")</button>
