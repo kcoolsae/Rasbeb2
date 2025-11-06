@@ -9,6 +9,7 @@
 
 package deputies.contest;
 
+import be.ugent.caagt.dao.UniqueViolation;
 import be.ugent.rasbeb2.db.dto.Event;
 import common.Session;
 import controllers.contest.routes;
@@ -33,9 +34,15 @@ public class PupilDeputy extends ContestDeputy {
      */
     public Result start(int eventId) {
         int pupilId = getCurrentUserId();
-        int contestId = dac().getParticipationDao().createParticipation(eventId);
-        LOGGER.info("{} {} start event", pupilId, eventId);
-        return firstParticipation(contestId);
+        try {
+            int contestId = dac().getParticipationDao().createParticipation(eventId);
+            LOGGER.info("{} {} start event", pupilId, eventId);
+            return firstParticipation(contestId);
+        } catch (UniqueViolation ex) {
+            // special case where the start button is clicked on a participation
+            // that is already closed.
+            return redirectToIndex();
+        }
     }
 
     /**
