@@ -10,7 +10,7 @@ libraryDependencies ++= Seq(
   "org.postgresql" % "postgresql" % "42.7.7" % Test,
 
   "net.aichler" % "jupiter-interface" % JupiterKeys.jupiterVersion.value % Test,
-  "org.assertj" % "assertj-core" % "3.27.3" % Test
+  "org.assertj" % "assertj-core" % "3.27.7" % Test
 
 )
 

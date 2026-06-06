@@ -78,9 +78,9 @@ lazy val commonAppSettings = Seq(
     javaCore, guice, javaJdbc,
 
     "be.ugent.caagt" %% "play-utils" % "1.1",
-    "org.webjars" % "font-awesome" % "6.7.2",
+    "org.webjars" % "font-awesome" % "7.2.0",
 
-    "org.postgresql" % "postgresql" % "42.7.7" % Runtime
+    "org.postgresql" % "postgresql" % "42.7.11" % Runtime
   ),
 
   // Allow routes to be in a different directory
