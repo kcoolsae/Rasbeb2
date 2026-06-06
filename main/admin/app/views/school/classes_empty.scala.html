@@ -1,0 +1,19 @@
+@* classes_empty.scala.html
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright © 2023-2026 Kris Coolsaet (Universiteit Gent)
+ *
+ * This software is distributed under the MIT License - see files LICENSE and AUTHORS
+ * in the top level project directory.
+ *@
+
+@import common.Deputy
+@import views.html.b5._
+@import views.html.be.ugent.caagt.play.ext.i18n
+@()(implicit deputy: Deputy)
+
+@layout.teacher("pue") {
+    @h4("school.pupils.title")
+    <div class="alert alert-warning" role="alert">
+        <p>@i18n("school.pupils.no-classes")</p>
+    </div>
+}

@@ -27,10 +27,14 @@ public class ClassDeputy extends TeacherOnlyDeputy {
         ClassesDao dao = dac().getClassesDao();
         Iterable<ClassWithPupils> classesWithPupils = dao.getClassesWithPupils(getCurrentYearId());
         if (isActiveYear()) {
-            return ok(views.html.school.classes.render(
-                    emptyForm(ClassesData.class),
-                    classesWithPupils,
-                    this));
+            if (classesWithPupils.iterator().hasNext()) {
+                return ok(views.html.school.classes.render(
+                        emptyForm(ClassesData.class),
+                        classesWithPupils,
+                        this));
+            } else {
+                return ok(views.html.school.classes_empty.render(this));
+            }
         } else {
             return ok(views.html.school.classes_inactive.render(
                     classesWithPupils,
