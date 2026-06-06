@@ -1,8 +1,6 @@
 
 name := "Rasbeb2 - parent project"
 
-scalaVersion := "2.13.16"
-
 // subprojects
 //////////////
 
@@ -12,7 +10,8 @@ lazy val root = (project in file(".")).aggregate(
   publish / skip := true
 )
 
-lazy val db = project in file("db")
+lazy val db = (project in file("db"))
+  .settings(lombokSettings)
 
 lazy val common = (project in file("common"))
   .dependsOn(db)
@@ -40,17 +39,39 @@ ThisBuild / organization := "be.ugent.rasbeb2"
 ThisBuild / crossPaths := false
 ThisBuild / autoScalaLibrary := false
 ThisBuild / versionScheme := Some("early-semver")
-ThisBuild / scalacOptions += "-release:21"
-ThisBuild / javacOptions ++= Seq("-source", "21", "-target", "21")
+ThisBuild / scalacOptions += "-release:25"
+ThisBuild / javacOptions ++= Seq("-source", "25", "-target", "25")
 
 // no documentation or sources in packaged jars
 ThisBuild / packageDoc / publishArtifact := false
 ThisBuild / packageSrc / publishArtifact := false
 
+// Below is needed to use Lombok for Java >= 23
+lazy val lombokSettings = Seq(
+
+  libraryDependencies ++= Seq(
+    "org.projectlombok" % "lombok" % "1.18.46" % Provided
+  ),
+
+  Compile / javacOptions ++= {
+    // Filters the compile classpath to find the lombok jar file
+    val lombokJar = (Compile / dependencyClasspath).value
+      .map(_.data)
+      .find(_.getName.contains("lombok"))
+
+    lombokJar match {
+      case Some(jar) => Seq("-processorpath", jar.getAbsolutePath,
+        "-processor",
+        "lombok.launch.AnnotationProcessorHider$AnnotationProcessor")
+      case None => Seq.empty
+    }
+  }
+)
+
 // settings common to both Play apps
 lazy val commonAppSettings = Seq(
 
-  ThisBuild / scalaVersion:= "2.13.16",
+  ThisBuild / scalaVersion:= "2.13.18",
 
   //
   libraryDependencies ++= Seq(
@@ -58,8 +79,6 @@ lazy val commonAppSettings = Seq(
 
     "be.ugent.caagt" %% "play-utils" % "1.1",
     "org.webjars" % "font-awesome" % "6.7.2",
-
-    "org.projectlombok" % "lombok" % "1.18.38" % Compile,
 
     "org.postgresql" % "postgresql" % "42.7.7" % Runtime
   ),
@@ -88,5 +107,4 @@ lazy val commonAppSettings = Seq(
   // do not generate javadoc
   Compile / doc / sources := Seq.empty,
   Compile / doc / scalacOptions += "-no-java-comments"
-)
-
+) ++ lombokSettings

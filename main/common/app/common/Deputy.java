@@ -11,8 +11,6 @@ package common;
 
 import be.ugent.caagt.play.binders.PSF;
 import be.ugent.caagt.play.binders.StringMap;
-import lombok.Getter;
-import lombok.Setter;
 import play.data.Form;
 import play.mvc.Call;
 import play.mvc.Http;
@@ -153,10 +151,16 @@ public class Deputy extends be.ugent.caagt.play.deputies.Deputy {
         return getUILanguages().stream().map(LanguageInfo.LANGUAGEINFO_MAP::get).toList();
     }
 
-    @Getter
-    @Setter
-    public static class SizeData {
-        public int pageSize;
+   public static class SizeData {
+        public int pageSize; // can this be made private?
+
+        public int getPageSize() { // avoiding Lombok in common module for now
+            return pageSize;
+        }
+
+        public void setPageSize(int pageSize) {
+            this.pageSize = pageSize;
+        }
     }
 
     /**
