@@ -1,0 +1,10 @@
+@import common.Deputy
+
+@(teacherId: Int)(implicit deputy: Deputy)
+
+<button type="submit" name="disable" value="@teacherId" class="btn btn-sm btn-outline-danger" title='@i18n("school.teachers.deactivate")'>
+    <span class="fa-solid fa-user-slash"></span>
+</button>
+<button type="submit" name="mimic" value="@teacherId" class="btn btn-sm btn-outline-primary" title='@i18n("school.teachers.mimic")'>
+    <span class="fa-solid fa-right-to-bracket"></span>
+</button>

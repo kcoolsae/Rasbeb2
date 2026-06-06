@@ -26,7 +26,7 @@ public class TeacherController extends OrganiserOnlyController<TeacherDeputy> {
     }
 
     public Result disableTeacher(Http.Request request, int schoolId) {
-        return createDeputy(request).disableTeacher(schoolId);
+        return createDeputy(request).disableOrMimicTeacher(schoolId);
     }
 
     public Result disableTeacherInList(Http.Request request, int userId) {

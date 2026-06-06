@@ -152,7 +152,7 @@ public class Deputy extends be.ugent.caagt.play.deputies.Deputy {
     }
 
    public static class SizeData {
-        public int pageSize; // can this be made private?
+        private int pageSize;
 
         public int getPageSize() { // avoiding Lombok in common module for now
             return pageSize;
@@ -172,7 +172,7 @@ public class Deputy extends be.ugent.caagt.play.deputies.Deputy {
         if (form.hasErrors()) {
             return 10;
         } else {
-            return form.get().pageSize;
+            return form.get().getPageSize();
         }
     }
 

@@ -34,14 +34,7 @@
         </td>
         <td>@teacher.schoolTown</td>
         <td>@(if (teacher.disabled) i18n("school.teachers.inactive") else i18n("school.teachers.active"))</td>
-        <td style="width: 5.6em;">
-            <button type="submit" name="disable" value="@teacher.id" class="btn btn-sm btn-outline-danger" title='@i18n("school.teachers.deactivate")'>
-                <span class="fa-solid fa-user-slash"></span>
-            </button>
-            <button type="submit" name="mimic" value="@teacher.id" class="btn btn-sm btn-outline-primary" title='@i18n("school.teachers.mimic")'>
-                <span class="fa-solid fa-right-to-bracket"></span>
-            </button>
-        </td>
+        <td style="width: 5.8em;">@views.html.school._teacher_actions(teacher.id)</td>
     }
     }( _.searchfields(NAME -> "common.filter.name",EMAIL -> "common.filter.email",SCHOOL_NAME -> "school.filter.school",TOWN -> "school.filter.town",
     null.asInstanceOf[TeacherWithSchool.Field] -> null))

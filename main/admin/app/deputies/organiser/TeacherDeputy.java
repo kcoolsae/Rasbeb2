@@ -35,14 +35,20 @@ public class TeacherDeputy extends OrganiserOnlyDeputy {
         return list(getInitialPSF(TeacherWithSchool.Field.NAME));
     }
 
-    public Result disableTeacher(int schoolId) {
+    public Result disableOrMimicTeacher(int schoolId) {
         Form<TeacherActionData> form = formFromRequest(TeacherActionData.class);
         if (form.hasErrors()) {
             return badRequest();
         } else {
             TeacherActionData data = form.get();
-            dac().getSchoolDao().disableTeacher(data.disable);
-            return redirect(routes.SchoolController.getSchool(schoolId));
+            if (data.mimic != null) {
+                return mimicUser(data.mimic);
+            } else {
+                if (data.disable != null) {
+                    dac().getSchoolDao().disableTeacher(data.disable);
+                }
+                return redirect(routes.SchoolController.getSchool(schoolId));
+            }
         }
     }
 
@@ -93,18 +99,7 @@ public class TeacherDeputy extends OrganiserOnlyDeputy {
         } else {
             TeacherActionData data = form.get();
             if (data.mimic != null) {
-                User teacher = dac().getUserDao().getUser(data.mimic);
-                int schoolId = dac().getSchoolDao().getSchoolId(teacher.id()).orElseThrow();
-                return redirect(controllers.home.routes.HomeController.index()).addingToSession(
-                        request,
-                        Map.of(
-                                Session.PARENT, getFromSession(Session.ID),
-                                Session.ID, Integer.toString(teacher.id()),
-                                Session.SCHOOL_ID, Integer.toString(schoolId),
-                                Session.ROLE, teacher.role().name(),
-                                Session.NAME, teacher.name()
-                        )
-                );
+                return mimicUser(data.mimic);
             } else if (data.disable == null) {
                 // filter button
                 return redirect(routes.TeacherController.list(
@@ -115,6 +110,21 @@ public class TeacherDeputy extends OrganiserOnlyDeputy {
                 return disableTeacherInList(data.disable);
             }
         }
+    }
+
+    private Result mimicUser(int userId) {
+        User teacher = dac().getUserDao().getUser(userId);
+        int schoolId = dac().getSchoolDao().getSchoolId(teacher.id()).orElseThrow();
+        return redirect(controllers.home.routes.HomeController.index()).addingToSession(
+                request,
+                Map.of(
+                        Session.PARENT, getFromSession(Session.ID),
+                        Session.ID, Integer.toString(teacher.id()),
+                        Session.SCHOOL_ID, Integer.toString(schoolId),
+                        Session.ROLE, teacher.role().name(),
+                        Session.NAME, teacher.name()
+                )
+        );
     }
 
     @Getter
