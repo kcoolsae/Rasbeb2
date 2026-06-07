@@ -21,19 +21,21 @@ import play.data.format.Formats;
 import play.data.validation.Constraints;
 import play.mvc.Result;
 
+import java.util.Collection;
+
 public class ClassDeputy extends TeacherOnlyDeputy {
 
     public Result getClasses() {
         ClassesDao dao = dac().getClassesDao();
-        Iterable<ClassWithPupils> classesWithPupils = dao.getClassesWithPupils(getCurrentYearId());
+        Collection<ClassWithPupils> classesWithPupils = dao.getClassesWithPupils(getCurrentYearId());
         if (isActiveYear()) {
-            if (classesWithPupils.iterator().hasNext()) {
+            if (classesWithPupils.isEmpty()) {
+                return ok(views.html.school.classes_empty.render(this));
+            } else {
                 return ok(views.html.school.classes.render(
                         emptyForm(ClassesData.class),
                         classesWithPupils,
                         this));
-            } else {
-                return ok(views.html.school.classes_empty.render(this));
             }
         } else {
             return ok(views.html.school.classes_inactive.render(

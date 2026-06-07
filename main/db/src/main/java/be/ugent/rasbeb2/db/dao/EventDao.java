@@ -11,6 +11,7 @@ package be.ugent.rasbeb2.db.dao;
 
 import be.ugent.rasbeb2.db.dto.*;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface EventDao {
@@ -68,7 +69,7 @@ public interface EventDao {
      * to classes for the year of the event
      * @param eventId the event for which the permissions are requested
      */
-    Iterable<ClassWithPermissions> listClassesWithPermissions(int eventId);
+    Collection<ClassWithPermissions> listClassesWithPermissions(int eventId);
 
     /**
      * Returns whether the permission list for this event is currently empty

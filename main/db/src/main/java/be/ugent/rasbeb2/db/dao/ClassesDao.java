@@ -14,6 +14,7 @@ import be.ugent.rasbeb2.db.dto.ClassWithPupils;
 import be.ugent.rasbeb2.db.dto.Gender;
 import be.ugent.rasbeb2.db.dto.PupilInClass;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.OptionalInt;
 
@@ -48,7 +49,7 @@ public interface ClassesDao {
 
     // classes are ordered by name
 
-    Iterable<ClassWithPupils> getClassesWithPupils(int yearId);
+    Collection<ClassWithPupils> getClassesWithPupils(int yearId);
 
     boolean pupilExistsInClass(String pupilName, int classId);
 

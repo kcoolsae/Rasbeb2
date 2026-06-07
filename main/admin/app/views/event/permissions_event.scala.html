@@ -9,7 +9,8 @@
 @import _root_.be.ugent.rasbeb2.db.dto.{ClassWithPermissions, EventHeader}
 
 @import common.LanguageInfo
-@(event: EventHeader, classesWithPermissions: Iterable[ClassWithPermissions])(implicit deputy: Deputy)
+@import java.util.Collection
+@(event: EventHeader, classesWithPermissions: Collection[ClassWithPermissions])(implicit deputy: Deputy)
 
 @layout.teacher("event-permissions") {
     <h1>@event.title (@event.ageGroupName - @LanguageInfo.get(event.lang).name)</h1>

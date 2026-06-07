@@ -14,58 +14,13 @@
 @import views.html.b5._
 @import views.html.be.ugent.caagt.play.ext.i18n
 @import views.html.ext.{collapse, include}
-@(eventId: Int, classesWithPermissions: Iterable[ClassWithPermissions],
+@import java.util.Collection
+@import views.html.event._permissions_list_aux
+@(eventId: Int, classesWithPermissions: Collection[ClassWithPermissions],
         fromHome: Boolean)(implicit deputy: Deputy)
 @h4("event.registrations.heading")
-@p("event.registrations.text")
-<div class="row">
-    <div class="mb-2">
-        <a class="btn btn-outline-primary" href="@routes.EventController.downloadSelectedPupils(eventId)">@i18n("spreadsheet.caption.download-registrations")</a>
-        @collapse.button("addExtraPupil", "event.registrations.add")
-    </div>
-</div>
-
-@collapse.form(routes.EventController.addExtraPupil(eventId, fromHome), "addExtraPupil", "event.registrations.add") {
-    <div class="col">@select(Forms.field("classId", null), classesWithPermissions.asScala.map(x => x.group.id.toString -> x.group.name).toSeq, "_label" -> "school.pupil.class")</div>
-    <div class="col">@text(Forms.field("name", ""), "_label" -> "school.pupil.name", "required" -> None)</div>
-    <div class="col">@select(Forms.field("gender", null), classOf[Gender], "enum.gender", "_label" -> "school.pupil.gender")</div>
-    @include.js("generatePassword.js")
-    @defining(s"password-${eventId}") { textFieldId =>
-        <div class="col">@text(Forms.field("password", PasswordGenerator.generate()), "_label" -> "school.pupil.password", "id" -> textFieldId, "required" -> None)</div>
-    @ext.generatePasswordButton(textFieldId)
-    }
-}
-
-@p("event.registrations.instructions")
-
-@foreach(classesWithPermissions) { cwp =>
-    <hr>
-    @if(cwp.pupils.size == 0) {
-        <h3>@cwp.group.name</h3>
-        <p>@i18n("common.no-data")</p>
-    } else {
-        @form(routes.EventController.addPermissions(eventId, cwp.group.id, fromHome)) {
-            @_left_right{<h3>@cwp.group.name</h3>} {
-                <button class="btn btn-outline-primary" type="submit">@i18n("event.registrations.update")</button>
-            }
-            @table(cwp.pupils.size) {
-                <th>@i18n("event.registrations.name")</th>
-                <th style="width: 20%">
-                @defining(cwp.pupils.forall(_.permitted)) { allChecked =>
-                    @if(cwp.pupils.size != 0) {
-                        <input type="checkbox" class="form-check-input" onchange="updateAllCheckboxesInTable(this)" @if(allChecked)(" checked")>
-                    } @i18n("event.registrations.registered")?
-                }
-                </th>
-            } {
-                @foreach.tr(cwp.pupils) { pupil =>
-                    <td>@pupil.name</td>
-                    <td>
-                        <input type="checkbox" name="checked[]" value="@pupil.id"
-                        class="form-check-input" @if(pupil.permitted)(" checked")>
-                    </td>
-                }
-            }
-        }
-    }
+@if(classesWithPermissions.isEmpty){
+     <div class="alert alert-warning">@i18n("event.registrations.no-classes")</div>
+}else{
+    @_permissions_list_aux(eventId, classesWithPermissions, fromHome)
 }

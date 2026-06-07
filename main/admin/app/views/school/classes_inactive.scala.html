@@ -10,7 +10,8 @@
 @import common.Deputy
 @import views.html.b5._
 @import views.html.be.ugent.caagt.play.ext.i18n
-@(classesWithPupils: Iterable[ClassWithPupils])(implicit deputy: Deputy)
+@import java.util.Collection
+@(classesWithPupils: Collection[ClassWithPupils])(implicit deputy: Deputy)
 
 @layout.teacher("pup") {
     @h4("school.pupils.title")

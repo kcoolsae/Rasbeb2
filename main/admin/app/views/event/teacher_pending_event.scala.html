@@ -12,7 +12,8 @@
 @import views.html.event._permissions_list_inactive
 @import views.html.event._event_title
 @import views.html.event._permissions_list
-@(event: Event, classesWithPermissions: Iterable[ClassWithPermissions])(implicit deputy: EventDeputy)
+@import java.util.Collection
+@(event: Event, classesWithPermissions: Collection[ClassWithPermissions])(implicit deputy: EventDeputy)
 
 @layout.teacher("epnd") {
     @_event_title(event.header)

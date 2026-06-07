@@ -16,6 +16,7 @@ import be.ugent.rasbeb2.db.dto.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -212,7 +213,7 @@ public class JDBCEventDao extends JDBCAbstractDao implements EventDao {
     }
 
     @Override
-    public Iterable<ClassWithPermissions> listClassesWithPermissions(int eventId) {
+    public Collection<ClassWithPermissions> listClassesWithPermissions(int eventId) {
         // all classes for school linked to event
         Map<Integer, ClassWithPermissions> map = select("class_id, class_name")
                 .from("classes JOIN events USING (school_id)")

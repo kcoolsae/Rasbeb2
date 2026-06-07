@@ -16,10 +16,7 @@ import be.ugent.rasbeb2.db.util.PasswordGenerator;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.OptionalInt;
+import java.util.*;
 
 public class JDBCClassesDao extends JDBCAbstractDao implements ClassesDao {
 
@@ -106,7 +103,7 @@ public class JDBCClassesDao extends JDBCAbstractDao implements ClassesDao {
     }
 
     @Override
-    public Iterable<ClassWithPupils> getClassesWithPupils(int yearId) {
+    public Collection<ClassWithPupils> getClassesWithPupils(int yearId) {
         // uses the method in DAOHelper master/detail documentation
         Map<Integer, ClassWithPupils> map = selectClasses(yearId)
                 .getMap(JDBCClassesDao::makeClassWithPupils);

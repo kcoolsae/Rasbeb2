@@ -14,7 +14,8 @@
 @import views.html.be.ugent.caagt.play.ext.i18n
 @import views.html.ext.upload
 @import views.html.school._class_pupils_table
-@(cf: Form[ClassesData], classesWithPupils: Iterable[ClassWithPupils])(implicit deputy: Deputy)
+@import java.util.Collection
+@(cf: Form[ClassesData], classesWithPupils: Collection[ClassWithPupils])(implicit deputy: Deputy)
 
 @layout.teacher("pup", js = include.js("generatePassword.js")) {
     @h4("school.pupils.title")
