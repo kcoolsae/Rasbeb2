@@ -15,6 +15,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -158,5 +160,30 @@ class EventDaoTest extends TeacherDaoTest {
         );
         assertThat(actual).isEqualTo(expected);
     }
+
+    private List<Integer> getAllowedPupils(Collection<ClassWithPermissions> classesWithPermissions) {
+        List<Integer> pupilIds = new ArrayList<>();
+        for (ClassWithPermissions cwp: classesWithPermissions) {
+            for (PupilWithPermission pupil : cwp.pupils()) {
+                if (pupil.permitted()) {
+                    pupilIds.add(pupil.id());
+                }
+            }
+        }
+        return pupilIds;
+    }
+
+    @Test
+    void grantPermissionToClasses() {
+        // class 4 has pupils 5, 6 and 8, class 3 has pupil 1,2 (other classes: wrong year)
+        // event 7 allows already pupils 5, 6
+        // event 1 allows already pupils 1, 2
+        dao.grantPermissionToClasses(7, List.of(3,4));
+        assertThat (getAllowedPupils(dao.listClassesWithPermissions(7))).contains(8, 5, 6, 1, 2);
+        dao.grantPermissionToClasses(1, List.of(3));
+        assertThat (getAllowedPupils(dao.listClassesWithPermissions(1))).contains(1, 2);
+    }
+
+
 
 }

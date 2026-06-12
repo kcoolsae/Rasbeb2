@@ -6,7 +6,7 @@
  * in the top level project directory.
  *@
 
-@import _root_.be.ugent.rasbeb2.db.dto.{ClassWithPermissions, Event, Gender}
+@import _root_.be.ugent.rasbeb2.db.dto.{ClassWithPermissions, ClassWithPermissionCount, Gender}
 @import _root_.be.ugent.rasbeb2.db.util.PasswordGenerator
 @import common.Deputy
 @import controllers.event.routes
@@ -15,8 +15,31 @@
 @import views.html.be.ugent.caagt.play.ext.i18n
 @import views.html.ext.{collapse, include}
 @import java.util.Collection
+@import views.html.be.ugent.caagt.play.ext.foreach
+@import java.text.MessageFormat
 @(eventId: Int, classesWithPermissions: Collection[ClassWithPermissions],
         fromHome: Boolean)(implicit deputy: Deputy)
+@form(routes.EventController.addClassPermissions(eventId, fromHome)) {
+     @h4("event.classreg.subheading")
+    <div class="row mb-2">
+        @foreach(classesWithPermissions) { cwp =>
+            @_class_registration(new ClassWithPermissionCount(cwp))
+        }
+    </div>
+    <div class="row mb-1">
+        <div class="col">
+            <button class="btn btn-outline-primary" type="submit">@i18n("event.classreg.caption")</button>
+        </div>
+    </div>
+    <div class="row">
+        <p>@Html(MessageFormat.format(i18n("event.classreg.text"),
+            "<span class='fa fa-sm fa-check'></span>",
+            "<span class='fa fa-sm fa-circle-half-stroke'></span>",
+            "<span class='fa fa-sm fa-xmark'></span>"))</p>
+    </div>
+}
+
+@h4("event.registrations.subheading")
 @p("event.registrations.text")
 <div class="row">
     <div class="mb-2">
@@ -35,13 +58,11 @@
     @ext.generatePasswordButton(textFieldId)
     }
 }
-
 @p("event.registrations.instructions")
-
 @foreach(classesWithPermissions) { cwp =>
     <hr>
     @if(cwp.pupils.size == 0) {
-        <h3>@cwp.group.name</h3>
+        <h4>@cwp.group.name</h4>
         <p>@i18n("common.no-data")</p>
     } else {
         @form(routes.EventController.addPermissions(eventId, cwp.group.id, fromHome)) {

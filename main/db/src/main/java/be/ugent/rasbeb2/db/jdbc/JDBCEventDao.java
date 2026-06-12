@@ -167,6 +167,17 @@ public class JDBCEventDao extends JDBCAbstractDao implements EventDao {
     }
 
     @Override
+    public void grantPermissionToClasses(int eventId, Iterable<Integer> classIds) {
+        for (Integer classId : classIds) {
+            call("grant_permission_to_class(?,?,?)")
+                    .parameter(eventId)
+                    .parameter(classId)
+                    .parameter(getUserId())
+                    .execute();
+        }
+    }
+
+    @Override
     public void participationAddExtraMinutes(int contestId, int pupilId, int minutesToAdd) {
         update("participations")
                 .set(String.format("participation_deadline = participation_deadline + interval '%d minute'", minutesToAdd)) // cannot easily be done with ? syntax

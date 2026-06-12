@@ -24,7 +24,7 @@
 
 @foreach(classesWithPermissions) { cwp =>
     <hr>
-    <h3>@cwp.group.name</h3>
+    <h4>@cwp.group.name</h4>
         @if(cwp.pupils.size == 0) {
             <p>@i18n("common.no-data")</p>
         } else {

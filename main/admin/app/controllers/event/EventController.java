@@ -53,6 +53,11 @@ public class EventController extends TeacherOnlyController<EventDeputy> {
         return createDeputy(request).addPermissions(eventId, classId, fromHome);
     }
 
+    @With(ActiveYearOnly.class)
+    public Result addClassPermissions(Http.Request request, int eventId, boolean fromHome) {
+        return createDeputy(request).addClassPermissions(eventId, fromHome);
+    }
+
     public Result viewPermissions(Http.Request request, int eventId) {
         return createDeputy(request).viewPermissions(eventId);
     }

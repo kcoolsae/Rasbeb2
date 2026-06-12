@@ -1,3 +1,13 @@
+--  events.sql
+--  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--  Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+--
+--  This software is distributed under the MIT License - see files LICENSE and AUTHORS
+--  in the top level project directory.
+
+-- if the record exists, then permission is granted to the given user to
+-- participate in the local contest
+
 CREATE TYPE event_status AS ENUM ('PENDING', 'OPEN', 'CLOSED');
 
 CREATE TABLE events
@@ -11,7 +21,7 @@ CREATE TABLE events
     lang         TEXT,
     event_title  TEXT,
 
-    when_created TIMESTAMP               DEFAULT NOW(),
+    when_created TIMESTAMP             DEFAULT NOW(),
     who_created  INTEGER,
     when_updated TIMESTAMP,
     who_updated  INTEGER,
@@ -25,16 +35,6 @@ CREATE TRIGGER update_event
     ON events
     FOR EACH ROW
 EXECUTE PROCEDURE update_when_modified();
-
---  events.sql
---  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---  Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
---
---  This software is distributed under the MIT License - see files LICENSE and AUTHORS
---  in the top level project directory.
-
--- if the record exists, then permission is granted to the given user to
--- participate in the local contest
 
 CREATE TABLE permissions
 (
@@ -54,4 +54,26 @@ CREATE TRIGGER update_permission
     ON permissions
     FOR EACH ROW
 EXECUTE PROCEDURE update_when_modified();
+
+-- grant permission to an entire class
+--
+-- parameters: event_id, class_id, who_created
+CREATE OR REPLACE PROCEDURE grant_permission_to_class(INTEGER, INTEGER, INTEGER) AS
+$$
+DECLARE
+    id INTEGER;
+BEGIN
+    FOR id IN
+        SELECT pupil_id
+        FROM classes
+                 JOIN pupils_classes USING (class_id)
+                 JOIN events USING (school_id)
+        WHERE class_id = $2 AND event_id = $1
+        LOOP
+            INSERT INTO permissions(event_id, pupil_id, who_created)
+            VALUES ($1, id, $3)
+            ON CONFLICT(event_id, pupil_id) DO NOTHING;
+        END LOOP;
+END
+$$ LANGUAGE 'plpgsql';
 

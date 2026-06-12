@@ -91,6 +91,11 @@ public interface EventDao {
     List<ParticipationWithPupil> getParticipations(int eventId);
 
     /**
+     * Grant permission to all listed classes for the given event
+     */
+    void grantPermissionToClasses(int eventId, Iterable<Integer> classId);
+
+    /**
      * Add extra minutes to a participation, granting the student more time to finish
      * the contest.
      */

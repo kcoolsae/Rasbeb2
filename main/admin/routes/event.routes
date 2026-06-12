@@ -4,6 +4,7 @@ GET     /g/:eventId   controllers.event.EventController.getEvent(request: Reques
 POST    /r/:eventId   controllers.event.EventController.removeEvent(request: Request, eventId: Int)
 GET     /perm/:eventId                        controllers.event.EventController.viewPermissions(request: Request, eventId: Int)
 POST    /perm/:eventId/:classId/:fromHome     controllers.event.EventController.addPermissions(request: Request, eventId: Int, classId: Int, fromHome: Boolean)
+POST    /prma/:eventId/:fromHome              controllers.event.EventController.addClassPermissions(request: Request, eventId: Int, fromHome: Boolean)
 POST    /part/:eventId/:contestId/:pupilId    controllers.event.EventController.editParticipationDeadline(request: Request, eventId: Int, contestId: Int, pupilId: Int)
 POST    /part/o/:eventId/:contestId/:pupilId  controllers.event.EventController.openParticipation(request: Request, eventId: Int, contestId: Int, pupilId: Int)
 POST    /pupil/a/:eventId/:fromHome           controllers.event.EventController.addExtraPupil(request: Request, eventId: Int, fromHome: Boolean)

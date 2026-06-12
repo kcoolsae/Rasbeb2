@@ -94,6 +94,9 @@ public class EventDeputy extends TeacherOnlyDeputy {
         }
     }
 
+    /**
+     * Used for both adding permissions per student, and permissions per class
+     */
     @Getter
     @Setter
     public static class EventPermissionData {
@@ -104,15 +107,26 @@ public class EventDeputy extends TeacherOnlyDeputy {
         }
     }
 
-    public Result addPermissions(int eventId, int classId, boolean fromHome) {
-        EventPermissionData data = formFromRequest(EventPermissionData.class).get();
-        dac().getEventDao().updateClassPermissions(eventId, classId, data.checked);
-        success("event.registrations.message");
+    private Result toEventPage(int eventId, boolean fromHome) {
         if (fromHome) {
             return redirect(routes.EventController.getEvent(eventId));
         } else {
             return redirect(routes.EventController.viewPermissions(eventId));
         }
+    }
+
+    public Result addPermissions(int eventId, int classId, boolean fromHome) {
+        EventPermissionData data = formFromRequest(EventPermissionData.class).get();
+        dac().getEventDao().updateClassPermissions(eventId, classId, data.checked);
+        success("event.registrations.message");
+        return toEventPage(eventId, fromHome);
+    }
+
+    public Result addClassPermissions(int eventId, boolean fromHome) {
+        EventPermissionData data = formFromRequest(EventPermissionData.class).get();
+        dac().getEventDao().grantPermissionToClasses(eventId, data.checked);
+        success("event.registrations.message");
+        return toEventPage(eventId, fromHome);
     }
 
     public Result viewPermissions(int eventId) {
@@ -164,11 +178,7 @@ public class EventDeputy extends TeacherOnlyDeputy {
         int pupilId = dac().getClassesDao().addPupil(data.classId, data.name, data.gender, data.password);
         dac().getEventDao().selectPupil(eventId, pupilId);
         success("event.registrations.success");
-        if (fromHome) {
-            return redirect(routes.EventController.getEvent(eventId));
-        } else {
-            return redirect(routes.EventController.viewPermissions(eventId));
-        }
+        return toEventPage(eventId, fromHome);
     }
 
     @Getter
