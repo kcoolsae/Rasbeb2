@@ -14,7 +14,7 @@
             <a class="navbar-brand" href="#">
                 <img src='@routes.Assets.versioned("bebras-belgium.png")' height="84px"
                      style="margin-bottom: -36px; margin-top: -24px;" class="align-text-center" alt="Bebras logo">
-                <span>Bebraswedstrijd</span>
+                <span>@i18n("common.brand")</span>
             </a>
             <ul class="nav nav-pills">
                 @_menu_item(pageId, "home", "menu.home", controllers.home.routes.OrganiserHomeController.index(), cssClass="")
