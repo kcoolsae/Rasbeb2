@@ -40,6 +40,11 @@ class AgeGroupDaoTest extends TeacherDaoTest {
     }
 
     @Test
+    void getAllAgeGroupIds() {
+        assertThat(dao.getAllAgeGroupIds()).containsExactly(1, 2, 3);
+    }
+
+    @Test
     void getAgeGroups() {
         assertThat(dao.getAgeGroups(5, "nl")).extracting(AgeGroup::description)
                 .containsExactly("Description of age group 1 in nl", "Description of age group 3 in nl");

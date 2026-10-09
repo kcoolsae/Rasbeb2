@@ -19,7 +19,17 @@ import java.util.List;
  */
 public interface AgeGroupDao {
 
+    /**
+     * Return the list of all age groups.
+     * @param lang Language to be used for the age group titles
+     *
+     */
     List<AgeGroup> getAllAgeGroups(String lang);
+
+    /**
+     * Return the list of all age group ids
+     */
+    List<Integer> getAllAgeGroupIds();
 
     /**
      * Return the list of age groups for which the contest is organised.

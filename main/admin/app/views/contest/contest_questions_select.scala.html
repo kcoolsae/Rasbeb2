@@ -16,6 +16,14 @@
 
     @_organiser_submenu("questions", contest)
 
+    @h4("contest.upload.title")
+
+    @_difficulties_form(contest.id)
+
+    <hr>
+
+    @h4("Overzicht")
+
     @paged(table, questions.getFullSize) {
         <button class="btn btn-outline-primary" type="submit" name="action" value="register">@i18n("contest.selection.caption")</button>
     } { t =>

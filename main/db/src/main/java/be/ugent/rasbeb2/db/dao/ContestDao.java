@@ -76,6 +76,13 @@ public interface ContestDao {
     void updateMarks(int contestId, int ageGroupId, List<Integer> ids, List<Integer> marksIfCorrect, List<Integer> marksIfIncorrect);
 
     /**
+     * Update the marks according to the mark specifications, in age group order.
+     * Blank entries and omitted trailing entries leave existing marks unchanged;
+     * unknown specifications and entries beyond the contest's age groups are ignored.
+     */
+    void updateMarks(int contestId, int questionId, List<Integer> ageGroupIds, List<String> markSpecifications);
+
+    /**
      * Update the order of the questions in the given contest to reflect the difficulty of the questions
      */
     void updateOrder(int contestId, int ageGroupId);

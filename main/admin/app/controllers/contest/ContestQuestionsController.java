@@ -35,4 +35,8 @@ public class ContestQuestionsController extends OrganiserOnlyController<ContestQ
         return createDeputy(request).actionQuestions(psf, contestId);
     }
 
+    public Result uploadDifficultyLevels(Http.Request request, int contestId) {
+        return createDeputy(request).uploadDifficultyLevels(contestId);
+    }
+
 }

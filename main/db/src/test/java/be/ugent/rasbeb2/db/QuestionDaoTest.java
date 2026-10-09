@@ -119,6 +119,12 @@ class QuestionDaoTest extends OrganiserDaoTest {
     }
 
     @Test
+    void getQuestionId() {
+        assertThat(dao.getQuestionId("2024-XY-12")).isEqualTo(3);
+        assertThat(dao.getQuestionId("2024-XY-03")).isZero();
+    }
+
+    @Test
     void questionOrFeedbackAlreadyUploaded() {
         assertThat(dao.questionOrFeedbackAlreadyUploaded(1, "en")).isFalse();
         dao.setUploaded(1, "en", QuestionDao.FileType.QUESTION);

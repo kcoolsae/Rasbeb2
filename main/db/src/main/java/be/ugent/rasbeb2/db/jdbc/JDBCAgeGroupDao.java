@@ -19,7 +19,7 @@ import java.util.List;
 
 class JDBCAgeGroupDao extends JDBCAbstractDao implements AgeGroupDao {
 
-    JDBCAgeGroupDao (JDBCDataAccessContext dac) {
+    JDBCAgeGroupDao(JDBCDataAccessContext dac) {
         super(dac);
     }
 
@@ -85,6 +85,13 @@ class JDBCAgeGroupDao extends JDBCAbstractDao implements AgeGroupDao {
                 .getList(JDBCAgeGroupDao::makeAgeGroup);
     }
 
+    @Override
+    public List<Integer> getAllAgeGroupIds() {
+        return select("DISTINCT age_group_id")
+                .from("age_groups")
+                .orderBy("age_group_id")
+                .getList(rs -> rs.getInt("age_group_id"));
+    }
 
     @Override
     public AgeGroupWithMaxMarks getAgeGroupWithMaxMarks(int contestId, int ageGroupId, String lang) {

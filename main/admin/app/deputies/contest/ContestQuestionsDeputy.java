@@ -11,9 +11,16 @@ package deputies.contest;
 
 import be.ugent.caagt.dao.Page;
 import be.ugent.caagt.play.binders.PSF;
+import be.ugent.rasbeb2.db.dao.ContestDao;
+import be.ugent.rasbeb2.db.dao.QuestionDao;
+import be.ugent.rasbeb2.db.dto.DifficultyLevels;
 import be.ugent.rasbeb2.db.dto.QuestionWithAgeGroups;
+import be.ugent.rasbeb2.db.poi.DataOrError;
+import be.ugent.rasbeb2.db.poi.DifficultyLevelSheetReader;
 import controllers.contest.routes;
 import deputies.OrganiserOnlyDeputy;
+import play.libs.Files;
+import play.mvc.Http;
 import util.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +28,7 @@ import play.data.Form;
 import play.mvc.Call;
 import play.mvc.Result;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -111,6 +119,48 @@ public class ContestQuestionsDeputy  extends OrganiserOnlyDeputy {
                 ));
             }
         }
+    }
+
+    public Result uploadDifficultyLevels(int contestId) {
+        Http.MultipartFormData<Files.TemporaryFile> body = request.body().asMultipartFormData();
+        Http.MultipartFormData.FilePart<Files.TemporaryFile> part = body.getFile("difficultiesFile");
+        if (part != null) {
+            try {
+                List<Integer> allAgeGroupIds = dac().getAgeGroupDao().getAllAgeGroupIds();
+                ContestDao contestDao = dac().getContestDao();
+                QuestionDao questionDao = dac().getQuestionDao();
+                List<DataOrError<DifficultyLevels>> list = new DifficultyLevelSheetReader().read(part.getRef().path());
+                for (DataOrError<DifficultyLevels> item : list) {
+                    if (!item.hasError()) {
+                        DifficultyLevels data = item.getData();
+                        int questionId = questionDao.getQuestionId(data.externalId());
+                        if (questionId != 0) {
+                            questionDao.setQuestionAgeGroups(contestId, questionId, usedAgeGroups(allAgeGroupIds, data.levels()));
+                            contestDao.updateMarks(contestId, questionId, allAgeGroupIds, data.levels());
+                        }
+                    }
+                }
+                success ("contest.upload.success");
+            } catch (IOException ex) {
+                error("contest.upload.error");
+            }
+        }
+        return questionSelection(contestId);
+    }
+
+    /**
+     * Age groups with a non-blank difficulty level. The list of levels may be shorter than
+     * the list of all age groups; missing levels count as blank.
+     */
+    private static List<Integer> usedAgeGroups(List<Integer> allAgeGroupIds, List<String> levels) {
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < Math.min(allAgeGroupIds.size(), levels.size()); i++) {
+            String level = levels.get(i);
+            if (level != null && !level.isBlank()) {
+                result.add(allAgeGroupIds.get(i));
+            }
+        }
+        return result;
     }
 
 }

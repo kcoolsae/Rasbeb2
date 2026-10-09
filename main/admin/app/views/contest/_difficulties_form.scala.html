@@ -1,0 +1,13 @@
+@(contestId: Int)(implicit deputy: Deputy)
+
+@form(controllers.contest.routes.ContestQuestionsController.uploadDifficultyLevels(contestId), "enctype" -> "multipart/form-data") {
+    <div class="row">@p("contest.upload.explanation")</div>
+    <div class="row">
+        <div class="col-auto">
+            <input type="file" name="difficultiesFile" accept=".xlsx" class="form-control" id="difficultiesFile" required>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-outline-primary">@i18n("common.caption.upload")</button>
+        </div>
+    </div>
+}

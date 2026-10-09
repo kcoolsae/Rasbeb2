@@ -1,3 +1,10 @@
+--  questions.sql
+--  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--  Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
+--
+--  This software is distributed under the MIT License - see files LICENSE and AUTHORS
+--  in the top level project directory.
+
 -- questions
 ------------
 
@@ -114,21 +121,14 @@ CREATE TRIGGER update_question_in_set
     FOR EACH ROW
 EXECUTE PROCEDURE update_when_modified();
 
--- contains suggestions for marks corresponding to difficulty levels easy: 1, medium: 2, difficult: 3
+-- contains suggestions for marks corresponding to difficulty levels
 -- This should be considered a read only table
 CREATE TABLE marks
 (
-    marks_level               INTEGER PRIMARY KEY, -- 1, 2 or 3
+    marks_name                TEXT PRIMARY KEY, -- easy, medium, hard
     question_marks_if_correct INTEGER,
     question_marks_if_wrong   INTEGER
 );
-
---  questions.sql
---  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---  Copyright © 2023-2024 Kris Coolsaet (Universiteit Gent)
---
---  This software is distributed under the MIT License - see files LICENSE and AUTHORS
---  in the top level project directory.
 
 -- Auxiliary function for use in creating a filtered/sorted table of questions with all
 -- selections made for contest with contest_id=c

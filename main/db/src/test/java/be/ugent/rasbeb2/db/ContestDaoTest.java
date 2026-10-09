@@ -154,6 +154,58 @@ class ContestDaoTest extends OrganiserDaoTest {
         assertThat(questions).extracting(QuestionInSet::marksIfIncorrect).containsExactly(-11, -1);
     }
 
+    private static final List<Integer> AGE_GROUP_IDS = List.of(1, 2, 3);
+    @Test
+    void updateMarksFromSpecifications() {
+        // AI-generated
+        dao.updateMarks(1, 3, AGE_GROUP_IDS, List.of("easy", "", "hard"));
+
+        List<QuestionInSet> questions = List.of(
+                dao.getQuestionSet(1, 1, "en").stream()
+                        .filter(question -> question.id() == 3).findFirst().orElseThrow(),
+                dao.getQuestionSet(1, 2, "en").stream()
+                        .filter(question -> question.id() == 3).findFirst().orElseThrow(),
+                dao.getQuestionSet(1, 3, "en").stream()
+                        .filter(question -> question.id() == 3).findFirst().orElseThrow()
+        );
+        assertThat(questions).extracting(QuestionInSet::marksIfCorrect).containsExactly(6, 9, 12);
+        assertThat(questions).extracting(QuestionInSet::marksIfIncorrect).containsExactly(-2, -3, -4);
+    }
+
+    @Test
+    void updateMarksFromShortSpecifications() {
+        // AI-generated
+        dao.updateMarks(1, 3, AGE_GROUP_IDS, List.of("hard"));
+
+        List<QuestionInSet> questions = List.of(
+                dao.getQuestionSet(1, 1, "en").stream()
+                        .filter(question -> question.id() == 3).findFirst().orElseThrow(),
+                dao.getQuestionSet(1, 2, "en").stream()
+                        .filter(question -> question.id() == 3).findFirst().orElseThrow(),
+                dao.getQuestionSet(1, 3, "en").stream()
+                        .filter(question -> question.id() == 3).findFirst().orElseThrow()
+        );
+        assertThat(questions).extracting(QuestionInSet::marksIfCorrect).containsExactly(12, 9, 6);
+        assertThat(questions).extracting(QuestionInSet::marksIfIncorrect).containsExactly(-4, -3, -2);
+    }
+
+    @Test
+    void updateMarksIgnoresUnknownSpecifications() {
+        // AI-generated
+        dao.updateMarks(1, 3, AGE_GROUP_IDS, List.of("unknown"));
+
+        List<QuestionInSet> questions = List.of(
+                dao.getQuestionSet(1, 1, "en").stream()
+                        .filter(question -> question.id() == 3).findFirst().orElseThrow(),
+                dao.getQuestionSet(1, 2, "en").stream()
+                        .filter(question -> question.id() == 3).findFirst().orElseThrow(),
+                dao.getQuestionSet(1, 3, "en").stream()
+                        .filter(question -> question.id() == 3).findFirst().orElseThrow()
+        );
+        assertThat(questions).extracting(QuestionInSet::marksIfCorrect).containsExactly(12, 9, 6);
+        assertThat(questions).extracting(QuestionInSet::marksIfIncorrect).containsExactly(-4, -3, -2);
+    }
+
     @Test
     void updateOrder2() {
         // get sequence numbers of the questions

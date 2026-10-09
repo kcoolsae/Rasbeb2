@@ -244,6 +244,30 @@ public class JDBCContestDao extends JDBCAbstractDao implements ContestDao {
     }
 
     @Override
+    public void updateMarks(int contestId, int questionId, List<Integer> ageGroupIds, List<String> markSpecifications) {
+        for (int i = 0; i < Math.min(ageGroupIds.size(), markSpecifications.size()); i++) {
+            String specification = markSpecifications.get(i);
+            if (specification != null && !specification.isBlank()) {
+                sql("""
+                        UPDATE questions_in_set AS q
+                        SET question_marks_if_correct = m.question_marks_if_correct,
+                            question_marks_if_incorrect = m.question_marks_if_wrong
+                        FROM marks AS m
+                        WHERE q.contest_id = ?
+                          AND q.age_group_id = ?
+                          AND q.question_id = ?
+                          AND m.marks_name = ?
+                        """)
+                        .parameter(contestId)
+                        .parameter(ageGroupIds.get(i))
+                        .parameter(questionId)
+                        .parameter(specification)
+                        .execute();
+            }
+        }
+    }
+
+    @Override
     public void updateOrder(int contestId, int ageGroupId) {
         List<Integer> orderedIds = select("question_id")
                 .from("questions_in_set")

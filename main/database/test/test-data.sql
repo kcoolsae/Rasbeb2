@@ -126,6 +126,12 @@ UPDATE questions_i18n SET question_correct_answer = '^(AB|BA)C$' WHERE question_
 UPDATE questions_i18n
     SET question_uploaded_q = (question_id = 2), question_uploaded_f = question_id > 1;
 
+-- Define the marks for each difficulty level
+INSERT INTO marks
+    VALUES ('easy', 6,-2),
+           ('medium', 9, -3),
+           ('hard', 12, -4);
+
 -- Which questions in which contests:
 -- In contest 1: age group 1 questions 1-3, ag 2 q 2-3, ag 3 q 3
 --  i.e., q 1 ag 1, q 2 ag 1-2, q 3 ag 1-3

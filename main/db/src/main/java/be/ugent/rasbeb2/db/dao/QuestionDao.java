@@ -31,6 +31,11 @@ public interface QuestionDao {
     boolean questionExists(String externalId);
 
     /**
+     * Return the id of the question with the given external id, or 0 if there is no such question.
+     */
+    int getQuestionId(String externalId);
+
+    /**
      * Check whether either the question or the feedback for the given language has already been uploaded
      */
     boolean questionOrFeedbackAlreadyUploaded(int questionId, String lang);

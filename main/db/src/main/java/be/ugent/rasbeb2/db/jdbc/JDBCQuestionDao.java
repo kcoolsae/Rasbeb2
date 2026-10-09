@@ -202,6 +202,14 @@ public class JDBCQuestionDao extends JDBCAbstractDao implements QuestionDao {
     }
 
     @Override
+    public int getQuestionId(String externalId) {
+        return select("question_id")
+                .from("questions")
+                .where("question_external_id", externalId)
+                .getInt();
+    }
+
+    @Override
     public void setQuestionAgeGroups(int contestId, int questionId, List<Integer> ageGroups) {
         Integer[] array = ageGroups.stream().filter(Objects::nonNull).toArray(Integer[]::new); // ugly!
         call("setQuestionAgeGroups(?,?,?,?)")

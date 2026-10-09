@@ -28,6 +28,8 @@ GET     /g/l/:contestId  controllers.contest.ContestQuestionsController.listQues
 POST    /g/r/:contestId  controllers.contest.ContestQuestionsController.resizeQuestions(request: Request, psf: PSF, contestId: Int)
 POST    /g/a/:contestId  controllers.contest.ContestQuestionsController.actionQuestions(request: Request, psf: PSF, contestId: Int)
 
+POST    /g/ud/:contestId  controllers.contest.ContestQuestionsController.uploadDifficultyLevels(request: Request, contestId: Int)
+
 GET     /s/:contestId/:ageGroupId   controllers.contest.ContestMarksController.getQuestionSet(request: Request, contestId: Int, ageGroupId: Int)
 POST    /s/:contestId/:ageGroupId   controllers.contest.ContestMarksController.updateMarks(request: Request, contestId: Int, ageGroupId: Int)
 
