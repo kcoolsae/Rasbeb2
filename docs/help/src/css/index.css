@@ -51,3 +51,18 @@ p.regular {
     background-color: blue; /* Change background color on hover */
     color: white;
 }
+
+/* Discreet link for teachers (they log in via a different URL than pupils) */
+p.teachers {
+    font-size: 0.8rem;
+    margin-top: 4rem;
+}
+
+p.teachers a {
+    color: #999;
+    text-decoration: none;
+}
+
+p.teachers a:hover {
+    text-decoration: underline;
+}

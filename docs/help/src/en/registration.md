@@ -13,7 +13,7 @@ to be registered with the server. The pupil must also be subscribed to a specifi
 
 Pupils of a school are grouped into classes. Before you can register pupils, you first have to create the classes.
 You do this with the *Add classes* button on the home page. You can register more than one class at a time, by
-separating their names with *commas*. Classes with spaces in their names (such as `3 Wet`, `Bolle bozen`) are allowed. 
+separating their names with *commas*. Classes with spaces in their names (such as `3 Science`, `Busy beavers`) are allowed. 
 
 Classes have to be created anew each school year.
 

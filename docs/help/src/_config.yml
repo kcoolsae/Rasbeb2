@@ -42,6 +42,11 @@ defaults:
          path: "en"   # English documentation
       values:
          lang: "en"
+   -
+      scope:
+         path: "fr"   # French documentation
+      values:
+         lang: "fr"
 
 # Plugin configuration
 optional_front_matter:
