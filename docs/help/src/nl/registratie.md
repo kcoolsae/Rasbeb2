@@ -55,6 +55,3 @@ Enkel de leerkracht kan het wachtwoord van een leerling aanpassen.
 Leerlingen kunnen ook individueel geregistreerd worden zonder dat dit via een Excel-bestand moet gebeuren. Dit kan via de
 leerlingenpagina, bij de betreffende klas, maar ook via de evenementenpagina, wanneer je (op het laatste nippertje) nog een leerling
 wil toevoegen en meteen tot dat evenement toegang geven.
-
-#### Voetnoten
-[^1]: Niet te verwarren met *inschrijven* bij een [evenement](evenementen.md) 

@@ -1,11 +1,6 @@
 Bebras: documentatie wedstrijdserver
 ===
 
-**Belangrijk** Vanaf begin april 2024 gebruiken we nieuwe software
-voor de organisatie van de Belgische Bebras-wedstrijd. De gegevens van de oude server werden overgenomen naar de nieuwe server.
-Meer informatie bij 
-* [Wat verandert er?](veranderingen.md)
-
 ### Overzicht documentatie (voor leerkrachten)
 
 Algemeen

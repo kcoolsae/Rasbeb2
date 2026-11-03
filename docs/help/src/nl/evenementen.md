@@ -4,7 +4,7 @@ Evenementen
 
 #### Evenementen
 Om met je klas aan een wedstrijd te kunnen meedoen, moet je er één of meer *evenementen*
-voor inrichten[^3]. Leerlingen nemen dan deel aan één van deze evenementen. Je kan
+voor inrichten. Leerlingen nemen dan deel aan één van deze evenementen. Je kan
 meerdere evenementen inrichten voor dezelfde wedstrijd.
 
 De evenementen van je school vind je op de *Start*-pagina. (Eerste optie in het menu bovenaan.)
@@ -52,8 +52,6 @@ nog geen leerlingen aan dat evenement hebben deelgenomen. Inschrijvingen bij dat
 die leerlingen bij een ander evenement in te schrijven.
 
 #### Voetnoten
-
-[^3]: In een vorige versie van de software heetten evenementen *lokale wedstrijden*.
 
 [^1]: De meeste wedstrijden worden aangeboden in het Nederlands en het Frans, en meer recent ook in het Engels.
 

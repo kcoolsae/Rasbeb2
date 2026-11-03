@@ -33,7 +33,7 @@ van de leerlingen te uploaden naar de server. Als
 Zie ook
 * [Evenementen](evenementen.md)
 
-Om met je leerlingen aan een Bebras-wedstrijd mee te doen, moet je één of meerdere *evenementen* inplannen[^2].
+Om met je leerlingen aan een Bebras-wedstrijd mee te doen, moet je één of meerdere *evenementen* inplannen.
 Stel bijvoorbeeld dat je op donderdag klas 3a aan de
 officiële wedstrijd wil laten deelnemen, en op vrijdag klas 5b. Dan maak je *twee* evenementen
 aan:
@@ -68,7 +68,5 @@ deze wedstrijden als oefenmateriaal voor hun leerlingen vóór de eigenlijke Beb
 
 #### Voetnoten
 [^1]: Leerlingen gebruiken een [andere link](https://bebras.ugent.be/contest).
-
-[^2]: Vroeger heetten evenementen 'lokale wedstrijden'.
 
 [^3]: In België duiden we de leeftijdscategorieën aan met namen uit de Star Wars-verhalen. Zie [overzicht](overzicht.html#leeftijdscategorieën).

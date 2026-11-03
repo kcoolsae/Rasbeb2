@@ -23,7 +23,7 @@ School
 
 Schooljaar
 : Schooljaar dat op dat gebruikt wordt voor de getoonde gegevens. Kan enkel veranderd worden op de startpagina. Bij vorige 
-  schooljaren kan je enkel de gegevens bekijken, maar niet meer veranderen[^1].
+  schooljaren kan je enkel de gegevens bekijken, maar niet meer veranderen.
 
 Ingelogde gebruiker
 : Bevat een uitklapmenu (zie verder)
@@ -51,7 +51,4 @@ Klikken op de *Details*-knop van een evenement, biedt je de volgende mogelijkhed
 Bij het **Wedstrijden**-menu vind je ook een lijst van evenementen terug *voor een specifieke wedstrijd*. Je hebt
 daar ook de mogelijkheid om een nieuw evenement aan te maken *voor die specifieke wedstrijd*, als alternatief voor
 bovenstaande.
-
-#### Voetnoten
-[^1]: Anonimisatie van leerlingen zal wel nog mogelijk zijn voor vroegere schooljaren
 

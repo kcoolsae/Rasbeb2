@@ -37,6 +37,11 @@ defaults:
          type: "pages"
       values:
          layout: "default"
+   -
+      scope:
+         path: "en"   # English documentation
+      values:
+         lang: "en"
 
 # Plugin configuration
 optional_front_matter:
